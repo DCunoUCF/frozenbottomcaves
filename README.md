@@ -1,2 +1,2 @@
 # The Warlock of Firetop Mountain Copycat
-The game will be a 2D isometric choose your path tactical combat game.
+The game will be an isometric choose your path dungeon crawler with turn-based combat game.
