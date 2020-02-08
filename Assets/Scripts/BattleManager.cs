@@ -164,7 +164,7 @@ public class BattleManager : MonoBehaviour
         {
             availEnemyLoc.Add(i.transform.position);
         }
-        
+
         for(int i = 0; i < numEnemies; i++)
         {
             random = (int) Random.Range(0, availEnemyLoc.Count-1);
