@@ -94,7 +94,56 @@ public class BattleManager : MonoBehaviour
 
     void resolveMoves()
     {
+        List<cList> moversList = new List<cList>();
+        List<cList> attackersList = new List<cList>();
+        bool popped = false;
 
+        for (int i = 0; i < combatantList.Count; i++)
+        {
+            if (combatantList[i].move)
+            {
+                moversList.Add(combatantList[i]);
+            }
+
+            if (combatantList[i].attack > -1)
+            {
+                attackersList.Add(combatantList[i]);
+            }
+        }
+
+        while (moversList.Count > 0)
+        {
+            // If mover at front of list is moving to a location another mover is move to, then pop both of them
+            for (int i = 1; i < moversList.Count; i++)
+            {
+                if (moversList[0].movTar == moversList[i].movTar)
+                {
+                    moversList.RemoveAt(i);
+                    moversList.RemoveAt(0);
+                    popped = true;
+                    break;
+                }
+            }
+
+            // If mover at front of list is moving to a location someone is standing, then pop the mover
+            for (int i = 0; i < attackersList.Count; i++)
+            {
+                if (moversList[0].movTar == attackersList[i].entity.transform.localPosition)
+                {
+                    moversList.RemoveAt(0);
+                    popped = true;
+                    break;
+                }
+            }
+
+            // If the mover won't collide with anyone else on the board, they can legally move to their target move location
+            if (!popped)
+            {
+                moversList[0].entity.transform.SetPositionAndRotation(moversList[0].movTar, Quaternion.identity);
+                popped = false;
+                moversList.RemoveAt(0);
+            }
+        }
     }
 
     void resolveAttacks()
