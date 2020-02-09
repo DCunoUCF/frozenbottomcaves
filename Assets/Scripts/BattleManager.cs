@@ -53,6 +53,7 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
 	{
+        combatantList = new List<cList>();
         grid = GameObject.Find("ForestGrid");
         activeArena = GameObject.Find("Arena1");
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
