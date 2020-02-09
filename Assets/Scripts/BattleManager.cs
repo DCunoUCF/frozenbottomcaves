@@ -49,7 +49,7 @@ public class BattleManager : MonoBehaviour
     private List<Vector3> enemyLoc;
     private int numEnemies;
 
-    void Start()
+    void Awake()
 	{
         grid = GameObject.Find("ForestGrid");
         activeArena = GameObject.Find("Arena1");
@@ -164,7 +164,7 @@ public class BattleManager : MonoBehaviour
         {
             availEnemyLoc.Add(i.transform.position);
         }
-        
+
         for(int i = 0; i < numEnemies; i++)
         {
             random = (int) Random.Range(0, availEnemyLoc.Count-1);
