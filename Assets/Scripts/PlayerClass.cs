@@ -12,6 +12,7 @@ public class PlayerClass : MonoBehaviour
     public GameObject attackHighlight;
     public GameObject moveHighlight;
     public List<GameObject> highlights;
+    public int[] info;
 
     // Keep only one instance alive through scenes
     private void awake()
@@ -72,6 +73,8 @@ public class PlayerClass : MonoBehaviour
         inventory.Remove(item);
     }
 
+    // NEEDS BOUNDS CHECKING FOR MAP
+    // Places highlights for each skill
     public List<GameObject> useSkill(int key, Vector3 playerloc)
     {
         Debug.Log("placing highlights");
@@ -95,19 +98,31 @@ public class PlayerClass : MonoBehaviour
                               new Vector3(playerloc.x + 1.0f, playerloc.y + .0f), Quaternion.identity));
                 highlights.Add((GameObject)Instantiate(attackHighlight,
                               new Vector3(playerloc.x + -1.0f, playerloc.y + .0f), Quaternion.identity));
-
+                return highlights;
+            case 2:
+                highlights.Add((GameObject)Instantiate(moveHighlight,
+                              new Vector3(playerloc.x + .5f, playerloc.y + .25f), Quaternion.identity));
+                highlights.Add((GameObject)Instantiate(moveHighlight,
+                              new Vector3(playerloc.x + .5f, playerloc.y + -.25f), Quaternion.identity));
+                highlights.Add((GameObject)Instantiate(moveHighlight,
+                              new Vector3(playerloc.x + -.5f, playerloc.y + .25f), Quaternion.identity));
+                highlights.Add((GameObject)Instantiate(moveHighlight,
+                              new Vector3(playerloc.x + -.5f, playerloc.y + -.25f), Quaternion.identity));
                 return highlights;
         }
         return null;
     }
 
-    public int getDmg(int key)
+    // Returns basic skill info, {dmg, type, ismove}
+    public int[] getInfo(int key)
     {
         switch (key)
         {
             case 1:
-                return 2;
+                return new int[] { 2, 1, 0 };
+            case 2:
+                return new int[] { 0, 0, 1 };
         }
-        return 0;
+        return null;
     }
 }

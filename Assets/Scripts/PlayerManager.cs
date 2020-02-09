@@ -12,7 +12,9 @@ public class PlayerManager : MonoBehaviour
     public Vector3 playerLoc, selectedTile;
     public bool inCombat, isTurn, selectingSkill;
     public List<GameObject> highlights;
-    public int attackDmg;
+
+    // int array with {type, dmg, move}
+    public int[] abilityinfo;
 
     // Keep only one instance alive
     private void Awake()
@@ -36,9 +38,11 @@ public class PlayerManager : MonoBehaviour
         player = GameObject.Find(characterName);
         playerLoc = player.transform.position;
         playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));
+
         inCombat = true;
         isTurn = true;
         selectingSkill = true;
+        abilityinfo = new int[3];
     }
 
     void Update()
@@ -54,23 +58,27 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    // Player turn -> select ability -> select tile -> turn end
     private void playerTurnCombat()
     {
         if (isTurn && selectingSkill)
         {
-            // Read input
-            Debug.Log("awaiting input");
+            // Read input and set variables based off of what skill
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Debug.Log("key pressed");
                 this.selectingSkill = false;
                 this.highlights = playerScript.useSkill(1, playerLoc);
-                this.attackDmg = playerScript.getDmg(1);
+
+                this.abilityinfo = playerScript.getInfo(1);
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                // do some other ability/move ...
+                this.selectingSkill = false;
+                this.highlights = playerScript.useSkill(2, playerLoc);
+
+                this.abilityinfo = playerScript.getInfo(2);
             }
+            // Add more cases for more abilities
         }
 
         // Still player turn, they have pressed a skill and are confirming location by selecting a tile
@@ -94,6 +102,9 @@ public class PlayerManager : MonoBehaviour
             this.selectedTile = pos;
             Debug.Log(selectedTile.ToString("F2"));
             isTurn = false;
+            foreach (GameObject highlight in highlights)
+                Destroy(highlight);
+            Debug.Log("Attack dmg: " + this.abilityinfo[0] + " Attack type: " + this.abilityinfo[1] + " isMove: " + (this.abilityinfo[2] == 1));
         }
     }
 
@@ -105,5 +116,20 @@ public class PlayerManager : MonoBehaviour
     public Vector3 getSelectedTile()
     {
         return this.selectedTile;
+    }
+
+    public int getDamage()
+    {
+        return this.abilityinfo[0];
+    }
+
+    public int getType()
+    {
+        return this.abilityinfo[1];
+    }
+
+    public bool getMove()
+    {
+        return this.abilityinfo[2] == 1;
     }
 }
