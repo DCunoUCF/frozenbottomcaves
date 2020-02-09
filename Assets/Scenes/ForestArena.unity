@@ -643,7 +643,7 @@ MonoBehaviour:
   isTurn: 0
   selectingSkill: 0
   highlights: []
-  attackDmg: 0
+  abilityinfo: 
 --- !u!4 &1017223033
 Transform:
   m_ObjectHideFlags: 0
@@ -738,6 +738,36 @@ Transform:
   - {fileID: 1733233428}
   m_Father: {fileID: 0}
   m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1197165299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1197165300}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1197165300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197165299}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2382816, y: -1.0405306, z: -13.6321}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1330517356
 GameObject:
@@ -1780,6 +1810,7 @@ MonoBehaviour:
   attackHighlight: {fileID: 1119962526}
   moveHighlight: {fileID: 361010205}
   highlights: []
+  info: 
 --- !u!1001 &3342500021688469951
 PrefabInstance:
   m_ObjectHideFlags: 0
