@@ -7,15 +7,14 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; private set; }
     public PlayerClass playerScript;
     public string characterName;
+    public string characterTag;
     public GameObject player;
-    public Vector3 playerLoc;
-    public bool inCombat;
-    public bool isTurn;
-    public bool selectingSkill;
+    public Vector3 playerLoc, selectedTile;
+    public bool inCombat, isTurn, selectingSkill;
     public List<GameObject> highlights;
+    public int attackDmg;
 
-
-
+    // Keep only one instance alive
     private void Awake()
     {
         if (Instance == null)
@@ -29,11 +28,10 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-
-
     // Start is called before the first frame update
     void Start()
     {
+        characterTag = "Knight";
         characterName = "TheWhiteKnight1(Clone)";
         player = GameObject.Find(characterName);
         playerLoc = player.transform.position;
@@ -43,7 +41,6 @@ public class PlayerManager : MonoBehaviour
         selectingSkill = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!inCombat)
@@ -52,65 +49,61 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            // playerTurn();
-            // When player turn and selecting ability take input to find which ability
-            // Instantiate highlights on the correct tiles
-            if (isTurn && selectingSkill)
+            // Player can select what ability/move to use
+            playerTurnCombat();
+        }
+    }
+
+    private void playerTurnCombat()
+    {
+        if (isTurn && selectingSkill)
+        {
+            // Read input
+            Debug.Log("awaiting input");
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                // Read input
-                Debug.Log("looking for input");
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    Debug.Log("key pressed");
-                    playerScript.useSkill(1, playerLoc);
-                    selectingSkill = false;
-                    highlights = playerScript.useSkill(1, playerLoc);
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    // do some other ability
-                }
+                Debug.Log("key pressed");
+                this.selectingSkill = false;
+                this.highlights = playerScript.useSkill(1, playerLoc);
+                this.attackDmg = playerScript.getDmg(1);
             }
-            // Still player turn, they have pressed a skill and are confirming location by selecting a tile
-            else if (isTurn && !selectingSkill)
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    foreach (GameObject highlight in highlights)
-                        Destroy(highlight);
-                    selectingSkill = true;
-                }
+                // do some other ability/move ...
+            }
+        }
+
+        // Still player turn, they have pressed a skill and are confirming location by selecting a tile
+        else if (isTurn && !selectingSkill)
+        {
+            // Cancel selected skill -> remove highlights and let them choose another skill
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                foreach (GameObject highlight in highlights)
+                    Destroy(highlight);
+                this.selectingSkill = true;
             }
         }
     }
 
-    //public void playerTurn()
-    //{
-    //    if (isTurn && selectingSkill)
-    //    {
-    //        // Read input
-    //        Debug.Log("looking for input");
-    //        if (Input.GetKeyDown(KeyCode.Alpha1))
-    //        {
-    //            Debug.Log("key pressed");
-    //            highlights = playerScript.useSkill(1, playerLoc);
-    //            selectingSkill = false;
-    //            //highlights = GameObject.FindGameObjectsWithTag("attackhighlight");
-    //        }
-    //        else if (Input.GetKeyDown(KeyCode.Alpha2))
-    //        {
-    //            // do some other ability
-    //        }
-    //    }
-    //    // Still player turn, they have pressed a skill and are confirming location by selecting a tile
-    //    else if (isTurn && !selectingSkill)
-    //    {
-    //        if (Input.GetKeyDown(KeyCode.Escape))
-    //        {
-    //            foreach (GameObject highlight in highlights)
-    //                Destroy(highlight);
-    //            selectingSkill = true;
-    //        }
-    //    }
-    //}
+    // After selecting a tile, the players turn is ended
+    public void setSelectedTile(Vector3 pos)
+    {
+        if (isTurn)
+        {
+            this.selectedTile = pos;
+            Debug.Log(selectedTile.ToString("F2"));
+            isTurn = false;
+        }
+    }
+
+    public void setTurn(bool set)
+    {
+        isTurn = set;
+    }
+
+    public Vector3 getSelectedTile()
+    {
+        return this.selectedTile;
+    }
 }

@@ -13,6 +13,7 @@ public class PlayerClass : MonoBehaviour
     public GameObject moveHighlight;
     public List<GameObject> highlights;
 
+    // Keep only one instance alive through scenes
     private void awake()
     {
         if (playerinstance == null)
@@ -28,8 +29,7 @@ public class PlayerClass : MonoBehaviour
 
     public void start()
     {
-        //attackHighlight = GameObject.Find("TileHighlight1");
-        //moveHighlight = GameObject.Find("TileHighlight2");
+
     }
 
     public void update()
@@ -78,7 +78,6 @@ public class PlayerClass : MonoBehaviour
         switch (key)
         {
             case 1:
-
                 highlights.Add((GameObject)Instantiate(attackHighlight,
                               new Vector3(playerloc.x + .5f, playerloc.y + .25f), Quaternion.identity));
                 highlights.Add((GameObject)Instantiate(attackHighlight,
@@ -100,5 +99,15 @@ public class PlayerClass : MonoBehaviour
                 return highlights;
         }
         return null;
+    }
+
+    public int getDmg(int key)
+    {
+        switch (key)
+        {
+            case 1:
+                return 2;
+        }
+        return 0;
     }
 }
