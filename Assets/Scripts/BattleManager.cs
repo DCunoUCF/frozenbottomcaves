@@ -36,6 +36,7 @@ public struct cList
 
 public class BattleManager : MonoBehaviour
 {
+    public static BattleManager Instance { get; set; }
     public List<cList> combatantList;
     private cell[][] gridCell;
     private GameObject grid;
@@ -53,6 +54,16 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
 	{
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         combatantList = new List<cList>();
         grid = GameObject.Find("ForestGrid");
         activeArena = GameObject.Find("Arena1");
@@ -78,29 +89,35 @@ public class BattleManager : MonoBehaviour
 
         // Instantiate Player and Companion
         player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight1"), playerLoc, Quaternion.identity);
-        combatantList.Add(new cList(player));
+        
         companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
-        combatantList.Add(new cList(companion));
-
+        
         // Instantiate Enemies
         for (int i = 0; i < numEnemies; i++)
         {
             enemies[i] = GameObject.Instantiate(GameObject.Find("goblin2"), enemyLoc[i], Quaternion.identity);
-            combatantList.Add(new cList(enemies[i]));
         }
+    }
+
+    private void Start()
+    {
+        PlayerManager.Instance.isTurn = true;
     }
 
     void Update()
     {
-
+        if (!PlayerManager.Instance.isTurn)
+            resolveMoves();
     }
 
     void resolveMoves()
     {
+        fillCombatantList();
         List<cList> moversList = new List<cList>();
         List<cList> attackersList = new List<cList>();
         bool popped = false;
 
+        Debug.Log("combatantList: " + combatantList[0].move);
         for (int i = 0; i < combatantList.Count; i++)
         {
             if (combatantList[i].move)
@@ -139,14 +156,20 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
+            // Check if mover at front of list is moving to an obstacle
+
             // If the mover won't collide with anyone else on the board, they can legally move to their target move location
             if (!popped)
             {
+                Debug.Log("movTar" + moversList[0].movTar);
                 moversList[0].entity.transform.SetPositionAndRotation(moversList[0].movTar, Quaternion.identity);
+                PlayerManager.Instance.playerLoc = moversList[0].movTar;
                 popped = false;
                 moversList.RemoveAt(0);
             }
         }
+
+        PlayerManager.Instance.isTurn = true;
     }
 
     void resolveAttacks()
@@ -157,6 +180,17 @@ public class BattleManager : MonoBehaviour
     void whoStillHasLimbs()
     {
 
+    }
+
+    void fillCombatantList()
+    {
+        combatantList.Add(PlayerManager.Instance.combatInfo);
+        combatantList.Add(new cList(companion));
+
+        for (int i = 0; i < numEnemies; i++)
+        {
+            combatantList.Add(new cList(enemies[i]));
+        }
     }
 
     void RandomEnemyPos()

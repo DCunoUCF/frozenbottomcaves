@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour
         playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));
         combatInfo = new cList(player);
         inCombat = true;
-        isTurn = true;
+        isTurn = false;
         selectingSkill = true;
         abilityinfo = new int[3];
     }
@@ -112,6 +112,8 @@ public class PlayerManager : MonoBehaviour
             isTurn = false;
             foreach (GameObject highlight in highlights)
                 Destroy(highlight);
+            this.selectingSkill = true;
+            Debug.Log("combatInfo: " + combatInfo.move);
         }
     }
 
