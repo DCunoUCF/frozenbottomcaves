@@ -19,6 +19,7 @@ public struct cList
     public Vector3 movTar;
     public int dir;
     public int attack;
+    public int attackDmg;
     public Vector3[] atkTar;
 
     public cList(GameObject newEntity)
@@ -28,6 +29,7 @@ public struct cList
         movTar = new Vector3();
         dir = 0;
         attack = -1;
+        attackDmg = 0;
         atkTar = null;
     }
 }

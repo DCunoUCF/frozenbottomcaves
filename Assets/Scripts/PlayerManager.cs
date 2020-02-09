@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviour
     public bool inCombat, isTurn, selectingSkill;
     public List<GameObject> highlights;
 
+    public cList combatInfo;
+
     // int array with {type, dmg, move}
     public int[] abilityinfo;
 
@@ -34,11 +36,12 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         characterTag = "Knight";
+
         characterName = "TheWhiteKnight1(Clone)";
         player = GameObject.Find(characterName);
         playerLoc = player.transform.position;
         playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));
-
+        combatInfo = new cList(player);
         inCombat = true;
         isTurn = true;
         selectingSkill = true;
@@ -63,20 +66,24 @@ public class PlayerManager : MonoBehaviour
     {
         if (isTurn && selectingSkill)
         {
-            // Read input and set variables based off of what skill
+            // Read input and set combat info based off of what skill
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 this.selectingSkill = false;
                 this.highlights = playerScript.useSkill(1, playerLoc);
-
                 this.abilityinfo = playerScript.getInfo(1);
+                this.combatInfo.attackDmg = abilityinfo[0];
+                this.combatInfo.attack = abilityinfo[1];
+                this.combatInfo.move = abilityinfo[2] == 1;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 this.selectingSkill = false;
                 this.highlights = playerScript.useSkill(2, playerLoc);
-
                 this.abilityinfo = playerScript.getInfo(2);
+                this.combatInfo.attackDmg = abilityinfo[0];
+                this.combatInfo.attack = abilityinfo[1];
+                this.combatInfo.move = abilityinfo[2] == 1;
             }
             // Add more cases for more abilities
         }
@@ -100,36 +107,21 @@ public class PlayerManager : MonoBehaviour
         if (isTurn)
         {
             this.selectedTile = pos;
+            this.combatInfo.movTar = pos;
             Debug.Log(selectedTile.ToString("F2"));
             isTurn = false;
             foreach (GameObject highlight in highlights)
                 Destroy(highlight);
-            Debug.Log("Attack dmg: " + this.abilityinfo[0] + " Attack type: " + this.abilityinfo[1] + " isMove: " + (this.abilityinfo[2] == 1));
         }
     }
 
     public void setTurn(bool set)
     {
-        isTurn = set;
+        this.isTurn = set;
     }
 
-    public Vector3 getSelectedTile()
+    public cList getCombatInfo()
     {
-        return this.selectedTile;
-    }
-
-    public int getDamage()
-    {
-        return this.abilityinfo[0];
-    }
-
-    public int getType()
-    {
-        return this.abilityinfo[1];
-    }
-
-    public bool getMove()
-    {
-        return this.abilityinfo[2] == 1;
+        return this.combatInfo;
     }
 }
