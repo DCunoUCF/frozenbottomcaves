@@ -169,6 +169,7 @@ public class BattleManager : MonoBehaviour
             }
         }
 
+        combatantList.Clear();
         PlayerManager.Instance.isTurn = true;
     }
 
