@@ -96,6 +96,7 @@ public class PlayerManager : MonoBehaviour
             {
                 foreach (GameObject highlight in highlights)
                     Destroy(highlight);
+                highlights.Clear();
                 this.selectingSkill = true;
             }
         }
@@ -112,6 +113,7 @@ public class PlayerManager : MonoBehaviour
             isTurn = false;
             foreach (GameObject highlight in highlights)
                 Destroy(highlight);
+            highlights.Clear();
             this.selectingSkill = true;
             Debug.Log("combatInfo: " + combatInfo.move);
         }

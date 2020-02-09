@@ -107,7 +107,10 @@ public class BattleManager : MonoBehaviour
     void Update()
     {
         if (!PlayerManager.Instance.isTurn)
+        {
+            Debug.Log("Resolving Moves...");
             resolveMoves();
+        }
     }
 
     void resolveMoves()
@@ -169,6 +172,7 @@ public class BattleManager : MonoBehaviour
             }
         }
 
+        combatantList.Clear();
         PlayerManager.Instance.isTurn = true;
     }
 
