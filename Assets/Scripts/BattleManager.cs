@@ -143,14 +143,21 @@ public class BattleManager : MonoBehaviour
                 continue;
             }
 
-            gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, null);
-            counter++;
+            if (tilemap.GetTile(position).name != "isoWall1")
+            {
+                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, null);
+                counter++;
 
-            Debug.Log("Cell x: " + (position.x - bounds.position.x)
-                    + "Cell y: " + (position.y - bounds.position.y)
-                    + "Cell pass: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].pass
-                    + "Cell entity: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].entity);
-            // Tile is not empty; do stuff
+                Debug.Log("Cell x: " + (position.x - bounds.position.x)
+                        + "Cell y: " + (position.y - bounds.position.y)
+                        + "Cell pass: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].pass
+                        + "Cell entity: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].entity);
+                // Tile is not empty; do stuff
+            }
+            else
+            {
+                Debug.Log("Found iso wall at (" + position.x + ", " + position.y + ")");
+            }
         }
 
         Debug.Log("We found " + counter + " tiles on the tilemap!");
