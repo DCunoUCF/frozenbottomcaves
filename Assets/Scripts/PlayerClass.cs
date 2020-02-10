@@ -77,6 +77,7 @@ public class PlayerClass : MonoBehaviour
     // Places highlights for each skill
     public List<GameObject> useSkill(int key, Vector3 playerloc)
     {
+        Collider2D map = GameObject.Find("BigCollider").GetComponent<Collider2D>();
         Debug.Log("placing highlights");
         switch (key)
         {
@@ -100,13 +101,17 @@ public class PlayerClass : MonoBehaviour
                               new Vector3(playerloc.x + -1.0f, playerloc.y + .0f), Quaternion.identity));
                 return highlights;
             case 2:
-                highlights.Add((GameObject)Instantiate(moveHighlight,
+                if (map.OverlapPoint(new Vector2(playerloc.x + .5f, playerloc.y + .25f)))
+                    highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + .5f, playerloc.y + .25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(moveHighlight,
+                if (map.OverlapPoint(new Vector2(playerloc.x + .5f, playerloc.y + -.25f)))
+                    highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + .5f, playerloc.y + -.25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(moveHighlight,
+                if (map.OverlapPoint(new Vector2(playerloc.x + -.5f, playerloc.y + .25f)))
+                    highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + -.5f, playerloc.y + .25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(moveHighlight,
+                if (map.OverlapPoint(new Vector2(playerloc.x + -.5f, playerloc.y + -.25f)))
+                    highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + -.5f, playerloc.y + -.25f), Quaternion.identity));
                 return highlights;
         }

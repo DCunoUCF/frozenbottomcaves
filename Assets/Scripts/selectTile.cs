@@ -6,6 +6,6 @@ public class selectTile : MonoBehaviour
 {
     private void OnMouseDown()
     {
-        PlayerManager.Instance.setSelectedTile(transform.position);
+        PlayerManager.Instance.setSelectedTile(transform.parent.position);
     }
 }
