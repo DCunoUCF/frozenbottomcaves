@@ -172,11 +172,22 @@ public class BattleManager : MonoBehaviour
             {
                 gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
             }
+            else if (tilemap.GetTile(position).name != "isoWall1" && tileEntity != null)
+            {
+                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
+                
+                if (tileEntity == player)
+                {
+                    PlayerClass.Playerinstance.x = (position.x - bounds.position.x);
+                    PlayerClass.Playerinstance.y = (position.y - bounds.position.y);
+                }
+                
+                //combatantList[FindInCombatantList(tileEntity)].entity.x = (position.x - bounds.position.x);
+                //combatantList[FindInCombatantList(tileEntity)].entity.y = (position.y - bounds.position.y);
+            }
             else
             {
                 gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
-                combatantList[FindInCombatantList(tileEntity)].entity.x = (position.x - bounds.position.x);
-                combatantList[FindInCombatantList(tileEntity)].entity.y = (position.y - bounds.position.y);
             }
         }
     }
@@ -250,8 +261,10 @@ public class BattleManager : MonoBehaviour
         // Pop all the entities with <= 0 HP
         for (int i = 0; i < combatantList.Count; i++)
         {
-            if (combatantList[i].HP <= 0)
-                combatantList.RemoveAt(i);
+
+
+            /*if (combatantList[i].entity.GetComponent<PlayerClass>() <= 0)
+                combatantList.RemoveAt(i);*/
         }
 
         // Check for win conditions
