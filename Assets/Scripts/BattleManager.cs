@@ -128,6 +128,7 @@ public class BattleManager : MonoBehaviour
         BoundsInt bounds = tilemap.cellBounds;
         Debug.Log("bounds: " + bounds);
         TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
+        Vector3 currentVector;
 
         gridCell = new Cell[bounds.size.x, bounds.size.y];
 
@@ -143,9 +144,13 @@ public class BattleManager : MonoBehaviour
                 continue;
             }
 
+            // This x and y needs to be converted to the vector at the center of the tile to grab the GameObject entity from the tile
+            currentVector = new Vector3(position.x, position.y, 0);
+            Debug.Log("curVec " + currentVector);
+
             if (tilemap.GetTile(position).name != "isoWall1")
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, null);
+                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, getEntity(currentVector));
                 counter++;
 
                 Debug.Log("Cell x: " + (position.x - bounds.position.x)
@@ -252,6 +257,17 @@ public class BattleManager : MonoBehaviour
     void whoStillHasLimbs()
     {
 
+    }
+
+    GameObject getEntity(Vector3 pos)
+    {
+        for (int i = 0; i < this.combatantList.Count; i++)
+        {
+            if (combatantList[i].entity.transform.position == pos)
+                return combatantList[i].entity;
+        }
+
+        return null;
     }
 
     void fillCombatantList()
