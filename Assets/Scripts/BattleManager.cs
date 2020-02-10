@@ -131,21 +131,29 @@ public class BattleManager : MonoBehaviour
 
         gridCell = new Cell[bounds.size.x, bounds.size.y];
 
+        int counter = 0;
+
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
             if (!tilemap.HasTile(position))
             {
-                Debug.Log("position.x " + position.x + ", position.y " + position.y);
-                gridCell[position.x, position.y] = new Cell(false, null);
+                // Debug.Log("position.x " + position.x + ", position.y " + position.y);
+                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null);
                 //Debug.Log("Cell x: " + x + "Cell y: " + y + "Cell pass: " + gridCell[x,y].pass + "Cell entity: " + gridCell[x,y].entity);
                 continue;
             }
 
-            gridCell[position.x, position.y] = new Cell(true, null);
+            gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, null);
+            counter++;
 
-            Debug.Log("Cell x: " + position.x + "Cell y: " + position.y + "Cell pass: " + gridCell[position.x, position.y].pass + "Cell entity: " + gridCell[position.x, position.y].entity);
+            Debug.Log("Cell x: " + (position.x - bounds.position.x)
+                    + "Cell y: " + (position.y - bounds.position.y)
+                    + "Cell pass: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].pass
+                    + "Cell entity: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].entity);
             // Tile is not empty; do stuff
         }
+
+        Debug.Log("We found " + counter + " tiles on the tilemap!");
 
 
 /*        for (int x = 0; x < bounds.size.x; x++)
