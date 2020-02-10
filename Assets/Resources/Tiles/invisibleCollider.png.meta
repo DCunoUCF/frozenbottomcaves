@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1206e596c6eb3364980c17e377a42a27
+guid: 040291d0402388643beea1449c7b05ae
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -82,37 +82,13 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
     physicsShape:
     - - {x: -2, y: 32}
-      - {x: -24, y: 21}
+      - {x: -24, y: 20}
       - {x: -24, y: -21}
       - {x: -2, y: -32}
       - {x: 2, y: -32}

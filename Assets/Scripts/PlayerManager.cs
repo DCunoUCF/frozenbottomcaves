@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
     public bool inCombat, isTurn, selectingSkill;
     public List<GameObject> highlights;
 
-    public cList combatInfo;
+    public CList combatInfo;
 
     // int array with {type, dmg, move}
     public int[] abilityinfo;
@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
         player = GameObject.Find(characterName);
         playerLoc = player.transform.position;
         playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));
-        combatInfo = new cList(player);
+        combatInfo = new CList(player);
         inCombat = true;
         isTurn = false;
         selectingSkill = true;
@@ -124,7 +124,7 @@ public class PlayerManager : MonoBehaviour
         this.isTurn = set;
     }
 
-    public cList getCombatInfo()
+    public CList getCombatInfo()
     {
         return this.combatInfo;
     }
