@@ -145,6 +145,10 @@ public class BattleManager : MonoBehaviour
 
             if (tilemap.GetTile(position).name != "isoWall1")
             {
+                if (counter == 0 || counter == 5)
+                {
+                    tilemap.SetTile(position, new Tile());
+                }
                 gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, null);
                 counter++;
 
