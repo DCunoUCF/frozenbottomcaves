@@ -28,6 +28,7 @@ public struct CList
     public int attack;
     public int attackDmg;
     public Vector3[] atkTar;
+    public int x, y;
 
     public CList(GameObject newEntity)
     {
@@ -38,6 +39,8 @@ public struct CList
         attack = 0;
         attackDmg = 0;
         atkTar = null;
+        x = 0;
+        y = 0;
     }
 }
 
@@ -45,7 +48,8 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; set; }
     public List<CList> combatantList;
-    private Cell[,] gridCell;
+    private List<GameObject> entitiesList;
+    public Cell[,] gridCell;
     private GameObject grid;
     private GameObject activeArena;
     private GameObject[] arenaDeactivate;
@@ -78,10 +82,11 @@ public class BattleManager : MonoBehaviour
         playerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
         companionLoc = GameObject.FindGameObjectWithTag("cSpawn").transform.position;
         locGrabber = GameObject.FindGameObjectsWithTag("eSpawn");
+        entitiesList = new List<GameObject>();
         availEnemyLoc = new List<Vector3>();
         
         // Create the grid
-        createGrid();
+        //createGrid();
 
         // Using number of enemies to be spawned to initiliaze their fields and finding random locations for them to spawn
         numEnemies = 4;
@@ -99,13 +104,19 @@ public class BattleManager : MonoBehaviour
 
         // Instantiate Player and Companion
         player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight1"), playerLoc, Quaternion.identity);
+        entitiesList.Add(player);
         companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
-        
+        entitiesList.Add(companion);
+
         // Instantiate Enemies
         for (int i = 0; i < numEnemies; i++)
         {
             enemies[i] = GameObject.Instantiate(GameObject.Find("goblin2"), enemyLoc[i], Quaternion.identity);
+            entitiesList.Add(enemies[i]);
         }
+
+        // Creating the Grid
+        createGrid();
     }
 
     private void Start()
@@ -124,11 +135,13 @@ public class BattleManager : MonoBehaviour
 
     void createGrid()
     {
+        float xVec, yVec;
         Tilemap tilemap = activeArena.GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
         Debug.Log("bounds: " + bounds);
         TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
         Vector3 currentVector;
+        GameObject tileEntity;
 
         gridCell = new Cell[bounds.size.x, bounds.size.y];
 
@@ -145,19 +158,27 @@ public class BattleManager : MonoBehaviour
             }
 
             // This x and y needs to be converted to the vector at the center of the tile to grab the GameObject entity from the tile
-            currentVector = new Vector3(position.x, position.y, 0);
-            Debug.Log("curVec " + currentVector);
+            xVec = (position.x * 0.5f) - (position.y * 0.5f);
+            yVec = ((position.x + 1) * 0.25f) + (position.y * 0.25f);
+            currentVector = new Vector3(xVec, yVec, 0);
+            Debug.Log("curVec " + currentVector.ToString("F2") + ", Cell x: " + position.x + ", Cell y: " + position.y);
 
             if (tilemap.GetTile(position).name != "isoWall1")
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, getEntity(currentVector));
-                counter++;
+                tileEntity = getEntity(currentVector);
+
+                // If there is no entity on this tile, it is passable. Else, nope.
+                if (tileEntity == null)
+                    gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity);
+                else
+                    gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity);
 
                 Debug.Log("Cell x: " + (position.x - bounds.position.x)
-                        + "Cell y: " + (position.y - bounds.position.y)
-                        + "Cell pass: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].pass
-                        + "Cell entity: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].entity);
-                // Tile is not empty; do stuff
+                        + ", Cell y: " + (position.y - bounds.position.y)
+                        + ", Cell pass: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].pass
+                        + ", Cell entity: " + gridCell[position.x - bounds.position.x, position.y - bounds.position.y].entity);
+
+                counter++;
             }
             else
             {
@@ -166,26 +187,6 @@ public class BattleManager : MonoBehaviour
         }
 
         Debug.Log("We found " + counter + " tiles on the tilemap!");
-
-
-/*        for (int x = 0; x < bounds.size.x; x++)
-        {
-            for (int y = 0; y < bounds.size.y; y++)
-            {
-                TileBase tile = allTiles[x + y * bounds.size.x];
-                if (tile != null && tile.name != "isoWall1")
-                {
-                    gridCell[x,y] = new Cell(true, null);
-                    
-                    Debug.Log("Cell x: " + x + "Cell y: " + y + "Cell pass: " + gridCell[x,y].pass + "Cell entity: " + gridCell[x,y].entity);
-                }
-                else
-                {
-                    gridCell[x,y] = new Cell(false, null);
-                    //Debug.Log("Cell x: " + x + "Cell y: " + y + "Cell pass: " + gridCell[x,y].pass + "Cell entity: " + gridCell[x,y].entity);
-                }
-            }
-        }*/
     }
 
     void resolveMoves()
@@ -261,10 +262,10 @@ public class BattleManager : MonoBehaviour
 
     GameObject getEntity(Vector3 pos)
     {
-        for (int i = 0; i < this.combatantList.Count; i++)
+        for (int i = 0; i < this.entitiesList.Count; i++)
         {
-            if (combatantList[i].entity.transform.position == pos)
-                return combatantList[i].entity;
+            if (entitiesList[i].transform.position == pos)
+                return entitiesList[i];
         }
 
         return null;
