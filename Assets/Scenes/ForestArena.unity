@@ -1732,6 +1732,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: wolf1
       objectReference: {fileID: 0}
+    - target: {fileID: 1629417185409385261, guid: 772b1361bf87d25408b97fcb9e69a80f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Companion
+      objectReference: {fileID: 0}
     - target: {fileID: 1629417185409385259, guid: 772b1361bf87d25408b97fcb9e69a80f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1801,6 +1806,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: goblin2
       objectReference: {fileID: 0}
+    - target: {fileID: 1667709490509297674, guid: 7f4304eb87b893c4c8a57ee29e19bbf8,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: 1667709490509297672, guid: 7f4304eb87b893c4c8a57ee29e19bbf8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1869,6 +1879,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: honey
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233309337380511405, guid: a5365268a3425874b9d0c0233e7b65e7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Companion
       objectReference: {fileID: 0}
     - target: {fileID: 2233309337380511403, guid: a5365268a3425874b9d0c0233e7b65e7,
         type: 3}
@@ -2556,7 +2571,7 @@ PrefabInstance:
     - target: {fileID: 3270227126712288931, guid: 811fb6de3196ebb4087696c4782c9c39,
         type: 3}
       propertyPath: m_TagString
-      value: Knight
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3270227126712288941, guid: 811fb6de3196ebb4087696c4782c9c39,
         type: 3}
@@ -2652,6 +2667,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TheWeebNinja1
       objectReference: {fileID: 0}
+    - target: {fileID: 3342500021640613748, guid: 1d0e666b6fd96eb478db44804ee41c56,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 3342500021640613746, guid: 1d0e666b6fd96eb478db44804ee41c56,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2720,6 +2740,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: severalEyeDude
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641362522489135812, guid: d9324af40c516f5449a02aa9eeffa49b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
       objectReference: {fileID: 0}
     - target: {fileID: 3641362522489135814, guid: d9324af40c516f5449a02aa9eeffa49b,
         type: 3}
@@ -2790,6 +2815,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: gazer1
       objectReference: {fileID: 0}
+    - target: {fileID: 5141485864960069645, guid: f158d7d5f6815b846aa379ed75f50ef1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: 5141485864960069635, guid: f158d7d5f6815b846aa379ed75f50ef1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2858,6 +2888,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: batOuttaHell2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405589691213152406, guid: b4924fc73224fdd4ea55f317f7d9dec5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
       objectReference: {fileID: 0}
     - target: {fileID: 5405589691213152404, guid: b4924fc73224fdd4ea55f317f7d9dec5,
         type: 3}
@@ -2928,6 +2963,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: batOuttaHell3
       objectReference: {fileID: 0}
+    - target: {fileID: 5629272342806590786, guid: 9a0e0bd3349efd640b81d3eb30d25ee3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: 5629272342806590784, guid: 9a0e0bd3349efd640b81d3eb30d25ee3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2997,6 +3037,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TheChadMonk1
       objectReference: {fileID: 0}
+    - target: {fileID: 6617325024775803966, guid: 2ad3fe140757c38439e6802a68d8a2c8,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6617325024775803960, guid: 2ad3fe140757c38439e6802a68d8a2c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3065,6 +3110,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HarryPotter1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888687222777499368, guid: aed6a8a9e29e8d3408660c80fa96e25b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7888687222777499366, guid: aed6a8a9e29e8d3408660c80fa96e25b,
         type: 3}
