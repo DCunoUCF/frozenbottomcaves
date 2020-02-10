@@ -52,6 +52,7 @@ public class BattleManager : MonoBehaviour
     private GameObject[] arenaDeactivate;
     private GameObject[] gridDeactivate;
     private GameObject player;
+    private int playerX, playerY;
     private GameObject companion;
     private GameObject[] enemies;
     private Vector3 playerLoc;
@@ -132,6 +133,8 @@ public class BattleManager : MonoBehaviour
     private void Start()
     {
         PlayerManager.Instance.isTurn = true;
+        PlayerClass.Playerinstance.x = playerX;
+        PlayerClass.Playerinstance.y = playerY;
     }
 
     void Update()
@@ -178,8 +181,8 @@ public class BattleManager : MonoBehaviour
                 
                 if (tileEntity == player)
                 {
-                    PlayerClass.Playerinstance.x = (position.x - bounds.position.x);
-                    PlayerClass.Playerinstance.y = (position.y - bounds.position.y);
+                    playerX = (position.x - bounds.position.x);
+                    playerY = (position.y - bounds.position.y);
                 }
                 
                 //combatantList[FindInCombatantList(tileEntity)].entity.x = (position.x - bounds.position.x);
