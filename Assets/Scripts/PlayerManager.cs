@@ -35,7 +35,7 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        characterTag = "Knight";
+        characterTag = "Player";
 
         characterName = "TheWhiteKnight1(Clone)";
         player = GameObject.Find(characterName);
