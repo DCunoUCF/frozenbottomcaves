@@ -1,18 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public enum biome : short
 {
 	NOTHING = -1, FOREST, CAVE, ICECAVE, CASTLE, BOSS
 };
 
-public struct cell
+public struct Cell
 {
 	public bool pass;
     public GameObject entity;
+
+    public Cell(bool passIn, GameObject entityIn)
+    {
+        pass = passIn;
+        entity = entityIn;
+    }
 }
-public struct cList
+public struct CList
 {
     public GameObject entity;
     public bool move;
@@ -22,13 +29,13 @@ public struct cList
     public int attackDmg;
     public Vector3[] atkTar;
 
-    public cList(GameObject newEntity)
+    public CList(GameObject newEntity)
     {
         entity = newEntity;
         move = false;
         movTar = new Vector3();
         dir = 0;
-        attack = -1;
+        attack = 0;
         attackDmg = 0;
         atkTar = null;
     }
@@ -37,8 +44,8 @@ public struct cList
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; set; }
-    public List<cList> combatantList;
-    private cell[][] gridCell;
+    public List<CList> combatantList;
+    private Cell[,] gridCell;
     private GameObject grid;
     private GameObject activeArena;
     private GameObject[] arenaDeactivate;
@@ -64,7 +71,7 @@ public class BattleManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        combatantList = new List<cList>();
+        combatantList = new List<CList>();
         grid = GameObject.Find("ForestGrid");
         activeArena = GameObject.Find("Arena1");
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
@@ -72,6 +79,9 @@ public class BattleManager : MonoBehaviour
         companionLoc = GameObject.FindGameObjectWithTag("cSpawn").transform.position;
         locGrabber = GameObject.FindGameObjectsWithTag("eSpawn");
         availEnemyLoc = new List<Vector3>();
+        
+        // Create the grid
+        createGrid();
 
         // Using number of enemies to be spawned to initiliaze their fields and finding random locations for them to spawn
         numEnemies = 4;
@@ -89,7 +99,6 @@ public class BattleManager : MonoBehaviour
 
         // Instantiate Player and Companion
         player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight1"), playerLoc, Quaternion.identity);
-        
         companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
         
         // Instantiate Enemies
@@ -108,19 +117,64 @@ public class BattleManager : MonoBehaviour
     {
         if (!PlayerManager.Instance.isTurn)
         {
-            Debug.Log("Resolving Moves...");
             resolveMoves();
+            resolveAttacks();
         }
+    }
+
+    void createGrid()
+    {
+        Tilemap tilemap = activeArena.GetComponent<Tilemap>();
+        BoundsInt bounds = tilemap.cellBounds;
+        Debug.Log("bounds: " + bounds);
+        TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
+
+        gridCell = new Cell[bounds.size.x, bounds.size.y];
+
+        foreach (var position in tilemap.cellBounds.allPositionsWithin)
+        {
+            if (!tilemap.HasTile(position))
+            {
+                Debug.Log("position.x " + position.x + ", position.y " + position.y);
+                gridCell[position.x, position.y] = new Cell(false, null);
+                //Debug.Log("Cell x: " + x + "Cell y: " + y + "Cell pass: " + gridCell[x,y].pass + "Cell entity: " + gridCell[x,y].entity);
+                continue;
+            }
+
+            gridCell[position.x, position.y] = new Cell(true, null);
+
+            Debug.Log("Cell x: " + position.x + "Cell y: " + position.y + "Cell pass: " + gridCell[position.x, position.y].pass + "Cell entity: " + gridCell[position.x, position.y].entity);
+            // Tile is not empty; do stuff
+        }
+
+
+/*        for (int x = 0; x < bounds.size.x; x++)
+        {
+            for (int y = 0; y < bounds.size.y; y++)
+            {
+                TileBase tile = allTiles[x + y * bounds.size.x];
+                if (tile != null && tile.name != "isoWall1")
+                {
+                    gridCell[x,y] = new Cell(true, null);
+                    
+                    Debug.Log("Cell x: " + x + "Cell y: " + y + "Cell pass: " + gridCell[x,y].pass + "Cell entity: " + gridCell[x,y].entity);
+                }
+                else
+                {
+                    gridCell[x,y] = new Cell(false, null);
+                    //Debug.Log("Cell x: " + x + "Cell y: " + y + "Cell pass: " + gridCell[x,y].pass + "Cell entity: " + gridCell[x,y].entity);
+                }
+            }
+        }*/
     }
 
     void resolveMoves()
     {
         fillCombatantList();
-        List<cList> moversList = new List<cList>();
-        List<cList> attackersList = new List<cList>();
+        List<CList> moversList = new List<CList>();
+        List<CList> attackersList = new List<CList>();
         bool popped = false;
 
-        Debug.Log("combatantList: " + combatantList[0].move);
         for (int i = 0; i < combatantList.Count; i++)
         {
             if (combatantList[i].move)
@@ -164,7 +218,6 @@ public class BattleManager : MonoBehaviour
             // If the mover won't collide with anyone else on the board, they can legally move to their target move location
             if (!popped)
             {
-                Debug.Log("movTar" + moversList[0].movTar);
                 moversList[0].entity.transform.SetPositionAndRotation(moversList[0].movTar, Quaternion.identity);
                 PlayerManager.Instance.playerLoc = moversList[0].movTar;
                 popped = false;
@@ -189,11 +242,11 @@ public class BattleManager : MonoBehaviour
     void fillCombatantList()
     {
         combatantList.Add(PlayerManager.Instance.combatInfo);
-        combatantList.Add(new cList(companion));
+        combatantList.Add(new CList(companion));
 
         for (int i = 0; i < numEnemies; i++)
         {
-            combatantList.Add(new cList(enemies[i]));
+            combatantList.Add(new CList(enemies[i]));
         }
     }
 

@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - cSpawn
+  - eSpawn
+  - attackhighlight
+  - pSpawn
+  - Grid
+  - Tilemap
+  - Knight
+  - Monster
+  - Companion
   layers:
   - Default
   - TransparentFX
