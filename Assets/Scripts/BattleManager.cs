@@ -20,6 +20,19 @@ public struct Cell
         pass = passIn;
         entity = entityIn;
     }
+
+    public bool Pass
+    {
+        get { return pass; }
+        set { pass = value; }
+    }
+
+    public GameObject Entity
+    {
+        get { return entity; }
+        set { entity = value; }
+    }
+
 }
 public struct CList
 {
@@ -123,18 +136,25 @@ public class BattleManager : MonoBehaviour
             entitiesList.Add(enemies[i]);
         }
 
+
+
         // 
         FillCombatantList();
 
+
+
         // Creating the Grid
         CreateGrid();
+
+
+
     }
 
     private void Start()
     {
         PlayerManager.Instance.isTurn = true;
-        PlayerClass.Playerinstance.x = playerX;
-        PlayerClass.Playerinstance.y = playerY;
+        PlayerManager.Instance.x = playerX;
+        PlayerManager.Instance.y = playerY;
     }
 
     void Update()
@@ -155,13 +175,13 @@ public class BattleManager : MonoBehaviour
         Tilemap tilemap = activeArena.GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
 
-        gridCell = new Cell[bounds.size.x, bounds.size.y];
+        this.gridCell = new Cell[bounds.size.x, bounds.size.y];
 
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
             if (!tilemap.HasTile(position))
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null, new Vector3());
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null, new Vector3());
                 continue;
             }
 
@@ -173,26 +193,36 @@ public class BattleManager : MonoBehaviour
 
             if (tilemap.GetTile(position).name != "isoWall1" && tileEntity == null)
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
             }
             else if (tilemap.GetTile(position).name != "isoWall1" && tileEntity != null)
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
-                
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y].Entity = tileEntity;
                 if (tileEntity == player)
                 {
                     playerX = (position.x - bounds.position.x);
                     playerY = (position.y - bounds.position.y);
+                    
                 }
-                
+                //Debug.Log(gridCell[position.x - bounds.position.x, position.y - bounds.position.y].entity);
+                //Debug.Log(position.x - bounds.position.x);
+                //Debug.Log(position.y - bounds.position.y);
+
                 //combatantList[FindInCombatantList(tileEntity)].entity.x = (position.x - bounds.position.x);
                 //combatantList[FindInCombatantList(tileEntity)].entity.y = (position.y - bounds.position.y);
             }
             else
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
             }
+            //Debug.Log(gridCell[41, 29].entity);
         }
+
+        foreach (Cell cell in gridCell)
+            Debug.Log(cell.Entity);
+
+
     }
 
     void ResolveMoves()

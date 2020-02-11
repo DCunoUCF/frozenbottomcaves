@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     public Vector3 playerLoc, selectedTile;
     public bool inCombat, isTurn, selectingSkill;
     public List<GameObject> highlights;
+    public int x, y;
 
     public CList combatInfo;
 
@@ -66,11 +67,12 @@ public class PlayerManager : MonoBehaviour
     {
         if (isTurn && selectingSkill)
         {
+
             // Read input and set combat info based off of what skill
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 this.selectingSkill = false;
-                this.highlights = playerScript.useSkill(1, playerLoc);
+                this.highlights = playerScript.useSkill(1, playerLoc, x, y);
                 this.abilityinfo = playerScript.getInfo(1);
                 this.combatInfo.attackDmg = abilityinfo[0];
                 this.combatInfo.attack = abilityinfo[1];
@@ -80,7 +82,7 @@ public class PlayerManager : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 this.selectingSkill = false;
-                this.highlights = playerScript.useSkill(2, playerLoc);
+                this.highlights = playerScript.useSkill(2, playerLoc, x, y);
                 this.abilityinfo = playerScript.getInfo(2);
                 this.combatInfo.attackDmg = abilityinfo[0];
                 this.combatInfo.attack = abilityinfo[1];
@@ -131,4 +133,5 @@ public class PlayerManager : MonoBehaviour
     {
         return this.combatInfo;
     }
+
 }
