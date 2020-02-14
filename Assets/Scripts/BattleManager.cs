@@ -181,6 +181,7 @@ public class BattleManager : MonoBehaviour
         {
             if (!tilemap.HasTile(position))
             {
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null, new Vector3());
                 continue;
             }
 
@@ -197,17 +198,16 @@ public class BattleManager : MonoBehaviour
             else if (tilemap.GetTile(position).name != "isoWall1" && tileEntity != null)
             {
                 this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
-
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y].Entity = tileEntity;
                 if (tileEntity == player)
                 {
                     playerX = (position.x - bounds.position.x);
                     playerY = (position.y - bounds.position.y);
                     
                 }
-
-                Debug.Log(gridCell[position.x - bounds.position.x, position.y - bounds.position.y].entity);
-                Debug.Log(position.x - bounds.position.x);
-                Debug.Log(position.y - bounds.position.y);
+                //Debug.Log(gridCell[position.x - bounds.position.x, position.y - bounds.position.y].entity);
+                //Debug.Log(position.x - bounds.position.x);
+                //Debug.Log(position.y - bounds.position.y);
 
                 //combatantList[FindInCombatantList(tileEntity)].entity.x = (position.x - bounds.position.x);
                 //combatantList[FindInCombatantList(tileEntity)].entity.y = (position.y - bounds.position.y);
@@ -216,11 +216,13 @@ public class BattleManager : MonoBehaviour
             {
                 this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
             }
+            //Debug.Log(gridCell[41, 29].entity);
         }
 
         foreach (Cell cell in gridCell)
-            if (cell.Entity != null)
-                Debug.Log(cell.Entity);
+            Debug.Log(cell.Entity);
+
+
     }
 
     void ResolveMoves()
