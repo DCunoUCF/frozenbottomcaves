@@ -78,6 +78,7 @@ public class PlayerClass : MonoBehaviour
     // Places highlights for each skill
     public List<GameObject> useSkill(int key, Vector3 playerloc, int x, int y)
     {
+        Collider2D map = GameObject.Find("BigCollider").GetComponent<Collider2D>();
         Debug.Log("placing highlights");
         Debug.Log(x+ " " +y);
         switch (key)
@@ -102,18 +103,16 @@ public class PlayerClass : MonoBehaviour
                               new Vector3(playerloc.x + -1.0f, playerloc.y + .0f), Quaternion.identity));
                 return highlights;
             case 2:
-                Debug.Log(BattleManager.Instance.gridCell[x + 1, y + 1].pass);
-                Debug.Log(BattleManager.Instance.gridCell[37, 30].center);
-                if (BattleManager.Instance.gridCell[x+1, y+1].pass)
+                if (map.OverlapPoint(new Vector2(playerloc.x + .5f, playerloc.y + .25f)))
                     highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + .5f, playerloc.y + .25f), Quaternion.identity));
-                if (BattleManager.Instance.gridCell[x + 1, y - 1].pass)
+                if (map.OverlapPoint(new Vector2(playerloc.x + .5f, playerloc.y + -.25f)))
                     highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + .5f, playerloc.y + -.25f), Quaternion.identity));
-                if (BattleManager.Instance.gridCell[x - 1, y + 1].pass)
+                if (map.OverlapPoint(new Vector2(playerloc.x + -.5f, playerloc.y + .25f)))
                     highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + -.5f, playerloc.y + .25f), Quaternion.identity));
-                if (BattleManager.Instance.gridCell[x - 1, y - 1].pass)
+                if (map.OverlapPoint(new Vector2(playerloc.x + -.5f, playerloc.y + -.25f)))
                     highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + -.5f, playerloc.y + -.25f), Quaternion.identity));
                 return highlights;
