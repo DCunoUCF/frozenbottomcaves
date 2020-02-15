@@ -35,7 +35,7 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        characterTag = "Knight";
+        characterTag = "Player";
 
         characterName = "TheWhiteKnight1(Clone)";
         player = GameObject.Find(characterName);
@@ -75,6 +75,7 @@ public class PlayerManager : MonoBehaviour
                 this.combatInfo.attackDmg = abilityinfo[0];
                 this.combatInfo.attack = abilityinfo[1];
                 this.combatInfo.move = abilityinfo[2] == 1;
+                BattleManager.Instance.combatantList[0] = this.combatInfo;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
@@ -84,6 +85,7 @@ public class PlayerManager : MonoBehaviour
                 this.combatInfo.attackDmg = abilityinfo[0];
                 this.combatInfo.attack = abilityinfo[1];
                 this.combatInfo.move = abilityinfo[2] == 1;
+                BattleManager.Instance.combatantList[0] = this.combatInfo;
             }
             // Add more cases for more abilities
         }
@@ -115,6 +117,7 @@ public class PlayerManager : MonoBehaviour
                 Destroy(highlight);
             highlights.Clear();
             this.selectingSkill = true;
+            BattleManager.Instance.combatantList[0] = this.combatInfo;
             Debug.Log("combatInfo: " + combatInfo.move);
         }
     }

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PlayerClass : MonoBehaviour
 {
-    private PlayerClass playerinstance;
+    public static PlayerClass Playerinstance { get; set; }
     public int health = 15;
     private int baseAttack;
     public int lives = 3;
+    public int x, y;
     public List<string> inventory = null;
     public GameObject attackHighlight;
     public GameObject moveHighlight;
@@ -17,9 +18,9 @@ public class PlayerClass : MonoBehaviour
     // Keep only one instance alive through scenes
     private void awake()
     {
-        if (playerinstance == null)
+        if (Playerinstance == null)
         {
-            playerinstance = this;
+            Playerinstance = this;
             DontDestroyOnLoad(gameObject);
         }
         else

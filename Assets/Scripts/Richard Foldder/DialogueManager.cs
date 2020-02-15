@@ -26,8 +26,6 @@ public class DialogueManager : MonoBehaviour
         Choices[1].onClick.AddListener(choiceOption02);
         Choices[2].onClick.AddListener(choiceOption03);
 
-        Debug.Log(Choices[0].GetComponent<Text>().text);
-
         TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
