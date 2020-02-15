@@ -120,7 +120,7 @@ public class PlayerManager : MonoBehaviour
             highlights.Clear();
             this.selectingSkill = true;
             BattleManager.Instance.combatantList[0] = this.combatInfo;
-            Debug.Log("combatInfo: " + combatInfo.move);
+            Debug.Log("combatInfo.move: " + combatInfo.move);
         }
     }
 
