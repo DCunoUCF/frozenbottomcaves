@@ -8,39 +8,6 @@ public enum Biome : short
 	NOTHING = -1, FOREST, CAVE, ICECAVE, CASTLE, BOSS
 };
 
-public struct Cell
-{
-	public bool pass;
-    public GameObject entity;
-    public Vector3 center;
-
-    public Cell(bool passIn, GameObject entityIn, Vector3 centerIn)
-    {
-        center = centerIn;
-        pass = passIn;
-        entity = entityIn;
-    }
-}
-public struct CList
-{
-    public GameObject entity;
-    public bool move;
-    public Vector3 movTar;
-    public Vector3[] atkTar;
-    public int dir, attack, attackDmg;
-
-    public CList(GameObject newEntity)
-    {
-        entity = newEntity;
-        move = false;
-        movTar = new Vector3();
-        dir = 0;
-        attack = 0;
-        attackDmg = 0;
-        atkTar = null;
-    }
-}
-
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; set; }
@@ -113,7 +80,8 @@ public class BattleManager : MonoBehaviour
         enemyLoc = new List<Vector3>(numEnemies);
         enemyType = new GameObject[numEnemies];
         enemies = new GameObject[numEnemies];
-        
+
+        // Chooses random spawners for the enemy entities to spawn at        
         RandomEnemyPos();
 
         // Instantiate Enemies
@@ -123,7 +91,7 @@ public class BattleManager : MonoBehaviour
             entitiesList.Add(enemies[i]);
         }
 
-        // 
+        // Fill CombatantList with entities that were just instantiated
         FillCombatantList();
 
         // Creating the Grid
@@ -132,9 +100,13 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
+        PlayerManager.Instance.x = playerX;
+        PlayerManager.Instance.y = playerY;
+        combatantList[0] = PlayerManager.Instance.combatInfo;
+        combatantList[0].gridX = playerX;
+        combatantList[0].gridY = playerY;
+        Debug.Log("playerX: " + playerX + " playerY: " + playerY);
         PlayerManager.Instance.isTurn = true;
-        PlayerClass.Playerinstance.x = playerX;
-        PlayerClass.Playerinstance.y = playerY;
     }
 
     void Update()
@@ -149,108 +121,99 @@ public class BattleManager : MonoBehaviour
 
     void CreateGrid()
     {
-        float xVec, yVec;
+        int clidx;
         Vector3 currentVector;
         GameObject tileEntity;
         Tilemap tilemap = activeArena.GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
 
-        gridCell = new Cell[bounds.size.x, bounds.size.y];
+        this.gridCell = new Cell[bounds.size.x, bounds.size.y];
+        Debug.Log(bounds.size.x + " " + bounds.size.y);
 
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
+            Debug.Log(position.x + " " + position.y); // last here checking how bounds and position work... I might be ending up out of bounds in my gridCell?...
+            // If there's no tile here, skip this iteration
             if (!tilemap.HasTile(position))
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null, new Vector3());
                 continue;
             }
 
             // This x and y needs to be converted to the vector at the center of the tile to grab the GameObject entity from the tile
-            xVec = (position.x * 0.5f) - (position.y * 0.5f);
-            yVec = ((position.x + 1) * 0.25f) + (position.y * 0.25f);
-            currentVector = new Vector3(xVec, yVec, 0);
+            currentVector = ConvertVector(position.x, position.y);
             tileEntity = GetEntity(currentVector);
 
+            // If the tile is NOT an obstruction and there is no entity
             if (tilemap.GetTile(position).name != "isoWall1" && tileEntity == null)
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
             }
+            // If the tile is NOT an obstruction and there is an entity
             else if (tilemap.GetTile(position).name != "isoWall1" && tileEntity != null)
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
-                
-                if (tileEntity == player)
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
+
+                // Passing the combatantList the coordinates on the grid for the entity
+                if (tileEntity != player)
                 {
-                    playerX = (position.x - bounds.position.x);
-                    playerY = (position.y - bounds.position.y);
+                    clidx = FindInCombatantList(tileEntity);
+                    combatantList[clidx].gridX = position.x - bounds.position.x;
+                    combatantList[clidx].gridY = position.y - bounds.position.y;
                 }
-                
-                //combatantList[FindInCombatantList(tileEntity)].entity.x = (position.x - bounds.position.x);
-                //combatantList[FindInCombatantList(tileEntity)].entity.y = (position.y - bounds.position.y);
+                else
+                {
+                    Debug.Log((position.x - bounds.position.x) + " " + (position.y - bounds.position.y));
+                    playerX = position.x - bounds.position.x;
+                    playerY = position.y - bounds.position.y;
+                }
             }
+            // If the tile IS an obstruction
             else
             {
-                gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
             }
         }
     }
 
     void ResolveMoves()
     {
-        List<CList> moversList = new List<CList>();
-        List<CList> attackersList = new List<CList>();
         bool popped = false;
 
         for (int i = 0; i < combatantList.Count; i++)
         {
-            if (combatantList[i].move)
+            for (int j = 0; j < combatantList.Count; j++)
             {
-                moversList.Add(combatantList[i]);
-            }
+                if (combatantList[i].entity == combatantList[j].entity || !combatantList[i].move)
+                    continue;
 
-            if (combatantList[i].attack > -1)
-            {
-                attackersList.Add(combatantList[i]);
-            }
-        }
-
-        while (moversList.Count > 0)
-        {
-            // If mover at front of list is moving to a location another mover is move to, then pop both of them
-            for (int i = 1; i < moversList.Count; i++)
-            {
-                if (moversList[0].movTar == moversList[i].movTar)
+                if (combatantList[j].move && combatantList[i].movTar == combatantList[j].movTar)
                 {
-                    moversList.RemoveAt(i);
-                    moversList.RemoveAt(0);
+                    popped = true;
+                    break;
+                }
+
+                if (combatantList[j].attack > -1 && combatantList[i].movTar == combatantList[j].entity.transform.localPosition)
+                {
                     popped = true;
                     break;
                 }
             }
-
-            // If mover at front of list is moving to a location someone is standing, then pop the mover
-            for (int i = 0; i < attackersList.Count; i++)
-            {
-                if (moversList[0].movTar == attackersList[i].entity.transform.localPosition)
-                {
-                    moversList.RemoveAt(0);
-                    popped = true;
-                    break;
-                }
-            }
-
-            // Check if mover at front of list is moving to an obstacle... Maybe not needed because NPC/Player managers will check out of bounds moves
 
             // If the mover won't collide with anyone else on the board, they can legally move to their target move location
-            if (!popped)
+            if (!popped && combatantList[i].move)
             {
-                moversList[0].entity.transform.SetPositionAndRotation(moversList[0].movTar, Quaternion.identity);
-                PlayerManager.Instance.playerLoc = moversList[0].movTar;
+                MoveOnGrid(combatantList[i]);
+                combatantList[i].entity.transform.SetPositionAndRotation(combatantList[i].movTar, Quaternion.identity);
+
+                if (combatantList[i].entity == player)
+                    PlayerManager.Instance.playerLoc = combatantList[i].movTar;
+
+                combatantList[i].move = false;
                 popped = false;
-                moversList.RemoveAt(0);
             }
         }
 
+        // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
         PlayerManager.Instance.isTurn = true;
     }
 
@@ -264,10 +227,8 @@ public class BattleManager : MonoBehaviour
         // Pop all the entities with <= 0 HP
         for (int i = 0; i < combatantList.Count; i++)
         {
-
-
-            /*if (combatantList[i].entity.GetComponent<PlayerClass>() <= 0)
-                combatantList.RemoveAt(i);*/
+            if (combatantList[i].hp <= 0)
+                combatantList.RemoveAt(i);
         }
 
         // Check for win conditions
@@ -285,7 +246,7 @@ public class BattleManager : MonoBehaviour
 
     int FindInCombatantList(GameObject entity)
     {
-        for (int i = 0; i < this.combatantList.Count; i++)
+        for (int i = 1; i < this.combatantList.Count; i++) // SKIP PLAYER FOR NOW BECAUSE AWAKE METHOD ORDER AND PLAYERCLASS ORDER
         {
             if (combatantList[i].entity == entity)
                 return i;
@@ -293,6 +254,48 @@ public class BattleManager : MonoBehaviour
 
         Debug.AssertFormat(false, "Couldn't find in CombatantList");
         return -1;
+    }
+
+    void MoveOnGrid(CList entity)
+    {
+        // How I WILL do it later entity.dir... maybe?
+        float dirX, dirY;
+        dirX = entity.movTar.x - entity.entity.transform.localPosition.x;
+        dirY = entity.movTar.y - entity.entity.transform.localPosition.y;
+
+        Debug.Log("dirX: " + dirX + " dirY: " + dirY);
+        //Debug.Log("entity.movTar.x: " + entity.movTar.x + " entity.entity.transform.localPosition.x: " + entity.entity.transform.localPosition.x);
+        //Debug.Log("entity.movTar.y: " + entity.movTar.y + " entity.entity.transform.localPosition.y: " + entity.entity.transform.localPosition.y);
+        Debug.Log("entity.gridX: " + entity.gridX + " entity.gridY: " + entity.gridY);
+
+
+        if (dirX > 0)
+        {
+            if (dirY > 0)
+            {
+                gridCell[entity.gridX, entity.gridY].entity = null;
+                gridCell[++entity.gridX, ++entity.gridY].entity = entity.entity;
+            }
+            else
+            {
+                gridCell[entity.gridX, entity.gridY].entity = null;
+                gridCell[++entity.gridX, --entity.gridY].entity = entity.entity;
+            }
+
+        }
+        else if (dirX < 0)
+        {
+            if (dirY < 0)
+            {
+                gridCell[entity.gridX, entity.gridY].entity = null;
+                gridCell[--entity.gridX, --entity.gridY].entity = entity.entity;
+            }
+            else
+            {
+                gridCell[entity.gridX, entity.gridY].entity = null;
+                gridCell[--entity.gridX, ++entity.gridY].entity = entity.entity;
+            }
+        }
     }
 
     GameObject GetEntity(Vector3 pos)
@@ -315,6 +318,11 @@ public class BattleManager : MonoBehaviour
         {
             combatantList.Add(new CList(enemies[i]));
         }
+    }
+
+    Vector3 ConvertVector(int x, int y)
+    {
+        return new Vector3((x * 0.5f) - (y * 0.5f), ((x + 1) * 0.25f) + (y * 0.25f), 0);
     }
 
     void RandomEnemyPos()

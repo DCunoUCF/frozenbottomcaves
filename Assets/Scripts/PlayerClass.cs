@@ -8,7 +8,7 @@ public class PlayerClass : MonoBehaviour
     public int health = 15;
     private int baseAttack;
     public int lives = 3;
-    public int x, y;
+    
     public List<string> inventory = null;
     public GameObject attackHighlight;
     public GameObject moveHighlight;
@@ -76,10 +76,11 @@ public class PlayerClass : MonoBehaviour
 
     // NEEDS BOUNDS CHECKING FOR MAP
     // Places highlights for each skill
-    public List<GameObject> useSkill(int key, Vector3 playerloc)
+    public List<GameObject> useSkill(int key, Vector3 playerloc, int x, int y)
     {
         Collider2D map = GameObject.Find("BigCollider").GetComponent<Collider2D>();
         Debug.Log("placing highlights");
+        Debug.Log(x+ " " +y);
         switch (key)
         {
             case 1:
