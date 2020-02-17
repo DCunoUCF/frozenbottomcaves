@@ -81,6 +81,8 @@ public class SoundManager : MonoBehaviour
         // 	Debug.Log("Found a track in the queue! It's name is '"+ac.name+"'");
         // }
 
+        // Find and load every sound effect into soundEffectQueue
+
         // Start playing music
         this.musicChannel.loop = false; // Default -> no 
         this.musicChannel.clip = musicQueue.Peek();
