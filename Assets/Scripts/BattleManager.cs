@@ -44,7 +44,7 @@ public class BattleManager : MonoBehaviour
 
         combatantList = new List<CList>();
         grid = GameObject.Find("ForestGrid"); // Overworld will set this
-        activeArena = GameObject.Find("Arena1"); // Overworld will set this
+        activeArena = GameObject.Find("Arena4"); // Overworld will set this
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
         playerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
@@ -105,7 +105,6 @@ public class BattleManager : MonoBehaviour
         combatantList[0] = PlayerManager.Instance.combatInfo;
         combatantList[0].gridX = playerX;
         combatantList[0].gridY = playerY;
-        Debug.Log("playerX: " + playerX + " playerY: " + playerY);
         PlayerManager.Instance.isTurn = true;
     }
 
@@ -121,21 +120,30 @@ public class BattleManager : MonoBehaviour
 
     void CreateGrid()
     {
-        int clidx;
+        int clidx, xDif, yDif;
         Vector3 currentVector;
         GameObject tileEntity;
         Tilemap tilemap = activeArena.GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
+        
 
         this.gridCell = new Cell[bounds.size.x, bounds.size.y];
-        Debug.Log(bounds.size.x + " " + bounds.size.y);
 
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
-            Debug.Log(position.x + " " + position.y); // last here checking how bounds and position work... I might be ending up out of bounds in my gridCell?...
+            xDif = position.x - bounds.position.x;
+            yDif = position.y - bounds.position.y;
+
+            // If we have made a Cell at this grid position already, skip this iteration
+            if (this.gridCell[xDif, yDif] != null)
+            {
+                continue;
+            }
+
             // If there's no tile here, skip this iteration
             if (!tilemap.HasTile(position))
             {
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null, new Vector3(0, 0, 0), position.x - bounds.position.x, position.y - bounds.position.y);
                 continue;
             }
 
@@ -146,31 +154,34 @@ public class BattleManager : MonoBehaviour
             // If the tile is NOT an obstruction and there is no entity
             if (tilemap.GetTile(position).name != "isoWall1" && tileEntity == null)
             {
-                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
+                this.gridCell[xDif, yDif] = new Cell(true, tileEntity, currentVector, xDif, yDif);
             }
             // If the tile is NOT an obstruction and there is an entity
             else if (tilemap.GetTile(position).name != "isoWall1" && tileEntity != null)
             {
-                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
+                this.gridCell[xDif, yDif] = new Cell(true, tileEntity, currentVector, xDif, yDif);
 
                 // Passing the combatantList the coordinates on the grid for the entity
                 if (tileEntity != player)
                 {
                     clidx = FindInCombatantList(tileEntity);
-                    combatantList[clidx].gridX = position.x - bounds.position.x;
-                    combatantList[clidx].gridY = position.y - bounds.position.y;
+                    combatantList[clidx].gridX = xDif;
+                    combatantList[clidx].gridY = yDif;
                 }
                 else
                 {
-                    Debug.Log((position.x - bounds.position.x) + " " + (position.y - bounds.position.y));
-                    playerX = position.x - bounds.position.x;
-                    playerY = position.y - bounds.position.y;
+                    playerX = xDif;
+                    playerY = yDif;
                 }
             }
             // If the tile IS an obstruction
+            else if (tilemap.GetTile(position).name == "isoWall1")
+            {
+                this.gridCell[xDif, yDif] = new Cell(false, tileEntity, currentVector, xDif, yDif);
+            }
             else
             {
-                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
+                this.gridCell[xDif, yDif] = new Cell(false, null, new Vector3(0, 0, 0), xDif, yDif);
             }
         }
     }
@@ -253,7 +264,7 @@ public class BattleManager : MonoBehaviour
                 return i;
         }
 
-        Debug.AssertFormat(false, "Couldn't find in CombatantList");
+        Debug.AssertFormat(false, "Couldn't find in CombatantList"); // SKIPPING PLAYER IN LOOP ABOVE MAY CAUSE THIS
         return -1;
     }
 
@@ -263,12 +274,6 @@ public class BattleManager : MonoBehaviour
         float dirX, dirY;
         dirX = entity.movTar.x - entity.entity.transform.localPosition.x;
         dirY = entity.movTar.y - entity.entity.transform.localPosition.y;
-
-        Debug.Log("dirX: " + dirX + " dirY: " + dirY);
-        //Debug.Log("entity.movTar.x: " + entity.movTar.x + " entity.entity.transform.localPosition.x: " + entity.entity.transform.localPosition.x);
-        //Debug.Log("entity.movTar.y: " + entity.movTar.y + " entity.entity.transform.localPosition.y: " + entity.entity.transform.localPosition.y);
-        Debug.Log("entity.gridX: " + entity.gridX + " entity.gridY: " + entity.gridY);
-
 
         if (dirX > 0)
         {
