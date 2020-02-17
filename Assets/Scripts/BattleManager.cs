@@ -44,7 +44,7 @@ public class BattleManager : MonoBehaviour
 
         combatantList = new List<CList>();
         grid = GameObject.Find("ForestGrid"); // Overworld will set this
-        activeArena = GameObject.Find("Arena1"); // Overworld will set this
+        activeArena = GameObject.Find("Arena4"); // Overworld will set this
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
         playerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
@@ -121,21 +121,99 @@ public class BattleManager : MonoBehaviour
 
     void CreateGrid()
     {
-        int clidx;
+        int clidx; //x = 0, y = 0;
         Vector3 currentVector;
+        //Vector3Int position;
         GameObject tileEntity;
         Tilemap tilemap = activeArena.GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
 
         this.gridCell = new Cell[bounds.size.x, bounds.size.y];
-        Debug.Log(bounds.size.x + " " + bounds.size.y);
+
+        /*this.gridCell = new Cell[(Mathf.Abs(bounds.xMin) + bounds.xMax + 1) * 2, (Mathf.Abs(bounds.yMin) + bounds.yMax + 1) * 4];
+        Debug.Log("bounds.xMax: " + bounds.xMax + "bounds.yMax: " + bounds.yMax);
+        Debug.Log("bounds.xMin: " + bounds.xMin + "bounds.yMin: " + bounds.yMin);*/
+
+        /*for (float i = bounds.xMin + 0.5f; i < bounds.xMax; i += 0.5f)
+        {
+            for (float j = bounds.yMin + 0.25f; j < bounds.yMax; j += 0.25f)
+            {
+                Debug.Log("x: " + x + " y: " + y);
+                position = new Vector3Int((int)i, (int)j, 0);
+                // If there's no tile here, skip this iteration
+                if (!tilemap.HasTile(position))
+                {
+                    if (y > Mathf.Abs(bounds.yMin) + bounds.yMax)
+                        y = 0;
+                    else
+                        y++;
+
+                    continue;
+                }
+                else
+                {
+                    // This x and y needs to be converted to the vector at the center of the tile to grab the GameObject entity from the tile
+                    //currentVector = ConvertVector(i, j);
+                    currentVector = new Vector3(i, j, 0);
+                    tileEntity = GetEntity(currentVector);
+
+                    // If the tile is NOT an obstruction and there is no entity
+                    if (tilemap.GetTile(position).name != "isoWall1" && tileEntity == null)
+                    {
+                        this.gridCell[x, y] = new Cell(true, tileEntity, currentVector, x, y);
+                    }
+                    // If the tile is NOT an obstruction and there is an entity
+                    else if (tilemap.GetTile(position).name != "isoWall1" && tileEntity != null)
+                    {
+                        this.gridCell[x, y] = new Cell(true, tileEntity, currentVector, x, y);
+
+                        // Passing the combatantList the coordinates on the grid for the entity
+                        if (tileEntity != player)
+                        {
+                            clidx = FindInCombatantList(tileEntity);
+                            combatantList[clidx].gridX = x;
+                            combatantList[clidx].gridY = y;
+                        }
+                        else
+                        {
+                            playerX = x;
+                            playerY = y;
+                        }
+                    }
+                    // If the tile IS an obstruction
+                    else if (tilemap.GetTile(position).name == "isoWall1")
+                    {
+                        this.gridCell[x, y] = new Cell(false, tileEntity, currentVector, x, y);
+                    }
+                    else
+                    {
+                        this.gridCell[x, y] = new Cell(false, null, new Vector3(0, 0, 0), x, y);
+                    }
+
+                    if (y > Mathf.Abs(bounds.yMin) + bounds.yMax)
+                        y = 0;
+                    else
+                        y++;
+                }
+            }
+            x++;
+        }*/
+
+        /*        int count = 0;
+                foreach (Cell cell in gridCell)
+                    if (cell != null)
+                    {
+                        Debug.Log("Hi I'm jelly and I'm at x: " + cell.x + " Hello again, I'm jelly and I'm at y: " + cell.y);
+                        count++;
+                    }
+                Debug.Log(count);*/
 
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
-            Debug.Log(position.x + " " + position.y); // last here checking how bounds and position work... I might be ending up out of bounds in my gridCell?...
             // If there's no tile here, skip this iteration
             if (!tilemap.HasTile(position))
             {
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null, new Vector3(0, 0, 0), position.x - bounds.position.x, position.y - bounds.position.y);
                 continue;
             }
 
@@ -146,12 +224,12 @@ public class BattleManager : MonoBehaviour
             // If the tile is NOT an obstruction and there is no entity
             if (tilemap.GetTile(position).name != "isoWall1" && tileEntity == null)
             {
-                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector, position.x - bounds.position.x, position.y - bounds.position.y);
             }
             // If the tile is NOT an obstruction and there is an entity
             else if (tilemap.GetTile(position).name != "isoWall1" && tileEntity != null)
             {
-                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector);
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(true, tileEntity, currentVector, position.x - bounds.position.x, position.y - bounds.position.y);
 
                 // Passing the combatantList the coordinates on the grid for the entity
                 if (tileEntity != player)
@@ -162,16 +240,28 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log((position.x - bounds.position.x) + " " + (position.y - bounds.position.y));
                     playerX = position.x - bounds.position.x;
                     playerY = position.y - bounds.position.y;
                 }
             }
             // If the tile IS an obstruction
+            else if (tilemap.GetTile(position).name == "isoWall1")
+            {
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector, position.x - bounds.position.x, position.y - bounds.position.y);
+            }
             else
             {
-                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, tileEntity, currentVector);
+                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null, new Vector3(0, 0, 0), position.x - bounds.position.x, position.y - bounds.position.y);
             }
+
+/*            int count = 0;
+            foreach (Cell cell in gridCell)
+                if (cell != null)
+                {
+                    Debug.Log("Hi I'm jelly and I'm at x: " + cell.x + " Hello again, I'm jelly and I'm at y: " + cell.y);
+                    count++;
+                }
+            Debug.Log(count);*/
         }
     }
 
@@ -253,7 +343,7 @@ public class BattleManager : MonoBehaviour
                 return i;
         }
 
-        Debug.AssertFormat(false, "Couldn't find in CombatantList");
+        Debug.AssertFormat(false, "Couldn't find in CombatantList"); // SKIPPING PLAYER IN LOOP ABOVE MAY CAUSE THIS
         return -1;
     }
 
@@ -264,11 +354,11 @@ public class BattleManager : MonoBehaviour
         dirX = entity.movTar.x - entity.entity.transform.localPosition.x;
         dirY = entity.movTar.y - entity.entity.transform.localPosition.y;
 
-        Debug.Log("dirX: " + dirX + " dirY: " + dirY);
+        //Debug.Log("dirX: " + dirX + " dirY: " + dirY);
         //Debug.Log("entity.movTar.x: " + entity.movTar.x + " entity.entity.transform.localPosition.x: " + entity.entity.transform.localPosition.x);
         //Debug.Log("entity.movTar.y: " + entity.movTar.y + " entity.entity.transform.localPosition.y: " + entity.entity.transform.localPosition.y);
-        Debug.Log("entity.gridX: " + entity.gridX + " entity.gridY: " + entity.gridY);
-
+        //Debug.Log("entity.gridX: " + entity.gridX + " entity.gridY: " + entity.gridY);
+        //Debug.Log("gridCell[36, 33]: " + gridCell[37, 31]);
 
         if (dirX > 0)
         {
