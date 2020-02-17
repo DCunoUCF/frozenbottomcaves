@@ -11,7 +11,8 @@ using UnityEngine.SceneManagement;
 
 public enum UIType
 {
-	NewGame, Continue, Options, Exit, Back, WizardClass, KnightClass, RogueClass, MonkClass
+	NewGame, Continue, Options, Exit, Back,
+	WizardClass, KnightClass, RogueClass, MonkClass
 }
 
 public class MenuManager : MonoBehaviour
