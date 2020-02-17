@@ -137,12 +137,12 @@ public class SoundManager : MonoBehaviour
 
     	if (track != null)
     	{
-    		Debug.Log("Loaded from load-queue!");
+    		// Debug.Log("Loaded from load-queue!");
     		this.musicQueue.Enqueue(track);
     	}
     	else
     	{
-    		Debug.Log("Freshly loaded from assets!");
+    		// Debug.Log("Freshly loaded from assets!");
 	    	this.musicQueue.Enqueue(Resources.Load<AudioClip>("Sound/Music/"+trackName));
     	}
     }
