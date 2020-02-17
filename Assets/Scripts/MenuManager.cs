@@ -11,7 +11,8 @@ using UnityEngine.SceneManagement;
 
 public enum UIType
 {
-	NewGame, Continue, Options, Exit, Back
+	NewGame, Continue, Options, Exit, Back,
+	WizardClass, KnightClass, RogueClass, MonkClass
 }
 
 public class MenuManager : MonoBehaviour
@@ -35,6 +36,7 @@ public class MenuManager : MonoBehaviour
     	{
     		case UIType.NewGame:
     			Debug.Log("Clicked new game!");
+    			OpenCharacterSelect();
     			break;
     		case UIType.Continue:
     			Debug.Log("Clicked continue!");
@@ -55,6 +57,11 @@ public class MenuManager : MonoBehaviour
     		default:
     			Debug.Log("Clicked a button!"); break;
     	}
+    }
+
+    void OpenCharacterSelect()
+    {
+    	SceneManager.LoadScene("CharacterSelect", LoadSceneMode.Single);
     }
 
     void OpenOptionsOnTop()
