@@ -8,7 +8,7 @@ public class PlayerClass : MonoBehaviour
     public int health = 15;
     private int baseAttack;
     public int lives = 3;
-    public int x, y;
+    
     public List<string> inventory = null;
     public GameObject attackHighlight;
     public GameObject moveHighlight;
@@ -76,9 +76,11 @@ public class PlayerClass : MonoBehaviour
 
     // NEEDS BOUNDS CHECKING FOR MAP
     // Places highlights for each skill
-    public List<GameObject> useSkill(int key, Vector3 playerloc)
+    public List<GameObject> useSkill(int key, Vector3 playerloc, int x, int y)
     {
+        Collider2D map = GameObject.Find("BigCollider").GetComponent<Collider2D>();
         Debug.Log("placing highlights");
+        Debug.Log(x+ " " +y);
         switch (key)
         {
             case 1:
@@ -101,13 +103,17 @@ public class PlayerClass : MonoBehaviour
                               new Vector3(playerloc.x + -1.0f, playerloc.y + .0f), Quaternion.identity));
                 return highlights;
             case 2:
-                highlights.Add((GameObject)Instantiate(moveHighlight,
+                if (map.OverlapPoint(new Vector2(playerloc.x + .5f, playerloc.y + .25f)))
+                    highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + .5f, playerloc.y + .25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(moveHighlight,
+                if (map.OverlapPoint(new Vector2(playerloc.x + .5f, playerloc.y + -.25f)))
+                    highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + .5f, playerloc.y + -.25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(moveHighlight,
+                if (map.OverlapPoint(new Vector2(playerloc.x + -.5f, playerloc.y + .25f)))
+                    highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + -.5f, playerloc.y + .25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(moveHighlight,
+                if (map.OverlapPoint(new Vector2(playerloc.x + -.5f, playerloc.y + -.25f)))
+                    highlights.Add((GameObject)Instantiate(moveHighlight,
                               new Vector3(playerloc.x + -.5f, playerloc.y + -.25f), Quaternion.identity));
                 return highlights;
         }
