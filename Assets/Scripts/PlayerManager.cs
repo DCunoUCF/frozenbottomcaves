@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviour
     public bool inCombat, isTurn, selectingSkill;
     public List<GameObject> highlights;
     public int x, y;
+    public int movx = 0, movy = 0;
+    public bool moved;
 
     public CList combatInfo;
 
@@ -46,6 +48,7 @@ public class PlayerManager : MonoBehaviour
         inCombat = true;
         isTurn = false;
         selectingSkill = true;
+        moved = false;
         abilityinfo = new int[3];
     }
 
@@ -57,6 +60,15 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
+            if (moved)
+            {
+                this.x += movx;
+                this.y += movy;
+                movx = 0;
+                movy = 0;
+                moved = false;
+            }
+
             // Player can select what ability/move to use
             playerTurnCombat();
         }
@@ -65,45 +77,45 @@ public class PlayerManager : MonoBehaviour
     // Player turn -> select ability -> select tile -> turn end
     private void playerTurnCombat()
     {
-        if (isTurn && selectingSkill)
+        if (isTurn)
         {
-
             // Read input and set combat info based off of what skill
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                this.selectingSkill = false;
+                clearHighlights();
                 this.highlights = playerScript.useSkill(1, playerLoc, x, y);
                 this.abilityinfo = playerScript.getInfo(1);
-                this.combatInfo.attackDmg = abilityinfo[0];
-                this.combatInfo.attack = abilityinfo[1];
-                this.combatInfo.move = abilityinfo[2] == 1;
-                BattleManager.Instance.combatantList[0] = this.combatInfo;
+                fillCombatInfo(abilityinfo);
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                this.selectingSkill = false;
+                clearHighlights();
                 this.highlights = playerScript.useSkill(2, playerLoc, x, y);
                 this.abilityinfo = playerScript.getInfo(2);
-                this.combatInfo.attackDmg = abilityinfo[0];
-                this.combatInfo.attack = abilityinfo[1];
-                this.combatInfo.move = abilityinfo[2] == 1;
-                BattleManager.Instance.combatantList[0] = this.combatInfo;
+                fillCombatInfo(abilityinfo);
+            }
+            else if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                clearHighlights();
             }
             // Add more cases for more abilities
         }
+    }
 
-        // Still player turn, they have pressed a skill and are confirming location by selecting a tile
-        else if (isTurn && !selectingSkill)
-        {
-            // Cancel selected skill -> remove highlights and let them choose another skill
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                foreach (GameObject highlight in highlights)
-                    Destroy(highlight);
-                highlights.Clear();
-                this.selectingSkill = true;
-            }
-        }
+    public void fillCombatInfo(int [] info)
+    {
+        this.combatInfo.attackDmg = abilityinfo[0];
+        this.combatInfo.attack = abilityinfo[1];
+        this.combatInfo.move = abilityinfo[2] == 1;
+        BattleManager.Instance.combatantList[0] = this.combatInfo;
+    }
+
+    // Clears current highlights
+    public void clearHighlights()
+    {
+        foreach (GameObject highlight in highlights)
+            Destroy(highlight);
+        highlights.Clear();
     }
 
     // After selecting a tile, the players turn is ended
@@ -115,12 +127,56 @@ public class PlayerManager : MonoBehaviour
             this.combatInfo.movTar = pos;
             Debug.Log(selectedTile.ToString("F2"));
             isTurn = false;
-            foreach (GameObject highlight in highlights)
-                Destroy(highlight);
-            highlights.Clear();
+            clearHighlights();
+            getMoveXY(pos);
             this.selectingSkill = true;
             BattleManager.Instance.combatantList[0] = this.combatInfo;
             Debug.Log("combatInfo.move: " + combatInfo.move);
+        }
+    }
+
+    public void getMoveXY(Vector3 movTarget)
+    {
+        Vector3 temp = movTarget - playerLoc;
+        int x, y;
+        Debug.Log((temp.x / .5f).ToString("F2"));
+        Debug.Log((temp.y / .25f).ToString("F2"));
+        x = (int) (temp.x / .5f);
+        y = (int) (temp.y / .25f);
+        if (x == 0)
+        {
+            movx = 0;
+            movy = y;
+        }
+        if (y == 0)
+        {
+            movx = x;
+            movy = 0;
+        }
+        if (x > 0)
+        {
+            if (y > 0)
+            {
+                movx = x;
+                movy = 0;
+            }
+            if (y < 0)
+            {
+                movx = 0;
+                movy = y;
+            }
+        }else if (x < 0)
+        {
+            if (y > 0)
+            {
+                movx = 0;
+                movy = y;
+            }
+            if (y < 0)
+            {
+                movx = x;
+                movy = 0;
+            }
         }
     }
 

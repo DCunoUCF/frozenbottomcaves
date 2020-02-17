@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Drawing;
 
 public class PlayerClass : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerClass : MonoBehaviour
     public GameObject moveHighlight;
     public List<GameObject> highlights;
     public int[] info;
+
 
     // Keep only one instance alive through scenes
     private void awake()
@@ -74,47 +76,29 @@ public class PlayerClass : MonoBehaviour
         inventory.Remove(item);
     }
 
-    // NEEDS BOUNDS CHECKING FOR MAP
     // Places highlights for each skill
     public List<GameObject> useSkill(int key, Vector3 playerloc, int x, int y)
     {
-        Collider2D map = GameObject.Find("BigCollider").GetComponent<Collider2D>();
-        Debug.Log("placing highlights");
-        Debug.Log(x+ " " +y);
         switch (key)
         {
             case 1:
-                highlights.Add((GameObject)Instantiate(attackHighlight,
-                              new Vector3(playerloc.x + .5f, playerloc.y + .25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(attackHighlight,
-                              new Vector3(playerloc.x + .5f, playerloc.y + -.25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(attackHighlight,
-                              new Vector3(playerloc.x + -.5f, playerloc.y + .25f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(attackHighlight,
-                              new Vector3(playerloc.x + -.5f, playerloc.y + -.25f), Quaternion.identity));
-
-                highlights.Add((GameObject)Instantiate(attackHighlight,
-                              new Vector3(playerloc.x + .0f, playerloc.y + .5f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(attackHighlight,
-                              new Vector3(playerloc.x + .0f, playerloc.y + -.5f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(attackHighlight,
-                              new Vector3(playerloc.x + 1.0f, playerloc.y + .0f), Quaternion.identity));
-                highlights.Add((GameObject)Instantiate(attackHighlight,
-                              new Vector3(playerloc.x + -1.0f, playerloc.y + .0f), Quaternion.identity));
+                foreach (Point tile in Knight.basicAttack)
+                {
+                    if (BattleManager.Instance.gridCell[x + tile.X, y + tile.Y] != null)
+                        if (BattleManager.Instance.gridCell[x + tile.X, y + tile.Y].pass)
+                            highlights.Add((GameObject)Instantiate(attackHighlight,
+                                  BattleManager.Instance.gridCell[x + tile.X, y + tile.Y].center, Quaternion.identity));
+                }
                 return highlights;
             case 2:
-                if (map.OverlapPoint(new Vector2(playerloc.x + .5f, playerloc.y + .25f)))
-                    highlights.Add((GameObject)Instantiate(moveHighlight,
-                              new Vector3(playerloc.x + .5f, playerloc.y + .25f), Quaternion.identity));
-                if (map.OverlapPoint(new Vector2(playerloc.x + .5f, playerloc.y + -.25f)))
-                    highlights.Add((GameObject)Instantiate(moveHighlight,
-                              new Vector3(playerloc.x + .5f, playerloc.y + -.25f), Quaternion.identity));
-                if (map.OverlapPoint(new Vector2(playerloc.x + -.5f, playerloc.y + .25f)))
-                    highlights.Add((GameObject)Instantiate(moveHighlight,
-                              new Vector3(playerloc.x + -.5f, playerloc.y + .25f), Quaternion.identity));
-                if (map.OverlapPoint(new Vector2(playerloc.x + -.5f, playerloc.y + -.25f)))
-                    highlights.Add((GameObject)Instantiate(moveHighlight,
-                              new Vector3(playerloc.x + -.5f, playerloc.y + -.25f), Quaternion.identity));
+                Debug.Log(transform.position.ToString("F2"));
+                foreach (Point tile in Knight.basicMove)
+                {
+                    if (BattleManager.Instance.gridCell[x + tile.X, y + tile.Y] != null)
+                        if (BattleManager.Instance.gridCell[x + tile.X, y + tile.Y].pass)
+                            highlights.Add((GameObject)Instantiate(moveHighlight,
+                                  BattleManager.Instance.gridCell[x + tile.X, y + tile.Y].center, Quaternion.identity));
+                }
                 return highlights;
         }
         return null;

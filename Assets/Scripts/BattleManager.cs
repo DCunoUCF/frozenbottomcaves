@@ -204,6 +204,7 @@ public class BattleManager : MonoBehaviour
             {
                 MoveOnGrid(combatantList[i]);
                 combatantList[i].entity.transform.SetPositionAndRotation(combatantList[i].movTar, Quaternion.identity);
+                PlayerManager.Instance.moved = true;
 
                 if (combatantList[i].entity == player)
                     PlayerManager.Instance.playerLoc = combatantList[i].movTar;
