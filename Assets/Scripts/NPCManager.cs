@@ -62,6 +62,9 @@ public class NPCManager : MonoBehaviour
 
     public void makeDecisions()
     {
+    	// HERE the lists will probably need to be updated, so that we're going off of the most
+    	// recent positions for CList members. This is for both managers.
+
     	enemyM.makeDecisions();
     	companionM.makeDecisions();
 
