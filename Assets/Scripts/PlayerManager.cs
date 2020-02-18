@@ -125,13 +125,13 @@ public class PlayerManager : MonoBehaviour
         {
             this.selectedTile = pos;
             this.combatInfo.movTar = pos;
-            Debug.Log(selectedTile.ToString("F2"));
+            //Debug.Log(selectedTile.ToString("F2"));
             isTurn = false;
             clearHighlights();
             getMoveXY(pos);
             this.selectingSkill = true;
             BattleManager.Instance.combatantList[0] = this.combatInfo;
-            Debug.Log("combatInfo.move: " + combatInfo.move);
+            //Debug.Log("combatInfo.move: " + combatInfo.move);
         }
     }
 
@@ -139,8 +139,8 @@ public class PlayerManager : MonoBehaviour
     {
         Vector3 temp = movTarget - playerLoc;
         int x, y;
-        Debug.Log((temp.x / .5f).ToString("F2"));
-        Debug.Log((temp.y / .25f).ToString("F2"));
+        //Debug.Log((temp.x / .5f).ToString("F2"));
+        //Debug.Log((temp.y / .25f).ToString("F2"));
         x = (int) (temp.x / .5f);
         y = (int) (temp.y / .25f);
         if (x == 0)
