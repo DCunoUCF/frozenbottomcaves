@@ -15,7 +15,7 @@ public class BattleManager : MonoBehaviour
     private List<GameObject> entitiesList;
     public Cell[,] gridCell;
     private GameObject grid;
-    private GameObject activeArena;
+    public GameObject activeArena;
     private GameObject[] arenaDeactivate;
     private GameObject[] gridDeactivate;
     private GameObject player;
@@ -125,9 +125,9 @@ public class BattleManager : MonoBehaviour
         GameObject tileEntity;
         Tilemap tilemap = activeArena.GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
-        
 
-        this.gridCell = new Cell[bounds.size.x, bounds.size.y];
+        this.gridCell = new Cell[bounds.size.x + 5, bounds.size.y + 5]; // Added a buffer for upper edges of board
+        Debug.Log("bounds.size.x: " + bounds.size.x + "bounds.size.y" + bounds.size.y);
 
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
@@ -140,10 +140,10 @@ public class BattleManager : MonoBehaviour
                 continue;
             }
 
-            // If there's no tile here, skip this iteration
+            // If there's no tile here, make a "zero" Cell, then skip this iteration
             if (!tilemap.HasTile(position))
             {
-                this.gridCell[position.x - bounds.position.x, position.y - bounds.position.y] = new Cell(false, null, new Vector3(0, 0, 0), position.x - bounds.position.x, position.y - bounds.position.y);
+                this.gridCell[xDif, yDif] = new Cell(false, null, new Vector3(0, 0, 0), xDif, yDif);
                 continue;
             }
 
@@ -184,6 +184,16 @@ public class BattleManager : MonoBehaviour
                 this.gridCell[xDif, yDif] = new Cell(false, null, new Vector3(0, 0, 0), xDif, yDif);
             }
         }
+        //int count = 0;
+        for (int i = 0; i < bounds.size.x; i++)
+            for (int j = 0; j < bounds.size.y; j++)
+            {
+                if (this.gridCell[i, j].entity != null)
+                {
+                    Debug.Log("(" + i + "," + j + ") is a " + this.gridCell[i,j].entity);
+                }
+            }
+        //Debug.Log("count: " + count);
     }
 
     void ResolveMoves()
@@ -272,20 +282,44 @@ public class BattleManager : MonoBehaviour
     {
         // How I WILL do it later entity.dir... maybe?
         float dirX, dirY;
+        BoundsInt bounds = activeArena.GetComponent<Tilemap>().cellBounds;
+        int xPlus, xMinus, yPlus, yMinus;
         dirX = entity.movTar.x - entity.entity.transform.localPosition.x;
         dirY = entity.movTar.y - entity.entity.transform.localPosition.y;
+        GameObject sprite = entity.entity;
+        GameObject SE = sprite.transform.GetChild(0).gameObject, SW = sprite.transform.GetChild(1).gameObject, NW = sprite.transform.GetChild(2).gameObject, NE = sprite.transform.GetChild(3).gameObject;
+        
+        //Debug.Log("dirX: " + dirX + " dirY: " + dirY);
+        //Debug.Log("moving from (" + entity.gridX + "," + entity.gridY + ")");
+
+        xPlus = (entity.gridX + 1) % bounds.size.x;
+        yPlus = (entity.gridY + 1) % bounds.size.y;
+        xMinus = Mathf.Abs(entity.gridX - 1) % bounds.size.x;
+        yMinus = Mathf.Abs(entity.gridY - 1) % bounds.size.y;
 
         if (dirX > 0)
         {
             if (dirY > 0)
             {
+                //Debug.Log("moving to (" + xPlus + "," + entity.gridY + ")");
                 gridCell[entity.gridX, entity.gridY].entity = null;
-                gridCell[++entity.gridX, ++entity.gridY].entity = entity.entity;
+                gridCell[xPlus, entity.gridY].entity = entity.entity;
+                entity.gridX = xPlus;
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(true);
             }
             else
             {
+                //Debug.Log("moving to (" + entity.gridX + "," + yMinus + ")");
                 gridCell[entity.gridX, entity.gridY].entity = null;
-                gridCell[++entity.gridX, --entity.gridY].entity = entity.entity;
+                gridCell[entity.gridX, yMinus].entity = entity.entity;
+                entity.gridY = yMinus;
+                SE.gameObject.SetActive(true);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
             }
 
         }
@@ -293,13 +327,25 @@ public class BattleManager : MonoBehaviour
         {
             if (dirY < 0)
             {
+                //Debug.Log("moving to (" + xMinus + "," + entity.gridY + ")");
                 gridCell[entity.gridX, entity.gridY].entity = null;
-                gridCell[--entity.gridX, --entity.gridY].entity = entity.entity;
+                gridCell[xMinus, entity.gridY].entity = entity.entity;
+                entity.gridX = xMinus;
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(true);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
             }
             else
             {
+                //Debug.Log("moving to (" + entity.gridX + "," + yPlus + ")");
                 gridCell[entity.gridX, entity.gridY].entity = null;
-                gridCell[--entity.gridX, ++entity.gridY].entity = entity.entity;
+                gridCell[entity.gridX, yPlus].entity = entity.entity;
+                entity.gridY = yPlus;
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(true);
+                NE.gameObject.SetActive(false);
             }
         }
     }
