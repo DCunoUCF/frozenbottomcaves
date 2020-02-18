@@ -286,7 +286,9 @@ public class BattleManager : MonoBehaviour
         int xPlus, xMinus, yPlus, yMinus;
         dirX = entity.movTar.x - entity.entity.transform.localPosition.x;
         dirY = entity.movTar.y - entity.entity.transform.localPosition.y;
-
+        GameObject sprite = entity.entity;
+        GameObject SE = sprite.transform.GetChild(0).gameObject, SW = sprite.transform.GetChild(1).gameObject, NW = sprite.transform.GetChild(2).gameObject, NE = sprite.transform.GetChild(3).gameObject;
+        
         //Debug.Log("dirX: " + dirX + " dirY: " + dirY);
         //Debug.Log("moving from (" + entity.gridX + "," + entity.gridY + ")");
 
@@ -303,6 +305,10 @@ public class BattleManager : MonoBehaviour
                 gridCell[entity.gridX, entity.gridY].entity = null;
                 gridCell[xPlus, entity.gridY].entity = entity.entity;
                 entity.gridX = xPlus;
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(true);
             }
             else
             {
@@ -310,6 +316,10 @@ public class BattleManager : MonoBehaviour
                 gridCell[entity.gridX, entity.gridY].entity = null;
                 gridCell[entity.gridX, yMinus].entity = entity.entity;
                 entity.gridY = yMinus;
+                SE.gameObject.SetActive(true);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
             }
 
         }
@@ -321,6 +331,10 @@ public class BattleManager : MonoBehaviour
                 gridCell[entity.gridX, entity.gridY].entity = null;
                 gridCell[xMinus, entity.gridY].entity = entity.entity;
                 entity.gridX = xMinus;
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(true);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
             }
             else
             {
@@ -328,6 +342,10 @@ public class BattleManager : MonoBehaviour
                 gridCell[entity.gridX, entity.gridY].entity = null;
                 gridCell[entity.gridX, yPlus].entity = entity.entity;
                 entity.gridY = yPlus;
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(true);
+                NE.gameObject.SetActive(false);
             }
         }
     }

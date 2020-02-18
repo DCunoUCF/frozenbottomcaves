@@ -13,6 +13,10 @@ TagManager:
   - Knight
   - Monster
   - Companion
+  - SE
+  - SW
+  - NW
+  - NE
   layers:
   - Default
   - TransparentFX
