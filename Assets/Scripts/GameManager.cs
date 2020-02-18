@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
 	public BattleManager bm;
 	public PlayerManager pm;
+    public SoundManager sm;
+    public MenuManager mm;
 
     // Start is called before the first frame update
     void Start()

@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 789b0560389060f40a88a9f2ab2051da
+  - enabled: 1
+    path: Assets/Scenes/OptionsMenu.unity
+    guid: e89367d9a822ac2448683e7eac4a1590
+  - enabled: 1
+    path: Assets/Scenes/CharacterSelect.unity
+    guid: 89f212fb4f7cb6d4fa31358ab31136bc
+  - enabled: 1
     path: Assets/Scenes/ForestArena.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
