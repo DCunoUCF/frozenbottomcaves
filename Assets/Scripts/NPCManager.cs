@@ -14,9 +14,17 @@ public class NPCManager : MonoBehaviour
 	private List<CList> companionList;
 	private List<CList> enemyList;
 
+	//==========   Constructor   ==========//
+
+	NPCManager(BattleManager battle)
+	{
+		this.bm = battle;
+	}
+
 	//==========   Unity Methods   ==========//
 
     // Start is called before the first frame update
+    // The contents of Start() may be moved to the constructor
     void Start()
     {
     	// Instantiate our sub-managers
