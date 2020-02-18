@@ -70,16 +70,14 @@ public class NPCManager : MonoBehaviour
     	// decisions for us.
     }
 
-    // TODO: add param that contains the exact entity to remove
-    	// May need to change type to CList
+   	// May need to change type to CList
     void removeEnemy(GameObject entity)
     {
     	// TODO: pass param along so that enemy manager knows who to delete
     	enemyM.removeEnemy(entity);
     }
 
-    // TODO: add param that contains the exact entity to remove
-    	// May need to change type to CList
+   	// May need to change type to CList
     void removeCompanion(GameObject entity)
     {
     	// TODO: pass param along so that companion manager knows who to delete

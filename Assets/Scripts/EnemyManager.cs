@@ -42,8 +42,8 @@ public class EnemyManager : MonoBehaviour
     			// choose move towards closestTarget or attack towards closestTarget
     }
 
-    // TODO: Add param for specific enemy to delete
-    void removeEnemy()
+   	// May be changed to CList type
+    void removeEnemy(GameObject entity)
     {
 
     }
