@@ -7,6 +7,8 @@ public class CompanionManager : MonoBehaviour
 	private List<CList> companionList;
 	private List<CList> targetList;
 
+	//==========   Unity Methods   ==========//
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,20 +25,20 @@ public class CompanionManager : MonoBehaviour
 
     // These will be very similar to the EnemyManager methods of the same name
 
-    void setEntityLists(List<CList> cList, List<CList> tList)
+    public void setEntityLists(List<CList> cList, List<CList> tList)
     {
     	this.companionList = cList;
     	this.targetList = tList;
     }
 
-    void makeDecisions()
+    public void makeDecisions()
     {
     	// See EnemyManager.makeDecisions() for more information on how this will
     	// be written.
     }
 
     // May be changed to CList type
-    void removeCompanion(GameObject entity)
+    public void removeCompanion(GameObject entity)
     {
 
     }

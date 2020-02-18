@@ -23,13 +23,13 @@ public class EnemyManager : MonoBehaviour
 
     //==========   Combat Methods   ==========//
 
-    void setEntityLists(List<CList> eList, List<CList> tList)
+    public void setEntityLists(List<CList> eList, List<CList> tList)
     {
     	this.enemyList = eList;
     	this.targetList = tList;
     }
 
-    void makeDecisions()
+    public void makeDecisions()
     {
     	// foreach ENEMY in this.enemyList
     		// if this.targetList.Count == 0
@@ -43,7 +43,7 @@ public class EnemyManager : MonoBehaviour
     }
 
    	// May be changed to CList type
-    void removeEnemy(GameObject entity)
+    public void removeEnemy(GameObject entity)
     {
 
     }

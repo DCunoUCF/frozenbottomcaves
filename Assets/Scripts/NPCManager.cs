@@ -60,7 +60,7 @@ public class NPCManager : MonoBehaviour
 
     //==========   AI Methods   ==========//
 
-    void makeDecisions()
+    public void makeDecisions()
     {
     	enemyM.makeDecisions();
     	companionM.makeDecisions();
@@ -71,14 +71,14 @@ public class NPCManager : MonoBehaviour
     }
 
    	// May need to change type to CList
-    void removeEnemy(GameObject entity)
+    public void removeEnemy(GameObject entity)
     {
     	// TODO: pass param along so that enemy manager knows who to delete
     	enemyM.removeEnemy(entity);
     }
 
    	// May need to change type to CList
-    void removeCompanion(GameObject entity)
+    public void removeCompanion(GameObject entity)
     {
     	// TODO: pass param along so that companion manager knows who to delete
     	companionM.removeCompanion(entity);
