@@ -18,6 +18,7 @@ TagManager:
   - NW
   - NE
   - Enemy
+  - GM
   layers:
   - Default
   - TransparentFX

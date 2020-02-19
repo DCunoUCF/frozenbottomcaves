@@ -26,6 +26,14 @@ public class SoundManager : MonoBehaviour
 	public AudioSource musicChannel;
 	public AudioSource effectChannel;
 
+    //============   Constructors   ============//
+
+    public SoundManager(AudioSource mc, AudioSource ec)
+    {
+        this.musicChannel = mc;
+        this.effectChannel = ec;
+    }
+
 	//============   Unity Methods   ============//
 
 	void Awake()
@@ -81,6 +89,8 @@ public class SoundManager : MonoBehaviour
         // 	Debug.Log("Found a track in the queue! It's name is '"+ac.name+"'");
         // }
 
+        // Find and load every sound effect into soundEffectQueue
+
         // Start playing music
         this.musicChannel.loop = false; // Default -> no 
         this.musicChannel.clip = musicQueue.Peek();
@@ -122,13 +132,50 @@ public class SoundManager : MonoBehaviour
 
     //=============   Music Track Methods   =============//
 
-    void LoadTrack(string trackName)
+    public void setMusicVolume(float vol)
+    {
+        this.musicChannel.volume = vol;
+        Debug.Log("The music channel is now playing at "+this.musicChannel.volume);
+    }
+
+    public void setEffectVolume(float vol)
+    {
+        this.effectChannel.volume = vol;
+    }
+
+    public void setMusicMute(bool mute)
+    {
+        this.musicChannel.mute = mute;
+    }
+
+    public void setEffectMute(bool mute)
+    {
+        this.effectChannel.mute = mute;
+    }
+
+    public void setAudioChannels(AudioSource mc, AudioSource ec)
+    {
+        this.musicChannel = mc;
+        this.effectChannel = ec;
+    }
+
+    public void setMusicChannel(AudioSource mc)
+    {
+        this.musicChannel = mc;
+    }
+
+    public void setEffectChannel(AudioSource ec)
+    {
+        this.effectChannel = ec;
+    }
+
+    public void LoadTrack(string trackName)
     {
     	this.loadedMusicQueue.Enqueue(Resources.Load<AudioClip>("Sound/Music/"+trackName));
     }
 
     // Checks loaded queue first before fresh-loading asset
-    void AddTrackToQueue(string trackName)
+    public void AddTrackToQueue(string trackName)
     {
     	AudioClip track = null;
 
@@ -154,7 +201,7 @@ public class SoundManager : MonoBehaviour
 
 	// Use this sparingly as it has to go through the whole queue comparing strings
     // Moves the named track into the loaded queue
-    void RemoveTrackFromQueue(string trackName)
+    public void RemoveTrackFromQueue(string trackName)
     {
 		// Go through each track in the music queue
 		// and move the one we want to remove to the loaded queue,
@@ -171,7 +218,7 @@ public class SoundManager : MonoBehaviour
 		}
     }
 
-    void PlayNextTrack()
+    public void PlayNextTrack()
     {
     	this.musicChannel.Stop();
     	this.musicQueue.Enqueue(this.musicQueue.Dequeue());
@@ -179,22 +226,22 @@ public class SoundManager : MonoBehaviour
     	this.musicChannel.Play(0);
     }
 
-    void EnableMusicLoop()
+    public void EnableMusicLoop()
     {
     	this.musicChannel.loop = true;
     }
 
-    void DisableMusicLoop()
+    public void DisableMusicLoop()
     {
     	this.musicChannel.loop = false;
     }
 
-    void ToggleMusicLoop()
+    public void ToggleMusicLoop()
     {
     	this.musicChannel.loop = !this.musicChannel.loop;
     }
 
-    void FreeAllMusicTracks()
+    public void FreeAllMusicTracks()
     {
     	for (int i = 0; i < this.musicQueue.Count; i++)
     	{
@@ -218,7 +265,7 @@ public class SoundManager : MonoBehaviour
     // Need to figure out if effects should be done differently
 
     //
-    void AddEffectToQueue(string effectName)
+    public void AddEffectToQueue(string effectName)
     {
     	this.effectQueue.Enqueue(Resources.Load<AudioClip>("Sound/Effects/"+effectName));
     }
