@@ -40,7 +40,7 @@ public class PlayerManager : MonoBehaviour
     {
         characterTag = "Player";
 
-        characterName = "TheWhiteKnight1(Clone)";
+        characterName = "TheWhiteKnight(Clone)";
         player = GameObject.Find(characterName);
         playerLoc = player.transform.position;
         playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));

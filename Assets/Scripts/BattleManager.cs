@@ -21,14 +21,13 @@ public class BattleManager : MonoBehaviour
     private GameObject player;
     private int playerX, playerY;
     private GameObject companion;
-    private GameObject[] enemies;
+    private List<GameObject> enemies, enemyType;
     private Vector3 playerLoc;
     private Vector3 companionLoc;
-    private GameObject[] locGrabber;
+    private GameObject[] enemiesLoc;
     private List<Vector3> availEnemyLoc;
     private List<Vector3> enemyLoc;
-    private int numEnemies;
-    private GameObject[] enemyType;
+    private int numEnemies, numEnemyTypes;
 
     void Awake()
 	{
@@ -44,12 +43,9 @@ public class BattleManager : MonoBehaviour
 
         combatantList = new List<CList>();
         grid = GameObject.Find("ForestGrid"); // Overworld will set this
-        activeArena = GameObject.Find("Arena4"); // Overworld will set this
+        activeArena = GameObject.Find("Arena2"); // Overworld will set this
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
-        playerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
-        companionLoc = GameObject.FindGameObjectWithTag("cSpawn").transform.position;
-        locGrabber = GameObject.FindGameObjectsWithTag("eSpawn");
         entitiesList = new List<GameObject>();
         availEnemyLoc = new List<Vector3>();
 
@@ -69,17 +65,28 @@ public class BattleManager : MonoBehaviour
             arenaDeactivate[i].SetActive(false);
         }
 
+        // Have to grab spawners after other arenas with spawners in them are deactivated
+        playerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
+        companionLoc = GameObject.FindGameObjectWithTag("cSpawn").transform.position;
+        enemiesLoc = GameObject.FindGameObjectsWithTag("eSpawn");
+
         // Instantiate Player and Companion
-        player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight1"), playerLoc, Quaternion.identity);
+        player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight"), playerLoc, Quaternion.identity);
         companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
         entitiesList.Add(player);
         entitiesList.Add(companion);
 
         // Using number of enemies to be spawned to initiliaze their fields and finding random locations for them to spawn
-        numEnemies = 4; // Overworld will set this
+        numEnemies = 3; // Overworld will set this
+        numEnemyTypes = 1;
         enemyLoc = new List<Vector3>(numEnemies);
-        enemyType = new GameObject[numEnemies];
-        enemies = new GameObject[numEnemies];
+        enemyType = new List<GameObject>(numEnemyTypes);
+        enemies = new List<GameObject>(numEnemies);
+
+        for (int i = 0; i < numEnemyTypes; i++)
+        {
+            enemyType.Add(GameObject.Find("goblin"));
+        }
 
         // Chooses random spawners for the enemy entities to spawn at        
         RandomEnemyPos();
@@ -87,7 +94,7 @@ public class BattleManager : MonoBehaviour
         // Instantiate Enemies
         for (int i = 0; i < numEnemies; i++)
         {
-            enemies[i] = GameObject.Instantiate(GameObject.Find("goblin2"), enemyLoc[i], Quaternion.identity); // Overworld will set the enemy types
+            enemies.Add(GameObject.Instantiate(enemyType[0], enemyLoc[i], Quaternion.identity)); // Overworld will set the enemy types
             entitiesList.Add(enemies[i]);
         }
 
@@ -102,9 +109,9 @@ public class BattleManager : MonoBehaviour
     {
         PlayerManager.Instance.x = playerX;
         PlayerManager.Instance.y = playerY;
-        combatantList[0] = PlayerManager.Instance.combatInfo;
-        combatantList[0].gridX = playerX;
-        combatantList[0].gridY = playerY;
+        //combatantList[0] = PlayerManager.Instance.combatInfo;
+        //combatantList[0].gridX = playerX;
+        //combatantList[0].gridY = playerY;
         PlayerManager.Instance.isTurn = true;
     }
 
@@ -112,6 +119,7 @@ public class BattleManager : MonoBehaviour
     {
         if (!PlayerManager.Instance.isTurn)
         {
+            // NPCManager.Instance.Decide();
             ResolveMoves();
             ResolveAttacks();
             WhoStillHasLimbs();
@@ -120,14 +128,15 @@ public class BattleManager : MonoBehaviour
 
     void CreateGrid()
     {
-        int clidx, xDif, yDif;
+        int clidx, xDif, yDif, buffer = 5;
         Vector3 currentVector;
         GameObject tileEntity;
         Tilemap tilemap = activeArena.GetComponent<Tilemap>();
+        Tilemap obstaclesMap = tilemap.transform.GetChild(0).GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
 
-        this.gridCell = new Cell[bounds.size.x + 5, bounds.size.y + 5]; // Added a buffer for upper edges of board
-        Debug.Log("bounds.size.x: " + bounds.size.x + "bounds.size.y" + bounds.size.y);
+        this.gridCell = new Cell[bounds.size.x + buffer, bounds.size.y + buffer]; // Added a buffer for upper edges of board
+        Debug.Log("bounds.size.x: " + (bounds.size.x + buffer) + "bounds.size.y" + (bounds.size.y + buffer));
 
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
@@ -152,12 +161,12 @@ public class BattleManager : MonoBehaviour
             tileEntity = GetEntity(currentVector);
 
             // If the tile is NOT an obstruction and there is no entity
-            if (tilemap.GetTile(position).name != "isoWall1" && tileEntity == null)
+            if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != "isoWall" && tileEntity == null)
             {
                 this.gridCell[xDif, yDif] = new Cell(true, tileEntity, currentVector, xDif, yDif);
             }
             // If the tile is NOT an obstruction and there is an entity
-            else if (tilemap.GetTile(position).name != "isoWall1" && tileEntity != null)
+            else if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != "isoWall" && tileEntity != null)
             {
                 this.gridCell[xDif, yDif] = new Cell(true, tileEntity, currentVector, xDif, yDif);
 
@@ -175,13 +184,9 @@ public class BattleManager : MonoBehaviour
                 }
             }
             // If the tile IS an obstruction
-            else if (tilemap.GetTile(position).name == "isoWall1")
+            else // (obstaclesMap.HasTile(position) || tilemap.GetTile(position).name == "isoWall")
             {
                 this.gridCell[xDif, yDif] = new Cell(false, tileEntity, currentVector, xDif, yDif);
-            }
-            else
-            {
-                this.gridCell[xDif, yDif] = new Cell(false, null, new Vector3(0, 0, 0), xDif, yDif);
             }
         }
         //int count = 0;
@@ -253,16 +258,15 @@ public class BattleManager : MonoBehaviour
                 combatantList.RemoveAt(i);
         }
 
-        // Check for win conditions
         if (combatantList.Count == 0)
             Debug.Log("Lose");
-        else if (combatantList.Count == 1 && combatantList[0].entity != player)
+
+        if (combatantList[0].entity != player)
             Debug.Log("Lose");
-        else if (combatantList.Count == 1 && combatantList[0].entity == player)
+
+        if (combatantList.Count == 1)
             Debug.Log("Win");
-        else if (combatantList.Count == 2 && combatantList[0].entity != player)
-            Debug.Log("Lose");
-        else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
+        else if (combatantList.Count == 2 && combatantList[1].entity == companion)
             Debug.Log("Win");
     }
 
@@ -381,7 +385,7 @@ public class BattleManager : MonoBehaviour
     {
         int random;
 
-        foreach (GameObject i in locGrabber)
+        foreach (GameObject i in enemiesLoc)
         {
             availEnemyLoc.Add(i.transform.position);
         }
