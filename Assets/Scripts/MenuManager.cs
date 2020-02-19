@@ -14,7 +14,8 @@ public enum UIType
 {
 	None = -1,
     NewGame, Continue, Options, Exit, Back,
-	WizardClass, KnightClass, RogueClass, MonkClass
+	WizardClass, KnightClass, RogueClass, MonkClass,
+    MusicMute, EffectMute
 }
 
 public enum SliderType
@@ -33,6 +34,11 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
+        GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
+        // GameObject.Find("MusicMuter").GetComponent<Toggle>().value = this.gm.sm.getMusicMute();
+        // GameObject.Find("EffectMuter").GetComponent<Toggle>().value = this.gm.sm.getEffectMute();
     }
 
     // Update is called once per frame
@@ -65,6 +71,14 @@ public class MenuManager : MonoBehaviour
     			// ExitOptions();
     			ReturnToMainMenu();
     			break;
+            case UIType.MusicMute:
+                Debug.Log("Muting music!");
+                // this.gm.sm.setMusicMute(GameObject.Find("MusicMuter").GetComponent<Toggle>().value);
+                break;
+            case UIType.EffectMute:
+                Debug.Log("Muting effects!");
+                // this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().value);
+                break;
     		default:
     			Debug.Log("Clicked a button!"); break;
     	}
