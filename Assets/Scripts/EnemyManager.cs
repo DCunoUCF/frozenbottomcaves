@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+	private NPCManager myManager;
+
 	private List<CList> enemyList;
 	private List<CList> targetList;
+
+	//==========   Constructors   ==========//
+
+	public EnemyManager(NPCManager manager)
+	{
+		this.myManager = manager;
+	}
 
 	//==========   Unity Methods   ==========//
 
@@ -29,6 +38,7 @@ public class EnemyManager : MonoBehaviour
     	this.targetList = tList;
     }
 
+    // TODO
     public void makeDecisions()
     {
     	// foreach ENEMY in this.enemyList
@@ -40,11 +50,8 @@ public class EnemyManager : MonoBehaviour
     				// if (distance to POT_TARGET) < (distance to closestTarget)
     					// closestTarget = POT_TARGET
     			// choose move towards closestTarget or attack towards closestTarget
-    }
 
-   	// May be changed to CList type
-    public void removeEnemy(GameObject entity)
-    {
-
+    	// Export our list of decided peoples to the NPCManager
+    	this.myManager.importEnemyList(this.enemyList);
     }
 }

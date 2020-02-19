@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class CompanionManager : MonoBehaviour
 {
+	private NPCManager myManager;
+
 	private List<CList> companionList;
 	private List<CList> targetList;
+
+	//==========   Constructors   ==========//
+
+	public CompanionManager(NPCManager manager)
+	{
+		this.myManager = manager;
+	}
 
 	//==========   Unity Methods   ==========//
 
@@ -31,15 +40,13 @@ public class CompanionManager : MonoBehaviour
     	this.targetList = tList;
     }
 
+    // TODO
     public void makeDecisions()
     {
     	// See EnemyManager.makeDecisions() for more information on how this will
     	// be written.
-    }
 
-    // May be changed to CList type
-    public void removeCompanion(GameObject entity)
-    {
-
+    	// Export our list of decided peoples to the NPCManager
+    	this.myManager.importCompanionList(this.companionList);
     }
 }

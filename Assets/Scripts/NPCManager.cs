@@ -16,7 +16,7 @@ public class NPCManager : MonoBehaviour
 
 	//==========   Constructor   ==========//
 
-	NPCManager(BattleManager battle)
+	public NPCManager(BattleManager battle)
 	{
 		this.bm = battle;
 	}
@@ -28,23 +28,10 @@ public class NPCManager : MonoBehaviour
     void Start()
     {
     	// Instantiate our sub-managers
-        this.enemyM = new EnemyManager();
-        this.companionM = new CompanionManager();
+        this.enemyM = new EnemyManager(this);
+        this.companionM = new CompanionManager(this);
 
-        // Take list of combatants and split into two lists
-        this.combatantList = bm.combatantList;
-
-        	// FriendlyList
-        	this.friendlyList = new List<CList>();
-        	// foreach FRIENDLY in this.combatantList
-        		// this.friendlyList.Add(FRIENDLY)
-        	this.companionList = this.friendlyList;
-        	// this.companionList.Remove(PLAYER);
-
-        	// EnemyList
-        	this.enemyList = new List<CList>();
-        	// foreach ENEMY in this.combatantList
-        		// this.enemyList.Add(ENEMY)
+        this.updateLocalLists();
 
         // CompanionManager gets a list of all companions, and a list of all enemies
         this.companionM.setEntityLists(this.companionList, this.enemyList);
@@ -60,30 +47,84 @@ public class NPCManager : MonoBehaviour
 
     //==========   AI Methods   ==========//
 
+    private void updateLists()
+    {
+    	// Grab fresh copies of the lists from the BattleManager
+    	this.updateLocalLists();
+
+    	// Update manager lists to reflect fresh copies
+    	this.updateManagerLists();
+    }
+
+    // TODO
+    private void updateLocalLists()
+    {
+    	// Take list of combatants and split into two lists
+        this.combatantList = bm.combatantList;
+
+        	// FriendlyList
+        	this.friendlyList = new List<CList>();
+        	// foreach FRIENDLY in this.combatantList
+        		// this.friendlyList.Add(FRIENDLY)
+        	this.companionList = this.friendlyList;
+        	// this.companionList.Remove(PLAYER);
+
+        	// EnemyList
+        	this.enemyList = new List<CList>();
+        	// foreach ENEMY in this.combatantList
+        		// this.enemyList.Add(ENEMY)
+    }
+
+    public void importEnemyList(List<CList> eList)
+    {
+    	this.enemyList = eList;
+    }
+
+    public void importCompanionList(List<CList> cList)
+    {
+    	this.companionList = cList;
+    }
+
+    private void updateManagerLists()
+    {
+    	this.companionM.setEntityLists(this.companionList, this.enemyList);
+    	this.enemyM.setEntityLists(this.enemyList, this.friendlyList);
+    }
+
+    private void exportLists()
+    {
+    	this.exportEnemyList();
+    	this.exportCompanionList();
+    }
+
+    // TODO
+    private void exportEnemyList()
+    {
+    	// foreach ENEMY in this.enemyList
+    		// foreach CList in bm.combatantList
+    			// if ENEMY.id == CList.id
+    				// Copy over decisions to bm.combatantList
+    }
+
+    // TODO
+    private void exportCompanionList()
+    {
+    	// foreach COMPANION in this.companionList
+    		// foreach CList in bm.combatantList
+    			// if COMPANION.id == CList.id
+    				// Copy over decisions to bm.combatantList
+    }
+
     public void makeDecisions()
     {
-    	// HERE the lists will probably need to be updated, so that we're going off of the most
-    	// recent positions for CList members. This is for both managers.
+    	// Grab our fresh copies and update our managers
+    	this.updateLists();
 
+    	// Make the decisions
     	enemyM.makeDecisions();
     	companionM.makeDecisions();
 
-    	// Since the lists actually contain the GameObjects, we should be able to just change
-    	// the GameObject's state from inside these managers, so this should handle all the
-    	// decisions for us.
-    }
-
-   	// May need to change type to CList
-    public void removeEnemy(GameObject entity)
-    {
-    	// TODO: pass param along so that enemy manager knows who to delete
-    	enemyM.removeEnemy(entity);
-    }
-
-   	// May need to change type to CList
-    public void removeCompanion(GameObject entity)
-    {
-    	// TODO: pass param along so that companion manager knows who to delete
-    	companionM.removeCompanion(entity);
+    	// Update the correct CList peoples in the BattleManager
+    	this.exportLists();
     }
 }
