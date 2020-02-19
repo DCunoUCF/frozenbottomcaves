@@ -258,15 +258,12 @@ public class BattleManager : MonoBehaviour
                 combatantList.RemoveAt(i);
         }
 
-        if (combatantList.Count == 0)
+        if (combatantList.Count == 0 || combatantList[0].entity != player)
             Debug.Log("Lose");
 
-        if (combatantList[0].entity != player)
-            Debug.Log("Lose");
-
-        if (combatantList.Count == 1)
+        if (combatantList.Count == 1 && combatantList[0].entity == player)
             Debug.Log("Win");
-        else if (combatantList.Count == 2 && combatantList[1].entity == companion)
+        else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
             Debug.Log("Win");
     }
 
