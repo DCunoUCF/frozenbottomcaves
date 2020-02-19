@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using System.Drawing;
 
 public class PlayerClass : MonoBehaviour
@@ -84,20 +85,20 @@ public class PlayerClass : MonoBehaviour
             case 1:
                 foreach (Point tile in Knight.basicAttack)
                 {
-                    if (BattleManager.Instance.gridCell[x + tile.X, y + tile.Y] != null)
-                        if (BattleManager.Instance.gridCell[x + tile.X, y + tile.Y].pass)
+                    if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
+                        if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
                             highlights.Add((GameObject)Instantiate(attackHighlight,
-                                  BattleManager.Instance.gridCell[x + tile.X, y + tile.Y].center, Quaternion.identity));
+                                  BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
                 }
                 return highlights;
             case 2:
-                Debug.Log(transform.position.ToString("F2"));
+                //Debug.Log(transform.position.ToString("F2"));
                 foreach (Point tile in Knight.basicMove)
                 {
-                    if (BattleManager.Instance.gridCell[x + tile.X, y + tile.Y] != null)
-                        if (BattleManager.Instance.gridCell[x + tile.X, y + tile.Y].pass)
+                    if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
+                        if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
                             highlights.Add((GameObject)Instantiate(moveHighlight,
-                                  BattleManager.Instance.gridCell[x + tile.X, y + tile.Y].center, Quaternion.identity));
+                                  BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
                 }
                 return highlights;
         }

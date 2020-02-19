@@ -13,6 +13,11 @@ TagManager:
   - Knight
   - Monster
   - Companion
+  - SE
+  - SW
+  - NW
+  - NE
+  - Enemy
   - GM
   layers:
   - Default
