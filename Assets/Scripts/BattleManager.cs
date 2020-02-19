@@ -43,7 +43,7 @@ public class BattleManager : MonoBehaviour
 
         combatantList = new List<CList>();
         grid = GameObject.Find("ForestGrid"); // Overworld will set this
-        activeArena = GameObject.Find("Arena2"); // Overworld will set this
+        activeArena = GameObject.Find("Arena1"); // Overworld will set this
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
         entitiesList = new List<GameObject>();
@@ -109,9 +109,9 @@ public class BattleManager : MonoBehaviour
     {
         PlayerManager.Instance.x = playerX;
         PlayerManager.Instance.y = playerY;
-        //combatantList[0] = PlayerManager.Instance.combatInfo;
-        //combatantList[0].gridX = playerX;
-        //combatantList[0].gridY = playerY;
+        combatantList[0] = PlayerManager.Instance.combatInfo;
+        combatantList[0].gridX = playerX;
+        combatantList[0].gridY = playerY;
         PlayerManager.Instance.isTurn = true;
     }
 
@@ -136,7 +136,7 @@ public class BattleManager : MonoBehaviour
         BoundsInt bounds = tilemap.cellBounds;
 
         this.gridCell = new Cell[bounds.size.x + buffer, bounds.size.y + buffer]; // Added a buffer for upper edges of board
-        Debug.Log("bounds.size.x: " + (bounds.size.x + buffer) + "bounds.size.y" + (bounds.size.y + buffer));
+        //Debug.Log("bounds.size.x: " + (bounds.size.x + buffer) + "bounds.size.y" + (bounds.size.y + buffer));
 
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
@@ -190,14 +190,14 @@ public class BattleManager : MonoBehaviour
             }
         }
         //int count = 0;
-        for (int i = 0; i < bounds.size.x; i++)
-            for (int j = 0; j < bounds.size.y; j++)
-            {
-                if (this.gridCell[i, j].entity != null)
-                {
-                    Debug.Log("(" + i + "," + j + ") is a " + this.gridCell[i,j].entity);
-                }
-            }
+        //for (int i = 0; i < bounds.size.x; i++)
+        //    for (int j = 0; j < bounds.size.y; j++)
+        //    {
+        //        if (this.gridCell[i, j].entity != null)
+        //        {
+        //            Debug.Log("(" + i + "," + j + ") is a " + this.gridCell[i,j].entity);
+        //        }
+        //    }
         //Debug.Log("count: " + count);
     }
 
@@ -239,14 +239,38 @@ public class BattleManager : MonoBehaviour
                 popped = false;
             }
         }
-
-        // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
-        PlayerManager.Instance.isTurn = true;
     }
 
     void ResolveAttacks()
     {
+        CList curAtkTar;
+        int atkX, atkY, atkTarIndex;
 
+        // This is only complicated because attack target right now isn't just a relative position which would be easier to check on the gridCell
+        for (int i = 0; i < combatantList.Count; i++)
+        {
+            if (combatantList[i].attack < 0)
+                continue;
+
+            atkTarIndex = FindInCombatantList(GetEntity(combatantList[i].atkTar));
+
+            if (atkTarIndex < 0)
+                continue;
+
+            curAtkTar = combatantList[atkTarIndex];
+            atkX = curAtkTar.gridX;
+            atkY = curAtkTar.gridY;
+
+            if (gridCell[atkX, atkY].entity == null)
+                continue;
+
+            Debug.Log("Attacker:" + combatantList[i].entity + " Target:" + combatantList[atkTarIndex].entity + " HP was:" + combatantList[atkTarIndex].hp + " HP is now:" + (combatantList[atkTarIndex].hp - combatantList[i].attackDmg));
+            // Roll Dice / Incorporate entity stats
+            combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+
+            if (combatantList[atkTarIndex].entity == player)
+                PlayerManager.Instance.playerScript.health -= combatantList[i].attackDmg;
+        }
     }
 
     void WhoStillHasLimbs()
@@ -255,7 +279,10 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < combatantList.Count; i++)
         {
             if (combatantList[i].hp <= 0)
+            {
+                combatantList[i].entity.SetActive(false);
                 combatantList.RemoveAt(i);
+            }
         }
 
         if (combatantList.Count == 0 || combatantList[0].entity != player)
@@ -265,17 +292,20 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Win");
         else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
             Debug.Log("Win");
+
+        // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
+        PlayerManager.Instance.isTurn = true;
     }
 
     int FindInCombatantList(GameObject entity)
     {
-        for (int i = 1; i < this.combatantList.Count; i++) // SKIP PLAYER FOR NOW BECAUSE AWAKE METHOD ORDER AND PLAYERCLASS ORDER
+        for (int i = 0; i < this.combatantList.Count; i++)
         {
-            if (combatantList[i].entity == entity)
+            if (combatantList[i] != null && combatantList[i].entity == entity)
                 return i;
         }
 
-        Debug.AssertFormat(false, "Couldn't find in CombatantList"); // SKIPPING PLAYER IN LOOP ABOVE MAY CAUSE THIS
+        Debug.AssertFormat(false, "Couldn't find in CombatantList"); 
         return -1;
     }
 
@@ -288,7 +318,8 @@ public class BattleManager : MonoBehaviour
         dirX = entity.movTar.x - entity.entity.transform.localPosition.x;
         dirY = entity.movTar.y - entity.entity.transform.localPosition.y;
         GameObject sprite = entity.entity;
-        GameObject SE = sprite.transform.GetChild(0).gameObject, SW = sprite.transform.GetChild(1).gameObject, NW = sprite.transform.GetChild(2).gameObject, NE = sprite.transform.GetChild(3).gameObject;
+        GameObject SE = sprite.transform.GetChild(0).gameObject, SW = sprite.transform.GetChild(1).gameObject, 
+                   NW = sprite.transform.GetChild(2).gameObject, NE = sprite.transform.GetChild(3).gameObject;
         
         //Debug.Log("dirX: " + dirX + " dirY: " + dirY);
         //Debug.Log("moving from (" + entity.gridX + "," + entity.gridY + ")");
@@ -376,6 +407,20 @@ public class BattleManager : MonoBehaviour
     Vector3 ConvertVector(int x, int y)
     {
         return new Vector3((x * 0.5f) - (y * 0.5f), ((x + 1) * 0.25f) + (y * 0.25f), 0);
+    }
+
+    void PrintCList(CList c)
+    {
+        Debug.Log("entity: " + c.entity);
+        Debug.Log("gridX: " + c.gridX);
+        Debug.Log("gridY: " + c.gridY);
+        Debug.Log("move: " + c.move);
+        Debug.Log("movTar: " + c.movTar);
+        Debug.Log("atkTar: " + c.atkTar);
+        Debug.Log("dir: " + c.dir);
+        Debug.Log("attack: " + c.attack);
+        Debug.Log("attackDmg: " + c.attackDmg);
+        Debug.Log("hp: " + c.hp);
     }
 
     void RandomEnemyPos()
