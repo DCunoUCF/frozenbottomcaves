@@ -134,23 +134,47 @@ public class SoundManager : MonoBehaviour
 
     public void setMusicVolume(float vol)
     {
+        this.musicVolume = vol;
         this.musicChannel.volume = vol;
         Debug.Log("The music channel is now playing at "+this.musicChannel.volume);
     }
 
+    public float getMusicVolume()
+    {
+        return this.musicVolume;
+    }
+
     public void setEffectVolume(float vol)
     {
+        this.effectsVolume = vol;
         this.effectChannel.volume = vol;
+    }
+
+    public float getEffectVolume()
+    {
+        return this.effectsVolume;
     }
 
     public void setMusicMute(bool mute)
     {
+        this.musicMute = mute;
         this.musicChannel.mute = mute;
+    }
+
+    public bool getMusicMute()
+    {
+        return this.musicMute;
     }
 
     public void setEffectMute(bool mute)
     {
+        this.effectsMute = mute;
         this.effectChannel.mute = mute;
+    }
+
+    public bool getEffectMute()
+    {
+        return this.effectsMute;
     }
 
     public void setAudioChannels(AudioSource mc, AudioSource ec)
