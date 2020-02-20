@@ -111,9 +111,9 @@ public class PlayerClass : MonoBehaviour
         switch (key)
         {
             case 1:
-                return new int[] { 2, 1, 0 };
+                return new int[] { 5, 1, 0 };
             case 2:
-                return new int[] { 0, 0, 1 };
+                return new int[] { 0, -1, 1 };
         }
         return null;
     }

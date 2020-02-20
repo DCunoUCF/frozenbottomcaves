@@ -80,6 +80,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (isTurn)
         {
+            this.combatInfo = BattleManager.Instance.combatantList[0];
             // Read input and set combat info based off of what skill
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -126,6 +127,7 @@ public class PlayerManager : MonoBehaviour
         {
             this.selectedTile = pos;
             this.combatInfo.movTar = pos;
+            this.combatInfo.atkTar = pos;
             //Debug.Log(selectedTile.ToString("F2"));
             isTurn = false;
             clearHighlights();
