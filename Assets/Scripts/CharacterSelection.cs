@@ -14,6 +14,7 @@ public static class CharacterSelection
     {
         string path = "Assets/Resources/CharacterStats/";
         List<Point> ability1list = new List<Point>();
+        List<Point> ability2list = new List<Point>();
         path += filename;
         Debug.Log(path);
         StreamReader reader = new StreamReader(path);
@@ -23,6 +24,9 @@ public static class CharacterSelection
         int[] stats = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
         int[] ability1info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
         int[] ability1 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+        int[] ability2info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+        int[] ability2 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+
         Debug.Log((characterName));
         Debug.Log((charactertofind));
         Debug.Log((hp));
@@ -36,12 +40,16 @@ public static class CharacterSelection
         {
             ability1list.Add(new Point(ability1[i], ability1[i + 1]));
         }
+        for (int i = 0; i < ability2.Length; i += 2)
+        {
+            ability2list.Add(new Point(ability2[i], ability2[i + 1]));
+        }
         foreach (Point p in ability1list)
             Debug.Log(p);
 
         //Debug.Log((ability1));
         reader.Close();
 
-        return new PlayerClass(characterName, charactertofind, hp, stats, ability1info, ability1list);
+        return new PlayerClass(characterName, charactertofind, hp, stats, ability1info, ability1list, ability2info, ability2list);
     }
 }

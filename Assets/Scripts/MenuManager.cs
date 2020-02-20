@@ -100,13 +100,19 @@ public class MenuManager : MonoBehaviour
             case UIType.KnightClass:
                 Debug.Log("Selected Knight!");
                 gm.pm.playerScript = CharacterSelection.writeStats("Knight.txt");
+                //OpenDemoLevel();
+                //this.gm.sm.setBattleMusic();
+                //gm.pm.combatInitialized = true;
+                //gm.pm.inCombat = true;
+                OpenOverworld();
+                break;
+            case UIType.WizardClass:
                 OpenDemoLevel();
                 this.gm.sm.setBattleMusic();
                 gm.pm.combatInitialized = true;
                 gm.pm.inCombat = true;
-                // OpenOverworld();
                 break;
-    		default:
+            default:
     			Debug.Log("Clicked a button!"); break;
     	}
     }
