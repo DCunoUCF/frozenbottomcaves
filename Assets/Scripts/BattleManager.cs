@@ -28,6 +28,8 @@ public class BattleManager : MonoBehaviour
     private List<Vector3> availEnemyLoc;
     private List<Vector3> enemyLoc;
     private int numEnemies, numEnemyTypes;
+    private bool isResolved;
+    private bool didWeWin;
 
     void Awake()
 	{
@@ -47,6 +49,8 @@ public class BattleManager : MonoBehaviour
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
         entitiesList = new List<GameObject>();
         availEnemyLoc = new List<Vector3>();
+        isResolved = false;
+        didWeWin = false;
 
         // Deactivate all grids except for chosen grid
         for (int i = 0; i < gridDeactivate.Length; i++)
@@ -273,6 +277,16 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public bool isBattleResolved()
+    {
+        return this.isResolved;
+    }
+
+    public bool didWeWinTheBattle()
+    {
+        return this.didWeWin;
+    }
+
     void WhoStillHasLimbs()
     {
         // Pop all the entities with <= 0 HP
@@ -286,12 +300,24 @@ public class BattleManager : MonoBehaviour
         }
 
         if (combatantList.Count == 0 || combatantList[0].entity != player)
+        {
+            this.didWeWin = false;
+            this.isResolved = true;
             Debug.Log("Lose");
+        }
 
         if (combatantList.Count == 1 && combatantList[0].entity == player)
+        {
+            this.didWeWin = true;
+            this.isResolved = true;
             Debug.Log("Win");
+        }
         else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
+        {
+            this.didWeWin = true;
+            this.isResolved = true;
             Debug.Log("Win");
+        }
 
         // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
         PlayerManager.Instance.isTurn = true;

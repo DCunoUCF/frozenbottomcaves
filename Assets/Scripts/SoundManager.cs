@@ -10,6 +10,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class SoundManager : MonoBehaviour
 
 	public AudioSource musicChannel;
 	public AudioSource effectChannel;
+
+    private AudioClip winJingle;
+    private AudioClip loseJingle;
 
     //============   Constructors   ============//
 
@@ -90,6 +94,8 @@ public class SoundManager : MonoBehaviour
         // }
 
         // Find and load every sound effect into soundEffectQueue
+        this.winJingle = Resources.Load<AudioClip>("Sound/Effects/WinJelly");
+        this.loseJingle = Resources.Load<AudioClip>("Sound/Effects/LoseJelly");
 
         // Start playing music
         this.musicChannel.loop = false; // Default -> no 
@@ -131,6 +137,56 @@ public class SoundManager : MonoBehaviour
     }
 
     //=============   Music Track Methods   =============//
+
+    public void playWinJingle()
+    {
+        this.effectChannel.PlayOneShot(this.winJingle, this.effectsVolume);
+    }
+
+    public void playLoseJingle()
+    {
+        this.effectChannel.PlayOneShot(this.loseJingle, this.effectsVolume);
+    }
+
+    public void setBattleMusic()
+    {
+        FreeAllMusicTracks();
+
+        AddTrackToQueue("The_Great_Battle");
+
+        Debug.Log(this.musicQueue.ToString());
+    }
+
+    public void setForestMusic()
+    {
+        FreeAllMusicTracks();
+
+        AddTrackToQueue("Serenity");
+        AddTrackToQueue("Into_Oblivion");
+        AddTrackToQueue("Forest_of_the_Elves");
+    }
+
+    public void updateMusicList()
+    {
+        // Check for battleworld and switch music if we're there
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Battleworld":
+                FreeAllMusicTracks();
+
+                AddTrackToQueue("The_Great_Battle");
+
+                Debug.Log(this.musicQueue.ToString());
+                break;
+            default:
+                FreeAllMusicTracks();
+
+                AddTrackToQueue("Serenity");
+                AddTrackToQueue("Into_Oblivion");
+                AddTrackToQueue("Forest_of_the_Elves");
+                break;
+        }
+    }
 
     public void setMusicVolume(float vol)
     {
@@ -219,6 +275,7 @@ public class SoundManager : MonoBehaviour
     	else
     	{
     		// Debug.Log("Freshly loaded from assets!");
+
 	    	this.musicQueue.Enqueue(Resources.Load<AudioClip>("Sound/Music/"+trackName));
     	}
     }

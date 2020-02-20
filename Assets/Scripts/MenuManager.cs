@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public enum UIType
 {
 	None = -1,
-    NewGame, Continue, Options, Exit, Back,
+    NewGame, Continue, Options, Exit, Back, Return, Restart,
 	WizardClass, KnightClass, RogueClass, MonkClass,
     MusicMute, EffectMute
 }
@@ -35,10 +35,13 @@ public class MenuManager : MonoBehaviour
     {
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
-        GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
-        // GameObject.Find("MusicMuter").GetComponent<Toggle>().value = this.gm.sm.getMusicMute();
-        // GameObject.Find("EffectMuter").GetComponent<Toggle>().value = this.gm.sm.getEffectMute();
+        if (SceneManager.GetActiveScene().name == "OptionsMenu")
+        {
+            GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
+            GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
+            GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
+            GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
+        }
     }
 
     // Update is called once per frame
@@ -52,8 +55,10 @@ public class MenuManager : MonoBehaviour
     	switch (type)
     	{
     		case UIType.NewGame:
-    			Debug.Log("Clicked new game!");
-    			OpenCharacterSelect();
+    			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
+                OpenDemoLevel();
+                this.gm.sm.setBattleMusic();
+    			// OpenCharacterSelect();
     			break;
     		case UIType.Continue:
     			Debug.Log("Clicked continue!");
@@ -71,13 +76,26 @@ public class MenuManager : MonoBehaviour
     			// ExitOptions();
     			ReturnToMainMenu();
     			break;
+            case UIType.Return:
+                // TODO: change to Go back to Overworld
+            case UIType.Restart:
+                Debug.Log("Clicked return!");
+                this.gm.sm.setForestMusic();
+                ReturnToMainMenu();
+                break;
             case UIType.MusicMute:
                 Debug.Log("Muting music!");
-                // this.gm.sm.setMusicMute(GameObject.Find("MusicMuter").GetComponent<Toggle>().value);
+                if (this.gm != null)
+                {
+                    this.gm.sm.setMusicMute(GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn);
+                }
                 break;
             case UIType.EffectMute:
                 Debug.Log("Muting effects!");
-                // this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().value);
+                if (this.gm != null)
+                {
+                    this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn);
+                }
                 break;
     		default:
     			Debug.Log("Clicked a button!"); break;
@@ -89,16 +107,31 @@ public class MenuManager : MonoBehaviour
         switch (sliderType)
         {
             case SliderType.MusicLevel:
-                this.gm.sm.setMusicVolume(GameObject.Find("MusicSlider").GetComponent<Slider>().value);
-                Debug.Log("Set value of Music Channel!");
+                Slider ms = GameObject.Find("MusicSlider").GetComponent<Slider>();
+
+                if (ms != null && this.gm != null)
+                {
+                    this.gm.sm.setMusicVolume(ms.value);
+                    Debug.Log("Set value of Music Channel!");
+                }
                 break;
             case SliderType.EffectLevel:
-                this.gm.sm.setEffectVolume(GameObject.Find("EffectSlider").GetComponent<Slider>().value);
-                Debug.Log("Set value of Effect Channel!");
+                Slider es = GameObject.Find("EffectSlider").GetComponent<Slider>();
+
+                if (es != null && this.gm != null)
+                {
+                    this.gm.sm.setEffectVolume(es.value);
+                    Debug.Log("Set value of Effect Channel!");
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    void OpenDemoLevel()
+    {
+        SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
     }
 
     void OpenCharacterSelect()

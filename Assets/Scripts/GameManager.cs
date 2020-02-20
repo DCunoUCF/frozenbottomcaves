@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     private AudioSource gameEffectChannel;
     private int myId;
 
+    private string currentScene;
+    private bool panic;
+
     public int whatsMyId()
     {
         return this.myId;
@@ -23,6 +26,10 @@ public class GameManager : MonoBehaviour
     {
         // Can't create this from the start because it relies on objects in the Arena Scene
         // this.bm = this.gameObject.AddComponent<BattleManager>();
+        this.bm = null;
+        this.panic = false;
+        this.currentScene = SceneManager.GetActiveScene().name;
+
         this.sm = this.gameObject.AddComponent<SoundManager>();
 
         // this.sm.setAudioChannels(GameObject.Find("MusicChannel").GetComponent<AudioSource>(),
@@ -53,10 +60,57 @@ public class GameManager : MonoBehaviour
             this.gameMusicChannel = this.gameObject.AddComponent<AudioSource>();
             this.sm.setMusicChannel(this.gameMusicChannel);
         }
+        
         if (this.gameEffectChannel == null)
         {
             this.gameEffectChannel = this.gameObject.AddComponent<AudioSource>();
             this.sm.setEffectChannel(this.gameEffectChannel);
+        }
+
+        if (SceneManager.GetActiveScene().name != this.currentScene)
+        {
+            // this.sm.updateMusicList();
+            this.currentScene = SceneManager.GetActiveScene().name;
+            this.panic = false;
+        }
+
+        if (SceneManager.GetActiveScene().name == "Battleworld")
+        {
+            if (this.bm == null)
+            {
+                this.bm = GameObject.Find("BattleManager").GetComponent<BattleManager>();
+            }
+
+            if (this.bm != null)
+            {
+                if (this.bm.isBattleResolved())
+                {
+                    string splash;
+                    if (this.bm.didWeWinTheBattle())
+                        splash = "WinSplash";
+                    else
+                        splash = "LoseSplash";
+
+                    this.bm = null;
+
+                    if (!this.panic)
+                    {
+                        // Debug.Log("Ahhh! We're currently in scene "+ SceneManager.GetActiveScene().name);
+                        if (splash == "WinSplash")
+                        {
+                            this.sm.playWinJingle();
+                        }
+                        else
+                        {
+                            this.sm.playLoseJingle();
+                        }
+
+                        SceneManager.LoadScene(splash, LoadSceneMode.Additive);
+                        this.bm = null;
+                        this.panic = true;
+                    }
+                }
+            }
         }
     }
 }
