@@ -15,7 +15,6 @@ public class PlayerManager : MonoBehaviour
     public int x, y;
     public int movx = 0, movy = 0;
     public bool moved;
-    public CharacterSelection charSelect;
 
     public CList combatInfo;
 
@@ -40,17 +39,17 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         characterTag = "Player";
+
+        characterName = "TheWhiteKnight(Clone)";
         player = GameObject.Find(characterName);
         playerLoc = player.transform.position;
-        playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));
+        playerScript = (PlayerClass)player.GetComponent(typeof(PlayerClass));
         combatInfo = new CList(player);
         inCombat = true;
         isTurn = false;
         selectingSkill = true;
         moved = false;
         abilityinfo = new int[3];
-        charSelect.player = playerScript;
-        charSelect.writeStats(character);
     }
 
     void Update()
@@ -96,7 +95,7 @@ public class PlayerManager : MonoBehaviour
                 this.abilityinfo = playerScript.getInfo(2);
                 fillCombatInfo(abilityinfo);
             }
-            else if(Input.GetKeyDown(KeyCode.Escape))
+            else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 clearHighlights();
             }
@@ -104,7 +103,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void fillCombatInfo(int [] info)
+    public void fillCombatInfo(int[] info)
     {
         this.combatInfo.attackDmg = abilityinfo[0];
         this.combatInfo.attack = abilityinfo[1];
@@ -144,8 +143,8 @@ public class PlayerManager : MonoBehaviour
         int x, y;
         //Debug.Log((temp.x / .5f).ToString("F2"));
         //Debug.Log((temp.y / .25f).ToString("F2"));
-        x = (int) (temp.x / .5f);
-        y = (int) (temp.y / .25f);
+        x = (int)(temp.x / .5f);
+        y = (int)(temp.y / .25f);
         if (x == 0)
         {
             movx = 0;
@@ -168,7 +167,8 @@ public class PlayerManager : MonoBehaviour
                 movx = 0;
                 movy = y;
             }
-        }else if (x < 0)
+        }
+        else if (x < 0)
         {
             if (y > 0)
             {

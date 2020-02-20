@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public enum Biome : short
 {
-	NOTHING = -1, FOREST, CAVE, ICECAVE, CASTLE, BOSS
+    NOTHING = -1, FOREST, CAVE, ICECAVE, CASTLE, BOSS
 };
 
 public class BattleManager : MonoBehaviour
@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
     private bool didWeWin;
 
     void Awake()
-	{
+    {
         if (Instance == null)
         {
             Instance = this;
@@ -45,6 +45,7 @@ public class BattleManager : MonoBehaviour
 
         combatantList = new List<CList>();
         grid = GameObject.Find("ForestGrid"); // Overworld will set this
+        activeArena = GameObject.Find("Arena1"); // Overworld will set this
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
         entitiesList = new List<GameObject>();
@@ -91,7 +92,7 @@ public class BattleManager : MonoBehaviour
             enemyType.Add(GameObject.Find("goblin"));
         }
 
-        // Chooses random spawners for the enemy entities to spawn at
+        // Chooses random spawners for the enemy entities to spawn at        
         RandomEnemyPos();
 
         // Instantiate Enemies
@@ -344,6 +345,9 @@ public class BattleManager : MonoBehaviour
         dirX = entity.movTar.x - entity.entity.transform.localPosition.x;
         dirY = entity.movTar.y - entity.entity.transform.localPosition.y;
         GameObject sprite = entity.entity;
+        GameObject SE = sprite.transform.GetChild(0).gameObject, SW = sprite.transform.GetChild(1).gameObject,
+                   NW = sprite.transform.GetChild(2).gameObject, NE = sprite.transform.GetChild(3).gameObject;
+
         //Debug.Log("dirX: " + dirX + " dirY: " + dirY);
         //Debug.Log("moving from (" + entity.gridX + "," + entity.gridY + ")");
 
@@ -455,9 +459,9 @@ public class BattleManager : MonoBehaviour
             availEnemyLoc.Add(i.transform.position);
         }
 
-        for(int i = 0; i < numEnemies; i++)
+        for (int i = 0; i < numEnemies; i++)
         {
-            random = (int) Random.Range(0, availEnemyLoc.Count-1);
+            random = (int)Random.Range(0, availEnemyLoc.Count - 1);
             enemyLoc.Add(availEnemyLoc[random]);
             availEnemyLoc.RemoveAt(random);
         }

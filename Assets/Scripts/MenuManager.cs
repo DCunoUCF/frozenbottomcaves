@@ -56,9 +56,9 @@ public class MenuManager : MonoBehaviour
     	{
     		case UIType.NewGame:
     			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
-                OpenDemoLevel();
-                this.gm.sm.setBattleMusic();
-    			// OpenCharacterSelect();
+               // OpenDemoLevel();
+               // this.gm.sm.setBattleMusic();
+    		    OpenCharacterSelect();
     			break;
     		case UIType.Continue:
     			Debug.Log("Clicked continue!");
@@ -96,6 +96,10 @@ public class MenuManager : MonoBehaviour
                 {
                     this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn);
                 }
+                break;
+            case UIType.KnightClass:
+                Debug.Log("Selected Knight!");
+                CharacterSelection.writeStats("Knight.txt");
                 break;
     		default:
     			Debug.Log("Clicked a button!"); break;

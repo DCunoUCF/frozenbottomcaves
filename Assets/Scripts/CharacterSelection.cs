@@ -5,26 +5,41 @@ using System.IO;
 using System.Drawing;
 using System;
 
-public class CharacterSelection : MonoBehaviour
+public static class CharacterSelection
 {
-    public PlayerClass player;
-    private string path = "Assets/Resources/CharacterStats/";
+    //public PlayerClass player;
+    //private string path = "Assets/Resources/CharacterStats/";
 
-    public void writeStats(string filename)
+    public static void writeStats(string filename)
     {
+        string path = "Assets/Resources/CharacterStats/";
+        List<Point> ability1list = new List<Point>();
         path += filename;
-        print(path);
+        Debug.Log(path);
         StreamReader reader = new StreamReader(path);
-        for (int i = 0; i < 4; i++)
-            print(reader.ReadLine());
+        string characterName = reader.ReadLine();
         string charactertofind = reader.ReadLine();
         int hp = int.Parse(reader.ReadLine());
         int[] stats = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+        int[] ability1info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
         int[] ability1 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
-        print(charactertofind);
-        print(hp);
-        print(stats);
-        print(ability1);
+        Debug.Log((characterName));
+        Debug.Log((charactertofind));
+        Debug.Log((hp));
+        Debug.Log((stats));
+        for (int i = 0; i < stats.Length; i++)
+            Debug.Log(stats[i]);
+        for (int i = 0; i < ability1info.Length; i++)
+            Debug.Log(ability1info[i]);
+
+        for (int i = 0; i < ability1.Length; i+=2)
+        {
+            ability1list.Add(new Point(ability1[i], ability1[i + 1]));
+        }
+        foreach (Point p in ability1list)
+            Debug.Log(p);
+
+        //Debug.Log((ability1));
         reader.Close();
     }
 }
