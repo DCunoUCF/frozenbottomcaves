@@ -44,7 +44,11 @@ public class BattleManager : MonoBehaviour
 
         combatantList = new List<CList>();
         grid = GameObject.Find("ForestGrid"); // Overworld will set this
+<<<<<<< Updated upstream
         activeArena = GameObject.Find("Arena4"); // Overworld will set this
+=======
+        activeArena = GameObject.Find("Arena1"); // Overworld will set this
+>>>>>>> Stashed changes
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
         playerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;

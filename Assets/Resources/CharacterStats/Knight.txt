@@ -1,0 +1,4 @@
+TheWhiteKnight(Clone)
+20
+10 10 10
+1 0 -1 0 0 1 0 -1

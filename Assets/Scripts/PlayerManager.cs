@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public int x, y;
     public int movx = 0, movy = 0;
     public bool moved;
+    public CharacterSelection charSelect;
 
     public CList combatInfo;
 
@@ -39,8 +40,13 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         characterTag = "Player";
+<<<<<<< Updated upstream
 
         characterName = "TheWhiteKnight1(Clone)";
+=======
+        string character = "Knight.txt";
+        characterName = "TheWhiteKnight(Clone)";
+>>>>>>> Stashed changes
         player = GameObject.Find(characterName);
         playerLoc = player.transform.position;
         playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));
@@ -50,6 +56,8 @@ public class PlayerManager : MonoBehaviour
         selectingSkill = true;
         moved = false;
         abilityinfo = new int[3];
+        charSelect.player = playerScript;
+        charSelect.writeStats(character);
     }
 
     void Update()
