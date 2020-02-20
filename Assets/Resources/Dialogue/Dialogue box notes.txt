@@ -29,9 +29,9 @@ For example...
 
 Take the font. Add a buffer of magic number 4. This is the magicHeight of lines.
 
-Take the font again. Divide it by 2. Subtract a buffer of magic number 2. This is the magicWidth of each char.
+Take the font again. Divide it by 2. Subtract a buffer of magic number 2. This is the charWidth of each char.
 
-Take the DiaBoxWidth. Divide it by the magicWidth. This is the magicCharsPerLine.
+Take the DiaBoxWidth. Divide it by the charWidth. This is the magicCharsPerLine.
 
 Take the numChars in the text. Divide it by the magicCharsPerLine and find the Ceiling. This is the numLines there will be.  
 

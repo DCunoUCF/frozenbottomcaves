@@ -48,6 +48,13 @@ public class DialogueManager : MonoBehaviour
             Choices[i].gameObject.SetActive(true);
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
+
+        DialogueSizer();
+    }
+
+    private void Update()
+    {
+        DialogueSizer();
     }
 
     // Run if user clicks first choice
@@ -156,5 +163,24 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+    }
+
+    private void DialogueSizer()
+    {
+        Rect panelRect = Panel.GetComponent<RectTransform>().rect;
+        RectTransform dialogueRect = TextBox.GetComponent<RectTransform>();
+        int numChars = TextBox.GetComponent<Text>().text.Length;
+        int fontSize = TextBox.GetComponent<Text>().fontSize;
+        float charHeight = fontSize + 2;
+        float charWidth = (fontSize / 2) + 1;
+        int magicCharsPerLine = Mathf.CeilToInt((float)dialogueRect.rect.width / (float)charWidth);
+        int numLines = Mathf.CeilToInt((float)numChars / (float)magicCharsPerLine);
+        Debug.Log("Previous dialogue box height: " + dialogueRect.rect.height);
+        dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
+
+        Debug.Log("dialogueRect.rect.width:" + dialogueRect.rect.width + " charWidth:" + charWidth);
+        Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + magicCharsPerLine);
+        Debug.Log("numLines:" + numLines + " charHeight:" + charHeight);
+        Debug.Log("Setting dialogue box height: " + dialogueRect.rect.height);
     }
 }
