@@ -35,10 +35,13 @@ public class MenuManager : MonoBehaviour
     {
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
-        GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
-        // GameObject.Find("MusicMuter").GetComponent<Toggle>().value = this.gm.sm.getMusicMute();
-        // GameObject.Find("EffectMuter").GetComponent<Toggle>().value = this.gm.sm.getEffectMute();
+        if (SceneManager.GetActiveScene().name == "OptionsMenu")
+        {
+            GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
+            GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
+            GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
+            GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
+        }
     }
 
     // Update is called once per frame
@@ -73,11 +76,17 @@ public class MenuManager : MonoBehaviour
     			break;
             case UIType.MusicMute:
                 Debug.Log("Muting music!");
-                // this.gm.sm.setMusicMute(GameObject.Find("MusicMuter").GetComponent<Toggle>().value);
+                if (this.gm != null)
+                {
+                    this.gm.sm.setMusicMute(GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn);
+                }
                 break;
             case UIType.EffectMute:
                 Debug.Log("Muting effects!");
-                // this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().value);
+                if (this.gm != null)
+                {
+                    this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn);
+                }
                 break;
     		default:
     			Debug.Log("Clicked a button!"); break;
@@ -89,12 +98,22 @@ public class MenuManager : MonoBehaviour
         switch (sliderType)
         {
             case SliderType.MusicLevel:
-                this.gm.sm.setMusicVolume(GameObject.Find("MusicSlider").GetComponent<Slider>().value);
-                Debug.Log("Set value of Music Channel!");
+                Slider ms = GameObject.Find("MusicSlider").GetComponent<Slider>();
+
+                if (ms != null && this.gm != null)
+                {
+                    this.gm.sm.setMusicVolume(ms.value);
+                    Debug.Log("Set value of Music Channel!");
+                }
                 break;
             case SliderType.EffectLevel:
-                this.gm.sm.setEffectVolume(GameObject.Find("EffectSlider").GetComponent<Slider>().value);
-                Debug.Log("Set value of Effect Channel!");
+                Slider es = GameObject.Find("EffectSlider").GetComponent<Slider>();
+
+                if (es != null && this.gm != null)
+                {
+                    this.gm.sm.setEffectVolume(es.value);
+                    Debug.Log("Set value of Effect Channel!");
+                }
                 break;
             default:
                 break;
