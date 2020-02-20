@@ -57,6 +57,7 @@ public class MenuManager : MonoBehaviour
     		case UIType.NewGame:
     			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
                 OpenDemoLevel();
+                this.gm.sm.setBattleMusic();
     			// OpenCharacterSelect();
     			break;
     		case UIType.Continue:
@@ -79,6 +80,7 @@ public class MenuManager : MonoBehaviour
                 // TODO: change to Go back to Overworld
             case UIType.Restart:
                 Debug.Log("Clicked return!");
+                this.gm.sm.setForestMusic();
                 ReturnToMainMenu();
                 break;
             case UIType.MusicMute:

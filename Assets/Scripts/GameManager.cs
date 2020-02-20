@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name != this.currentScene)
         {
-            this.sm.updateMusicList();
+            // this.sm.updateMusicList();
             this.currentScene = SceneManager.GetActiveScene().name;
             this.panic = false;
         }
@@ -95,7 +95,16 @@ public class GameManager : MonoBehaviour
 
                     if (!this.panic)
                     {
-                        Debug.Log("Ahhh! We're currently in scene "+ SceneManager.GetActiveScene().name);
+                        // Debug.Log("Ahhh! We're currently in scene "+ SceneManager.GetActiveScene().name);
+                        if (splash == "WinSplash")
+                        {
+                            this.sm.playWinJingle();
+                        }
+                        else
+                        {
+                            this.sm.playLoseJingle();
+                        }
+
                         SceneManager.LoadScene(splash, LoadSceneMode.Additive);
                         this.bm = null;
                         this.panic = true;
