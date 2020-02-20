@@ -29,8 +29,8 @@ text: "Puddles are the least of my concern. I must continue!"
 destId:4
 
 nodeId : 4
-text : "You step into the puddle with confidence and full stride.""
-options : 1
+text : "You step into the puddle with confidence and full stride."
+options : 2
 text : "Find your balance! Agility Save Roll"
 destId:5
 text : "FAIL to Find your balance! Agility Save Roll"
@@ -50,7 +50,7 @@ destId:7
 
 nodeId : 7
 text : "As you move forward, you begin hearing "
-options: 1
+options: 2
 text: "Gross! I shall tear you apart with my gloved hands! Battle!"
 destId:8
 text: "Gross! I shall tear you apart with my gloved hands! Battle and LOSE!"
@@ -68,72 +68,8 @@ options: 1
 text: "Gross!"
 destId:-1
 
-nodeId : 10
-text : "The brush comes close, scraping agains"
-options: 2
-text: "I fear no rustling! Have at you!"
-destId:11
-text: "Rustling, schmustling, I need to keep moving!"
-destId:12
-
-nodeId : 11
-text : "You kick the bush angrily, and he"
+nodeId: 10
+text: "Dead end"
 options: 1
-text: "Amazing! I should attack rustlings more often."
-destId:13
-
-nodeId : 12
-text : "Moving along the bushes, you hear more"
-options: 1
-text: "These cursed bushes keep making noise, how annoying!"
-destId:17
-
-nodeId : 13
-text : "Moving along the bushes, you hear more rus"
-options: 2
-text: "More small goblins to kick! Have at you!"
-destId:14
-text: "These cursed bushes keep making noise, how annoying!"
-destId:16
-
-nodeId : 14
-text : "You kick the bush with all of your might.""
-options: 1
-text: "Incredible! I could make this a sport."
-destId:15
-
-nodeId : 15
-text : "A goblin jumps out of the bush ahead of"
-options: 2
-text: "I shall never stop! Battle!"
-destId:18
-text: "I shall never stop! Battle and LOSE!"
-destId:19
-
-nodeId : 16
-text : "You try to continue along the path, but two "
-options: 1
-text: "A fist-fight! I love it! Battle!"
-destId:18
-text: "A fist-fight! I love it! Battle and LOSE!"
-destId:19
-
-nodeId : 17
-text : "You try to continue along the path, but three goblins"
-options: 1
-text: "O-ho! Stop me if you can! Battle!"
-destId:18
-text: "O-ho! Stop me if you can! Battle and LOSE!"
-destId:19
-
-nodeId : 18
-text : "You win the melee with relative ease! The rest of your journey awaits..."
-options: 1
-text: "VICTORY!"
-destId:-1
-
-nodeId : 19
-text : "As quickly as it began, your journey has ended after all..."
-options: 1
-text: "FAILURE!"
-destId:-1
+text: "Exit"
+destId: -1
