@@ -27,7 +27,7 @@ public class DialogueManager : MonoBehaviour
         Program p = new Program();
 
         // Loads the file
-        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorialoneliners.txt");
+        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial.txt");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);
@@ -36,6 +36,11 @@ public class DialogueManager : MonoBehaviour
 
         // Dialogue text
         TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
+        for(int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
 
         // Dialogue Choices
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
