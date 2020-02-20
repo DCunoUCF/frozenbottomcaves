@@ -101,19 +101,24 @@ public class BattleManager : MonoBehaviour
             enemies.Add(GameObject.Instantiate(enemyType[0], enemyLoc[i], Quaternion.identity)); // Overworld will set the enemy types
             entitiesList.Add(enemies[i]);
         }
-
+        PlayerManager.Instance.inCombat = true;
+        PlayerManager.Instance.combatInitialized = true;
         // Fill CombatantList with entities that were just instantiated
         FillCombatantList();
 
         // Creating the Grid
         CreateGrid();
+
+        
     }
 
     private void Start()
     {
+        //PlayerManager.Instance.inCombat = true;
+        //PlayerManager.Instance.combatInitialized = true;
         PlayerManager.Instance.x = playerX;
         PlayerManager.Instance.y = playerY;
-        combatantList[0] = PlayerManager.Instance.combatInfo;
+        // combatantList[0] = PlayerManager.Instance.combatInfo;
         combatantList[0].gridX = playerX;
         combatantList[0].gridY = playerY;
         PlayerManager.Instance.isTurn = true;
@@ -423,6 +428,7 @@ public class BattleManager : MonoBehaviour
     void FillCombatantList()
     {
         combatantList.Add(PlayerManager.Instance.combatInfo);
+        Debug.Log(combatantList[0].entity);
         combatantList.Add(new CList(companion));
 
         for (int i = 0; i < numEnemies; i++)

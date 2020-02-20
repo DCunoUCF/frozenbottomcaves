@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 	public BattleManager bm;
     public OverworldManager om;
     public SoundManager sm;
+    public PlayerManager pm;
 
     private AudioSource gameMusicChannel;
     private AudioSource gameEffectChannel;
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
         this.currentScene = SceneManager.GetActiveScene().name;
 
         this.sm = this.gameObject.AddComponent<SoundManager>();
+        this.om = this.gameObject.AddComponent<OverworldManager>();
+        this.pm = this.gameObject.AddComponent<PlayerManager>();
 
         // this.sm.setAudioChannels(GameObject.Find("MusicChannel").GetComponent<AudioSource>(),
                                  // GameObject.Find("EffectChannel").GetComponent<AudioSource>());

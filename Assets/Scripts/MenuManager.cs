@@ -99,7 +99,12 @@ public class MenuManager : MonoBehaviour
                 break;
             case UIType.KnightClass:
                 Debug.Log("Selected Knight!");
-                CharacterSelection.writeStats("Knight.txt");
+                gm.pm.playerScript = CharacterSelection.writeStats("Knight.txt");
+                OpenDemoLevel();
+                this.gm.sm.setBattleMusic();
+                gm.pm.combatInitialized = true;
+                gm.pm.inCombat = true;
+                // OpenOverworld();
                 break;
     		default:
     			Debug.Log("Clicked a button!"); break;
@@ -136,6 +141,11 @@ public class MenuManager : MonoBehaviour
     void OpenDemoLevel()
     {
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
+    }
+
+    void OpenOverworld()
+    {
+        SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
     }
 
     void OpenCharacterSelect()

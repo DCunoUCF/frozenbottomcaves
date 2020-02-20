@@ -1,5 +1,5 @@
-TheWhiteKnight
-TheWhiteKnight(Clone)
+TheWhiteKnight1
+TheWhiteKnight1(Clone)
 20
 10 10 10
 0 -1 1

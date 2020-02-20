@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager Instance { get; private set; }
+    public static PlayerManager Instance { get; set; }
+    [SerializeField]
     public PlayerClass playerScript;
     public string characterName;
-    public string characterTag;
+    public string characterNameClone;
+    public string characterTag = "Player";
     public GameObject player;
     public Vector3 playerLoc, selectedTile;
     public bool inCombat, isTurn, selectingSkill;
@@ -15,7 +17,11 @@ public class PlayerManager : MonoBehaviour
     public int x, y;
     public int movx = 0, movy = 0;
     public bool moved;
+    private GameManager gm;
 
+    public bool characterSelected;
+
+    public bool combatInitialized;
     public CList combatInfo;
 
     // int array with {type, dmg, move}
@@ -33,32 +39,38 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        characterTag = "Player";
+        //characterName = "TheWhiteKnight";
+        //characterNameClone = "TheWhiteKnight(Clone)";
+        //player = GameObject.Find(characterName);
+        //playerLoc = player.transform.position;
+        //playerScript = (PlayerClass)player.GetComponent(typeof(PlayerClass));
+        //combatInfo = new CList(player);
 
-        characterName = "TheWhiteKnight(Clone)";
-        player = GameObject.Find(characterName);
-        playerLoc = player.transform.position;
-        playerScript = (PlayerClass)player.GetComponent(typeof(PlayerClass));
-        combatInfo = new CList(player);
-        inCombat = true;
+
+        inCombat = false;
+        combatInitialized = false;
         isTurn = false;
         selectingSkill = true;
         moved = false;
         abilityinfo = new int[3];
+        characterSelected = false;
     }
 
     void Update()
     {
-        if (!inCombat)
+        if (!inCombat && characterSelected)
         {
-            // do overworld stuff
+            print(characterName);
+            player = GameObject.Find(characterNameClone);
+            print(player.transform.position);
         }
-        else
+        else if(inCombat)// We fightin now bois
         {
             if (moved)
             {
@@ -69,9 +81,26 @@ public class PlayerManager : MonoBehaviour
                 moved = false;
             }
 
+            // Combat is flagged, find character and create init Clist entry
+            if (!combatInitialized)
+            {
+                player = GameObject.Find(characterNameClone);
+                playerLoc = player.transform.position;
+                print(playerLoc);
+                combatInfo = new CList(player);
+                combatInitialized = true;
+            }
+
             // Player can select what ability/move to use
             playerTurnCombat();
         }
+    }
+
+    public void initPM()
+    {
+        characterName = playerScript.name;
+        characterNameClone = playerScript.clonename;
+        characterSelected = true;
     }
 
     // Player turn -> select ability -> select tile -> turn end

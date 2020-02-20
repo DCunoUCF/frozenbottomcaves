@@ -4,44 +4,33 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Drawing;
 
-public class PlayerClass : MonoBehaviour
+public class PlayerClass
 {
-    public static PlayerClass Playerinstance { get; set; }
-    public int health = 15;
-    private int baseAttack;
+    //public static PlayerClass Playerinstance { get; set; }
+    public int health;
     public int lives = 3;
-    
+
+    public string name;
+    public string clonename;
+
     public List<string> inventory = null;
     public GameObject attackHighlight;
     public GameObject moveHighlight;
     public List<GameObject> highlights;
-    public int[] info;
 
+    public int[] attributes;
+    public int[] skill1info;
+    public List<Point> skill1;
 
-    // Keep only one instance alive through scenes
-    private void awake()
+    public PlayerClass(string n, string cn, int hp, int[] atr, int[] sk1inf, List<Point> sk1)
     {
-        if (Playerinstance == null)
-        {
-            Playerinstance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        this.name = n;
+        this.clonename = cn;
+        this.health = hp;
+        this.attributes = atr;
+        this.skill1info = sk1inf;
+        this.skill1 = sk1;
     }
-
-    public void start()
-    {
-
-    }
-
-    public void update()
-    {
-
-    }
-
 
     public void setHealth(int hp)
     {
@@ -50,11 +39,6 @@ public class PlayerClass : MonoBehaviour
     public int getHealth()
     {
         return health;
-    }
-
-    public void changeAttack(int modifier)
-    {
-        baseAttack = modifier;
     }
 
     public void loselife()
@@ -87,17 +71,17 @@ public class PlayerClass : MonoBehaviour
                 {
                     if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
                         if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
-                            highlights.Add((GameObject)Instantiate(attackHighlight,
+                            highlights.Add(GameObject.Instantiate(attackHighlight,
                                   BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
                 }
                 return highlights;
             case 2:
                 //Debug.Log(transform.position.ToString("F2"));
-                foreach (Point tile in Knight.basicMove)
+                foreach (Point tile in skill1)
                 {
                     if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
                         if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
-                            highlights.Add((GameObject)Instantiate(moveHighlight,
+                            highlights.Add(GameObject.Instantiate(moveHighlight,
                                   BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
                 }
                 return highlights;
@@ -113,7 +97,7 @@ public class PlayerClass : MonoBehaviour
             case 1:
                 return new int[] { 5, 1, 0 };
             case 2:
-                return new int[] { 0, -1, 1 };
+                return skill1info;
         }
         return null;
     }

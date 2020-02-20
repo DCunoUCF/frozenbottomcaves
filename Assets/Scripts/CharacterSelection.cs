@@ -10,7 +10,7 @@ public static class CharacterSelection
     //public PlayerClass player;
     //private string path = "Assets/Resources/CharacterStats/";
 
-    public static void writeStats(string filename)
+    public static PlayerClass writeStats(string filename)
     {
         string path = "Assets/Resources/CharacterStats/";
         List<Point> ability1list = new List<Point>();
@@ -41,5 +41,7 @@ public static class CharacterSelection
 
         //Debug.Log((ability1));
         reader.Close();
+
+        return new PlayerClass(characterName, charactertofind, hp, stats, ability1info, ability1list);
     }
 }
