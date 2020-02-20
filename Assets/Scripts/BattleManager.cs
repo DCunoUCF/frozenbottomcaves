@@ -135,6 +135,7 @@ public class BattleManager : MonoBehaviour
         int clidx, xDif, yDif, buffer = 5;
         Vector3 currentVector;
         GameObject tileEntity;
+        string wall = "wall";
         Tilemap tilemap = activeArena.GetComponent<Tilemap>();
         Tilemap obstaclesMap = tilemap.transform.GetChild(0).GetComponent<Tilemap>();
         BoundsInt bounds = tilemap.cellBounds;
@@ -165,12 +166,12 @@ public class BattleManager : MonoBehaviour
             tileEntity = GetEntity(currentVector);
 
             // If the tile is NOT an obstruction and there is no entity
-            if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != "isoWall" && tileEntity == null)
+            if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != wall && tileEntity == null)
             {
                 this.gridCell[xDif, yDif] = new Cell(true, tileEntity, currentVector, xDif, yDif);
             }
             // If the tile is NOT an obstruction and there is an entity
-            else if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != "isoWall" && tileEntity != null)
+            else if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != wall && tileEntity != null)
             {
                 this.gridCell[xDif, yDif] = new Cell(true, tileEntity, currentVector, xDif, yDif);
 
