@@ -40,13 +40,6 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         characterTag = "Player";
-<<<<<<< Updated upstream
-
-        characterName = "TheWhiteKnight1(Clone)";
-=======
-        string character = "Knight.txt";
-        characterName = "TheWhiteKnight(Clone)";
->>>>>>> Stashed changes
         player = GameObject.Find(characterName);
         playerLoc = player.transform.position;
         playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));
