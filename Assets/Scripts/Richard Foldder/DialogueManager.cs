@@ -37,6 +37,11 @@ public class DialogueManager : MonoBehaviour
         // Dialogue text
         TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
 
+        for(int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
+
         // Dialogue Choices
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
