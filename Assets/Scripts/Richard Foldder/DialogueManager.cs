@@ -27,7 +27,7 @@ public class DialogueManager : MonoBehaviour
         Program p = new Program();
 
         // Loads the file
-        dialogue = p.LoadFile("./Assets/Scripts/Richard Foldder/sample.txt");
+        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorialoneliners.txt");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);

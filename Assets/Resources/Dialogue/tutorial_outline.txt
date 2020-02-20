@@ -4,84 +4,92 @@ Setting - Forest
 
 Enemies - Slime, Goblin
 
-1 - You are Sir Rancelot, the Knight of Rockside Castle. You find yourself in a dark and gloomy forest. You hold a scroll given to you by the Wizard of Rockside, Welbo. The scroll tells of an evil warrior dubbed "The Warrior of Frozenbottom Caves." He is growing in strength deep within the wilds. You are here to stop him at all costs!
+0 - You are Sir Rancelot, the Knight of Rockside Castle. You find yourself in a dark and gloomy forest. You hold a scroll given to you by the Wizard of Rockside, Welbo. The scroll tells of an evil warrior dubbed "The Warrior of Frozenbottom Caves." He is growing in strength deep within the wilds. You are here to stop him at all costs!
 
-"I must stop him at all costs! Onward!" (Continue) -> 2
+"I must stop him at all costs! Onward!" (Continue) -> 1
 
-2 - You find yourself on a dirt path. Trees hang over you, casting shadows across the forest. 
+1 - You find yourself on a dirt path. Trees hang over you, casting shadows across the forest. 
 
-"Your shadows don't scare me, tall trees!" Move deeper into the forest. -> 3
+"Your shadows don't scare me, tall trees!" Move deeper into the forest. -> 2
 
-3 - You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
+2 - You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
 
-"The trees to the left look promising!" (Left) -> 4
-"Some bushes! What fun! Just like the castle gardens!" (Right) -> 11
+"The trees to the left look promising!" (Left) -> 3
+"Some bushes! What fun! Just like the castle gardens!" (Right) -> 10
 
-4 - As you move through the trees you turn your head at every creak of a branch. You come to a stop. A puddle crosses the entire path, blocking your way.
+3 - As you move through the trees you turn your head at every creak of a branch. You come to a stop. A puddle crosses the entire path, blocking your way.
 
-"Puddles are the least of my concern. I must continue!" -> 5
+"Puddles are the least of my concern. I must continue!" -> 4
 
-5 - You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance! -> Roll dice (50% chance for save) Save -> 6 Fail -> 7
+4 - You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance! 
 
-6 - You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path! 
+Roll dice (50% chance for save) 
+Save -> 5 
+Fail -> 6
 
-"And he sticks the landing, amazing!" Continue in style. -> 8
+5 - You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path! 
 
-7 - (-2 Health) You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part. 
+"And he sticks the landing, amazing!" Continue in style. -> 7
 
-"..." Trudge along. -> 8
+6 - (-2 Health) You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part. 
 
-8 - As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
+"..." Trudge along. -> 7
 
-"Gross! I shall tear you apart with my gloved hands!" (Battle!) Win -> 9 Lose -> 10
+7 - As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
 
-9 - Covered in slime and victory, you emerge from the fray! "Huzzah! Though I need a bath now..."
+"Gross! I shall tear you apart with my gloved hands!" (Battle!) Win -> 8 Lose -> 9
 
-10 - The slimes overtake you and you drown in their muck! Gross!
+8 - Covered in slime and victory, you emerge from the fray! 
+
+"Huzzah! Though I need a bath now..." -> -1 (Exit)
+
+9 - The slimes overtake you and you drown in their muck! Gross!
 
 ----------------
 End of Left Path
 ----------------
 
-11 - The brush comes close, scraping against your armor. A rustling in the bushes startles you!
+10 - The brush comes close, scraping against your armor. The sound is grating. Suddenly, a rustling in the bushes startles you!
 
-"I fear no rustling! Have at you!" -> 12
-"Rustling, schmustling, I need to keep moving!" -> 13
+"I fear no rustling! Have at you!" -> 11
+"Rustling, schmustling, I need to keep moving!" -> 12
 
-12 - You kick the bush angrily, and hear a small yelp followed by a thud. A tiny goblin scout falls from the bush, dead.
+11 - You kick the bush angrily, and hear a small yelp followed by a thud. A tiny goblin scout falls from the bush, dead.
 
-"Amazing! I should attack rustlings more often." -> 14
+"Amazing! I should attack rustlings more often." -> 13
+
+12 - Moving along the bushes, you hear more rustling in the bushes. The bushes feel as if they have eyes that watch you.
+
+"These cursed bushes keep making noise, how annoying!" -> 17
 
 13 - Moving along the bushes, you hear more rustling in the bushes. The bushes feel as if they have eyes that watch you.
 
-"These cursed bushes keep making noise, how annoying!" -> 18
+"More small goblins to kick! Have at you!" -> 14
+"These cursed bushes keep making noise, how annoying!" -> 16
 
-14 - Moving along the bushes, you hear more rustling in the bushes. The bushes feel as if they have eyes that watch you.
+14 - You kick the bush with all of your might. A goblin yelps and flies backwards out of the bush, presumed dead by the distance he flew.
 
-"More small goblins to kick! Have at you!" -> 15
-"These cursed bushes keep making noise, how annoying!" -> 17
+"Incredible! I could make this a sport." -> 15
 
-15 - You kick the bush with all of your might. A goblin yelps and flies backwards out of the bush, presumed dead by the distance he flew.
-
-"Incredible! I could make this a sport." -> 16
-
-16 - A goblin jumps out of the bush ahead of you. "Stop it wit ya kickin', ya louzy knight!" He rushes you in a frenzy!
+15 - A goblin jumps out of the bush ahead of you. "Stop it wit ya kickin', ya louzy knight!" He rushes you in a frenzy!
 
 (Goblin Battle 1)
-"I shall never stop!" (Battle!) Win -> 19 Lose -> 20
+"I shall never stop!" (Battle!) Win -> 18 Lose -> 19
 
-17 - You try to continue along the path, but two goblins jump in front of you! "You'ze kill our friend, so we'z kill you!" They raise their bony fists!
+16 - You try to continue along the path, but two goblins jump in front of you! "You'ze kill our friend, so we'z kill you!" They raise their bony fists!
 
 (Goblin Battle 2)
-"A fist-fight! I love it!" (Battle!) Win -> 19 Lose -> 20
+"A fist-fight! I love it!" (Battle!) Win -> 18 Lose -> 19
 
-18 - You try to continue along the path, but three goblins jump in front of you! "Stoopid knight, yer journey ends heer!" They grin and raise their bony fists!
+17 - You try to continue along the path, but three goblins jump in front of you! "Stoopid knight, yer journey ends heer!" They grin and raise their bony fists!
 
 (Goblin Battle 3)
-"O-ho! Stop me if you can!" (Battle!) Win -> 19 Lost -> 20
+"O-ho! Stop me if you can!" (Battle!) Win -> 18 Lost -> 19
 
-19 - You win the melee with relative ease! The rest of your journey awaits...
+18 - You win the melee with relative ease! The rest of your journey awaits...
 
-20 - As quickly as it began, your journey has ended after all...
+19 - As quickly as it began, your journey has ended after all...
 
- - Goblins come from the bushes 
+-----------------
+End of Right Path
+-----------------
