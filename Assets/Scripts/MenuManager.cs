@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public enum UIType
 {
 	None = -1,
-    NewGame, Continue, Options, Exit, Back,
+    NewGame, Continue, Options, Exit, Back, Return, Restart,
 	WizardClass, KnightClass, RogueClass, MonkClass,
     MusicMute, EffectMute
 }
@@ -55,8 +55,9 @@ public class MenuManager : MonoBehaviour
     	switch (type)
     	{
     		case UIType.NewGame:
-    			Debug.Log("Clicked new game!");
-    			OpenCharacterSelect();
+    			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
+                OpenDemoLevel();
+    			// OpenCharacterSelect();
     			break;
     		case UIType.Continue:
     			Debug.Log("Clicked continue!");
@@ -74,6 +75,12 @@ public class MenuManager : MonoBehaviour
     			// ExitOptions();
     			ReturnToMainMenu();
     			break;
+            case UIType.Return:
+                // TODO: change to Go back to Overworld
+            case UIType.Restart:
+                Debug.Log("Clicked return!");
+                ReturnToMainMenu();
+                break;
             case UIType.MusicMute:
                 Debug.Log("Muting music!");
                 if (this.gm != null)
@@ -118,6 +125,11 @@ public class MenuManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void OpenDemoLevel()
+    {
+        SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
     }
 
     void OpenCharacterSelect()

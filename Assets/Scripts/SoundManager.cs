@@ -10,6 +10,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class SoundManager : MonoBehaviour
 
 	public AudioSource musicChannel;
 	public AudioSource effectChannel;
+
+
 
     //============   Constructors   ============//
 
@@ -132,6 +135,28 @@ public class SoundManager : MonoBehaviour
 
     //=============   Music Track Methods   =============//
 
+    public void updateMusicList()
+    {
+        // Check for battleworld and switch music if we're there
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Battleworld":
+                RemoveTrackFromQueue("Serenity");
+                RemoveTrackFromQueue("Into_Oblivion");
+                RemoveTrackFromQueue("Forest_of_the_Elves");
+
+                AddTrackToQueue("The_Great_Battle");
+                break;
+            default:
+                RemoveTrackFromQueue("The_Great_Battle");
+
+                AddTrackToQueue("Serenity");
+                AddTrackToQueue("Into_Oblivion");
+                AddTrackToQueue("Forest_of_the_Elves");
+                break;
+        }
+    }
+
     public void setMusicVolume(float vol)
     {
         this.musicVolume = vol;
@@ -219,6 +244,7 @@ public class SoundManager : MonoBehaviour
     	else
     	{
     		// Debug.Log("Freshly loaded from assets!");
+
 	    	this.musicQueue.Enqueue(Resources.Load<AudioClip>("Sound/Music/"+trackName));
     	}
     }

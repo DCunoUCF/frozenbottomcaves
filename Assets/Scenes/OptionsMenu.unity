@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53555d74f109c694ab9720eef6ca6437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 10
+  type: 12
   sliderType: -1
 --- !u!1 &982462643
 GameObject:
@@ -1194,7 +1194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53555d74f109c694ab9720eef6ca6437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 9
+  type: 11
   sliderType: -1
 --- !u!1 &1015453551
 GameObject:
