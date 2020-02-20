@@ -120,7 +120,7 @@ using System.IO;
             data = sr.ReadLine();
 
             // Jump to relevant delimeter
-            index = data.IndexOf("\"");
+            index = data.IndexOf(":");
 
             // Store the modified raw to text in data
             data = data.Substring(index);
@@ -128,11 +128,13 @@ using System.IO;
             // Append it to string builder so that we can manipulate it
             temp.Append(data);
 
-            // Only append to our buffer if it is a number
+            // Only append to our buffer if it is
             for (int i = 0; i < temp.Length;i++)
             {
-                if (temp[i] != '\"')
-                    buffer.Append(temp[i]);
+                if (temp[i] == '\n' || temp[i] == '\r' || temp[i] == ':')
+                    continue;
+            
+                buffer.Append(temp[i]);
             }
 
             return buffer.ToString();
