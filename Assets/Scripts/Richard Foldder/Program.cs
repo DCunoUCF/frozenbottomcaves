@@ -120,7 +120,7 @@ using System.IO;
             data = sr.ReadLine();
 
             // Jump to relevant delimeter
-            index = data.IndexOf("\"");
+            index = data.IndexOf(":");
 
             // Store the modified raw to text in data
             data = data.Substring(index);
@@ -128,11 +128,13 @@ using System.IO;
             // Append it to string builder so that we can manipulate it
             temp.Append(data);
 
-            // Only append to our buffer if it is a number
+            // Only append to our buffer if it is
             for (int i = 0; i < temp.Length;i++)
             {
-                if (temp[i] != '\"')
-                    buffer.Append(temp[i]);
+                if (temp[i] == '\n' || temp[i] == '\r' || temp[i] == ':')
+                    continue;
+            
+                buffer.Append(temp[i]);
             }
 
             return buffer.ToString();
@@ -149,49 +151,6 @@ using System.IO;
 
             if ((char)sr.Peek() == '\n')
                 sr.Read();
-        }
-
-        // Function that runs the dialogue
-        public static void runDialogue(Dialogue dia)
-        {
-            int node = 0;
-            
-            // Keep looping until you hit a destId of -1
-            while(node != -1)
-            {
-                node = runNodes(dia.nodes[node]);
-            }
-
-            Console.WriteLine();
-        }
-
-        // Function that allows for 1 node to jump to another node
-        public static int runNodes(DialogueNode node)
-        {
-            int next_node = -1;
-
-            // Always clear console at start of new dialogue
-            Console.Clear();
-
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(node.text);
-
-            Console.ForegroundColor = ConsoleColor.White;
-
-            // Load up all options to the user
-            for (int i = 0; i < node.options.Count; i++)
-            {
-                Console.WriteLine(i + 1 + ":" + node.options[i].text);
-            }
-
-            // Let the user pick from available options
-            Console.Write("Enter your choice: ");
-            char key = Console.ReadKey().KeyChar;
-
-            // Move to the node the user selected
-            next_node = node.options[int.Parse(key.ToString()) - 1].destId;
-
-            return next_node;
         }
     }
 

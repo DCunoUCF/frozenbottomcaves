@@ -1,0 +1,39 @@
+ Dialogue box notes
+ -------------------
+Font: Arial
+Size: 16
+Line Spacing: 1
+Panel Width: 600 Height: 400
+Dialogue Width: 500 Height: 110
+
+Approx 65 characters per line
+
+Approx 8(ceil from 7.7) pixels in width per character
+
+Thus, this text of 337 characters needs 6(ceiling from 5.18) lines to write the text. 
+
+Approx 19(ceiling from 18.33) pixels in height per line at with arial font at size 16
+
+You are Sir Rancelot, the Knight of Rockside Castle. You find 
+yourself in a dark and gloomy forest. You hold a scroll given to 
+you by the Wizard of Rockside, Welbo. The scroll tells of an evil 
+warrior dubbed "The Warrior of Frozenbottom Caves." He is 
+growing in strength deep within the wilds. You are here to stop 
+him at all costs!
+
+I propose that with a dialogue box width of 500, we calculate the number of lines required by dividing number of characters by 70, then we multiply that by 20 in order to get the required height of the dialogue box. 
+
+We could make it more dynamic by using the font size in the calculation in order to get the number of characters per line and number of pixels in height per line.
+
+For example... 
+
+Take the font. Add a buffer of magic number 4. This is the magicHeight of lines.
+
+Take the font again. Divide it by 2. Subtract a buffer of magic number 2. This is the charWidth of each char.
+
+Take the DiaBoxWidth. Divide it by the charWidth. This is the magicCharsPerLine.
+
+Take the numChars in the text. Divide it by the magicCharsPerLine and find the Ceiling. This is the numLines there will be.  
+
+Multiply the numLines with magicHeight. This is the new, dynamic DiaBoxHeight.
+

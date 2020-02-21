@@ -27,7 +27,7 @@ public class DialogueManager : MonoBehaviour
         Program p = new Program();
 
         // Loads the file
-        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorialoneliners.txt");
+        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial.txt");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);
@@ -37,12 +37,19 @@ public class DialogueManager : MonoBehaviour
         // Dialogue text
         TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
 
+        for(int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
+
         // Dialogue Choices
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
             Choices[i].gameObject.SetActive(true);
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
+
+        DialogueSizer();
     }
 
     // Run if user clicks first choice
@@ -79,6 +86,7 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
     }
 
     // Run if user clicks second choice
@@ -115,6 +123,7 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
     }
 
     // Run if user clicks third choice
@@ -151,5 +160,31 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
+    }
+
+    private void DialogueSizer()
+    {
+        RectTransform panelRect = Panel.GetComponent<RectTransform>();
+        RectTransform dialogueRect = TextBox.GetComponent<RectTransform>();
+        int numChars = TextBox.GetComponent<Text>().text.Length;
+        int fontSize = TextBox.GetComponent<Text>().fontSize;
+
+        // Char Height/Width based on font size. Bonus magic buffer numbers!
+        float charHeight = fontSize + 4;
+        float charWidth = (fontSize / 2) + 1;
+
+        // Number of lines
+        int charsPerLine = Mathf.CeilToInt((float)dialogueRect.rect.width / (float)charWidth);
+        int numLines = Mathf.CeilToInt((float)numChars / (float)charsPerLine);
+
+        // Resize Dialogue Box by only the new height
+        dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
+
+        // Debugging
+        Debug.Log("dialogueRect.rect.width:" + dialogueRect.rect.width + " charWidth:" + charWidth);
+        Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + charsPerLine);
+        Debug.Log("numLines:" + numLines + " charHeight:" + charHeight);
+        Debug.Log("Setting dialogue box height: " + dialogueRect.rect.height);
     }
 }
