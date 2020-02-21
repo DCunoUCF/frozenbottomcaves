@@ -56,9 +56,9 @@ public class MenuManager : MonoBehaviour
     	{
     		case UIType.NewGame:
     			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
-                OpenDemoLevel();
-                this.gm.sm.setBattleMusic();
-    			// OpenCharacterSelect();
+               // OpenDemoLevel();
+               // this.gm.sm.setBattleMusic();
+    		    OpenCharacterSelect();
     			break;
     		case UIType.Continue:
     			Debug.Log("Clicked continue!");
@@ -97,7 +97,22 @@ public class MenuManager : MonoBehaviour
                     this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn);
                 }
                 break;
-    		default:
+            case UIType.KnightClass:
+                Debug.Log("Selected Knight!");
+                gm.pm.playerScript = CharacterSelection.writeStats("Knight.txt");
+                //OpenDemoLevel();
+                //this.gm.sm.setBattleMusic();
+                //gm.pm.combatInitialized = true;
+                //gm.pm.inCombat = true;
+                OpenOverworld();
+                break;
+            case UIType.WizardClass:
+                OpenDemoLevel();
+                this.gm.sm.setBattleMusic();
+                gm.pm.combatInitialized = true;
+                gm.pm.inCombat = true;
+                break;
+            default:
     			Debug.Log("Clicked a button!"); break;
     	}
     }
@@ -132,6 +147,11 @@ public class MenuManager : MonoBehaviour
     void OpenDemoLevel()
     {
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
+    }
+
+    void OpenOverworld()
+    {
+        SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
     }
 
     void OpenCharacterSelect()

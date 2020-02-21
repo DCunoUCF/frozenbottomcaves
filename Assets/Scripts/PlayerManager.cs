@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Drawing;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager Instance { get; private set; }
+    public static PlayerManager Instance { get; set; }
+    [SerializeField]
     public PlayerClass playerScript;
     public string characterName;
-    public string characterTag;
+    public string characterNameClone;
+    public string characterNameClone2 = "TheWhiteKnight(Clone)";
+    public string characterTag = "Player";
     public GameObject player;
     public Vector3 playerLoc, selectedTile;
     public bool inCombat, isTurn, selectingSkill;
@@ -15,7 +19,11 @@ public class PlayerManager : MonoBehaviour
     public int x, y;
     public int movx = 0, movy = 0;
     public bool moved;
+    private GameManager gm;
 
+    public bool characterSelected;
+
+    public bool combatInitialized;
     public CList combatInfo;
 
     // int array with {type, dmg, move}
@@ -33,32 +41,31 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        characterTag = "Player";
-
-        characterName = "TheWhiteKnight(Clone)";
-        player = GameObject.Find(characterName);
-        playerLoc = player.transform.position;
-        playerScript = (PlayerClass) player.GetComponent(typeof(PlayerClass));
-        combatInfo = new CList(player);
-        inCombat = true;
+        highlights = new List<GameObject>();
+        inCombat = false;
+        combatInitialized = false;
         isTurn = false;
         selectingSkill = true;
         moved = false;
         abilityinfo = new int[3];
+        characterSelected = false;
     }
 
     void Update()
     {
-        if (!inCombat)
+        if (!inCombat && characterSelected)
         {
-            // do overworld stuff
+            print(characterName);
+            player = GameObject.Find(characterNameClone);
+            print(player.transform.position);
         }
-        else
+        else if(inCombat)// We fightin now bois
         {
             if (moved)
             {
@@ -74,6 +81,24 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void initCombat()
+    {
+        player = GameObject.Find(characterNameClone2);
+        playerLoc = player.transform.position;
+        print(playerLoc);
+        combatInfo = new CList(player);
+        combatInitialized = true;
+        inCombat = true;
+        playerScript.setHighlights();
+    }
+
+    public void initPM()
+    {
+        characterName = playerScript.name;
+        characterNameClone = playerScript.clonename;
+        characterSelected = true;
+    }
+
     // Player turn -> select ability -> select tile -> turn end
     private void playerTurnCombat()
     {
@@ -83,19 +108,17 @@ public class PlayerManager : MonoBehaviour
             // Read input and set combat info based off of what skill
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                clearHighlights();
-                this.highlights = playerScript.useSkill(1, playerLoc, x, y);
+                placeHighlights(playerScript.skill1, 1);
                 this.abilityinfo = playerScript.getInfo(1);
                 fillCombatInfo(abilityinfo);
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                clearHighlights();
-                this.highlights = playerScript.useSkill(2, playerLoc, x, y);
+                placeHighlights(playerScript.skill2, 2);
                 this.abilityinfo = playerScript.getInfo(2);
                 fillCombatInfo(abilityinfo);
             }
-            else if(Input.GetKeyDown(KeyCode.Escape))
+            else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 clearHighlights();
             }
@@ -103,7 +126,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void fillCombatInfo(int [] info)
+    public void fillCombatInfo(int[] info)
     {
         this.combatInfo.attackDmg = abilityinfo[0];
         this.combatInfo.attack = abilityinfo[1];
@@ -143,8 +166,8 @@ public class PlayerManager : MonoBehaviour
         int x, y;
         //Debug.Log((temp.x / .5f).ToString("F2"));
         //Debug.Log((temp.y / .25f).ToString("F2"));
-        x = (int) (temp.x / .5f);
-        y = (int) (temp.y / .25f);
+        x = (int)(temp.x / .5f);
+        y = (int)(temp.y / .25f);
         if (x == 0)
         {
             movx = 0;
@@ -167,7 +190,8 @@ public class PlayerManager : MonoBehaviour
                 movx = 0;
                 movy = y;
             }
-        }else if (x < 0)
+        }
+        else if (x < 0)
         {
             if (y > 0)
             {
@@ -192,4 +216,16 @@ public class PlayerManager : MonoBehaviour
         return this.combatInfo;
     }
 
+    public void placeHighlights(List<Point> points, int key)
+    {
+        clearHighlights();
+        GameObject highlight = playerScript.getHighlight(key);
+        foreach (Point tile in points)
+        {
+            if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
+                if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
+                    highlights.Add(Instantiate(highlight,
+                          BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
+        }
+    }
 }
