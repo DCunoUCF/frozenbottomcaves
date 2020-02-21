@@ -15,7 +15,8 @@ public enum UIType
 	None = -1,
     NewGame, Continue, Options, Exit, Back, Return, Restart,
 	WizardClass, KnightClass, RogueClass, MonkClass,
-    MusicMute, EffectMute
+    MusicMute, EffectMute,
+    BattleButton
 }
 
 public enum SliderType
@@ -84,6 +85,13 @@ public class MenuManager : MonoBehaviour
                 this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
                 ReturnToMainMenu();
                 break;
+            case UIType.BattleButton:
+                OpenDemoLevel();
+                // this.gm.sm.setBattleMusic();
+                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+                gm.pm.combatInitialized = true;
+                gm.pm.inCombat = true;
+                break;
             case UIType.MusicMute:
                 Debug.Log("Muting music!");
                 if (this.gm != null)
@@ -108,11 +116,6 @@ public class MenuManager : MonoBehaviour
                 OpenOverworld();
                 break;
             case UIType.WizardClass:
-                OpenDemoLevel();
-                // this.gm.sm.setBattleMusic();
-                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
-                gm.pm.combatInitialized = true;
-                gm.pm.inCombat = true;
                 break;
             default:
     			Debug.Log("Clicked a button!"); break;
