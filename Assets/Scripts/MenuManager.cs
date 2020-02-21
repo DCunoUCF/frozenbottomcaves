@@ -15,7 +15,8 @@ public enum UIType
 	None = -1,
     NewGame, Continue, Options, Exit, Back, Return, Restart,
 	WizardClass, KnightClass, RogueClass, MonkClass,
-    MusicMute, EffectMute
+    MusicMute, EffectMute,
+    BattleButton
 }
 
 public enum SliderType
@@ -56,9 +57,9 @@ public class MenuManager : MonoBehaviour
     	{
     		case UIType.NewGame:
     			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
-                OpenDemoLevel();
-                this.gm.sm.setBattleMusic();
-    			// OpenCharacterSelect();
+               // OpenDemoLevel();
+               // this.gm.sm.setBattleMusic();
+    		    OpenCharacterSelect();
     			break;
     		case UIType.Continue:
     			Debug.Log("Clicked continue!");
@@ -80,8 +81,16 @@ public class MenuManager : MonoBehaviour
                 // TODO: change to Go back to Overworld
             case UIType.Restart:
                 Debug.Log("Clicked return!");
-                this.gm.sm.setForestMusic();
+                // this.gm.sm.setForestMusic();
+                this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
                 ReturnToMainMenu();
+                break;
+            case UIType.BattleButton:
+                OpenDemoLevel();
+                // this.gm.sm.setBattleMusic();
+                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+                gm.pm.combatInitialized = true;
+                gm.pm.inCombat = true;
                 break;
             case UIType.MusicMute:
                 Debug.Log("Muting music!");
@@ -97,7 +106,18 @@ public class MenuManager : MonoBehaviour
                     this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn);
                 }
                 break;
-    		default:
+            case UIType.KnightClass:
+                Debug.Log("Selected Knight!");
+                gm.pm.playerScript = CharacterSelection.writeStats("Knight.txt");
+                //OpenDemoLevel();
+                //this.gm.sm.setBattleMusic();
+                //gm.pm.combatInitialized = true;
+                //gm.pm.inCombat = true;
+                OpenOverworld();
+                break;
+            case UIType.WizardClass:
+                break;
+            default:
     			Debug.Log("Clicked a button!"); break;
     	}
     }
@@ -132,6 +152,11 @@ public class MenuManager : MonoBehaviour
     void OpenDemoLevel()
     {
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
+    }
+
+    void OpenOverworld()
+    {
+        SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
     }
 
     void OpenCharacterSelect()

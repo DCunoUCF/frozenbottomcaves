@@ -17,7 +17,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject ContinueButton;
 
     // Keeps track of position in dialogue
-    public static int currentNode = 0;
+    // public static int currentNode = 0;
+    public int currentNode = 0;
     
 
     // Start is called before the first frame update
@@ -71,6 +72,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
+        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
         
         for(int i = 0; i < 3; i++)
         {
@@ -108,6 +110,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
+        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
 
         for (int i = 0; i < 3; i++)
         {
@@ -145,6 +148,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
+        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
 
         for (int i = 0; i < 3; i++)
         {
@@ -167,8 +171,23 @@ public class DialogueManager : MonoBehaviour
     {
         RectTransform panelRect = Panel.GetComponent<RectTransform>();
         RectTransform dialogueRect = TextBox.GetComponent<RectTransform>();
+        List<RectTransform> optionRect = new List<RectTransform>();
+        RectTransform option1Rect = Choices[0].GetComponent<RectTransform>();
+        RectTransform option2Rect = Choices[1].GetComponent<RectTransform>();
+        RectTransform option3Rect = Choices[2].GetComponent<RectTransform>();
+
+        if (Choices[2].IsActive())
+            optionRect.Add(option3Rect);
+        if (Choices[1].IsActive())
+            optionRect.Add(option2Rect);
+        if (Choices[0].IsActive())
+            optionRect.Add(option1Rect);
+
         int numChars = TextBox.GetComponent<Text>().text.Length;
         int fontSize = TextBox.GetComponent<Text>().fontSize;
+        int winHeightBuffer = 20;
+        int middleBuffer = winHeightBuffer / 2;
+        int optionBuffer = (int) ((option1Rect.rect.height) + winHeightBuffer);
 
         // Char Height/Width based on font size. Bonus magic buffer numbers!
         float charHeight = fontSize + 4;
@@ -181,10 +200,26 @@ public class DialogueManager : MonoBehaviour
         // Resize Dialogue Box by only the new height
         dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
 
+        // Move dialogue options beneath the dialogue box
+
+        float newPanelTopY = dialogueRect.transform.localPosition.y + (dialogueRect.rect.height / 2) + winHeightBuffer + middleBuffer;
+        float newPanelBotY = optionBuffer*optionRect.Count;
+        panelRect.sizeDelta = new Vector2(panelRect.rect.width, newPanelTopY + newPanelBotY);
+
+        dialogueRect.anchoredPosition = new Vector2(0,(panelRect.rect.height / 2) - (dialogueRect.rect.height/2) - winHeightBuffer);
+        
+        for (int i = 0; i < optionRect.Count; i++)
+        {
+            optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer*i)));
+        }
+
         // Debugging
-        Debug.Log("dialogueRect.rect.width:" + dialogueRect.rect.width + " charWidth:" + charWidth);
-        Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + charsPerLine);
-        Debug.Log("numLines:" + numLines + " charHeight:" + charHeight);
-        Debug.Log("Setting dialogue box height: " + dialogueRect.rect.height);
+        //print("dialogueRect.transform.localPosition.y:" + dialogueRect.transform.localPosition.y + " dialogueRect.rect.height / 2:" + (dialogueRect.rect.height / 2));
+        //print("option3Rect.rect.position.y:" + option3Rect.transform.localPosition.y + " option3Rect.rect.height / 2:" + (option3Rect.rect.height / 2));
+        //print("newPanelTopY:" + newPanelTopY + " newPanelBotY:" + newPanelBotY);
+        //Debug.Log("dialogueRect.rect.width:" + dialogueRect.rect.width + " charWidth:" + charWidth);
+        //Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + charsPerLine);
+        //Debug.Log("numLines:" + numLines + " charHeight:" + charHeight);
+        //Debug.Log("Setting dialogue box height: " + dialogueRect.rect.height);
     }
 }

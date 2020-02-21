@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public enum Biome : short
 {
-	NOTHING = -1, FOREST, CAVE, ICECAVE, CASTLE, BOSS
+    NOTHING = -1, FOREST, CAVE, ICECAVE, CASTLE, BOSS
 };
 
 public class BattleManager : MonoBehaviour
@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
     private bool didWeWin;
 
     void Awake()
-	{
+    {
         if (Instance == null)
         {
             Instance = this;
@@ -102,11 +102,16 @@ public class BattleManager : MonoBehaviour
             entitiesList.Add(enemies[i]);
         }
 
+        // Since gameobject is here, tell playerMan to initialize combat vars
+        PlayerManager.Instance.initCombat();
+
         // Fill CombatantList with entities that were just instantiated
         FillCombatantList();
 
         // Creating the Grid
         CreateGrid();
+
+        
     }
 
     private void Start()
@@ -332,7 +337,7 @@ public class BattleManager : MonoBehaviour
                 return i;
         }
 
-        Debug.AssertFormat(false, "Couldn't find in CombatantList"); 
+        Debug.AssertFormat(false, "Couldn't find in CombatantList");
         return -1;
     }
 
@@ -345,9 +350,9 @@ public class BattleManager : MonoBehaviour
         dirX = entity.movTar.x - entity.entity.transform.localPosition.x;
         dirY = entity.movTar.y - entity.entity.transform.localPosition.y;
         GameObject sprite = entity.entity;
-        GameObject SE = sprite.transform.GetChild(0).gameObject, SW = sprite.transform.GetChild(1).gameObject, 
+        GameObject SE = sprite.transform.GetChild(0).gameObject, SW = sprite.transform.GetChild(1).gameObject,
                    NW = sprite.transform.GetChild(2).gameObject, NE = sprite.transform.GetChild(3).gameObject;
-        
+
         //Debug.Log("dirX: " + dirX + " dirY: " + dirY);
         //Debug.Log("moving from (" + entity.gridX + "," + entity.gridY + ")");
 
@@ -423,6 +428,7 @@ public class BattleManager : MonoBehaviour
     void FillCombatantList()
     {
         combatantList.Add(PlayerManager.Instance.combatInfo);
+        Debug.Log(combatantList[0].entity);
         combatantList.Add(new CList(companion));
 
         for (int i = 0; i < numEnemies; i++)
@@ -459,9 +465,9 @@ public class BattleManager : MonoBehaviour
             availEnemyLoc.Add(i.transform.position);
         }
 
-        for(int i = 0; i < numEnemies; i++)
+        for (int i = 0; i < numEnemies; i++)
         {
-            random = (int) Random.Range(0, availEnemyLoc.Count-1);
+            random = (int)Random.Range(0, availEnemyLoc.Count);
             enemyLoc.Add(availEnemyLoc[random]);
             availEnemyLoc.RemoveAt(random);
         }
