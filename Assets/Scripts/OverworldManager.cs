@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+// using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class OverworldManager : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class OverworldManager : MonoBehaviour
     public List<GameObject> nodes;
     public int playerNodeId;
 
+    public bool panic;
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -22,6 +26,7 @@ public class OverworldManager : MonoBehaviour
     void Start()
     {
         playerSpawned = false;
+        this.panic = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         // nodes = new List<GameObject>();
 
@@ -68,6 +73,8 @@ public class OverworldManager : MonoBehaviour
         {
         	foreach (GameObject n in nodes)
         	{
+        		int counter = 0;
+
         		foreach (int id in n.GetComponent<WorldNode>().NodeIDs)
         		{
         			if (id == this.dm.currentNode)
@@ -81,11 +88,28 @@ public class OverworldManager : MonoBehaviour
 
         				// Update the player node id
         				this.playerNodeId = id;
+
+        				if (n.GetComponent<WorldNode>().NodeTypes[counter] == FlagType.Battle && this.panic)
+        				{
+        					// OpenDemoLevel();
+        					SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
+			                // this.gm.sm.setBattleMusic();
+			                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+			                gm.pm.combatInitialized = true;
+			                gm.pm.inCombat = true;
+			                this.panic = false;
+        				}
+
+        				counter++;
         			}
         		}
         	}
         }
+
+        this.panic = false;
     }
+
+
 
     void spawnPlayer()
     {

@@ -72,6 +72,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
+        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
         
         for(int i = 0; i < 3; i++)
         {
@@ -109,6 +110,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
+        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
 
         for (int i = 0; i < 3; i++)
         {
@@ -146,6 +148,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
+        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
 
         for (int i = 0; i < 3; i++)
         {
