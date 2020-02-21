@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/LoseSplash.unity
     guid: 3d546c7b2a04aa54aa1111b2352aab4b
   - enabled: 1
+    path: Assets/Scenes/Dialogue.unity
+    guid: 35d63dfd372373e4b9ae1c62bdcb0a00
+  - enabled: 1
     path: Assets/Scenes/Battleworld.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1

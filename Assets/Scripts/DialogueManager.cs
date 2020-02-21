@@ -27,7 +27,7 @@ public class DialogueManager : MonoBehaviour
         Program p = new Program();
 
         // Loads the file
-        dialogue = p.LoadFile("./Assets/Scripts/Richard Foldder/sample.txt");
+        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial.txt");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);
@@ -37,12 +37,19 @@ public class DialogueManager : MonoBehaviour
         // Dialogue text
         TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
 
+        for(int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
+
         // Dialogue Choices
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
             Choices[i].gameObject.SetActive(true);
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
+
+        DialogueSizer();
     }
 
     // Run if user clicks first choice
@@ -79,6 +86,7 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
     }
 
     // Run if user clicks second choice
@@ -115,6 +123,7 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
     }
 
     // Run if user clicks third choice
@@ -151,5 +160,61 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
+    }
+
+    private void DialogueSizer()
+    {
+        RectTransform panelRect = Panel.GetComponent<RectTransform>();
+        RectTransform dialogueRect = TextBox.GetComponent<RectTransform>();
+        List<RectTransform> optionRect = new List<RectTransform>();
+        RectTransform option1Rect = Choices[0].GetComponent<RectTransform>();
+        RectTransform option2Rect = Choices[1].GetComponent<RectTransform>();
+        RectTransform option3Rect = Choices[2].GetComponent<RectTransform>();
+
+        if (Choices[2].IsActive())
+            optionRect.Add(option3Rect);
+        if (Choices[1].IsActive())
+            optionRect.Add(option2Rect);
+        if (Choices[0].IsActive())
+            optionRect.Add(option1Rect);
+
+        int numChars = TextBox.GetComponent<Text>().text.Length;
+        int fontSize = TextBox.GetComponent<Text>().fontSize;
+        int winHeightBuffer = 20;
+        int optionBuffer = (int) ((option1Rect.rect.height) + winHeightBuffer);
+
+        // Char Height/Width based on font size. Bonus magic buffer numbers!
+        float charHeight = fontSize + 4;
+        float charWidth = (fontSize / 2) + 1;
+
+        // Number of lines
+        int charsPerLine = Mathf.CeilToInt((float)dialogueRect.rect.width / (float)charWidth);
+        int numLines = (int)((float)numChars / (float)charsPerLine);
+
+        // Resize Dialogue Box by only the new height
+        dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
+
+        // Move dialogue options beneath the dialogue box
+
+        float newPanelTopY = dialogueRect.transform.localPosition.y + (dialogueRect.rect.height / 2) + winHeightBuffer;
+        float newPanelBotY = optionBuffer*optionRect.Count;
+        panelRect.sizeDelta = new Vector2(panelRect.rect.width, newPanelTopY + newPanelBotY);
+
+        dialogueRect.anchoredPosition = new Vector2(0,(panelRect.rect.height / 2) - (dialogueRect.rect.height/2) - winHeightBuffer);
+        
+        for (int i = 0; i < optionRect.Count; i++)
+        {
+            optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer*i)));
+        }
+
+        // Debugging
+        //print("dialogueRect.transform.localPosition.y:" + dialogueRect.transform.localPosition.y + " dialogueRect.rect.height / 2:" + (dialogueRect.rect.height / 2));
+        //print("option3Rect.rect.position.y:" + option3Rect.transform.localPosition.y + " option3Rect.rect.height / 2:" + (option3Rect.rect.height / 2));
+        //print("newPanelTopY:" + newPanelTopY + " newPanelBotY:" + newPanelBotY);
+        //Debug.Log("dialogueRect.rect.width:" + dialogueRect.rect.width + " charWidth:" + charWidth);
+        //Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + charsPerLine);
+        //Debug.Log("numLines:" + numLines + " charHeight:" + charHeight);
+        //Debug.Log("Setting dialogue box height: " + dialogueRect.rect.height);
     }
 }
