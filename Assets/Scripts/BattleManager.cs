@@ -467,7 +467,7 @@ public class BattleManager : MonoBehaviour
 
         for (int i = 0; i < numEnemies; i++)
         {
-            random = (int)Random.Range(0, availEnemyLoc.Count - 1);
+            random = (int)Random.Range(0, availEnemyLoc.Count);
             enemyLoc.Add(availEnemyLoc[random]);
             availEnemyLoc.RemoveAt(random);
         }

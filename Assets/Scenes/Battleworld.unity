@@ -132,7 +132,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 501645188006268198}
   m_PrefabAsset: {fileID: 0}
-
 --- !u!1001 &501645188006268198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -546,6 +545,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1307122882, guid: a1005b390da138f47bb1ffc8250f46c8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1005b390da138f47bb1ffc8250f46c8, type: 3}
 --- !u!1001 &3270227126184923157
@@ -618,12 +621,12 @@ PrefabInstance:
     - target: {fileID: 3270227126184923159, guid: 811fb6de3196ebb4087696c4782c9c39,
         type: 3}
       propertyPath: attackHighlight
-      value:
+      value: 
       objectReference: {fileID: 1119962526}
     - target: {fileID: 3270227126184923159, guid: 811fb6de3196ebb4087696c4782c9c39,
         type: 3}
       propertyPath: moveHighlight
-      value:
+      value: 
       objectReference: {fileID: 361010205}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 811fb6de3196ebb4087696c4782c9c39, type: 3}
