@@ -72,7 +72,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
-        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
         
         for(int i = 0; i < 3; i++)
         {
@@ -110,7 +109,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
-        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
 
         for (int i = 0; i < 3; i++)
         {
@@ -148,7 +146,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
-        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
 
         for (int i = 0; i < 3; i++)
         {
@@ -187,7 +184,7 @@ public class DialogueManager : MonoBehaviour
         int fontSize = TextBox.GetComponent<Text>().fontSize;
         int winHeightBuffer = 20;
         int middleBuffer = winHeightBuffer / 2;
-        int optionBuffer = (int) ((option1Rect.rect.height) + winHeightBuffer);
+        int optionBuffer = (int) ((optionRect[0].rect.height) + middleBuffer);
 
         // Char Height/Width based on font size. Bonus magic buffer numbers!
         float charHeight = fontSize + 4;
@@ -202,7 +199,7 @@ public class DialogueManager : MonoBehaviour
 
         // Move dialogue options beneath the dialogue box
 
-        float newPanelTopY = dialogueRect.transform.localPosition.y + (dialogueRect.rect.height / 2) + winHeightBuffer + middleBuffer;
+        float newPanelTopY = dialogueRect.rect.height + winHeightBuffer*2;
         float newPanelBotY = optionBuffer*optionRect.Count;
         panelRect.sizeDelta = new Vector2(panelRect.rect.width, newPanelTopY + newPanelBotY);
 
@@ -210,12 +207,13 @@ public class DialogueManager : MonoBehaviour
         
         for (int i = 0; i < optionRect.Count; i++)
         {
-            optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer*i)));
+            optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer * i)));
         }
 
         // Debugging
+        //print("optionBuffer:" + optionBuffer + " new option 1 Y:" + -1 * ((panelRect.rect.height / 2) - (optionRect[0].rect.height / 2) - winHeightBuffer - optionBuffer * 0));
         //print("dialogueRect.transform.localPosition.y:" + dialogueRect.transform.localPosition.y + " dialogueRect.rect.height / 2:" + (dialogueRect.rect.height / 2));
-        //print("option3Rect.rect.position.y:" + option3Rect.transform.localPosition.y + " option3Rect.rect.height / 2:" + (option3Rect.rect.height / 2));
+        //print("optionRect[0].rect.position.y:" + optionRect[0].transform.localPosition.y + " optionRect[0].rect.height / 2:" + (optionRect[0].rect.height / 2));
         //print("newPanelTopY:" + newPanelTopY + " newPanelBotY:" + newPanelBotY);
         //Debug.Log("dialogueRect.rect.width:" + dialogueRect.rect.width + " charWidth:" + charWidth);
         //Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + charsPerLine);
