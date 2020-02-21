@@ -119,6 +119,10 @@ public class MenuManager : MonoBehaviour
                 gm.pm.playerScript = CharacterSelection.writeStats("Monk.txt");
                 OpenOverworld();
                 break;
+            case UIType.RogueClass:
+                gm.pm.playerScript = CharacterSelection.writeStats("Ninja.txt");
+                OpenOverworld();
+                break;
             default:
     			Debug.Log("Clicked a button!"); break;
     	}
