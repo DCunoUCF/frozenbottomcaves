@@ -14,13 +14,14 @@ public class DialogueManager : MonoBehaviour
     public List<Button> Choices;
     public Dialogue dialogue;
     public int choiceCounter;
-    public UnityAction choiceActions;
+    public GameObject optionParent;
 
     public GameObject ContinueButton;
 
     // Keeps track of position in dialogue
     // public static int currentNode = 0;
     public int currentNode = 0;
+    public int currentOptionsCount;
     
 
     // Start is called before the first frame update
@@ -31,33 +32,34 @@ public class DialogueManager : MonoBehaviour
 
         // Loads the file
         dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial_emptynodes.txt");
+        currentOptionsCount = this.dialogue.nodes[currentNode].options.Count;
+        optionParent = GameObject.Find("Option01");
 
-        Choices = new List<Button>(this.dialogue.nodes[currentNode].options.Count);
-        print("this.dialogue.nodes[currentNode].options.Count " + this.dialogue.nodes[currentNode].options.Count);
+        Choices = new List<Button>(currentOptionsCount);
 
         // Adds Listeners to the options
         for (choiceCounter = 0; choiceCounter < Choices.Capacity; choiceCounter++)
         {
-            Choices.Add(this.ChoiceOption);
+            Choices.Add(GameObject.Instantiate(optionParent.GetComponent<Button>(), Panel.transform));
             Choices[choiceCounter].onClick.AddListener(this.ChoiceOption);
-            choiceActions += this.ChoiceOption;
         }
 
         // Dialogue text
         TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
 
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < Choices.Count; i++)
         {
             Choices[i].gameObject.SetActive(false);
         }
 
         // Dialogue Choices
-        for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
+        for (int i = 0; i < currentOptionsCount; i++)
         {
             Choices[i].gameObject.SetActive(true);
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        optionParent.SetActive(false);
         DialogueSizer();
     }
 
@@ -189,6 +191,23 @@ public class DialogueManager : MonoBehaviour
         this.DialogueSizer();
     }
 
+    private void ChoiceOption(int choice)
+    {
+        currentNode = dialogue.nodes[currentNode].options[choice].destId;
+
+        if (currentNode == -1)
+        {
+            this.SetPanelAndChildrenFalse();
+            return;
+        }
+
+        this.SetChildrenFalse();
+
+        this.SetChildrenTrue();
+
+        this.DialogueSizer();
+    }
+
     public void EventComplete()
     {
         if (currentNode == -1)
@@ -244,19 +263,14 @@ public class DialogueManager : MonoBehaviour
         RectTransform panelRect = Panel.GetComponent<RectTransform>();
         RectTransform dialogueRect = TextBox.GetComponent<RectTransform>();
         List<RectTransform> optionRect = new List<RectTransform>();
-        RectTransform option1Rect = Choices[0].GetComponent<RectTransform>();
-        RectTransform option2Rect = Choices[1].GetComponent<RectTransform>();
-        RectTransform option3Rect = Choices[2].GetComponent<RectTransform>();
         int numChars = TextBox.GetComponent<Text>().text.Length;
         int fontSize = TextBox.GetComponent<Text>().fontSize;
 
         // Only adding active buttons
-        if (Choices[2].IsActive())
-            optionRect.Add(option3Rect);
-        if (Choices[1].IsActive())
-            optionRect.Add(option2Rect);
-        if (Choices[0].IsActive())
-            optionRect.Add(option1Rect);
+        for (int i = 0; i < this.Choices.Count; i++)
+        {
+            optionRect.Add(Choices[i].GetComponent<RectTransform>());
+        }
 
         // Buffers
         int winHeightBuffer = 20;
