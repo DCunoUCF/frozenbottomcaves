@@ -602,11 +602,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1307122882, guid: a1005b390da138f47bb1ffc8250f46c8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a1005b390da138f47bb1ffc8250f46c8, type: 3}
+--- !u!1001 &3270227126184923157
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3270227126712288931, guid: 811fb6de3196ebb4087696c4782c9c39,
+        type: 3}
+      propertyPath: m_Name
+      value: TheWhiteKnight
       objectReference: {fileID: 0}
-    - target: {fileID: 2940914126647401857, guid: a1005b390da138f47bb1ffc8250f46c8,
+    - target: {fileID: 3270227126712288941, guid: 811fb6de3196ebb4087696c4782c9c39,
+
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.5

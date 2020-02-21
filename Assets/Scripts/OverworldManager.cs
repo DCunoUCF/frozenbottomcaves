@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+// using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class OverworldManager : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class OverworldManager : MonoBehaviour
 
     public List<GameObject> nodes;
     public int playerNodeId;
+    public int nodeTypeCount;
 
     private void Awake()
     {
@@ -53,11 +56,11 @@ public class OverworldManager : MonoBehaviour
         }
 
         // If we're in the overworld for the first time, plop the player character in
-        if (SceneManager.GetActiveScene().name == "Overworld" && !playerSpawned)
+        if (SceneManager.GetActiveScene().name == "Overworld_emptynodes" && !playerSpawned)
         {
         	this.dm = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
 	        this.playerNodeId = this.dm.currentNode;
-	        Debug.Log("OverworldManager sees the player at "+this.playerNodeId);
+	        Debug.Log("OverworldManager sees the player at " + this.playerNodeId);
 
         	nodes = new List<GameObject>();
 
@@ -66,10 +69,6 @@ public class OverworldManager : MonoBehaviour
 	        	nodes.Add(n);
 	        }
 
-	        if (GameObject.Find("Node0") != null)
-	        	Debug.Log("Hooray!");
-	        else
-	        	Debug.Log("Fail whale :(");
             spawnPlayer();
         }
 
@@ -77,12 +76,16 @@ public class OverworldManager : MonoBehaviour
         {
         	foreach (GameObject n in nodes)
         	{
+        		this.nodeTypeCount = 0;
+
         		foreach (int id in n.GetComponent<WorldNode>().NodeIDs)
         		{
         			if (id == this.dm.currentNode)
         			{
         				// Move the player along the map
-        				this.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z);
+                        this.TurnPlayer(this.gm.pm.player, new Vector3(n.transform.position.x, n.transform.position.y, this.gm.pm.player.transform.position.z));
+        				this.gm.pm.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.gm.pm.player.transform.position.z);
+
 
         				// Rudimentary Camera Movement
         				//GameObject cam = GameObject.Find("MainCamera");
@@ -90,24 +93,124 @@ public class OverworldManager : MonoBehaviour
 
         				// Update the player node id
         				this.playerNodeId = id;
-        			}
+
+        				if (n.GetComponent<WorldNode>().NodeTypes[this.nodeTypeCount] == FlagType.Battle)
+        				{
+                            // OpenDemoLevel();
+                            SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
+                            // this.gm.sm.setBattleMusic();
+                            this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+                            gm.pm.combatInitialized = true;
+                            gm.pm.inCombat = true;
+                        }
+
+                        if (n.GetComponent<WorldNode>().NodeTypes[this.nodeTypeCount] == FlagType.Event)
+                        {
+                            print("entered event");
+                            SkillSaveEvent();
+                        }
+                    }
+
+                    this.nodeTypeCount++;
         		}
         	}
         }
     }
 
+
+
     void spawnPlayer()
     {
+
         string path = "Prefabs/PlayerCharacters/";
         path += gm.pm.pc.name;
         print(path);
         player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
-        player.transform.position = new Vector3(-.5f, 0f, 0f); // Should be changed to starting node
+
+
+
+
+        player.transform.position = nodes[0].transform.position;
+
         playerSpawned = true;
 
         GameObject cam = GameObject.Find("MainCamera");
         cam.transform.SetParent(player.transform);
 
         gm.pm.initPM();
+    }
+
+    void TurnPlayer(GameObject entity, Vector3 movTar)
+    {
+        // How I WILL do it later entity.dir... maybe?
+        float dirX, dirY;
+        dirX = movTar.x - entity.transform.localPosition.x;
+        dirY = movTar.y - entity.transform.localPosition.y;
+
+        GameObject SE = entity.transform.GetChild(0).gameObject, SW = entity.transform.GetChild(1).gameObject,
+                   NW = entity.transform.GetChild(2).gameObject, NE = entity.transform.GetChild(3).gameObject;
+
+        if (dirX > 0)
+        {
+            if (dirY > 0)
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(true);
+            }
+            else
+            {
+                SE.gameObject.SetActive(true);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+            }
+
+        }
+        else if (dirX < 0)
+        {
+            if (dirY < 0)
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(true);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+            }
+            else
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(true);
+                NE.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void BattleEvent()
+    {
+
+    }
+
+    public void SkillSaveEvent()
+    {
+        // Check which skill the event is for from WorldNode struct
+        // Maybe have difficulties in the WorldNode struct to alter what the roll needs to be
+        // Call getters to the playerClass/Manager to check the player's skill
+        // Do random chance roll
+        // Setter for dm.currentNode + 1(save) or + 2(fail)
+
+        // Stand-in for first playable... 1 = save, 2 = fail
+        int random = (Random.Range(0, 2) + 1);
+        print("currentNode before:" + this.dm.currentNode);
+        this.dm.currentNode += random;
+        print("currentNode after:" + this.dm.currentNode);
+
+        if (random == 1)
+            print("SAVE");
+        else if (random == 2)
+            print("FAIL");
+
+        this.dm.EventComplete();
     }
 }
