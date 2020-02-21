@@ -150,11 +150,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 2803115765477992411}
   - {fileID: 2803115765468137676}
-  choiceCounter: 0
-  optionParent: {fileID: 0}
   ContinueButton: {fileID: 0}
   currentNode: 0
-  currentOptionsCount: 0
 --- !u!1 &2803115764891631159
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,11 +318,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Option02
       objectReference: {fileID: 0}
-    - target: {fileID: 3536930599088481825, guid: 6ec025fd9e27fc7469c34e318c9a635a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3536930599088481824, guid: 6ec025fd9e27fc7469c34e318c9a635a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -462,6 +454,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Option03
+      objectReference: {fileID: 0}
+    - target: {fileID: 640897463100884960, guid: 3060c6c318dd76a4695c459eef823a9c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 640897463100884967, guid: 3060c6c318dd76a4695c459eef823a9c,
         type: 3}

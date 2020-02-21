@@ -11,20 +11,22 @@ public class DialogueManager : MonoBehaviour
     public GameObject Manager;
     public GameObject Panel;
     public GameObject TextBox;
-    public List<Button> Choices;
+    public Button[] Choices;
     public Dialogue dialogue;
-    public int choiceCounter;
-    public GameObject optionParent;
 
     public GameObject ContinueButton;
 
     // Keeps track of position in dialogue
     // public static int currentNode = 0;
     public int currentNode = 0;
-    public int currentOptionsCount;
-    
 
-    // Start is called before the first frame update
+    // David's Trash for Multiple Options Testing
+    //public List<Button> Choices;
+    //public int choiceCounter;
+    //public GameObject optionParent;
+    //public int currentOptionsCount;
+
+    // Richard's Code
     void Start()
     {
         // Will change this to a static load so that we don't have to initialize
@@ -32,180 +34,139 @@ public class DialogueManager : MonoBehaviour
 
         // Loads the file
         dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial_emptynodes.txt");
-        currentOptionsCount = this.dialogue.nodes[currentNode].options.Count;
-        optionParent = GameObject.Find("Option01");
-
-        Choices = new List<Button>(currentOptionsCount);
 
         // Adds Listeners to the options
-        for (choiceCounter = 0; choiceCounter < Choices.Capacity; choiceCounter++)
-        {
-            Choices.Add(GameObject.Instantiate(optionParent.GetComponent<Button>(), Panel.transform));
-            Choices[choiceCounter].onClick.AddListener(this.ChoiceOption);
-        }
+        Choices[0].onClick.AddListener(choiceOption01);
+        Choices[1].onClick.AddListener(choiceOption02);
+        Choices[2].onClick.AddListener(choiceOption03);
 
         // Dialogue text
         TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
 
-        for(int i = 0; i < Choices.Count; i++)
+        for (int i = 0; i < 3; i++)
         {
             Choices[i].gameObject.SetActive(false);
         }
 
         // Dialogue Choices
-        for (int i = 0; i < currentOptionsCount; i++)
+        for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
             Choices[i].gameObject.SetActive(true);
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
-        optionParent.SetActive(false);
         DialogueSizer();
     }
 
-    /*    // Run if user clicks first choice
-        public void choiceOption01()
-        {
-            currentNode = dialogue.nodes[currentNode].options[0].destId;
-
-            if (currentNode == -1)
-            {
-                TextBox.SetActive(false);
-
-                for (int i = 0; i < 3; i++)
-                {
-                    Choices[i].gameObject.SetActive(false);
-                }
-
-                Panel.SetActive(false);
-                return;
-            }
-
-            TextBox.SetActive(false);
-
-            for(int i = 0; i < 3; i++)
-            {
-                Choices[i].gameObject.SetActive(false);
-            }
-
-            TextBox.SetActive(true);
-            TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
-
-            for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
-            {
-                Choices[i].gameObject.SetActive(true);
-                Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
-            }
-
-            DialogueSizer();
-        }
-
-        // Run if user clicks second choice
-        public void choiceOption02()
-        {
-            currentNode = dialogue.nodes[currentNode].options[1].destId;
-
-            if (currentNode == -1)
-            {
-                TextBox.SetActive(false);
-
-                for (int i = 0; i < 3; i++)
-                {
-                    Choices[i].gameObject.SetActive(false);
-                }
-
-                Panel.SetActive(false);
-                return;
-            }
-
-            TextBox.SetActive(false);
-
-            for (int i = 0; i < 3; i++)
-            {
-                Choices[i].gameObject.SetActive(false);
-            }
-
-            TextBox.SetActive(true);
-            TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
-
-            for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
-            {
-                Choices[i].gameObject.SetActive(true);
-                Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
-            }
-
-            DialogueSizer();
-        }
-
-        // Run if user clicks third choice
-        public void choiceOption03()
-        {
-            currentNode = dialogue.nodes[currentNode].options[2].destId;
-
-            if (currentNode == -1)
-            {
-                TextBox.SetActive(false);
-
-                for (int i = 0; i < 3; i++)
-                {
-                    Choices[i].gameObject.SetActive(false);
-                }
-
-                Panel.SetActive(false);
-                return;
-            }
-
-            TextBox.SetActive(false);
-
-            for (int i = 0; i < 3; i++)
-            {
-                Choices[i].gameObject.SetActive(false);
-            }
-
-            TextBox.SetActive(true);
-            TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
-
-            for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
-            {
-                Choices[i].gameObject.SetActive(true);
-                Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
-            }
-
-            DialogueSizer();
-        }*/
-
-    private void ChoiceOption()
+    // Run if user clicks first choice
+    public void choiceOption01()
     {
-        currentNode = dialogue.nodes[currentNode].options[choiceCounter].destId;
+        currentNode = dialogue.nodes[currentNode].options[0].destId;
 
         if (currentNode == -1)
         {
-            this.SetPanelAndChildrenFalse();
+            TextBox.SetActive(false);
+
+            for (int i = 0; i < 3; i++)
+            {
+                Choices[i].gameObject.SetActive(false);
+            }
+
+            Panel.SetActive(false);
             return;
         }
 
-        this.SetChildrenFalse();
+        TextBox.SetActive(false);
 
-        this.SetChildrenTrue();
+        for (int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
 
-        this.DialogueSizer();
+        TextBox.SetActive(true);
+        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
+        for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
+        {
+            Choices[i].gameObject.SetActive(true);
+            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+        }
+
+        DialogueSizer();
     }
 
-    private void ChoiceOption(int choice)
+    // Run if user clicks second choice
+    public void choiceOption02()
     {
-        currentNode = dialogue.nodes[currentNode].options[choice].destId;
+        currentNode = dialogue.nodes[currentNode].options[1].destId;
 
         if (currentNode == -1)
         {
-            this.SetPanelAndChildrenFalse();
+            TextBox.SetActive(false);
+
+            for (int i = 0; i < 3; i++)
+            {
+                Choices[i].gameObject.SetActive(false);
+            }
+
+            Panel.SetActive(false);
             return;
         }
 
-        this.SetChildrenFalse();
+        TextBox.SetActive(false);
 
-        this.SetChildrenTrue();
+        for (int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
 
-        this.DialogueSizer();
+        TextBox.SetActive(true);
+        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
+        for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
+        {
+            Choices[i].gameObject.SetActive(true);
+            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+        }
+
+        DialogueSizer();
+    }
+
+    // Run if user clicks third choice
+    public void choiceOption03()
+    {
+        currentNode = dialogue.nodes[currentNode].options[2].destId;
+
+        if (currentNode == -1)
+        {
+            TextBox.SetActive(false);
+
+            for (int i = 0; i < 3; i++)
+            {
+                Choices[i].gameObject.SetActive(false);
+            }
+
+            Panel.SetActive(false);
+            return;
+        }
+
+        TextBox.SetActive(false);
+
+        for (int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
+
+        TextBox.SetActive(true);
+        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
+        for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
+        {
+            Choices[i].gameObject.SetActive(true);
+            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+        }
+
+        DialogueSizer();
     }
 
     public void EventComplete()
@@ -263,14 +224,23 @@ public class DialogueManager : MonoBehaviour
         RectTransform panelRect = Panel.GetComponent<RectTransform>();
         RectTransform dialogueRect = TextBox.GetComponent<RectTransform>();
         List<RectTransform> optionRect = new List<RectTransform>();
+        RectTransform option1Rect = Choices[0].GetComponent<RectTransform>();
+        RectTransform option2Rect = Choices[1].GetComponent<RectTransform>();
+        RectTransform option3Rect = Choices[2].GetComponent<RectTransform>();
         int numChars = TextBox.GetComponent<Text>().text.Length;
         int fontSize = TextBox.GetComponent<Text>().fontSize;
 
         // Only adding active buttons
-        for (int i = 0; i < this.Choices.Count; i++)
-        {
-            optionRect.Add(Choices[i].GetComponent<RectTransform>());
-        }
+        if (Choices[2].IsActive())
+            optionRect.Add(option3Rect);
+        if (Choices[1].IsActive())
+            optionRect.Add(option2Rect);
+        if (Choices[0].IsActive())
+            optionRect.Add(option1Rect);
+        //for (int i = 0; i < this.Choices.Count; i++)
+        //{
+        //    optionRect.Add(Choices[i].GetComponent<RectTransform>());
+        //}
 
         // Buffers
         int winHeightBuffer = 20;
@@ -304,3 +274,65 @@ public class DialogueManager : MonoBehaviour
         }
     }
 }
+
+//// David's Start Method
+//void Start()
+//{
+//    // Will change this to a static load so that we don't have to initialize
+//    Program p = new Program();
+
+//    // Loads the file
+//    dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial_emptynodes.txt");
+//    currentOptionsCount = this.dialogue.nodes[currentNode].options.Count;
+//    optionParent = GameObject.Find("Option01");
+
+//    Choices = new List<Button>(currentOptionsCount);
+
+//    // Adds Listeners to the options
+//    for (int i = 0; i < Choices.Count; i++)
+//    {
+//        Choices.Add(GameObject.Instantiate(optionParent.GetComponent<Button>(), Panel.transform));
+//    }
+
+//    choiceCounter = 0;
+//    foreach (Button button in Choices)
+//    {
+//        int i = choiceCounter++;
+//        button.onClick.AddListener(() => this.ChoiceOption(i));
+//    }
+
+//    // Dialogue text
+//    TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
+//    for(int i = 0; i < Choices.Count; i++)
+//    {
+//        Choices[i].gameObject.SetActive(false);
+//    }
+
+//    // Dialogue Choices
+//    for (int i = 0; i < currentOptionsCount; i++)
+//    {
+//        Choices[i].gameObject.SetActive(true);
+//        Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+//    }
+
+//    optionParent.SetActive(false);
+//    DialogueSizer();
+//}
+
+//private void ChoiceOption(int choice)
+//{
+//    this.currentNode = this.dialogue.nodes[currentNode].options[choice].destId;
+
+//    if (currentNode == -1)
+//    {
+//        this.SetPanelAndChildrenFalse();
+//        return;
+//    }
+
+//    this.SetChildrenFalse();
+
+//    this.SetChildrenTrue();
+
+//    this.DialogueSizer();
+//}
