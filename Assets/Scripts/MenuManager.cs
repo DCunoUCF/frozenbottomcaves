@@ -74,13 +74,15 @@ public class MenuManager : MonoBehaviour
     		case UIType.Back:
     			Debug.Log("Clicked back!");
     			// ExitOptions();
+                this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
     			ReturnToMainMenu();
     			break;
             case UIType.Return:
                 // TODO: change to Go back to Overworld
             case UIType.Restart:
                 Debug.Log("Clicked return!");
-                this.gm.sm.setForestMusic();
+                // this.gm.sm.setForestMusic();
+                this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
                 ReturnToMainMenu();
                 break;
             case UIType.MusicMute:
@@ -108,7 +110,8 @@ public class MenuManager : MonoBehaviour
                 break;
             case UIType.WizardClass:
                 OpenDemoLevel();
-                this.gm.sm.setBattleMusic();
+                // this.gm.sm.setBattleMusic();
+                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
                 gm.pm.combatInitialized = true;
                 gm.pm.inCombat = true;
                 break;

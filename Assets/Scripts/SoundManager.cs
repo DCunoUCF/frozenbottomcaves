@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class SoundManager : MonoBehaviour
 {
@@ -63,9 +64,11 @@ public class SoundManager : MonoBehaviour
         // Read in volume options from game manager
         	// TODO: read in volume options
 
+        setMusicFromDirectory("ForestOverworldMusic");
+
         // Make testing music queue
-        AddTrackToQueue("Serenity");
-        AddTrackToQueue("Forest_of_the_Elves");
+            // AddTrackToQueue("Serenity");
+            // AddTrackToQueue("Forest_of_the_Elves");
 
   		// Debug.Log("Printing out original queue");
 		// foreach (AudioClip ac in this.musicQueue)
@@ -83,7 +86,7 @@ public class SoundManager : MonoBehaviour
         // }
 
         // Debug.Log("Attempting to add 'Into_Oblivion'");
-        AddTrackToQueue("Into_Oblivion");
+            // AddTrackToQueue("Into_Oblivion");
         // Debug.Log("Attempting to add 'Serenity'");
         // AddTrackToQueue("Serenity");
 
@@ -164,6 +167,22 @@ public class SoundManager : MonoBehaviour
         AddTrackToQueue("Serenity");
         AddTrackToQueue("Into_Oblivion");
         AddTrackToQueue("Forest_of_the_Elves");
+    }
+
+    public void setMusicFromDirectory(string folder)
+    {
+        FreeAllMusicTracks();
+
+        var info = new DirectoryInfo("Assets/Resources/Sound/Music/"+folder);
+
+        foreach (FileInfo file in info.GetFiles())
+        {
+            string fName = file.Name.Substring(0, file.Name.Length-4);
+            // Debug.Log(fName);
+            AddTrackToQueue(folder+"/"+fName);
+        }
+
+        Debug.Log(this.musicQueue.ToString());
     }
 
     public void updateMusicList()
@@ -338,6 +357,10 @@ public class SoundManager : MonoBehaviour
     	{
     		Resources.UnloadAsset(this.effectQueue.Dequeue());
     	}
+
+        this.musicQueue.Clear();
+        this.loadedMusicQueue.Clear();
+        this.effectQueue.Clear();
     }
 
     //=============   Sound Effect Methods   =============//

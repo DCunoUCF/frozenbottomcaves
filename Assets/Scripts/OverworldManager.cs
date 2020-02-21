@@ -9,6 +9,7 @@ public class OverworldManager : MonoBehaviour
     private GameObject player;
     public bool playerSpawned;
 
+    public List<GameObject> nodes;
 
     private void Awake()
     {
@@ -20,6 +21,21 @@ public class OverworldManager : MonoBehaviour
     {
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        // nodes = new List<GameObject>();
+
+        // foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
+        // {
+        // 	nodes.Add(n);
+        // }
+
+        // nodes = GameObject.FindGameObjectsWithTag("OWNode");
+
+        // if (GameObject.Find("Node0") != null)
+        // 	Debug.Log("Hooray!");
+        // else
+        // 	Debug.Log("Fail whale :(");
+
+        // Debug.Log(OWNodes.ToString());
     }
 
     // Update is called once per frame
@@ -28,6 +44,17 @@ public class OverworldManager : MonoBehaviour
         // If we're in the overworld for the first time, plop the player character in
         if (SceneManager.GetActiveScene().name == "Overworld" && !playerSpawned)
         {
+        	nodes = new List<GameObject>();
+
+	        foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
+	        {
+	        	nodes.Add(n);
+	        }
+
+	        if (GameObject.Find("Node0") != null)
+	        	Debug.Log("Hooray!");
+	        else
+	        	Debug.Log("Fail whale :(");
             spawnPlayer();
         }
     }
@@ -35,6 +62,7 @@ public class OverworldManager : MonoBehaviour
     void spawnPlayer()
     {
         player = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight1", typeof(GameObject))) as GameObject;
+
         player.transform.position = new Vector3(-.5f, 0f, 0f); // Should be changed to starting node
         playerSpawned = true;
         gm.pm.initPM();

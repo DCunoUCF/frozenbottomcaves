@@ -115,5 +115,20 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+        if (SceneManager.GetActiveScene().name == "Overworld")
+        {
+            if (!this.panic)
+            {
+                this.panic = true;
+
+                float unitsPerPixel = 16f / Screen.width;
+                float desiredHalfHeight = 0.5f * unitsPerPixel * Screen.height;
+
+                // GameObject.Find("DialogueManager").SetActive(true);
+                GameObject.Find("MainCamera").GetComponent<Camera>().orthographicSize = desiredHalfHeight;
+                // SceneManager.LoadScene("Dialogue", LoadSceneMode.Additive);
+            }
+        }
     }
 }

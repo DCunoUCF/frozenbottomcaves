@@ -60,9 +60,7 @@ using System.IO;
             }
 
             return dialogueList;
-            
         }
-
         
         // Function to extract ids from text file
         public static int parseId()
@@ -99,7 +97,7 @@ using System.IO;
             }
 
             return Int32.Parse(buffer.ToString());
-    }
+        }
 
         // Function to extract text from file
         public static string parseText()

@@ -19,6 +19,7 @@ TagManager:
   - NE
   - Enemy
   - GM
+  - OWNode
   layers:
   - Default
   - TransparentFX

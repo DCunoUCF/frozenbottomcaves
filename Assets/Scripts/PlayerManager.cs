@@ -61,9 +61,9 @@ public class PlayerManager : MonoBehaviour
     {
         if (!inCombat && characterSelected)
         {
-            print(characterName);
+            // print(characterName);
             player = GameObject.Find(characterNameClone);
-            print(player.transform.position);
+            // print(player.transform.position);
         }
         else if(inCombat)// We fightin now bois
         {
