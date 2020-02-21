@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (SceneManager.GetActiveScene().name == "Overworld")
+        if (SceneManager.GetActiveScene().name == "Overworld_emptynodes")
         {
             if (!this.panic)
             {

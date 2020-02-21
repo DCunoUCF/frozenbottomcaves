@@ -156,7 +156,7 @@ public class MenuManager : MonoBehaviour
 
     void OpenOverworld()
     {
-        SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
+        SceneManager.LoadScene("Overworld_emptynodes", LoadSceneMode.Single);
     }
 
     void OpenCharacterSelect()

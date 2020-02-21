@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using UnityEngine;
 
 public class Dialogue
 {
@@ -65,3 +65,25 @@ public class OptionNode
     }
 }
 
+/*public class ChoiceOption
+{
+    DialogueManager dm;
+    public UnityEngine.Events.UnityAction ChoiceOption()
+    {
+        this.dm = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
+
+        this.dm.currentNode = this.dm.dialogue.nodes[this.dm.currentNode].options[this.dm.choiceCounter].destId;
+
+        if (this.dm.currentNode == -1)
+        {
+            this.dm.SetPanelAndChildrenFalse();
+            return new UnityEngine.Events.UnityAction();
+        }
+
+        this.dm.SetChildrenFalse();
+
+        this.dm.SetChildrenTrue();
+
+        this.dm.DialogueSizer();
+    }
+}*/
