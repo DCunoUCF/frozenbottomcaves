@@ -74,7 +74,7 @@ public class MenuManager : MonoBehaviour
     		case UIType.Back:
     			Debug.Log("Clicked back!");
     			// ExitOptions();
-                this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
+                // this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
     			ReturnToMainMenu();
     			break;
             case UIType.Return:
