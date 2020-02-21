@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; set; }
     [SerializeField]
-    public PlayerClass playerScript;
+    public PlayerClass pc;
     public string characterName;
     public string characterNameClone;
     public string characterNameClone2 = "TheWhiteKnight(Clone)";
@@ -87,13 +87,13 @@ public class PlayerManager : MonoBehaviour
         combatInfo = new CList(player);
         combatInitialized = true;
         inCombat = true;
-        playerScript.setHighlights();
+        pc.setHighlights();
     }
 
     public void initPM()
     {
-        characterName = playerScript.name;
-        characterNameClone = playerScript.clonename;
+        characterName = pc.name;
+        characterNameClone = pc.clonename;
         characterSelected = true;
     }
 
@@ -106,14 +106,14 @@ public class PlayerManager : MonoBehaviour
             // Read input and set combat info based off of what skill
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                placeHighlights(playerScript.skill1, 1);
-                this.abilityinfo = playerScript.getInfo(1);
+                placeHighlights(pc.skill1, 1);
+                this.abilityinfo = pc.getInfo(1);
                 fillCombatInfo(abilityinfo);
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                placeHighlights(playerScript.skill2, 2);
-                this.abilityinfo = playerScript.getInfo(2);
+                placeHighlights(pc.skill2, 2);
+                this.abilityinfo = pc.getInfo(2);
                 fillCombatInfo(abilityinfo);
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
@@ -158,12 +158,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    // Gets the x, y for moving on the grid based of given mov target
     public void getMoveXY(Vector3 movTarget)
     {
         Vector3 temp = movTarget - playerLoc;
         int x, y;
-        //Debug.Log((temp.x / .5f).ToString("F2"));
-        //Debug.Log((temp.y / .25f).ToString("F2"));
         x = (int)(temp.x / .5f);
         y = (int)(temp.y / .25f);
         if (x == 0)
@@ -204,20 +203,10 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void setTurn(bool set)
-    {
-        this.isTurn = set;
-    }
-
-    public CList getCombatInfo()
-    {
-        return this.combatInfo;
-    }
-
     public void placeHighlights(List<Point> points, int key)
     {
         clearHighlights();
-        GameObject highlight = playerScript.getHighlight(key);
+        GameObject highlight = pc.getHighlight(key);
         foreach (Point tile in points)
         {
             if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
@@ -226,4 +215,11 @@ public class PlayerManager : MonoBehaviour
                           BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
         }
     }
+
+    // Returns the requested stat, 1 - str, 2 - int, 3 - dex
+    public int getStat(int i)
+    {
+        return this.pc.attributes[i];
+    }
+
 }

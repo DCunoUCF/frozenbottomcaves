@@ -100,7 +100,7 @@ public class MenuManager : MonoBehaviour
                 break;
             case UIType.KnightClass:
                 Debug.Log("Selected Knight!");
-                gm.pm.playerScript = CharacterSelection.writeStats("Knight.txt");
+                gm.pm.pc = CharacterSelection.writeStats("Knight.txt");
                 //OpenDemoLevel();
                 //this.gm.sm.setBattleMusic();
                 //gm.pm.combatInitialized = true;
@@ -115,11 +115,11 @@ public class MenuManager : MonoBehaviour
                 gm.pm.inCombat = true;
                 break;
             case UIType.MonkClass:
-                gm.pm.playerScript = CharacterSelection.writeStats("Monk.txt");
+                gm.pm.pc = CharacterSelection.writeStats("Monk.txt");
                 OpenOverworld();
                 break;
             case UIType.RogueClass:
-                gm.pm.playerScript = CharacterSelection.writeStats("Ninja.txt");
+                gm.pm.pc = CharacterSelection.writeStats("Ninja.txt");
                 OpenOverworld();
                 break;
             default:

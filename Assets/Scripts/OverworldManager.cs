@@ -73,7 +73,7 @@ public class OverworldManager : MonoBehaviour
             spawnPlayer();
         }
 
-        if (this.playerNodeId != this.dm.currentNode)
+        if (playerSpawned && this.playerNodeId != this.dm.currentNode)
         {
         	foreach (GameObject n in nodes)
         	{
@@ -82,11 +82,11 @@ public class OverworldManager : MonoBehaviour
         			if (id == this.dm.currentNode)
         			{
         				// Move the player along the map
-        				this.gm.pm.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.gm.pm.player.transform.position.z);
+        				this.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z);
 
         				// Rudimentary Camera Movement
-        				GameObject cam = GameObject.Find("MainCamera");
-        				cam.GetComponent<Camera>().transform.position = new Vector3(this.gm.pm.player.transform.position.x, this.gm.pm.player.transform.position.y, cam.GetComponent<Camera>().transform.position.z);
+        				//GameObject cam = GameObject.Find("MainCamera");
+        				//cam.GetComponent<Camera>().transform.position = new Vector3(this.gm.pm.player.transform.position.x, this.gm.pm.player.transform.position.y, cam.GetComponent<Camera>().transform.position.z);
 
         				// Update the player node id
         				this.playerNodeId = id;
@@ -99,11 +99,15 @@ public class OverworldManager : MonoBehaviour
     void spawnPlayer()
     {
         string path = "Prefabs/PlayerCharacters/";
-        path += gm.pm.playerScript.name;
+        path += gm.pm.pc.name;
         print(path);
         player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
         player.transform.position = new Vector3(-.5f, 0f, 0f); // Should be changed to starting node
         playerSpawned = true;
+
+        GameObject cam = GameObject.Find("MainCamera");
+        cam.transform.SetParent(player.transform);
+
         gm.pm.initPM();
     }
 }

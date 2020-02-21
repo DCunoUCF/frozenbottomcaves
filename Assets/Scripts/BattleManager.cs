@@ -279,7 +279,7 @@ public class BattleManager : MonoBehaviour
             combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
             if (combatantList[atkTarIndex].entity == player)
-                PlayerManager.Instance.playerScript.health -= combatantList[i].attackDmg;
+                PlayerManager.Instance.pc.health -= combatantList[i].attackDmg;
         }
     }
 
