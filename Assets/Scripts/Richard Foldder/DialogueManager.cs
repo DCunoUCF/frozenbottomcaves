@@ -52,11 +52,6 @@ public class DialogueManager : MonoBehaviour
         DialogueSizer();
     }
 
-    private void Update()
-    {
-        DialogueSizer();
-    }
-
     // Run if user clicks first choice
     public void choiceOption01()
     {
@@ -91,6 +86,7 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
     }
 
     // Run if user clicks second choice
@@ -127,6 +123,7 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
     }
 
     // Run if user clicks third choice
@@ -163,23 +160,30 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
+        DialogueSizer();
     }
 
     private void DialogueSizer()
     {
-        Rect panelRect = Panel.GetComponent<RectTransform>().rect;
+        RectTransform panelRect = Panel.GetComponent<RectTransform>();
         RectTransform dialogueRect = TextBox.GetComponent<RectTransform>();
         int numChars = TextBox.GetComponent<Text>().text.Length;
         int fontSize = TextBox.GetComponent<Text>().fontSize;
-        float charHeight = fontSize + 2;
+
+        // Char Height/Width based on font size. Bonus magic buffer numbers!
+        float charHeight = fontSize + 4;
         float charWidth = (fontSize / 2) + 1;
-        int magicCharsPerLine = Mathf.CeilToInt((float)dialogueRect.rect.width / (float)charWidth);
-        int numLines = Mathf.CeilToInt((float)numChars / (float)magicCharsPerLine);
-        Debug.Log("Previous dialogue box height: " + dialogueRect.rect.height);
+
+        // Number of lines
+        int charsPerLine = Mathf.CeilToInt((float)dialogueRect.rect.width / (float)charWidth);
+        int numLines = Mathf.CeilToInt((float)numChars / (float)charsPerLine);
+
+        // Resize Dialogue Box by only the new height
         dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
 
+        // Debugging
         Debug.Log("dialogueRect.rect.width:" + dialogueRect.rect.width + " charWidth:" + charWidth);
-        Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + magicCharsPerLine);
+        Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + charsPerLine);
         Debug.Log("numLines:" + numLines + " charHeight:" + charHeight);
         Debug.Log("Setting dialogue box height: " + dialogueRect.rect.height);
     }
