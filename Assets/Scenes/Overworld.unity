@@ -660,5 +660,45 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1027051806, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 113469827, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 248976197, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 385291376, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 408600724, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 474370915, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 722167650, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 777421099, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753270888, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1985881636, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: m_TagString
+      value: OWNode
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}

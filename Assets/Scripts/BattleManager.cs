@@ -75,7 +75,7 @@ public class BattleManager : MonoBehaviour
         enemiesLoc = GameObject.FindGameObjectsWithTag("eSpawn");
 
         // Instantiate Player and Companion
-        player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight"), playerLoc, Quaternion.identity);
+        player = GameObject.Instantiate(GameObject.Find(PlayerManager.Instance.characterName), playerLoc, Quaternion.identity);
         companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
         entitiesList.Add(player);
         entitiesList.Add(companion);

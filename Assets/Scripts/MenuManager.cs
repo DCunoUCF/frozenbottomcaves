@@ -112,6 +112,10 @@ public class MenuManager : MonoBehaviour
                 gm.pm.combatInitialized = true;
                 gm.pm.inCombat = true;
                 break;
+            case UIType.MonkClass:
+                gm.pm.playerScript = CharacterSelection.writeStats("Monk.txt");
+                OpenOverworld();
+                break;
             default:
     			Debug.Log("Clicked a button!"); break;
     	}

@@ -61,9 +61,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (!inCombat && characterSelected)
         {
-            print(characterName);
             player = GameObject.Find(characterNameClone);
-            print(player.transform.position);
         }
         else if(inCombat)// We fightin now bois
         {
@@ -83,7 +81,7 @@ public class PlayerManager : MonoBehaviour
 
     public void initCombat()
     {
-        player = GameObject.Find(characterNameClone2);
+        player = GameObject.Find(characterNameClone);
         playerLoc = player.transform.position;
         print(playerLoc);
         combatInfo = new CList(player);
