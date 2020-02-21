@@ -17,7 +17,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject ContinueButton;
 
     // Keeps track of position in dialogue
-    public static int currentNode = 0;
+    // public static int currentNode = 0;
+    public int currentNode = 0;
     
 
     // Start is called before the first frame update
