@@ -80,6 +80,7 @@ public class OverworldManager : MonoBehaviour
         			if (id == this.dm.currentNode)
         			{
         				// Move the player along the map
+                        this.TurnPlayer(this.gm.pm.player, new Vector3(n.transform.position.x, n.transform.position.y, this.gm.pm.player.transform.position.z));
         				this.gm.pm.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.gm.pm.player.transform.position.z);
 
         				// Rudimentary Camera Movement
@@ -118,5 +119,52 @@ public class OverworldManager : MonoBehaviour
         player.transform.position = new Vector3(-.5f, 0f, 0f); // Should be changed to starting node
         playerSpawned = true;
         gm.pm.initPM();
+    }
+
+    void TurnPlayer(GameObject entity, Vector3 movTar)
+    {
+        // How I WILL do it later entity.dir... maybe?
+        float dirX, dirY;
+        dirX = movTar.x - entity.transform.localPosition.x;
+        dirY = movTar.y - entity.transform.localPosition.y;
+
+        GameObject SE = entity.transform.GetChild(0).gameObject, SW = entity.transform.GetChild(1).gameObject,
+                   NW = entity.transform.GetChild(2).gameObject, NE = entity.transform.GetChild(3).gameObject;
+
+        if (dirX > 0)
+        {
+            if (dirY > 0)
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(true);
+            }
+            else
+            {
+                SE.gameObject.SetActive(true);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+            }
+
+        }
+        else if (dirX < 0)
+        {
+            if (dirY < 0)
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(true);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+            }
+            else
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(true);
+                NE.gameObject.SetActive(false);
+            }
+        }
     }
 }
