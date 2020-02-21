@@ -183,6 +183,7 @@ public class DialogueManager : MonoBehaviour
         int numChars = TextBox.GetComponent<Text>().text.Length;
         int fontSize = TextBox.GetComponent<Text>().fontSize;
         int winHeightBuffer = 20;
+        int middleBuffer = winHeightBuffer / 2;
         int optionBuffer = (int) ((option1Rect.rect.height) + winHeightBuffer);
 
         // Char Height/Width based on font size. Bonus magic buffer numbers!
@@ -191,14 +192,14 @@ public class DialogueManager : MonoBehaviour
 
         // Number of lines
         int charsPerLine = Mathf.CeilToInt((float)dialogueRect.rect.width / (float)charWidth);
-        int numLines = (int)((float)numChars / (float)charsPerLine);
+        int numLines = Mathf.CeilToInt((float)numChars / (float)charsPerLine);
 
         // Resize Dialogue Box by only the new height
         dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
 
         // Move dialogue options beneath the dialogue box
 
-        float newPanelTopY = dialogueRect.transform.localPosition.y + (dialogueRect.rect.height / 2) + winHeightBuffer;
+        float newPanelTopY = dialogueRect.transform.localPosition.y + (dialogueRect.rect.height / 2) + winHeightBuffer + middleBuffer;
         float newPanelBotY = optionBuffer*optionRect.Count;
         panelRect.sizeDelta = new Vector2(panelRect.rect.width, newPanelTopY + newPanelBotY);
 
