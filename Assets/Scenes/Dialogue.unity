@@ -277,15 +277,45 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5477203897658549070, guid: 0caa9ec7e5267954b8ff8a31191efdef,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 5477203897658549070, guid: 0caa9ec7e5267954b8ff8a31191efdef,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 9160725509562188318, guid: 0caa9ec7e5267954b8ff8a31191efdef,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7030299756856748241, guid: 0caa9ec7e5267954b8ff8a31191efdef,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 7030299756856748241, guid: 0caa9ec7e5267954b8ff8a31191efdef,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 6878818515738977121, guid: 0caa9ec7e5267954b8ff8a31191efdef,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6233738088008507020, guid: 0caa9ec7e5267954b8ff8a31191efdef,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 6233738088008507020, guid: 0caa9ec7e5267954b8ff8a31191efdef,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 7059543562625417311, guid: 0caa9ec7e5267954b8ff8a31191efdef,
         type: 3}
