@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -12,23 +13,26 @@ public class DialogueManager : MonoBehaviour
     public GameObject TextBox;
     public Button[] Choices;
     public Dialogue dialogue;
-    
 
     public GameObject ContinueButton;
 
     // Keeps track of position in dialogue
     // public static int currentNode = 0;
     public int currentNode = 0;
-    
 
-    // Start is called before the first frame update
+    // David's Trash for Multiple Options Testing
+    //public List<Button> Choices;
+    //public int choiceCounter;
+    //public GameObject optionParent;
+    //public int currentOptionsCount;
+
     void Start()
     {
         // Will change this to a static load so that we don't have to initialize
         Program p = new Program();
 
         // Loads the file
-        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial.txt");
+        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial_emptynodes.txt");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);
@@ -38,7 +42,7 @@ public class DialogueManager : MonoBehaviour
         // Dialogue text
         TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             Choices[i].gameObject.SetActive(false);
         }
@@ -72,9 +76,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
-        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
-        
-        for(int i = 0; i < 3; i++)
+
+        for (int i = 0; i < 3; i++)
         {
             Choices[i].gameObject.SetActive(false);
         }
@@ -110,7 +113,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
-        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
 
         for (int i = 0; i < 3; i++)
         {
@@ -148,7 +150,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(false);
-        GameObject.Find("GameManager").GetComponent<GameManager>().om.panic = true;
 
         for (int i = 0; i < 3; i++)
         {
@@ -167,31 +168,88 @@ public class DialogueManager : MonoBehaviour
         DialogueSizer();
     }
 
-    private void DialogueSizer()
+    public void EventComplete()
     {
+        if (currentNode == -1)
+        {
+            this.SetPanelAndChildrenFalse();
+            return;
+        }
+
+        this.SetChildrenFalse();
+
+        this.SetChildrenTrue();
+
+        this.DialogueSizer();
+    }
+
+    public void SetChildrenTrue()
+    {
+        TextBox.SetActive(true);
+        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
+        for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
+        {
+            Choices[i].gameObject.SetActive(true);
+            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+        }
+    }
+
+    public void SetChildrenFalse()
+    {
+        TextBox.SetActive(false);
+
+        for (int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void SetPanelAndChildrenFalse()
+    {
+        TextBox.SetActive(false);
+
+        for (int i = 0; i < 3; i++)
+        {
+            Choices[i].gameObject.SetActive(false);
+        }
+
+        Panel.SetActive(false);
+    }
+
+    public void DialogueSizer()
+    {
+        // Components for days
         RectTransform panelRect = Panel.GetComponent<RectTransform>();
         RectTransform dialogueRect = TextBox.GetComponent<RectTransform>();
         List<RectTransform> optionRect = new List<RectTransform>();
         RectTransform option1Rect = Choices[0].GetComponent<RectTransform>();
         RectTransform option2Rect = Choices[1].GetComponent<RectTransform>();
         RectTransform option3Rect = Choices[2].GetComponent<RectTransform>();
+        int numChars = TextBox.GetComponent<Text>().text.Length;
+        int fontSize = TextBox.GetComponent<Text>().fontSize;
 
+        // Only adding active buttons
         if (Choices[2].IsActive())
             optionRect.Add(option3Rect);
         if (Choices[1].IsActive())
             optionRect.Add(option2Rect);
         if (Choices[0].IsActive())
             optionRect.Add(option1Rect);
+        //for (int i = 0; i < this.Choices.Count; i++)
+        //{
+        //    optionRect.Add(Choices[i].GetComponent<RectTransform>());
+        //}
 
-        int numChars = TextBox.GetComponent<Text>().text.Length;
-        int fontSize = TextBox.GetComponent<Text>().fontSize;
+        // Buffers
         int winHeightBuffer = 20;
         int middleBuffer = winHeightBuffer / 2;
-        int optionBuffer = (int) ((option1Rect.rect.height) + winHeightBuffer);
+        int optionBuffer = (int) ((optionRect[0].rect.height) + middleBuffer);
 
-        // Char Height/Width based on font size. Bonus magic buffer numbers!
-        float charHeight = fontSize + 4;
-        float charWidth = (fontSize / 2) + 1;
+        // Char Height/Width based on font size. Increase width buffer to increase the number of rows. Increase heightBuffer to increase the height of the rows
+        float heightBuffer = 4.0f, widthBuffer = 1.0f;
+        float charHeight = fontSize + heightBuffer;
+        float charWidth = (fontSize / 2) + widthBuffer;
 
         // Number of lines
         int charsPerLine = Mathf.CeilToInt((float)dialogueRect.rect.width / (float)charWidth);
@@ -200,26 +258,80 @@ public class DialogueManager : MonoBehaviour
         // Resize Dialogue Box by only the new height
         dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
 
-        // Move dialogue options beneath the dialogue box
-
-        float newPanelTopY = dialogueRect.transform.localPosition.y + (dialogueRect.rect.height / 2) + winHeightBuffer + middleBuffer;
+        // Resize Panel box based on Dialogue box size, and number of options*option size + buffers
+        float newPanelTopY = dialogueRect.rect.height + winHeightBuffer*2;
         float newPanelBotY = optionBuffer*optionRect.Count;
         panelRect.sizeDelta = new Vector2(panelRect.rect.width, newPanelTopY + newPanelBotY);
 
+        // Readjust Dialogue box location to be buffer from top of Panel
         dialogueRect.anchoredPosition = new Vector2(0,(panelRect.rect.height / 2) - (dialogueRect.rect.height/2) - winHeightBuffer);
         
+        // Readjust each option button to be buffer from bottom of Panel
         for (int i = 0; i < optionRect.Count; i++)
         {
-            optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer*i)));
+            optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer * i)));
         }
-
-        // Debugging
-        //print("dialogueRect.transform.localPosition.y:" + dialogueRect.transform.localPosition.y + " dialogueRect.rect.height / 2:" + (dialogueRect.rect.height / 2));
-        //print("option3Rect.rect.position.y:" + option3Rect.transform.localPosition.y + " option3Rect.rect.height / 2:" + (option3Rect.rect.height / 2));
-        //print("newPanelTopY:" + newPanelTopY + " newPanelBotY:" + newPanelBotY);
-        //Debug.Log("dialogueRect.rect.width:" + dialogueRect.rect.width + " charWidth:" + charWidth);
-        //Debug.Log("numChars:" + numChars + " magicCharsPerLine:" + charsPerLine);
-        //Debug.Log("numLines:" + numLines + " charHeight:" + charHeight);
-        //Debug.Log("Setting dialogue box height: " + dialogueRect.rect.height);
     }
 }
+
+//// David's Start Method
+//void Start()
+//{
+//    // Will change this to a static load so that we don't have to initialize
+//    Program p = new Program();
+
+//    // Loads the file
+//    dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial_emptynodes.txt");
+//    currentOptionsCount = this.dialogue.nodes[currentNode].options.Count;
+//    optionParent = GameObject.Find("Option01");
+
+//    Choices = new List<Button>(currentOptionsCount);
+
+//    // Adds Listeners to the options
+//    for (int i = 0; i < Choices.Count; i++)
+//    {
+//        Choices.Add(GameObject.Instantiate(optionParent.GetComponent<Button>(), Panel.transform));
+//    }
+
+//    choiceCounter = 0;
+//    foreach (Button button in Choices)
+//    {
+//        int i = choiceCounter++;
+//        button.onClick.AddListener(() => this.ChoiceOption(i));
+//    }
+
+//    // Dialogue text
+//    TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
+//    for(int i = 0; i < Choices.Count; i++)
+//    {
+//        Choices[i].gameObject.SetActive(false);
+//    }
+
+//    // Dialogue Choices
+//    for (int i = 0; i < currentOptionsCount; i++)
+//    {
+//        Choices[i].gameObject.SetActive(true);
+//        Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+//    }
+
+//    optionParent.SetActive(false);
+//    DialogueSizer();
+//}
+
+//private void ChoiceOption(int choice)
+//{
+//    this.currentNode = this.dialogue.nodes[currentNode].options[choice].destId;
+
+//    if (currentNode == -1)
+//    {
+//        this.SetPanelAndChildrenFalse();
+//        return;
+//    }
+
+//    this.SetChildrenFalse();
+
+//    this.SetChildrenTrue();
+
+//    this.DialogueSizer();
+//}

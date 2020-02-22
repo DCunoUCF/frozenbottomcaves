@@ -13,6 +13,7 @@ public class BattleManager : MonoBehaviour
     public static BattleManager Instance { get; set; }
     public List<CList> combatantList;
     private List<GameObject> entitiesList;
+    private List<CList> trashList;
     public Cell[,] gridCell;
     private GameObject grid;
     public GameObject activeArena;
@@ -300,10 +301,14 @@ public class BattleManager : MonoBehaviour
         {
             if (combatantList[i].hp <= 0)
             {
+                //trashList.Add(combatantList[i]);
                 combatantList[i].entity.SetActive(false);
                 combatantList.RemoveAt(i);
             }
         }
+
+        if (this.isResolved)
+            return;
 
         if (combatantList.Count == 0 || combatantList[0].entity != player)
         {
@@ -316,12 +321,15 @@ public class BattleManager : MonoBehaviour
         {
             this.didWeWin = true;
             this.isResolved = true;
+            //this.CleanScene();
             Debug.Log("Win");
         }
         else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
         {
             this.didWeWin = true;
             this.isResolved = true;
+            //this.CleanScene();
+            //Destroy(this.gameObject);
             Debug.Log("Win");
         }
 
@@ -339,6 +347,19 @@ public class BattleManager : MonoBehaviour
 
         Debug.AssertFormat(false, "Couldn't find in CombatantList");
         return -1;
+    }
+
+    public void CleanScene()
+    {
+        foreach (CList entity in this.combatantList)
+        {
+            Destroy(entity.entity);
+        }
+
+        foreach (CList entity in this.trashList)
+        {
+            Destroy(entity.entity);
+        }
     }
 
     void MoveOnGrid(CList entity)

@@ -57,8 +57,6 @@ public class MenuManager : MonoBehaviour
     	{
     		case UIType.NewGame:
     			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
-               // OpenDemoLevel();
-               // this.gm.sm.setBattleMusic();
     		    OpenCharacterSelect();
     			break;
     		case UIType.Continue:
@@ -78,9 +76,12 @@ public class MenuManager : MonoBehaviour
     			ReturnToMainMenu();
     			break;
             case UIType.Return:
-                // TODO: change to Go back to Overworld
-            case UIType.Restart:
                 Debug.Log("Clicked return!");
+                // TODO: change to Go back to Overworld
+                this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
+                ExitBattle();
+                break;
+            case UIType.Restart:
                 // this.gm.sm.setForestMusic();
                 this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
                 ReturnToMainMenu();
@@ -109,10 +110,6 @@ public class MenuManager : MonoBehaviour
             case UIType.KnightClass:
                 Debug.Log("Selected Knight!");
                 gm.pm.playerScript = CharacterSelection.writeStats("Knight.txt");
-                //OpenDemoLevel();
-                //this.gm.sm.setBattleMusic();
-                //gm.pm.combatInitialized = true;
-                //gm.pm.inCombat = true;
                 OpenOverworld();
                 break;
             case UIType.WizardClass:
@@ -177,6 +174,20 @@ public class MenuManager : MonoBehaviour
     void ExitOptions()
     {
     	SceneManager.UnloadSceneAsync("OptionsMenu");
+    }
+
+    void ExitBattle()
+    {
+        GameObject overworldTilemap = GameObject.Find("OverworldGrid").transform.GetChild(0).gameObject;
+    	SceneManager.UnloadSceneAsync("Battleworld");
+
+        if (SceneManager.GetSceneByName("WinSplash").IsValid())
+    	    SceneManager.UnloadSceneAsync("WinSplash");
+
+        if (SceneManager.GetSceneByName("LoseSplash").IsValid())
+            SceneManager.UnloadSceneAsync("LoseSplash");
+
+        overworldTilemap.SetActive(true);
     }
 
     void ReturnToMainMenu()

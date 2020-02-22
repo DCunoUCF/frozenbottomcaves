@@ -9,13 +9,12 @@ public class OverworldManager : MonoBehaviour
 {
     private GameManager gm;
     private GameObject player;
-    private DialogueManager dm;
+    public DialogueManager dm;
     public bool playerSpawned;
 
     public List<GameObject> nodes;
     public int playerNodeId;
-
-    public bool panic;
+    public int nodeTypeCount;
 
     private void Awake()
     {
@@ -26,7 +25,6 @@ public class OverworldManager : MonoBehaviour
     void Start()
     {
         playerSpawned = false;
-        this.panic = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         // nodes = new List<GameObject>();
 
@@ -53,7 +51,7 @@ public class OverworldManager : MonoBehaviour
         {
         	this.dm = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
 	        this.playerNodeId = this.dm.currentNode;
-	        Debug.Log("OverworldManager sees the player at "+this.playerNodeId);
+	        Debug.Log("OverworldManager sees the player at " + this.playerNodeId);
 
         	nodes = new List<GameObject>();
 
@@ -62,10 +60,6 @@ public class OverworldManager : MonoBehaviour
 	        	nodes.Add(n);
 	        }
 
-	        if (GameObject.Find("Node0") != null)
-	        	Debug.Log("Hooray!");
-	        else
-	        	Debug.Log("Fail whale :(");
             spawnPlayer();
         }
 
@@ -73,7 +67,7 @@ public class OverworldManager : MonoBehaviour
         {
         	foreach (GameObject n in nodes)
         	{
-        		int counter = 0;
+        		this.nodeTypeCount = 0;
 
         		foreach (int id in n.GetComponent<WorldNode>().NodeIDs)
         		{
@@ -90,24 +84,23 @@ public class OverworldManager : MonoBehaviour
         				// Update the player node id
         				this.playerNodeId = id;
 
-        				if (n.GetComponent<WorldNode>().NodeTypes[counter] == FlagType.Battle && this.panic)
+        				if (n.GetComponent<WorldNode>().NodeTypes[this.nodeTypeCount] == FlagType.Battle)
         				{
-        					// OpenDemoLevel();
-        					SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
-			                // this.gm.sm.setBattleMusic();
-			                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
-			                gm.pm.combatInitialized = true;
-			                gm.pm.inCombat = true;
-			                this.panic = false;
-        				}
+                            print("entered combat");
+                            StartCoroutine(BattleEvent());
+                        }
 
-        				counter++;
-        			}
+                        if (n.GetComponent<WorldNode>().NodeTypes[this.nodeTypeCount] == FlagType.Event)
+                        {
+                            print("entered event");
+                            this.SkillSaveEvent();
+                        }
+                    }
+
+                    this.nodeTypeCount++;
         		}
         	}
         }
-
-        this.panic = false;
     }
 
 
@@ -116,7 +109,7 @@ public class OverworldManager : MonoBehaviour
     {
         player = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight1", typeof(GameObject))) as GameObject;
 
-        player.transform.position = new Vector3(-.5f, 0f, 0f); // Should be changed to starting node
+        player.transform.position = nodes[0].transform.position;
         playerSpawned = true;
         gm.pm.initPM();
     }
@@ -166,5 +159,53 @@ public class OverworldManager : MonoBehaviour
                 NE.gameObject.SetActive(false);
             }
         }
+    }
+
+    public IEnumerator BattleEvent()
+    {
+        this.dm.Panel.SetActive(false);
+        this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+        SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
+        this.gm.pm.combatInitialized = true;
+        this.gm.pm.inCombat = true;
+
+        yield return new WaitUntil(() => this.gm.bm != null);
+        yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true);
+
+        if (this.gm.bm.didWeWinTheBattle())
+            this.dm.currentNode += 1;
+        else
+            this.dm.currentNode += 2;
+        
+        this.gm.pm.combatInitialized = false;
+        this.gm.pm.inCombat = false;
+
+        //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
+        this.dm.Panel.SetActive(true);
+        this.dm.EventComplete();
+    }
+
+    public void SkillSaveEvent()
+    {
+        // Check which skill the event is for from WorldNode struct
+        // Maybe have difficulties in the WorldNode struct to alter what the roll needs to be
+        // Call getters to the playerClass/Manager to check the player's skill
+        // Do random chance roll
+        // Setter for dm.currentNode + 1(save) or + 2(fail)
+
+        this.dm.Panel.SetActive(false);
+        // Stand-in for first playable... 1 = save, 2 = fail
+        int random = (Random.Range(0, 2) + 1);
+        print("currentNode before:" + this.dm.currentNode);
+        this.dm.currentNode += random;
+        print("currentNode after:" + this.dm.currentNode);
+
+        if (random == 1)
+            print("SAVE");
+        else if (random == 2)
+            print("FAIL");
+
+        this.dm.Panel.SetActive(true);
+        this.dm.EventComplete();
     }
 }
