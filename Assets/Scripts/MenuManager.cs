@@ -80,6 +80,7 @@ public class MenuManager : MonoBehaviour
                 // TODO: change to Go back to Overworld
                 this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
                 gm.pm.inCombat = false;
+                Destroy(GameObject.Find("SceneCleaner"));
                 ExitBattle();
                 break;
             case UIType.Restart:

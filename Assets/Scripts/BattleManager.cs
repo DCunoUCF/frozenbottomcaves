@@ -32,6 +32,8 @@ public class BattleManager : MonoBehaviour
     private bool isResolved;
     private bool didWeWin;
 
+    private GameObject Entities; // parent to all entities spawned for cleanup
+
     void Awake()
     {
         if (Instance == null)
@@ -53,6 +55,9 @@ public class BattleManager : MonoBehaviour
         availEnemyLoc = new List<Vector3>();
         isResolved = false;
         didWeWin = false;
+
+        Entities = GameObject.Find("Entities"); 
+
 
         // Deactivate all grids except for chosen grid
         for (int i = 0; i < gridDeactivate.Length; i++)
@@ -77,7 +82,10 @@ public class BattleManager : MonoBehaviour
 
         // Instantiate Player and Companion
         player = GameObject.Instantiate(GameObject.Find(PlayerManager.Instance.characterName), playerLoc, Quaternion.identity);
+        player.transform.SetParent(Entities.transform);
         companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
+        companion.transform.SetParent(Entities.transform);
+
         entitiesList.Add(player);
         entitiesList.Add(companion);
 
@@ -101,6 +109,7 @@ public class BattleManager : MonoBehaviour
         {
             enemies.Add(GameObject.Instantiate(enemyType[0], enemyLoc[i], Quaternion.identity)); // Overworld will set the enemy types
             entitiesList.Add(enemies[i]);
+            enemies[i].transform.SetParent(Entities.transform);
         }
 
         // Since gameobject is here, tell playerMan to initialize combat vars
@@ -347,17 +356,19 @@ public class BattleManager : MonoBehaviour
         return -1;
     }
 
+
     public void CleanScene()
     {
-        foreach (CList entity in this.combatantList)
-        {
-            Destroy(entity.entity);
-        }
+        //Destroy(sceneCleaner);
+        //foreach (CList entity in this.combatantList)
+        //{
+        //    Destroy(entity.entity);
+        //}
 
-        foreach (CList entity in this.trashList)
-        {
-            Destroy(entity.entity);
-        }
+        //foreach (CList entity in this.trashList)
+        //{
+        //    Destroy(entity.entity);
+        //}
     }
 
     void MoveOnGrid(CList entity)
