@@ -9,7 +9,7 @@ public class OverworldManager : MonoBehaviour
 {
     private GameManager gm;
     private GameObject player;
-    private DialogueManager dm;
+    public DialogueManager dm;
     public bool playerSpawned;
 
     public List<GameObject> nodes;
@@ -56,7 +56,7 @@ public class OverworldManager : MonoBehaviour
         }
 
         // If we're in the overworld for the first time, plop the player character in
-        if (SceneManager.GetActiveScene().name == "Overworld_emptynodes" && !playerSpawned)
+        if (SceneManager.GetActiveScene().name == "Overworld" && !playerSpawned)
         {
         	this.dm = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
 	        this.playerNodeId = this.dm.currentNode;
@@ -96,18 +96,14 @@ public class OverworldManager : MonoBehaviour
 
         				if (n.GetComponent<WorldNode>().NodeTypes[this.nodeTypeCount] == FlagType.Battle)
         				{
-                            // OpenDemoLevel();
-                            SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
-                            // this.gm.sm.setBattleMusic();
-                            this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
-                            gm.pm.combatInitialized = true;
-                            gm.pm.inCombat = true;
+                            print("entered combat");
+                            StartCoroutine(BattleEvent());
                         }
 
                         if (n.GetComponent<WorldNode>().NodeTypes[this.nodeTypeCount] == FlagType.Event)
                         {
                             print("entered event");
-                            SkillSaveEvent();
+                            this.SkillSaveEvent();
                         }
                     }
 
@@ -187,9 +183,28 @@ public class OverworldManager : MonoBehaviour
         }
     }
 
-    public void BattleEvent()
+    public IEnumerator BattleEvent()
     {
+        this.dm.Panel.SetActive(false);
+        this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+        SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
+        this.gm.pm.combatInitialized = true;
+        this.gm.pm.inCombat = true;
 
+        yield return new WaitUntil(() => this.gm.bm != null);
+        yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true);
+
+        if (this.gm.bm.didWeWinTheBattle())
+            this.dm.currentNode += 1;
+        else
+            this.dm.currentNode += 2;
+        
+        this.gm.pm.combatInitialized = false;
+        this.gm.pm.inCombat = false;
+
+        //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
+        this.dm.Panel.SetActive(true);
+        this.dm.EventComplete();
     }
 
     public void SkillSaveEvent()
@@ -200,6 +215,7 @@ public class OverworldManager : MonoBehaviour
         // Do random chance roll
         // Setter for dm.currentNode + 1(save) or + 2(fail)
 
+        this.dm.Panel.SetActive(false);
         // Stand-in for first playable... 1 = save, 2 = fail
         int random = (Random.Range(0, 2) + 1);
         print("currentNode before:" + this.dm.currentNode);
@@ -211,6 +227,7 @@ public class OverworldManager : MonoBehaviour
         else if (random == 2)
             print("FAIL");
 
+        this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2803115764271919853}
   - component: {fileID: 2803115764271919850}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: DialogueCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,14 +147,11 @@ MonoBehaviour:
   Panel: {fileID: 2803115764891631159}
   TextBox: {fileID: 2803115765418608823}
   Choices:
-  - {fileID: 0}
+  - {fileID: 2472313657425988191}
   - {fileID: 2803115765477992411}
   - {fileID: 2803115765468137676}
-  choiceCounter: 0
-  optionParent: {fileID: 0}
   ContinueButton: {fileID: 0}
   currentNode: 0
-  currentOptionsCount: 0
 --- !u!1 &2803115764891631159
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,11 +318,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Option02
       objectReference: {fileID: 0}
-    - target: {fileID: 3536930599088481825, guid: 6ec025fd9e27fc7469c34e318c9a635a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3536930599088481824, guid: 6ec025fd9e27fc7469c34e318c9a635a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -462,6 +454,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Option03
+      objectReference: {fileID: 0}
+    - target: {fileID: 640897463100884960, guid: 3060c6c318dd76a4695c459eef823a9c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 640897463100884967, guid: 3060c6c318dd76a4695c459eef823a9c,
         type: 3}
@@ -723,3 +720,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3625828774107633450}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2472313657425988191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1161616594714647925, guid: 8db0bf8e98ec9af46b7e3b3167cb3f28,
+    type: 3}
+  m_PrefabInstance: {fileID: 3625828774107633450}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
