@@ -114,6 +114,8 @@ public class MenuManager : MonoBehaviour
                 OpenOverworld();
                 break;
             case UIType.WizardClass:
+                gm.pm.pc = CharacterSelection.writeStats("Wizard.txt");
+                OpenOverworld();
                 break;
             case UIType.MonkClass:
                 gm.pm.pc = CharacterSelection.writeStats("Monk.txt");
