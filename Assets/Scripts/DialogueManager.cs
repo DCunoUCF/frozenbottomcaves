@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     // Game Objects
     public GameObject Manager;
     public GameObject Panel;
+    public GameObject backgroundImage;
     public GameObject TextBox;
     public Button[] Choices;
     public Dialogue dialogue;
@@ -29,6 +30,11 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        TextBox.GetComponent<MeshRenderer>().sortingOrder = 4;
+        Choices[0].GetComponent<Button>().GetComponentInChildren<MeshRenderer>().sortingOrder = 4;
+        Choices[1].GetComponent<Button>().GetComponentInChildren<MeshRenderer>().sortingOrder = 4;
+        Choices[2].GetComponent<Button>().GetComponentInChildren<MeshRenderer>().sortingOrder = 4;
+        backgroundImage.GetComponent<MeshRenderer>().sortingOrder = 3;
         // Will change this to a static load so that we don't have to initialize
         Program p = new Program();
 
