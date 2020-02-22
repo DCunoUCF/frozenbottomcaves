@@ -48,7 +48,7 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ButtonAction()
@@ -79,6 +79,8 @@ public class MenuManager : MonoBehaviour
                 Debug.Log("Clicked return!");
                 // TODO: change to Go back to Overworld
                 this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
+                gm.pm.inCombat = false;
+                Destroy(GameObject.Find("SceneCleaner"));
                 ExitBattle();
                 break;
             case UIType.Restart:
@@ -109,10 +111,20 @@ public class MenuManager : MonoBehaviour
                 break;
             case UIType.KnightClass:
                 Debug.Log("Selected Knight!");
-                gm.pm.playerScript = CharacterSelection.writeStats("Knight.txt");
+                gm.pm.pc = CharacterSelection.writeStats("Knight.txt");
                 OpenOverworld();
                 break;
             case UIType.WizardClass:
+                gm.pm.pc = CharacterSelection.writeStats("Wizard.txt");
+                OpenOverworld();
+                break;
+            case UIType.MonkClass:
+                gm.pm.pc = CharacterSelection.writeStats("Monk.txt");
+                OpenOverworld();
+                break;
+            case UIType.RogueClass:
+                gm.pm.pc = CharacterSelection.writeStats("Ninja.txt");
+                OpenOverworld();
                 break;
             default:
     			Debug.Log("Clicked a button!"); break;
