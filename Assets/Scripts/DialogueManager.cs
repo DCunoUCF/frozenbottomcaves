@@ -30,6 +30,7 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        // Hardcoding Sort Order is absolutely necessary
         TextBox.GetComponent<MeshRenderer>().sortingOrder = 4;
         Choices[0].GetComponent<Button>().GetComponentInChildren<MeshRenderer>().sortingOrder = 4;
         Choices[1].GetComponent<Button>().GetComponentInChildren<MeshRenderer>().sortingOrder = 4;

@@ -51,14 +51,14 @@ public class OverworldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!playerSpawned)
+/*        if(!playerSpawned)
         {
             List<GameObject> nodes = new List<GameObject>();
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("OWNode"))
                 nodes.Add(g);
             foreach (GameObject g in nodes)
                 print(g);
-        }
+        }*/
 
         // If we're in the overworld for the first time, plop the player character in
         if (SceneManager.GetActiveScene().name == "Overworld" && !playerSpawned)
@@ -153,7 +153,7 @@ public class OverworldManager : MonoBehaviour
         path += gm.pm.pc.name;
         print(path);
         player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
-        player.transform.position = nodes[0].transform.position;
+        player.transform.position = GameObject.Find("0").transform.position; // hard coding node 0
         print("node 0:" + nodes[0].transform.position);
         playerSpawned = true;
         GameObject cam = GameObject.Find("MainCamera");
