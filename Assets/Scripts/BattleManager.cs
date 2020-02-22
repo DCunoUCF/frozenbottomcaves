@@ -50,6 +50,7 @@ public class BattleManager : MonoBehaviour
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
         entitiesList = new List<GameObject>();
+        trashList = new List<CList>();
         availEnemyLoc = new List<Vector3>();
         isResolved = false;
         didWeWin = false;
@@ -195,7 +196,7 @@ public class BattleManager : MonoBehaviour
                 }
             }
             // If the tile IS an obstruction
-            else // (obstaclesMap.HasTile(position) || tilemap.GetTile(position).name == "isoWall")
+            else // (obstaclesMap.HasTile(position) || tilemap.GetTile(position).name == "wall")
             {
                 this.gridCell[xDif, yDif] = new Cell(false, tileEntity, currentVector, xDif, yDif);
             }
@@ -301,7 +302,7 @@ public class BattleManager : MonoBehaviour
         {
             if (combatantList[i].hp <= 0)
             {
-                //trashList.Add(combatantList[i]);
+                trashList.Add(combatantList[i]);
                 combatantList[i].entity.SetActive(false);
                 combatantList.RemoveAt(i);
             }
@@ -321,15 +322,14 @@ public class BattleManager : MonoBehaviour
         {
             this.didWeWin = true;
             this.isResolved = true;
-            //this.CleanScene();
+            this.CleanScene();
             Debug.Log("Win");
         }
         else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
         {
             this.didWeWin = true;
             this.isResolved = true;
-            //this.CleanScene();
-            //Destroy(this.gameObject);
+            this.CleanScene();
             Debug.Log("Win");
         }
 
@@ -353,7 +353,8 @@ public class BattleManager : MonoBehaviour
     {
         foreach (CList entity in this.combatantList)
         {
-            Destroy(entity.entity);
+            if (entity.entity != player)
+                Destroy(entity.entity);
         }
 
         foreach (CList entity in this.trashList)

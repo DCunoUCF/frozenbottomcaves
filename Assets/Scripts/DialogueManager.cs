@@ -32,7 +32,7 @@ public class DialogueManager : MonoBehaviour
         Program p = new Program();
 
         // Loads the file
-        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial_emptynodes.txt");
+        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial.txt");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);
@@ -170,7 +170,8 @@ public class DialogueManager : MonoBehaviour
 
     public void EventComplete()
     {
-        if (currentNode == -1)
+        print("curNode in DiaMan:" + this.currentNode);
+        if (this.currentNode == -1)
         {
             this.SetPanelAndChildrenFalse();
             return;
@@ -181,6 +182,7 @@ public class DialogueManager : MonoBehaviour
         this.SetChildrenTrue();
 
         this.DialogueSizer();
+        print("curNode in DiaMan:" + this.currentNode);
     }
 
     public void SetChildrenTrue()
@@ -281,7 +283,7 @@ public class DialogueManager : MonoBehaviour
 //    Program p = new Program();
 
 //    // Loads the file
-//    dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial_emptynodes.txt");
+//    dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial.txt");
 //    currentOptionsCount = this.dialogue.nodes[currentNode].options.Count;
 //    optionParent = GameObject.Find("Option01");
 

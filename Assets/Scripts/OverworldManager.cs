@@ -26,21 +26,6 @@ public class OverworldManager : MonoBehaviour
     {
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        // nodes = new List<GameObject>();
-
-        // foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
-        // {
-        // 	nodes.Add(n);
-        // }
-
-        // nodes = GameObject.FindGameObjectsWithTag("OWNode");
-
-        // if (GameObject.Find("Node0") != null)
-        // 	Debug.Log("Hooray!");
-        // else
-        // 	Debug.Log("Fail whale :(");
-
-        // Debug.Log(OWNodes.ToString());
     }
 
     // Update is called once per frame
@@ -63,7 +48,7 @@ public class OverworldManager : MonoBehaviour
             spawnPlayer();
         }
 
-        if (this.playerNodeId != this.dm.currentNode)
+        if (this.dm != null && this.playerNodeId != this.dm.currentNode)
         {
         	foreach (GameObject n in nodes)
         	{
@@ -188,10 +173,10 @@ public class OverworldManager : MonoBehaviour
     public void SkillSaveEvent()
     {
         // Check which skill the event is for from WorldNode struct
-        // Maybe have difficulties in the WorldNode struct to alter what the roll needs to be
+        // Maybe have difficulties in the WorldNode struct to alter how high the roll needs to be
         // Call getters to the playerClass/Manager to check the player's skill
         // Do random chance roll
-        // Setter for dm.currentNode + 1(save) or + 2(fail)
+        // Setter for dm.currentNode += 1(save) or += 2(fail)
 
         this.dm.Panel.SetActive(false);
         // Stand-in for first playable... 1 = save, 2 = fail
@@ -201,9 +186,14 @@ public class OverworldManager : MonoBehaviour
         print("currentNode after:" + this.dm.currentNode);
 
         if (random == 1)
+        {
             print("SAVE");
+        }
         else if (random == 2)
+        {
             print("FAIL");
+            this.gm.pm.playerScript.setHealth(this.gm.pm.playerScript.getHealth() - 2);
+        }
 
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
