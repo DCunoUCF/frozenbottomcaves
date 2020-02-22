@@ -27,14 +27,14 @@ public static class CharacterSelection
         int[] ability2info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
         int[] ability2 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
 
-        Debug.Log((characterName));
-        Debug.Log((charactertofind));
-        Debug.Log((hp));
-        Debug.Log((stats));
-        for (int i = 0; i < stats.Length; i++)
-            Debug.Log(stats[i]);
-        for (int i = 0; i < ability1info.Length; i++)
-            Debug.Log(ability1info[i]);
+        //Debug.Log((characterName));
+        //Debug.Log((charactertofind));
+        //Debug.Log((hp));
+        //Debug.Log((stats));
+        //for (int i = 0; i < stats.Length; i++)
+        //    Debug.Log(stats[i]);
+        //for (int i = 0; i < ability1info.Length; i++)
+        //    Debug.Log(ability1info[i]);
 
         for (int i = 0; i < ability1.Length; i+=2)
         {
@@ -44,8 +44,8 @@ public static class CharacterSelection
         {
             ability2list.Add(new Point(ability2[i], ability2[i + 1]));
         }
-        foreach (Point p in ability1list)
-            Debug.Log(p);
+        //foreach (Point p in ability1list)
+        //    Debug.Log(p);
 
         //Debug.Log((ability1));
         reader.Close();

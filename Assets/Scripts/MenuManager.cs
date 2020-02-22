@@ -15,7 +15,8 @@ public enum UIType
 	None = -1,
     NewGame, Continue, Options, Exit, Back, Return, Restart,
 	WizardClass, KnightClass, RogueClass, MonkClass,
-    MusicMute, EffectMute
+    MusicMute, EffectMute,
+    BattleButton
 }
 
 public enum SliderType
@@ -47,7 +48,7 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ButtonAction()
@@ -56,8 +57,6 @@ public class MenuManager : MonoBehaviour
     	{
     		case UIType.NewGame:
     			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
-               // OpenDemoLevel();
-               // this.gm.sm.setBattleMusic();
     		    OpenCharacterSelect();
     			break;
     		case UIType.Continue:
@@ -77,12 +76,24 @@ public class MenuManager : MonoBehaviour
     			ReturnToMainMenu();
     			break;
             case UIType.Return:
-                // TODO: change to Go back to Overworld
-            case UIType.Restart:
                 Debug.Log("Clicked return!");
+                // TODO: change to Go back to Overworld
+                this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
+                gm.pm.inCombat = false;
+                Destroy(GameObject.Find("SceneCleaner"));
+                ExitBattle();
+                break;
+            case UIType.Restart:
                 // this.gm.sm.setForestMusic();
                 this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
                 ReturnToMainMenu();
+                break;
+            case UIType.BattleButton:
+                OpenDemoLevel();
+                // this.gm.sm.setBattleMusic();
+                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+                gm.pm.combatInitialized = true;
+                gm.pm.inCombat = true;
                 break;
             case UIType.MusicMute:
                 Debug.Log("Muting music!");
@@ -100,19 +111,20 @@ public class MenuManager : MonoBehaviour
                 break;
             case UIType.KnightClass:
                 Debug.Log("Selected Knight!");
-                gm.pm.playerScript = CharacterSelection.writeStats("Knight.txt");
-                //OpenDemoLevel();
-                //this.gm.sm.setBattleMusic();
-                //gm.pm.combatInitialized = true;
-                //gm.pm.inCombat = true;
+                gm.pm.pc = CharacterSelection.writeStats("Knight.txt");
                 OpenOverworld();
                 break;
             case UIType.WizardClass:
-                OpenDemoLevel();
-                // this.gm.sm.setBattleMusic();
-                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
-                gm.pm.combatInitialized = true;
-                gm.pm.inCombat = true;
+                gm.pm.pc = CharacterSelection.writeStats("Wizard.txt");
+                OpenOverworld();
+                break;
+            case UIType.MonkClass:
+                gm.pm.pc = CharacterSelection.writeStats("Monk.txt");
+                OpenOverworld();
+                break;
+            case UIType.RogueClass:
+                gm.pm.pc = CharacterSelection.writeStats("Ninja.txt");
+                OpenOverworld();
                 break;
             default:
     			Debug.Log("Clicked a button!"); break;
@@ -174,6 +186,20 @@ public class MenuManager : MonoBehaviour
     void ExitOptions()
     {
     	SceneManager.UnloadSceneAsync("OptionsMenu");
+    }
+
+    void ExitBattle()
+    {
+        GameObject overworldTilemap = GameObject.Find("OverworldGrid").transform.GetChild(0).gameObject;
+    	SceneManager.UnloadSceneAsync("Battleworld");
+
+        if (SceneManager.GetSceneByName("WinSplash").IsValid())
+    	    SceneManager.UnloadSceneAsync("WinSplash");
+
+        if (SceneManager.GetSceneByName("LoseSplash").IsValid())
+            SceneManager.UnloadSceneAsync("LoseSplash");
+
+        overworldTilemap.SetActive(true);
     }
 
     void ReturnToMainMenu()

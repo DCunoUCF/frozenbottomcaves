@@ -13,12 +13,13 @@ public class BattleManager : MonoBehaviour
     public static BattleManager Instance { get; set; }
     public List<CList> combatantList;
     private List<GameObject> entitiesList;
+    private List<CList> trashList;
     public Cell[,] gridCell;
     private GameObject grid;
     public GameObject activeArena;
     private GameObject[] arenaDeactivate;
     private GameObject[] gridDeactivate;
-    private GameObject player;
+    public GameObject player;
     private int playerX, playerY;
     private GameObject companion;
     private List<GameObject> enemies, enemyType;
@@ -30,6 +31,8 @@ public class BattleManager : MonoBehaviour
     private int numEnemies, numEnemyTypes;
     private bool isResolved;
     private bool didWeWin;
+
+    private GameObject Entities; // parent to all entities spawned for cleanup
 
     void Awake()
     {
@@ -49,9 +52,13 @@ public class BattleManager : MonoBehaviour
         arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
         gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
         entitiesList = new List<GameObject>();
+        trashList = new List<CList>();
         availEnemyLoc = new List<Vector3>();
         isResolved = false;
         didWeWin = false;
+
+        Entities = GameObject.Find("Entities"); 
+
 
         // Deactivate all grids except for chosen grid
         for (int i = 0; i < gridDeactivate.Length; i++)
@@ -75,8 +82,11 @@ public class BattleManager : MonoBehaviour
         enemiesLoc = GameObject.FindGameObjectsWithTag("eSpawn");
 
         // Instantiate Player and Companion
-        player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight"), playerLoc, Quaternion.identity);
+        player = GameObject.Instantiate(GameObject.Find(PlayerManager.Instance.characterName), playerLoc, Quaternion.identity);
+        player.transform.SetParent(Entities.transform);
         companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
+        companion.transform.SetParent(Entities.transform);
+
         entitiesList.Add(player);
         entitiesList.Add(companion);
 
@@ -100,6 +110,7 @@ public class BattleManager : MonoBehaviour
         {
             enemies.Add(GameObject.Instantiate(enemyType[0], enemyLoc[i], Quaternion.identity)); // Overworld will set the enemy types
             entitiesList.Add(enemies[i]);
+            enemies[i].transform.SetParent(Entities.transform);
         }
 
         // Since gameobject is here, tell playerMan to initialize combat vars
@@ -110,8 +121,6 @@ public class BattleManager : MonoBehaviour
 
         // Creating the Grid
         CreateGrid();
-
-        
     }
 
     private void Start()
@@ -194,7 +203,7 @@ public class BattleManager : MonoBehaviour
                 }
             }
             // If the tile IS an obstruction
-            else // (obstaclesMap.HasTile(position) || tilemap.GetTile(position).name == "isoWall")
+            else // (obstaclesMap.HasTile(position) || tilemap.GetTile(position).name == "wall")
             {
                 this.gridCell[xDif, yDif] = new Cell(false, tileEntity, currentVector, xDif, yDif);
             }
@@ -279,7 +288,7 @@ public class BattleManager : MonoBehaviour
             combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
             if (combatantList[atkTarIndex].entity == player)
-                PlayerManager.Instance.playerScript.health -= combatantList[i].attackDmg;
+                PlayerManager.Instance.pc.health -= combatantList[i].attackDmg;
         }
     }
 
@@ -300,10 +309,14 @@ public class BattleManager : MonoBehaviour
         {
             if (combatantList[i].hp <= 0)
             {
+                trashList.Add(combatantList[i]);
                 combatantList[i].entity.SetActive(false);
                 combatantList.RemoveAt(i);
             }
         }
+
+        if (this.isResolved)
+            return;
 
         if (combatantList.Count == 0 || combatantList[0].entity != player)
         {
@@ -316,12 +329,14 @@ public class BattleManager : MonoBehaviour
         {
             this.didWeWin = true;
             this.isResolved = true;
+            this.CleanScene();
             Debug.Log("Win");
         }
         else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
         {
             this.didWeWin = true;
             this.isResolved = true;
+            this.CleanScene();
             Debug.Log("Win");
         }
 
@@ -339,6 +354,21 @@ public class BattleManager : MonoBehaviour
 
         Debug.AssertFormat(false, "Couldn't find in CombatantList");
         return -1;
+    }
+
+
+    public void CleanScene()
+    {
+        //Destroy(sceneCleaner);
+        //foreach (CList entity in this.combatantList)
+        //{
+        //    Destroy(entity.entity);
+        //}
+
+        //foreach (CList entity in this.trashList)
+        //{
+        //    Destroy(entity.entity);
+        //}
     }
 
     void MoveOnGrid(CList entity)

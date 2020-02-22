@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     private string currentScene;
     private bool panic;
+    private bool battleResolvedCheck;
+    private bool battleLogicComplete;
 
     public int whatsMyId()
     {
@@ -29,6 +31,8 @@ public class GameManager : MonoBehaviour
         // this.bm = this.gameObject.AddComponent<BattleManager>();
         this.bm = null;
         this.panic = false;
+        this.battleResolvedCheck = false;
+        this.battleLogicComplete = false;
         this.currentScene = SceneManager.GetActiveScene().name;
 
         this.sm = this.gameObject.AddComponent<SoundManager>();
@@ -77,41 +81,46 @@ public class GameManager : MonoBehaviour
             this.panic = false;
         }
 
-        if (SceneManager.GetActiveScene().name == "Battleworld")
+        if (SceneManager.GetSceneByName("Battleworld").IsValid())
         {
-            if (this.bm == null)
+            if (this.bm != null)
+                battleResolvedCheck = this.bm.isBattleResolved();
+
+            if (this.bm == null && !this.battleLogicComplete)
             {
                 this.bm = GameObject.Find("BattleManager").GetComponent<BattleManager>();
             }
 
             if (this.bm != null)
             {
-                if (this.bm.isBattleResolved())
+                if (this.battleResolvedCheck)
                 {
                     string splash;
                     if (this.bm.didWeWinTheBattle())
-                        splash = "WinSplash";
-                    else
-                        splash = "LoseSplash";
-
-                    this.bm = null;
-
-                    if (!this.panic)
                     {
-                        // Debug.Log("Ahhh! We're currently in scene "+ SceneManager.GetActiveScene().name);
-                        if (splash == "WinSplash")
-                        {
-                            this.sm.playWinJingle();
-                        }
-                        else
-                        {
-                            this.sm.playLoseJingle();
-                        }
-
-                        SceneManager.LoadScene(splash, LoadSceneMode.Additive);
-                        this.bm = null;
-                        this.panic = true;
+                        splash = "WinSplash";
                     }
+                    else
+                    { 
+                        splash = "LoseSplash";
+                    }
+
+                    if (splash == "WinSplash")
+                    {
+                        this.sm.playWinJingle();
+                    }
+                    else
+                    {
+                        this.sm.playLoseJingle();
+                    }
+
+                    if(!SceneManager.GetSceneByName(splash).IsValid())
+                        SceneManager.LoadScene(splash, LoadSceneMode.Additive);
+
+                    this.panic = true;
+                    this.battleResolvedCheck = false;
+                    this.bm = null;
+                    this.battleLogicComplete = true;
                 }
             }
         }
