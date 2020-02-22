@@ -254,7 +254,7 @@ public class OverworldManager : MonoBehaviour
         else if (random == 2)
         {
             print("FAIL");
-            this.gm.pm.playerScript.setHealth(this.gm.pm.playerScript.getHealth() - 2);
+            this.gm.pm.pc.setHealth(this.gm.pm.pc.getHealth() - 2);
         }
 
         this.dm.Panel.SetActive(true);
