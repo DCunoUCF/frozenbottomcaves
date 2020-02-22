@@ -26,7 +26,6 @@ public class DialogueManager : MonoBehaviour
     //public GameObject optionParent;
     //public int currentOptionsCount;
 
-    // Richard's Code
     void Start()
     {
         // Will change this to a static load so that we don't have to initialize
