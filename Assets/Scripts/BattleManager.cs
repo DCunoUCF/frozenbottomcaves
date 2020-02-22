@@ -19,7 +19,7 @@ public class BattleManager : MonoBehaviour
     public GameObject activeArena;
     private GameObject[] arenaDeactivate;
     private GameObject[] gridDeactivate;
-    private GameObject player;
+    public GameObject player;
     private int playerX, playerY;
     private GameObject companion;
     private List<GameObject> enemies, enemyType;
@@ -31,6 +31,8 @@ public class BattleManager : MonoBehaviour
     private int numEnemies, numEnemyTypes;
     private bool isResolved;
     private bool didWeWin;
+
+    private GameObject Entities; // parent to all entities spawned for cleanup
 
     void Awake()
     {
@@ -55,6 +57,9 @@ public class BattleManager : MonoBehaviour
         isResolved = false;
         didWeWin = false;
 
+        Entities = GameObject.Find("Entities"); 
+
+
         // Deactivate all grids except for chosen grid
         for (int i = 0; i < gridDeactivate.Length; i++)
         {
@@ -77,8 +82,11 @@ public class BattleManager : MonoBehaviour
         enemiesLoc = GameObject.FindGameObjectsWithTag("eSpawn");
 
         // Instantiate Player and Companion
-        player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight"), playerLoc, Quaternion.identity);
+        player = GameObject.Instantiate(GameObject.Find(PlayerManager.Instance.characterName), playerLoc, Quaternion.identity);
+        player.transform.SetParent(Entities.transform);
         companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
+        companion.transform.SetParent(Entities.transform);
+
         entitiesList.Add(player);
         entitiesList.Add(companion);
 
@@ -102,6 +110,7 @@ public class BattleManager : MonoBehaviour
         {
             enemies.Add(GameObject.Instantiate(enemyType[0], enemyLoc[i], Quaternion.identity)); // Overworld will set the enemy types
             entitiesList.Add(enemies[i]);
+            enemies[i].transform.SetParent(Entities.transform);
         }
 
         // Since gameobject is here, tell playerMan to initialize combat vars
@@ -112,8 +121,6 @@ public class BattleManager : MonoBehaviour
 
         // Creating the Grid
         CreateGrid();
-
-        
     }
 
     private void Start()
@@ -281,7 +288,7 @@ public class BattleManager : MonoBehaviour
             combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
             if (combatantList[atkTarIndex].entity == player)
-                PlayerManager.Instance.playerScript.health -= combatantList[i].attackDmg;
+                PlayerManager.Instance.pc.health -= combatantList[i].attackDmg;
         }
     }
 
@@ -349,18 +356,19 @@ public class BattleManager : MonoBehaviour
         return -1;
     }
 
+
     public void CleanScene()
     {
-        foreach (CList entity in this.combatantList)
-        {
-            if (entity.entity != player)
-                Destroy(entity.entity);
-        }
+        //Destroy(sceneCleaner);
+        //foreach (CList entity in this.combatantList)
+        //{
+        //    Destroy(entity.entity);
+        //}
 
-        foreach (CList entity in this.trashList)
-        {
-            Destroy(entity.entity);
-        }
+        //foreach (CList entity in this.trashList)
+        //{
+        //    Destroy(entity.entity);
+        //}
     }
 
     void MoveOnGrid(CList entity)
