@@ -16,6 +16,10 @@ public class OverworldManager : MonoBehaviour
     public int playerNodeId;
     public int nodeTypeCount;
 
+    private Vector3 destPos;
+    private float speed = .20f, startTime, journeyLength;
+    private bool destReached;
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -26,6 +30,7 @@ public class OverworldManager : MonoBehaviour
     {
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        destReached = false;
         // nodes = new List<GameObject>();
 
         // foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
@@ -72,7 +77,7 @@ public class OverworldManager : MonoBehaviour
             spawnPlayer();
         }
 
-        if (playerSpawned && this.playerNodeId != this.dm.currentNode)
+        if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
         {
         	foreach (GameObject n in nodes)
         	{
@@ -83,13 +88,25 @@ public class OverworldManager : MonoBehaviour
         			if (id == this.dm.currentNode)
         			{
         				// Move the player along the map
-                        this.TurnPlayer(this.gm.pm.player, new Vector3(n.transform.position.x, n.transform.position.y, this.gm.pm.player.transform.position.z));
-        				this.gm.pm.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.gm.pm.player.transform.position.z);
+                        this.TurnPlayer(this.player, new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z));
+        				//this.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z);
 
+
+                        
+                        destPos = new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z);
+
+                        if (player.transform.position != destPos)
+                        {
+                            destReached = false;
+                            //dm.Panel.SetActive(false);
+                        }
+
+                        startTime = Time.time;
+                        journeyLength = Vector3.Distance(player.transform.position, destPos);
 
         				// Rudimentary Camera Movement
         				//GameObject cam = GameObject.Find("MainCamera");
-        				//cam.GetComponent<Camera>().transform.position = new Vector3(this.gm.pm.player.transform.position.x, this.gm.pm.player.transform.position.y, cam.GetComponent<Camera>().transform.position.z);
+        				//cam.GetComponent<Camera>().transform.position = new Vector3(this.player.transform.position.x, this.player.transform.position.y, cam.GetComponent<Camera>().transform.position.z);
 
         				// Update the player node id
         				this.playerNodeId = id;
@@ -111,25 +128,33 @@ public class OverworldManager : MonoBehaviour
         		}
         	}
         }
+        else if (playerSpawned)
+        {
+            movePlayer();
+            if (player.transform.position == destPos)
+            {
+                destReached = true;
+                //dm.Panel.SetActive(true);
+            }
+
+        }
     }
 
-
-
-    void spawnPlayer()
+    private void movePlayer()
     {
+        float distCovered = (Time.time - startTime) * speed;
+        float fractionOfJourney = distCovered / journeyLength;
+        player.transform.position = Vector3.Lerp(player.transform.position, destPos, fractionOfJourney);
+    }
 
+    private void spawnPlayer()
+    {
         string path = "Prefabs/PlayerCharacters/";
         path += gm.pm.pc.name;
         print(path);
         player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
-
-
-
-
         player.transform.position = nodes[0].transform.position;
-
         playerSpawned = true;
-
         GameObject cam = GameObject.Find("MainCamera");
         cam.transform.SetParent(player.transform);
 

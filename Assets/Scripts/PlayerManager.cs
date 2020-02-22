@@ -65,26 +65,31 @@ public class PlayerManager : MonoBehaviour
         }
         else if(inCombat)// We fightin now bois
         {
-            if (moved)
+            if (BattleManager.Instance.isBattleResolved())
+                inCombat = false;
+            else
             {
-                this.x += movx;
-                this.y += movy;
-                movx = 0;
-                movy = 0;
-                moved = false;
-            }
+                if (moved)
+                {
+                    this.x += movx;
+                    this.y += movy;
+                    movx = 0;
+                    movy = 0;
+                    moved = false;
+                }
 
-            // Player can select what ability/move to use
-            playerTurnCombat();
+                // Player can select what ability/move to use
+                playerTurnCombat();
+            }
         }
     }
 
     public void initCombat()
     {
-        player = GameObject.Find(characterNameClone);
+        this.player = BattleManager.Instance.player;
         playerLoc = player.transform.position;
         print(playerLoc);
-        combatInfo = new CList(player);
+        combatInfo = new CList(this.player);
         combatInitialized = true;
         inCombat = true;
         pc.setHighlights();
@@ -102,6 +107,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (isTurn)
         {
+            print(pc.health);
             this.combatInfo = BattleManager.Instance.combatantList[0];
             // Read input and set combat info based off of what skill
             if (Input.GetKeyDown(KeyCode.Alpha1))

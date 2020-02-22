@@ -19,7 +19,7 @@ public class BattleManager : MonoBehaviour
     public GameObject activeArena;
     private GameObject[] arenaDeactivate;
     private GameObject[] gridDeactivate;
-    private GameObject player;
+    public GameObject player;
     private int playerX, playerY;
     private GameObject companion;
     private List<GameObject> enemies, enemyType;
@@ -111,8 +111,6 @@ public class BattleManager : MonoBehaviour
 
         // Creating the Grid
         CreateGrid();
-
-        
     }
 
     private void Start()
