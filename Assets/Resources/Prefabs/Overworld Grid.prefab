@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 113469828}
   m_Layer: 0
   m_Name: Node10, Node11
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 0a0000000b000000
+  NodeTypes: 0000000000000000
+  NodeItems: 0000000000000000
 --- !u!1 &248976197
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +58,7 @@ GameObject:
   - component: {fileID: 248976199}
   m_Layer: 0
   m_Name: Node2
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,6 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 02000000
+  NodeTypes: 00000000
+  NodeItems: 00000000
 --- !u!1 &385291376
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +104,7 @@ GameObject:
   - component: {fileID: 385291377}
   m_Layer: 0
   m_Name: Node12, Node13, Node14
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,6 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 0c0000000d0000000e000000
+  NodeTypes: 000000000000000000000000
+  NodeItems: 000000000000000000000000
 --- !u!1 &408600724
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +150,7 @@ GameObject:
   - component: {fileID: 408600726}
   m_Layer: 0
   m_Name: Node3
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -176,6 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 03000000
+  NodeTypes: 00000000
+  NodeItems: 00000000
 --- !u!1 &474370915
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +196,7 @@ GameObject:
   - component: {fileID: 474370917}
   m_Layer: 0
   m_Name: Node7, Node8, Node9
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -220,6 +228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 070000000800000009000000
+  NodeTypes: 000000000100000001000000
+  NodeItems: 000000000000000000000000
 --- !u!1 &722167650
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +242,7 @@ GameObject:
   - component: {fileID: 722167652}
   m_Layer: 0
   m_Name: Node5
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,6 +274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 05000000
+  NodeTypes: 02000000
+  NodeItems: 00000000
 --- !u!1 &777421099
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +288,7 @@ GameObject:
   - component: {fileID: 777421101}
   m_Layer: 0
   m_Name: Node0
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,6 +320,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 00000000
+  NodeTypes: 00000000
+  NodeItems: 00000000
 --- !u!1 &1027051806
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +334,7 @@ GameObject:
   - component: {fileID: 1027051808}
   m_Layer: 0
   m_Name: Node1
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -352,6 +366,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 01000000
+  NodeTypes: 00000000
+  NodeItems: 00000000
 --- !u!1 &1753270888
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,7 +380,7 @@ GameObject:
   - component: {fileID: 1753270890}
   m_Layer: 0
   m_Name: Node4, Node6
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -396,6 +412,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 0400000006000000
+  NodeTypes: 0200000000000000
+  NodeItems: 0000000000000000
 --- !u!1 &1985881636
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +426,7 @@ GameObject:
   - component: {fileID: 1985881637}
   m_Layer: 0
   m_Name: Node15, Node16, Node17, Node18, Node19
-  m_TagString: Untagged
+  m_TagString: OWNode
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -440,6 +458,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 0f00000010000000110000001200000013000000
+  NodeTypes: 0000000000000000000000000100000001000000
+  NodeItems: 0000000000000000000000000000000000000000
 --- !u!1 &529555865867414381
 GameObject:
   m_ObjectHideFlags: 0
@@ -6603,7 +6623,7 @@ GameObject:
   - component: {fileID: 529555866858627972}
   - component: {fileID: 529555866858627975}
   m_Layer: 0
-  m_Name: Overworld Tilemap
+  m_Name: OverworldTilemap
   m_TagString: Tilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

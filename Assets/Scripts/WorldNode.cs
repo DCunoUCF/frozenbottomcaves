@@ -4,19 +4,19 @@ using UnityEngine;
 
 public enum FlagType
 {
-	None = -1,
+	None,
 	Battle, Event, Item
 }
 
 public enum EncounterEnemy
 {
-	None = -1,
+	None,
 	Goblin, Slime
 }
 
 public enum ItemType
 {
-	None = -1,
+	None,
 	DwarfKey
 }
 
