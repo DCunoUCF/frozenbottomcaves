@@ -98,7 +98,7 @@ public class OverworldManager : MonoBehaviour
                         if (player.transform.position != destPos)
                         {
                             destReached = false;
-                            //dm.Panel.SetActive(false);
+                            dm.Panel.SetActive(false);
                         }
 
                         startTime = Time.time;
@@ -128,13 +128,13 @@ public class OverworldManager : MonoBehaviour
         		}
         	}
         }
-        else if (playerSpawned)
+        else if (playerSpawned && !gm.pm.inCombat)
         {
             movePlayer();
             if (player.transform.position == destPos)
             {
                 destReached = true;
-                //dm.Panel.SetActive(true);
+                dm.Panel.SetActive(true);
             }
 
         }

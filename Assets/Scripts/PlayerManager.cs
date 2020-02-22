@@ -65,22 +65,17 @@ public class PlayerManager : MonoBehaviour
         }
         else if(inCombat)// We fightin now bois
         {
-            if (BattleManager.Instance.isBattleResolved())
-                inCombat = false;
-            else
+            if (moved)
             {
-                if (moved)
-                {
-                    this.x += movx;
-                    this.y += movy;
-                    movx = 0;
-                    movy = 0;
-                    moved = false;
-                }
-
-                // Player can select what ability/move to use
-                playerTurnCombat();
+                this.x += movx;
+                this.y += movy;
+                movx = 0;
+                movy = 0;
+                moved = false;
             }
+
+            // Player can select what ability/move to use
+            playerTurnCombat();
         }
     }
 

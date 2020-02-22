@@ -79,6 +79,7 @@ public class MenuManager : MonoBehaviour
                 Debug.Log("Clicked return!");
                 // TODO: change to Go back to Overworld
                 this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
+                gm.pm.inCombat = false;
                 ExitBattle();
                 break;
             case UIType.Restart:
