@@ -30,7 +30,7 @@ public class OverworldManager : MonoBehaviour
     {
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        destReached = false;
+        destReached = true;
         // nodes = new List<GameObject>();
 
         // foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
@@ -128,7 +128,7 @@ public class OverworldManager : MonoBehaviour
         		}
         	}
         }
-        else if (playerSpawned && !gm.pm.inCombat)
+        else if (playerSpawned && !gm.pm.inCombat && !destReached)
         {
             movePlayer();
             if (player.transform.position == destPos)
@@ -154,9 +154,11 @@ public class OverworldManager : MonoBehaviour
         print(path);
         player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
         player.transform.position = nodes[0].transform.position;
+        print("node 0:" + nodes[0].transform.position);
         playerSpawned = true;
         GameObject cam = GameObject.Find("MainCamera");
         cam.transform.SetParent(player.transform);
+        cam.transform.localPosition = new Vector3(0, 0, -10);
 
         gm.pm.initPM();
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class DialogueManager : MonoBehaviour
         Choices[2].onClick.AddListener(choiceOption03);
 
         // Dialogue text
-        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+        TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < 3; i++)
         {
@@ -51,7 +52,7 @@ public class DialogueManager : MonoBehaviour
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
             Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
         DialogueSizer();
@@ -83,12 +84,12 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(true);
-        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+        TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
             Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
         DialogueSizer();
@@ -120,12 +121,12 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(true);
-        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+        TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
             Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
         DialogueSizer();
@@ -157,12 +158,12 @@ public class DialogueManager : MonoBehaviour
         }
 
         TextBox.SetActive(true);
-        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+        TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
             Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
         DialogueSizer();
@@ -188,12 +189,12 @@ public class DialogueManager : MonoBehaviour
     public void SetChildrenTrue()
     {
         TextBox.SetActive(true);
-        TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+        TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
             Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
         }
     }
 
@@ -228,8 +229,9 @@ public class DialogueManager : MonoBehaviour
         RectTransform option1Rect = Choices[0].GetComponent<RectTransform>();
         RectTransform option2Rect = Choices[1].GetComponent<RectTransform>();
         RectTransform option3Rect = Choices[2].GetComponent<RectTransform>();
-        int numChars = TextBox.GetComponent<Text>().text.Length;
-        int fontSize = TextBox.GetComponent<Text>().fontSize;
+        int numChars = TextBox.GetComponent<TextMeshPro>().text.Length;
+        //int fontSize = (int) TextBox.GetComponent<TextMeshPro>().fontSize; // Hardcoding to a reasonable number because of text mesh pro size 200 font
+        int fontSize = 20;
 
         // Only adding active buttons
         if (Choices[2].IsActive())
@@ -303,7 +305,7 @@ public class DialogueManager : MonoBehaviour
 //    }
 
 //    // Dialogue text
-//    TextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+//    TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
 //    for(int i = 0; i < Choices.Count; i++)
 //    {
@@ -314,7 +316,7 @@ public class DialogueManager : MonoBehaviour
 //    for (int i = 0; i < currentOptionsCount; i++)
 //    {
 //        Choices[i].gameObject.SetActive(true);
-//        Choices[i].GetComponent<Button>().GetComponentInChildren<Text>().text = dialogue.nodes[currentNode].options[i].text;
+//        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
 //    }
 
 //    optionParent.SetActive(false);
