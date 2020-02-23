@@ -213,7 +213,8 @@ public class OverworldManager : MonoBehaviour
     public IEnumerator BattleEvent()
     {
         this.dm.Panel.SetActive(false);
-        this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+        //this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+        this.gm.sm.setBattleMusic();
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
         this.gm.pm.combatInitialized = true;
         this.gm.pm.inCombat = true;
