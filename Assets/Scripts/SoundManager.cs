@@ -105,6 +105,10 @@ public class SoundManager : MonoBehaviour
         this.musicChannel.loop = false; // Default -> no 
         this.musicChannel.clip = musicQueue.Peek();
         this.musicChannel.Play(0);
+        
+        // David's First Playable Sound Settings
+        this.effectChannel.volume = 0.5f;
+        this.musicChannel.volume = 0.33f;
     }
 
     // Update is called once per frame
