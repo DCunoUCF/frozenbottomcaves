@@ -64,7 +64,8 @@ public class SoundManager : MonoBehaviour
         // Read in volume options from game manager
         	// TODO: read in volume options
 
-        setMusicFromDirectory("ForestOverworldMusic");
+        // setMusicFromDirectory("ForestOverworldMusic");
+        setForestMusic();
 
         // Make testing music queue
             // AddTrackToQueue("Serenity");
@@ -155,7 +156,7 @@ public class SoundManager : MonoBehaviour
     {
         FreeAllMusicTracks();
 
-        AddTrackToQueue("The_Great_Battle");
+        AddTrackToQueue("ForestBattleMusic/The_Great_Battle");
 
         Debug.Log(this.musicQueue.ToString());
     }
@@ -164,9 +165,9 @@ public class SoundManager : MonoBehaviour
     {
         FreeAllMusicTracks();
 
-        AddTrackToQueue("Serenity");
-        AddTrackToQueue("Into_Oblivion");
-        AddTrackToQueue("Forest_of_the_Elves");
+        AddTrackToQueue("ForestOverworldMusic/Serenity");
+        AddTrackToQueue("ForestOverworldMusic/Into_Oblivion");
+        AddTrackToQueue("ForestOverworldMusic/Forest_of_the_Elves");
     }
 
     public void setMusicFromDirectory(string folder)

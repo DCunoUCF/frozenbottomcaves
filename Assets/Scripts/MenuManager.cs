@@ -78,20 +78,21 @@ public class MenuManager : MonoBehaviour
             case UIType.Return:
                 Debug.Log("Clicked return!");
                 // TODO: change to Go back to Overworld
-                this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
+                // this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
+                this.gm.sm.setForestMusic();
                 gm.pm.inCombat = false;
                 Destroy(GameObject.Find("SceneCleaner"));
                 ExitBattle();
                 break;
             case UIType.Restart:
-                // this.gm.sm.setForestMusic();
-                this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
+                this.gm.sm.setForestMusic();
+                // this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
                 ReturnToMainMenu();
                 break;
             case UIType.BattleButton:
                 OpenDemoLevel();
-                // this.gm.sm.setBattleMusic();
-                this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+                this.gm.sm.setBattleMusic();
+                // this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
                 gm.pm.combatInitialized = true;
                 gm.pm.inCombat = true;
                 break;
