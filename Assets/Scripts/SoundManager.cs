@@ -105,7 +105,6 @@ public class SoundManager : MonoBehaviour
         this.musicChannel.loop = false; // Default -> no 
         this.musicChannel.clip = musicQueue.Peek();
         this.musicChannel.Play(0);
-        
     }
 
     // Update is called once per frame
