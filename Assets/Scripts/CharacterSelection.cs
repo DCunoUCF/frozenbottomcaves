@@ -12,12 +12,24 @@ public static class CharacterSelection
 
     public static PlayerClass writeStats(string filename)
     {
-        string path = "./Assets/Resources/CharacterStats/";
+        //string path = "./Assets/Resources/CharacterStats/";
         List<Point> ability1list = new List<Point>();
         List<Point> ability2list = new List<Point>();
-        path += filename;
-        Debug.Log(path);
-        StreamReader reader = new StreamReader(path);
+        //path += filename;
+        //Debug.Log(path);
+        //StreamReader reader = new StreamReader(path);
+        //string characterName = reader.ReadLine();
+        //string charactertofind = reader.ReadLine();
+        //int hp = int.Parse(reader.ReadLine());
+        //int[] stats = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+        //int[] ability1info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+        //int[] ability1 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+        //int[] ability2info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+        //int[] ability2 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
+
+        //TextAsset text = Resources.Load<TextAsset>("./Assets/Resources/CharacterStats/"+filename);
+        //byte[] byteText = text.bytes;
+        StreamReader reader = new StreamReader(Application.dataPath + "/" + filename);
         string characterName = reader.ReadLine();
         string charactertofind = reader.ReadLine();
         int hp = int.Parse(reader.ReadLine());
