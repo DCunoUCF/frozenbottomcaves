@@ -12,7 +12,7 @@ public static class CharacterSelection
 
     public static PlayerClass writeStats(string filename)
     {
-        string path = "Assets/Resources/CharacterStats/";
+        string path = "./Assets/Resources/CharacterStats/";
         List<Point> ability1list = new List<Point>();
         List<Point> ability2list = new List<Point>();
         path += filename;
