@@ -111,19 +111,19 @@ public class MenuManager : MonoBehaviour
                 break;
             case UIType.KnightClass:
                 Debug.Log("Selected Knight!");
-                gm.pm.pc = CharacterSelection.writeStats("Knight.txt");
+                gm.pm.pc = CharacterSelection.writeStats("Knight");
                 OpenOverworld();
                 break;
             case UIType.WizardClass:
-                gm.pm.pc = CharacterSelection.writeStats("Wizard.txt");
+                gm.pm.pc = CharacterSelection.writeStats("Wizard");
                 OpenOverworld();
                 break;
             case UIType.MonkClass:
-                gm.pm.pc = CharacterSelection.writeStats("Monk.txt");
+                gm.pm.pc = CharacterSelection.writeStats("Monk");
                 OpenOverworld();
                 break;
             case UIType.RogueClass:
-                gm.pm.pc = CharacterSelection.writeStats("Ninja.txt");
+                gm.pm.pc = CharacterSelection.writeStats("Ninja");
                 OpenOverworld();
                 break;
             default:
