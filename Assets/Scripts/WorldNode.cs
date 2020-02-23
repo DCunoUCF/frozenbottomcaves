@@ -20,6 +20,9 @@ public enum ItemType
 	DwarfKey
 }
 
+// TODO: Make a struct that contains all the node information, 
+	// and update the list in WorldNode to be a list of those structs
+
 public class WorldNode : MonoBehaviour
 {
 	public List<int> NodeIDs;
