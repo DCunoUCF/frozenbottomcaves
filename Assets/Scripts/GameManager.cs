@@ -139,5 +139,11 @@ public class GameManager : MonoBehaviour
                 // SceneManager.LoadScene("Dialogue", LoadSceneMode.Additive);
             }
         }
+
+        if (Input.GetButtonDown("Cancel"))
+        {
+            // SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            Application.Quit();
+        }
     }
 }
