@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Drawing;
 using System;
+using System.Text.RegularExpressions;
 
 public static class CharacterSelection
 {
@@ -12,12 +13,39 @@ public static class CharacterSelection
 
     public static PlayerClass writeStats(string filename)
     {
-        //string path = "./Assets/Resources/CharacterStats/";
+        string path = "./Assets/Resources/CharacterStats/";
+
+        string path2 = "CharacterStats/";
+        path2 += filename;
+
         List<Point> ability1list = new List<Point>();
         List<Point> ability2list = new List<Point>();
-        //path += filename;
+
+        path += filename;
+        path += ".txt";
+        TextAsset textFile = Resources.Load(path2) as TextAsset;
+        if (textFile == null)
+            Debug.Log("text not found");
+
+        string[] lines = textFile.text.Split('\n');
+
+        string characterNameTemp = lines[0];
+
+        string characterName = characterNameTemp.Substring(0, characterNameTemp.Length - 1); // Have to trim off carriage char
+        string charactertofindTemp = lines[1];
+        string charactertofind = charactertofindTemp.Substring(0, charactertofindTemp.Length - 1); // Trim off carriage char
+        int hp = int.Parse(lines[2]);
+        int[] stats = Array.ConvertAll(lines[3].Split(' '), int.Parse);
+        int[] ability1info = Array.ConvertAll(lines[4].Split(' '), int.Parse);
+        int[] ability1 = Array.ConvertAll(lines[5].Split(' '), int.Parse);
+        int[] ability2info = Array.ConvertAll(lines[6].Split(' '), int.Parse);
+        int[] ability2 = Array.ConvertAll(lines[7].Split(' '), int.Parse);
+
+
+
         //Debug.Log(path);
         //StreamReader reader = new StreamReader(path);
+
         //string characterName = reader.ReadLine();
         //string charactertofind = reader.ReadLine();
         //int hp = int.Parse(reader.ReadLine());
@@ -27,28 +55,12 @@ public static class CharacterSelection
         //int[] ability2info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
         //int[] ability2 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
 
-        //TextAsset text = Resources.Load<TextAsset>("./Assets/Resources/CharacterStats/"+filename);
-        //byte[] byteText = text.bytes;
-        StreamReader reader = new StreamReader(Application.dataPath + "/" + filename);
-        string characterName = reader.ReadLine();
-        string charactertofind = reader.ReadLine();
-        int hp = int.Parse(reader.ReadLine());
-        int[] stats = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
-        int[] ability1info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
-        int[] ability1 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
-        int[] ability2info = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
-        int[] ability2 = Array.ConvertAll(reader.ReadLine().Split(' '), int.Parse);
-
-        //Debug.Log((characterName));
-        //Debug.Log((charactertofind));
-        //Debug.Log((hp));
-        //Debug.Log((stats));
         //for (int i = 0; i < stats.Length; i++)
         //    Debug.Log(stats[i]);
         //for (int i = 0; i < ability1info.Length; i++)
         //    Debug.Log(ability1info[i]);
 
-        for (int i = 0; i < ability1.Length; i+=2)
+        for (int i = 0; i < ability1.Length; i += 2)
         {
             ability1list.Add(new Point(ability1[i], ability1[i + 1]));
         }
@@ -56,11 +68,9 @@ public static class CharacterSelection
         {
             ability2list.Add(new Point(ability2[i], ability2[i + 1]));
         }
-        //foreach (Point p in ability1list)
-        //    Debug.Log(p);
 
-        //Debug.Log((ability1));
-        reader.Close();
+
+        //reader.Close();
 
         return new PlayerClass(characterName, charactertofind, hp, stats, ability1info, ability1list, ability2info, ability2list);
     }

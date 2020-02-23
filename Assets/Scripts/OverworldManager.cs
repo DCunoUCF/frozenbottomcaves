@@ -151,7 +151,7 @@ public class OverworldManager : MonoBehaviour
     {
         string path = "Prefabs/PlayerCharacters/";
         path += gm.pm.pc.name;
-        print(path);
+        print(path + " " + gm.pm.pc.name);
         player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
         player.transform.position = GameObject.Find("0").transform.position; // hard coding node 0
         print("node 0:" + nodes[0].transform.position);
