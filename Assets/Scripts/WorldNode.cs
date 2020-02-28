@@ -10,26 +10,19 @@ public enum FlagType
 
 public enum GridType
 {
-    Random = 0, Forest, Cave, Ice, Castle
+    Random = 0, Forest, Cave, Ice, Castle, Boss
 }
 
 public enum EncounterEnemy
 {
 	None,
-	Goblin, Slime_G, Gnoll, Lich
+	goblin, slime_G, gnoll, lich
 }
 
 public enum ItemType
 {
 	None,
 	DwarfKey
-}
-
-public struct BattleStruct
-{
-    public GridType grid;
-    public string arena;
-	public List<EncounterEnemy> nodeEnemies;
 }
 
 // TODO: Make a struct that contains all the node information, 
@@ -39,18 +32,20 @@ public class WorldNode : MonoBehaviour
 {
 	public List<int> NodeIDs;
 	public List<FlagType> NodeTypes;
-    public List<BattleStruct> battleStruct;
+    public BattleClassList battleClassList = new BattleClassList();
 	public List<ItemType> NodeItems;
+}
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[System.Serializable]
+public class BattleClass
+{
+    public GridType grid;
+    public string arena;
+    public List<EncounterEnemy> nodeEnemies;
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+[System.Serializable]
+public class BattleClassList
+{
+    public List<BattleClass> list;
 }

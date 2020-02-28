@@ -575,7 +575,7 @@ PrefabInstance:
     - target: {fileID: 2940914128599544583, guid: a1005b390da138f47bb1ffc8250f46c8,
         type: 3}
       propertyPath: m_Name
-      value: ForestGrid
+      value: Forest
       objectReference: {fileID: 0}
     - target: {fileID: 2940914128599544697, guid: a1005b390da138f47bb1ffc8250f46c8,
         type: 3}

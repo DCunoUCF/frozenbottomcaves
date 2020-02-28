@@ -263,4 +263,44 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
     }
+
+    public GameObject GetCurrentNode()
+    {
+        WorldNode curWorldNode;
+
+        if (this.nodes == null)
+        {
+            Debug.AssertFormat(false, "OWNodes list(nodes) has not been created yet.");
+            return null;
+        }
+
+        for (int i = 0; i < this.nodes.Count; i++)
+        {
+            curWorldNode = this.nodes[i].GetComponent<WorldNode>();
+
+            for (int j = 0; j < curWorldNode.NodeIDs.Count; j++)
+            {
+                if (curWorldNode.NodeIDs[j] == this.dm.currentNode)
+                    return this.nodes[i];
+            }
+        }
+
+
+        Debug.AssertFormat(false, "Couldn't find currentNode " + this.dm.currentNode + " in OWNodes list(nodes).");
+        return null;
+    }
+
+    public BattleClass GetBattleClass()
+    {
+        WorldNode curWorldNode = this.GetCurrentNode().GetComponent<WorldNode>();
+
+        for (int i = 0; i < curWorldNode.NodeIDs.Count; i++)
+        {
+            if (curWorldNode.NodeIDs[i] == this.dm.currentNode)
+                return curWorldNode.battleClassList.list[i];
+        }
+
+        Debug.AssertFormat(false, "Couldn't find BattleClass in BattleClassList at currentNode " + this.dm.currentNode);
+        return null;
+    }
 }
