@@ -375,7 +375,7 @@ public class BattleManager : MonoBehaviour
                 return combatantList[i].entity;
         }
 
-        //Debug.AssertFormat(false, "Could not find Combatant in combatantList at Vector3: " + pos);
+        Debug.AssertFormat(false, "Could not find Combatant in combatantList at Vector3: " + pos);
         return null;
     }
 
