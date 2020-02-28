@@ -44,7 +44,6 @@ public class DialogueManager2 : MonoBehaviour
     // Do this if user clicks 1st option
     public void choiceOption01()
     {
-
         // This is where we currently are in the dialogue
         currentNode = dialogue.nodes[currentNode].options[0].destId;
 
@@ -63,7 +62,7 @@ public class DialogueManager2 : MonoBehaviour
         CurrentPanel.transform.SetParent(ScrollListContent.transform, false);
 
         // Get text box of new dialogue
-        GameObject newTextBox = CurrentPanel.GetComponent<InitializeDialogue>().getTextBox();
+        Text newTextBox = CurrentPanel.GetComponentInChildren<Text>();
 
         // Add text of currentNode to new Dialogue
         newTextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
@@ -120,7 +119,7 @@ public class DialogueManager2 : MonoBehaviour
         CurrentPanel.transform.SetParent(ScrollListContent.transform, false);
 
         // Get text box of new dialogue
-        GameObject newTextBox = CurrentPanel.GetComponent<InitializeDialogue>().getTextBox();
+        Text newTextBox = CurrentPanel.GetComponentInChildren<Text>();
 
         // Add text of currentNode to new Dialogue
         newTextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
@@ -176,7 +175,7 @@ public class DialogueManager2 : MonoBehaviour
         CurrentPanel.transform.SetParent(ScrollListContent.transform, false);
 
         // Get text box of new dialogue
-        GameObject newTextBox = CurrentPanel.GetComponent<InitializeDialogue>().getTextBox();
+        Text newTextBox = CurrentPanel.GetComponentInChildren<Text>();
 
         // Add text of currentNode to new Dialogue
         newTextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
