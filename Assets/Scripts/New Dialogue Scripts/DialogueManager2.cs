@@ -9,6 +9,7 @@ public class DialogueManager2 : MonoBehaviour
     public GameObject Canvas;
     public GameObject DialoguePanel;
     public GameObject TextBox;
+    public GameObject ScrollListContent;
     public Button[] Choices;
     public Dialogue dialogue;
 
@@ -43,6 +44,7 @@ public class DialogueManager2 : MonoBehaviour
     // Do this if user clicks 1st option
     public void choiceOption01()
     {
+
         // This is where we currently are in the dialogue
         currentNode = dialogue.nodes[currentNode].options[0].destId;
 
@@ -58,13 +60,14 @@ public class DialogueManager2 : MonoBehaviour
         CurrentPanel.SetActive(true);
 
         // Set the parent to Canvas
-        CurrentPanel.transform.SetParent(DialoguePanel.transform.parent, false);
+        CurrentPanel.transform.SetParent(ScrollListContent.transform, false);
 
         // Get text box of new dialogue
         GameObject newTextBox = CurrentPanel.GetComponent<InitializeDialogue>().getTextBox();
 
         // Add text of currentNode to new Dialogue
         newTextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
 
         // Remove Listeners
         for(int i = 0; i < 3; i++)
@@ -73,7 +76,7 @@ public class DialogueManager2 : MonoBehaviour
         }
 
         // Reset Choices to new Dialogue
-        Choices = CurrentPanel.GetComponent<InitializeDialogue>().getChoices();
+        Choices = CurrentPanel.GetComponentsInChildren<Button>();
         Choices[0].onClick.AddListener(choiceOption01);
         Choices[1].onClick.AddListener(choiceOption02);
         Choices[2].onClick.AddListener(choiceOption03);
@@ -114,13 +117,14 @@ public class DialogueManager2 : MonoBehaviour
         CurrentPanel.SetActive(true);
 
         // Set the parent to Canvas
-        CurrentPanel.transform.SetParent(DialoguePanel.transform.parent, false);
+        CurrentPanel.transform.SetParent(ScrollListContent.transform, false);
 
         // Get text box of new dialogue
         GameObject newTextBox = CurrentPanel.GetComponent<InitializeDialogue>().getTextBox();
 
         // Add text of currentNode to new Dialogue
         newTextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
 
         // Remove Listeners
         for (int i = 0; i < 3; i++)
@@ -129,7 +133,7 @@ public class DialogueManager2 : MonoBehaviour
         }
 
         // Reset Choices to new Dialogue
-        Choices = CurrentPanel.GetComponent<InitializeDialogue>().getChoices();
+        Choices = CurrentPanel.GetComponentsInChildren<Button>();
         Choices[0].onClick.AddListener(choiceOption01);
         Choices[1].onClick.AddListener(choiceOption02);
         Choices[2].onClick.AddListener(choiceOption03);
@@ -169,13 +173,14 @@ public class DialogueManager2 : MonoBehaviour
         CurrentPanel.SetActive(true);
 
         // Set the parent to Canvas
-        CurrentPanel.transform.SetParent(DialoguePanel.transform.parent, false);
+        CurrentPanel.transform.SetParent(ScrollListContent.transform, false);
 
         // Get text box of new dialogue
         GameObject newTextBox = CurrentPanel.GetComponent<InitializeDialogue>().getTextBox();
 
         // Add text of currentNode to new Dialogue
         newTextBox.GetComponent<Text>().text = dialogue.nodes[currentNode].text;
+
 
         // Remove Listeners
         for (int i = 0; i < 3; i++)
@@ -184,7 +189,7 @@ public class DialogueManager2 : MonoBehaviour
         }
 
         // Reset Choices to new Dialogue
-        Choices = CurrentPanel.GetComponent<InitializeDialogue>().getChoices();
+        Choices = CurrentPanel.GetComponentsInChildren<Button>();
         Choices[0].onClick.AddListener(choiceOption01);
         Choices[1].onClick.AddListener(choiceOption02);
         Choices[2].onClick.AddListener(choiceOption03);
