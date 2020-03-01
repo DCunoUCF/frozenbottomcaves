@@ -31,7 +31,7 @@ public abstract class Enemy : MonoBehaviour
     //===========   Other methods   ===========//
     protected abstract void initialize();
 
-    private void generateID()
+    protected void generateID()
     {
     	this.enemyId = (int)(Random.value * 9999999);
     }
