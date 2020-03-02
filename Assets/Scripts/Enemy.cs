@@ -13,6 +13,7 @@ public abstract class Enemy : MonoBehaviour
 	protected Vector3 moveTarget;
 	protected Vector3 attackTarget;
 	protected int decision; // 0 - no decision, 1 - move, 2 - attack
+	protected CList combatantEntry;
 
 	//===========   Unity Methods   ============//
 
@@ -64,4 +65,16 @@ public abstract class Enemy : MonoBehaviour
     public Vector3 getMoveVector() { return this.moveTarget; }
     public Vector3 getAttackVector() { return this.attackTarget; }
     public char getRole() { return this.enemyRole; }
+
+    //===========   Setters   ===========//
+    public void setCombatantEntry(CList c) { this.combatantEntry = c; }
+    public void setHealth(int h) { this.health = h; }
+    public void setDamage(int d) { this.damage = d; }
+    public void setStrength(int s) { this.strength = s; }
+    public void setStats(int h, int d, int s)
+    {
+    	this.setHealth(h);
+    	this.setDamage(d);
+    	this.setStrength(s);
+    }
 }

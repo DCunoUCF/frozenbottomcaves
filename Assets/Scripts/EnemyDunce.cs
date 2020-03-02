@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class EnemyDunce : Enemy
 {
+	public EnemyDunce()
+	{
+		this.combatantEntry = null;
+		this.initialize();
+	}
+
+	public EnemyDunce(CList c)
+	{
+		this.combatantEntry = c;
+		this.initialize();
+	}
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,18 +34,24 @@ public class EnemyDunce : Enemy
     	// Set type
     	this.enemyRole = 'd';
 
-    	// Set stats
+    	// Set default stats
     	this.health = 2;
     	this.damage = 1;
     	this.strength = 1;
 
-    	// Set positions
+    	// Set initial positions
     	this.gridPosition = new Vector3(0, 0, 0);
     	this.attackTarget = new Vector3(0, 0, 0);
     	this.moveTarget = new Vector3(0, 0, 0);
 
     	// Generate ID
     	this.generateID();
+
+    	if (this.combatantEntry == null)
+    	{
+    		Debug.Log("E#"+this.enemyId+" says AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+    		
+    	}
     }
 
     protected override void move()

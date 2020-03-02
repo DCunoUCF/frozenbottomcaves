@@ -559,4 +559,9 @@ public class BattleManager : MonoBehaviour
             availEnemyLoc.RemoveAt(random);
         }
     }
+
+    public List<CList> getCombatantList() { return this.combatantList; }
+    public Cell[,] getGrid() { return this.gridCell; }
+    public Vector3 getPlayerPosition() { return new Vector3(this.playerX, this.playerY, 0); }
+    public Vector3 getCompanionPosition() { return this.companionLoc; }
 }
