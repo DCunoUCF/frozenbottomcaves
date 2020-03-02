@@ -44,8 +44,9 @@ public abstract class Enemy : MonoBehaviour
 
     public void kill()
     {
-    	//
+    	// Fucking die you piece of shit enemy
     	Debug.Log("Oy blyat! E#"+this.enemyId+" am dead");
+    	Destroy(this)
     }
 
     public void dealDamage(int dam)

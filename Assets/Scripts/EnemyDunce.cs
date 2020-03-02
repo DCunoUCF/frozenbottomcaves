@@ -50,7 +50,7 @@ public class EnemyDunce : Enemy
     	if (this.combatantEntry == null)
     	{
     		Debug.Log("E#"+this.enemyId+" says AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-    		
+    		this.kill();
     	}
     }
 
