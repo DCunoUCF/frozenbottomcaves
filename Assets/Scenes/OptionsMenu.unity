@@ -2224,7 +2224,7 @@ MonoBehaviour:
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.175
+  m_RepeatDelay: 0.25
   m_ForceModuleActive: 0
 --- !u!1 &2067952430
 GameObject:

@@ -135,6 +135,7 @@ public class OverworldManager : MonoBehaviour
             {
                 destReached = true;
                 dm.Panel.SetActive(true);
+                dm.setInitialSelection();
             }
 
         }

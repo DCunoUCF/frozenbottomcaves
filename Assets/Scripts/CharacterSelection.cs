@@ -30,10 +30,11 @@ public static class CharacterSelection
         string[] lines = textFile.text.Split('\n');
 
         string characterNameTemp = lines[0];
-
         string characterName = characterNameTemp.Substring(0, characterNameTemp.Length - 1); // Have to trim off carriage char
+
         string charactertofindTemp = lines[1];
         string charactertofind = charactertofindTemp.Substring(0, charactertofindTemp.Length - 1); // Trim off carriage char
+
         int hp = int.Parse(lines[2]);
         int[] stats = Array.ConvertAll(lines[3].Split(' '), int.Parse);
         int[] ability1info = Array.ConvertAll(lines[4].Split(' '), int.Parse);
