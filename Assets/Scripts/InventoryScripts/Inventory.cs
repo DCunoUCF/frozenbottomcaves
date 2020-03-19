@@ -118,6 +118,12 @@ public class Inventory : MonoBehaviour
     // Removes an item from our inventory
     public void removeItem(Item.ItemType item, int count)
     {
+
+        if(count <= 0)
+        {
+            Debug.Log("Error. Count cannot be less than or equal to 0");
+        }
+
         // Check if Item exists
         Item inventoryItem = CheckItem(item);
 
