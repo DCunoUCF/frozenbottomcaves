@@ -13,7 +13,7 @@ public class PlayerManager2 : MonoBehaviour
 
     void Start()
     {
-        player = new Player2("Mage");
+        player = new Player2("Knight");
         player.inventory = inventory;
         player.inventory.updateStats(player);
         player.inventory.addItem(Item.ItemType.Sword, 5);
