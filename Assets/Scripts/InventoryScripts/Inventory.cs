@@ -149,16 +149,7 @@ public class Inventory : MonoBehaviour
             // Item is not stackable
             else if(!(inventoryItem.stackable))
             {
-                if (count > 0)
-                {
-                    for (int i = 0; i < count; i++)
-                    {
-                        items.Remove(inventoryItem);
-                        inventoryUI.removeItem(inventoryItem);
-                        inventoryUI.updateUIInventory(inventoryItem);
-                    }                   
-                }
-                else
+                for(int i = 0; i < count; i++)
                 {
                     items.Remove(inventoryItem);
                     inventoryUI.removeItem(inventoryItem);
