@@ -122,6 +122,7 @@ public class Inventory : MonoBehaviour
         if(count <= 0)
         {
             Debug.Log("Error. Count cannot be less than or equal to 0");
+            return;
         }
 
         // Check if Item exists
