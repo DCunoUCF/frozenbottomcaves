@@ -118,7 +118,6 @@ public class Inventory : MonoBehaviour
     // Removes an item from our inventory
     public void removeItem(Item.ItemType item, int count)
     {
-
         if(count <= 0)
         {
             Debug.Log("Error. Count cannot be less than or equal to 0");
@@ -137,9 +136,10 @@ public class Inventory : MonoBehaviour
                 inventoryItem.count -= count;
                 inventoryUI.updateUIInventory(inventoryItem);
             }
-            else if(inventoryItem.count - count <= 0 && inventoryItem.stackable)
+
+            // Count <= 0 and Stackable
+            else if (inventoryItem.count - count <= 0 && inventoryItem.stackable)
             {
-                // Count = 0 and Stackable
                 inventoryItem.count = 0;
                 items.Remove(inventoryItem);
                 inventoryUI.removeItem(inventoryItem);
