@@ -207,13 +207,28 @@ public class PlayerManager : MonoBehaviour
     {
         clearHighlights();
         GameObject highlight = pc.getHighlight(key);
+        GameObject HM = GameObject.Find("Highlights");
+
         foreach (Point tile in points)
         {
-            if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
-                if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
+            int newX = x + tile.X;
+            int newY = y + tile.Y;
+            if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))
+                continue;
+
+            if (newY < 0 || newY > BattleManager.Instance.gridCell.GetLength(0))
+                continue;
+
+            if (BattleManager.Instance.gridCell[newX, newY] != null)
+                if (BattleManager.Instance.gridCell[newX, newY].pass)
                     highlights.Add(Instantiate(highlight,
-                          BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
+                          BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
         }
+        foreach (GameObject hl in highlights)
+        {
+            hl.transform.SetParent(HM.transform);
+        }
+
     }
 
     // Returns the requested stat, 1 - str, 2 - int, 3 - dex

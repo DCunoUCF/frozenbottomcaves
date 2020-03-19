@@ -13,6 +13,7 @@ public class BattleManager : MonoBehaviour
     public Cell[,] gridCell;
     private GameObject grid;
     private GameObject activeArena;
+    public int gridsizeX, gridsizeY; // Maintain size of board to reduce repeated computation in PM
 
     // Player and Companion GameObject references. playerX/Y are stand-ins because of the ordering of script execution
     public GameObject player;

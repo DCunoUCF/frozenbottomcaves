@@ -86,8 +86,9 @@ public class GameManager : MonoBehaviour
             if (this.bm != null)
                 battleResolvedCheck = this.bm.isBattleResolved();
 
-            if (this.bm == null && !this.battleLogicComplete)
+            if (this.bm == null && !this.battleLogicComplete && GameObject.Find("BattleManager") != null)
             {
+                print(GameObject.Find("BattleManager"));
                 this.bm = GameObject.Find("BattleManager").GetComponent<BattleManager>();
             }
 
