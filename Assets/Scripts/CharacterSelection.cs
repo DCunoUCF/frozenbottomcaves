@@ -6,6 +6,7 @@ using System.Drawing;
 using System;
 using System.Text.RegularExpressions;
 
+
 public static class CharacterSelection
 {
     //public PlayerClass player;
@@ -13,6 +14,8 @@ public static class CharacterSelection
 
     public static PlayerClass writeStats(string filename)
     {
+        PlayerClass pc = new PlayerClass();
+
         string path = "./Assets/Resources/CharacterStats/";
 
         string path2 = "CharacterStats/";
@@ -35,12 +38,15 @@ public static class CharacterSelection
         string charactertofindTemp = lines[1];
         string charactertofind = charactertofindTemp.Substring(0, charactertofindTemp.Length - 1); // Trim off carriage char
 
-        int hp = int.Parse(lines[2]);
-        int[] stats = Array.ConvertAll(lines[3].Split(' '), int.Parse);
-        int[] ability1info = Array.ConvertAll(lines[4].Split(' '), int.Parse);
-        int[] ability1 = Array.ConvertAll(lines[5].Split(' '), int.Parse);
-        int[] ability2info = Array.ConvertAll(lines[6].Split(' '), int.Parse);
-        int[] ability2 = Array.ConvertAll(lines[7].Split(' '), int.Parse);
+        string bio = lines[2];
+        string quest = lines[3];
+
+        int hp = int.Parse(lines[4]);
+        int[] stats = Array.ConvertAll(lines[5].Split(' '), int.Parse);
+        int[] ability1info = Array.ConvertAll(lines[6].Split(' '), int.Parse);
+        int[] ability1 = Array.ConvertAll(lines[7].Split(' '), int.Parse);
+        int[] ability2info = Array.ConvertAll(lines[8].Split(' '), int.Parse);
+        int[] ability2 = Array.ConvertAll(lines[9].Split(' '), int.Parse);
 
 
 
@@ -70,9 +76,18 @@ public static class CharacterSelection
             ability2list.Add(new Point(ability2[i], ability2[i + 1]));
         }
 
+        pc.name = characterName;
+        pc.clonename = charactertofind;
+        pc.health = hp;
+        pc.attributes = stats;
+        pc.skill1info = ability1info;
+        pc.skill1 = ability1list;
+        pc.skill2info = ability2info;
+        pc.skill2 = ability2list;
 
         //reader.Close();
 
-        return new PlayerClass(characterName, charactertofind, hp, stats, ability1info, ability1list, ability2info, ability2list);
+        return pc;
+        //return new PlayerClass(characterName, charactertofind, hp, stats, ability1info, ability1list, ability2info, ability2list);
     }
 }

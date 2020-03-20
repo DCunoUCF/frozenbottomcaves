@@ -8,10 +8,13 @@ public class PlayerClass
 {
     //public static PlayerClass Playerinstance { get; set; }
     public int health;
+    public readonly int maxHealth;
     public int lives = 3;
 
     public string name;
     public string clonename;
+    public string bio;
+    public string quest;
 
     public List<string> inventory = null;
     public GameObject attackHighlight;
@@ -25,17 +28,20 @@ public class PlayerClass
     public int[] skill2info;
     public List<Point> skill2;
 
-    public PlayerClass(string n, string cn, int hp, int[] atr, int[] sk1inf, List<Point> sk1, int[] sk2inf, List<Point> sk2)
-    {
-        this.name = n;
-        this.clonename = cn;
-        this.health = hp;
-        this.attributes = atr;
-        this.skill1info = sk1inf;
-        this.skill1 = sk1;
-        this.skill2info = sk2inf;
-        this.skill2 = sk2;
-    }
+
+    // REPLACED IN FAVOR OF DEFAULT CONSTRUCTOR
+    //public PlayerClass(string n, string cn, int hp, int[] atr, int[] sk1inf, List<Point> sk1, int[] sk2inf, List<Point> sk2)
+    //{
+    //    this.name = n;
+    //    this.clonename = cn;
+    //    this.health = hp;
+    //    this.maxHealth = hp;
+    //    this.attributes = atr;                               
+    //    this.skill1info = sk1inf;
+    //    this.skill1 = sk1;
+    //    this.skill2info = sk2inf;
+    //    this.skill2 = sk2;
+    //}
 
     public void setHealth(int hp)
     {
@@ -95,6 +101,8 @@ public class PlayerClass
     //    return null;
     //}
 
+
+    // Need to create prefabs for each unique ability and load them here
     public void setHighlights()
     {
         attackHighlight = Resources.Load<GameObject>("Prefabs/TileHighlight1");

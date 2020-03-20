@@ -234,6 +234,7 @@ public class OverworldManager : MonoBehaviour
         //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
+        dm.setInitialSelection();
     }
 
     public void SkillSaveEvent()
@@ -263,6 +264,7 @@ public class OverworldManager : MonoBehaviour
 
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
+        dm.setInitialSelection();
     }
 
     public GameObject GetCurrentNode()
