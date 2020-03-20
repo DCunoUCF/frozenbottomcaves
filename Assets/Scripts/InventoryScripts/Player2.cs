@@ -67,10 +67,11 @@ public class Player2
         }
         else if(name == "Monk")
         {
-            this.weapon01 = new Weapon(Weapon.WeaponType.MonkFist);
-            this.weapon02 = new Weapon(Weapon.WeaponType.MonkPendant);
+
             bio = "You are a Monk. Too lazy to type out an entire bio";
             quest = "You must find the shawlin temple";
+            this.weapon01 = new Weapon(Weapon.WeaponType.MonkFist);
+            this.weapon02 = new Weapon(Weapon.WeaponType.MonkPendant);
             this.quest = quest;
             this.bio = bio;
             this.stamina = 20;
