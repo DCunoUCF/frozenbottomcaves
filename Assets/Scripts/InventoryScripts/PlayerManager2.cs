@@ -20,7 +20,7 @@ public class PlayerManager2 : MonoBehaviour
         player.inventory.addItem(Item.ItemType.Ressurection, 3);
         player.inventory.addItem(Item.ItemType.Provisions, 5);
         player.inventory.addItem(Item.ItemType.Gold, 100);
-        player.inventory.removeItem(Item.ItemType.Sword, 10);
+ 
     }
 
     private void Update()
