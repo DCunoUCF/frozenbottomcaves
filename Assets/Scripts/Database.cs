@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Database : MonoBehaviour
+public class Database
 {
     List<Item> items;
     List<Weapon> weapons;
+
+    public Database()
+    {
+        BuildDatabase();
+    }
 
     public void BuildDatabase()
     {

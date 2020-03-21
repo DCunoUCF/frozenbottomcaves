@@ -56,12 +56,14 @@ public class UIInventory : MonoBehaviour
         // Miscellaneous Items
         else
         {
-            instance = Instantiate(textPrefab);
+            print("ADDING MISC ITEM");
+            instance = Instantiate(Resources.Load("Prefabs/Text") as GameObject);
             instance.GetComponent<UIItem>().item = item;
             instance.GetComponent<Text>().text = item.item + " x" + item.count;
             instance.transform.SetParent(textPanel);
             UIitems.Add(instance.GetComponent<UIItem>());
             content.sizeDelta = new Vector2(content.sizeDelta.x, content.sizeDelta.y + 30f);
+            instance.transform.localScale = new Vector3(1f, 1f, 1f);
         }
     }
 
@@ -103,7 +105,7 @@ public class UIInventory : MonoBehaviour
     }
 
     // Updates the UI stats for player
-    public void updateUIStats(Player2 player)
+    public void updateUIStats(PlayerClass player)
     {
         GameObject Weapon01;
         GameObject Weapon02;
@@ -123,13 +125,15 @@ public class UIInventory : MonoBehaviour
         Weapon02.GetComponent<Text>().text = player.weapon02.weapon.ToString();
 
         Stamina = Content.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Stamina.GetComponent<Text>().text = "" + player.stamina + "/" + player.maxStamina;
+        Stamina.GetComponent<Text>().text = "" + player.health + "/" + player.maxHealth;
+
 
         Skill = Content.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Skill.GetComponent<Text>().text = "" + player.skill + "/" + player.maxSkill;
+        Skill.GetComponent<Text>().text = "" + player.getStat("STR");
+        print(player.getStat("STR"));
 
         Luck = Content.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Luck.GetComponent<Text>().text = "" + player.luck + "/" + player.maxLuck;
+        Luck.GetComponent<Text>().text = "" + player.getStat("AGI");
 
         Quest = QuestMenu.transform.GetChild(1).gameObject;
         Quest.GetComponent<Text>().text = player.quest;

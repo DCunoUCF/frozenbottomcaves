@@ -295,6 +295,21 @@ public class DialogueManager : MonoBehaviour
         Choices[0].Select();
         Choices[0].OnSelect(null);
     }
+
+    // Used when the inventory is opened to prevent the dialogue options from being selectable/selected
+    public void setUninteractable()
+    {
+        foreach (Button b in Choices)
+            b.interactable = false;
+    }
+
+    // Opposite of above, as well as setting the first option back to the initial selection
+    public void setInteractable()
+    {
+        foreach (Button b in Choices)
+            b.interactable = true;
+        setInitialSelection();
+    }
 }
 
 //// David's Start Method

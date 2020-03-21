@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class Inventory
 {
     List<Item> items;
     public Database database;
@@ -12,10 +12,23 @@ public class Inventory : MonoBehaviour
     public GameObject InventoryPanel;
     public GameObject BioPanel;
     public Button[] buttons;
+    public PlayerManager pm;
 
-    private void Awake()
+    public Inventory(PlayerManager pm)
     {
         items = new List<Item>();
+
+        inventoryUI = (UIInventory)GameObject.Find("Inventory").GetComponent("UIInventory");
+        InventoryPanel = GameObject.Find("InventoryPanel");
+        BioPanel = GameObject.Find("BioPanel");
+        //BioPanel.SetActive(false);
+        buttons = new Button[5];
+
+        buttons[0] = GameObject.Find("ResButton").GetComponent<Button>();
+        buttons[1] = GameObject.Find("ProvButton").GetComponent<Button>();
+        buttons[2] = GameObject.Find("BackButton").GetComponent<Button>();
+        buttons[3] = GameObject.Find("InventoryButton").GetComponent<Button>();
+        buttons[4] = GameObject.Find("BioButton").GetComponent<Button>();
 
         // Listeners
         buttons[0].onClick.AddListener(removeRessurection);
@@ -24,15 +37,15 @@ public class Inventory : MonoBehaviour
         buttons[3].onClick.AddListener(toggleInventoryPanel);
         buttons[4].onClick.AddListener(toggleBioPanel);
 
-        database.BuildDatabase();
-
+        database = new Database();
+        this.pm = pm;
     }
 
-    private void Start()
+    public void setInitSelection()
     {
- 
+        buttons[3].Select();
+        buttons[3].OnSelect(null);
     }
-
 
     // Adds an item to our inventory
     public void addItem(Item.ItemType item, int count)
@@ -197,7 +210,7 @@ public class Inventory : MonoBehaviour
     }
 
     // Peggi will use this function 
-    public void updateStats(Player2 player)
+    public void updateStats(PlayerClass player)
     {
 
         inventoryUI.updateUIStats(player);
@@ -241,6 +254,7 @@ public class Inventory : MonoBehaviour
     public void toggleInventory()
     {
         inventoryUI.gameObject.SetActive(false);
+        pm.gm.om.dm.setInteractable();
     }
 
     public void toggleInventoryPanel()

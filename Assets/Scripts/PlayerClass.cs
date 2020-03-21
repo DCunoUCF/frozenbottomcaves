@@ -3,104 +3,76 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Drawing;
+using System;
+
+enum stats
+{
+    STR = 0, INT, AGI
+}
 
 public class PlayerClass
 {
-    //public static PlayerClass Playerinstance { get; set; }
+    // Stats
     public int health;
-    public readonly int maxHealth;
-    public int lives = 3;
+    public int maxHealth;
+    private int[] stats; // STR, INT, AGI
 
+    // Inventory
+    public Inventory inventory;
+
+    // Information about prefab, flavor text
     public string name;
     public string clonename;
     public string bio;
     public string quest;
+    // Hero Weapons
+    public Weapon weapon01;
+    public Weapon weapon02;
 
-    public List<string> inventory = null;
+    // Combat information
     public GameObject attackHighlight;
     public GameObject moveHighlight;
     public List<GameObject> highlights;
-
-    public int[] attributes;
-
     public int[] skill1info;
     public List<Point> skill1;
     public int[] skill2info;
     public List<Point> skill2;
 
-
-    // REPLACED IN FAVOR OF DEFAULT CONSTRUCTOR
-    //public PlayerClass(string n, string cn, int hp, int[] atr, int[] sk1inf, List<Point> sk1, int[] sk2inf, List<Point> sk2)
-    //{
-    //    this.name = n;
-    //    this.clonename = cn;
-    //    this.health = hp;
-    //    this.maxHealth = hp;
-    //    this.attributes = atr;                               
-    //    this.skill1info = sk1inf;
-    //    this.skill1 = sk1;
-    //    this.skill2info = sk2inf;
-    //    this.skill2 = sk2;
-    //}
-
-    public void setHealth(int hp)
+    // STR = 0, INT = 1, AGI = 2
+    public int getStat(string i)
     {
-        health = hp;
+        return stats[(int)Enum.Parse(typeof(stats), i)];
     }
+
+    // Whenever the player takes damage
+    public void takeDamage(int dmg)
+    {
+        /* 
+         * 
+         * EXTRA DMG LOGIC HERE
+         * 
+         * 
+        */
+
+        health -= dmg;
+
+    }
+
     public int getHealth()
     {
         return health;
     }
 
-    public void loselife()
+    public void setHealth(int hp)
     {
-        lives -= 1;
+        this.health = hp;
+        this.maxHealth = hp;
     }
 
-    public bool hasItem(string item)
+    public void setStats(int[] stats)
     {
-        return inventory.Contains(item);
+        this.stats = stats;
     }
-
-    public void addItem(string item)
-    {
-        inventory.Add(item);
-    }
-
-    public void removeItem(string item)
-    {
-        inventory.Remove(item);
-    }
-
-    // Places highlights for each skill
-    //public List<GameObject> useSkill(int key, Vector3 playerloc, int x, int y)
-    //{
-    //    Debug.Log("In useSkill");
-    //    switch (key)
-    //    {
-    //        case 1:
-    //            foreach (Point tile in Knight.basicAttack)
-    //            {
-    //                if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
-    //                    if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
-    //                        highlights.Add(MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/TileHighlight1"),
-    //                              BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
-    //            }
-    //            return highlights;
-    //        case 2:
-    //            //Debug.Log(transform.position.ToString("F2"));
-    //            foreach (Point tile in skill2)
-    //            {
-    //                if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
-    //                    if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
-    //                        highlights.Add(MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/TileHighlight2"),
-    //                              BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
-    //            }
-    //            return highlights;
-    //    }
-    //    return null;
-    //}
-
 
     // Need to create prefabs for each unique ability and load them here
     public void setHighlights()

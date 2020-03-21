@@ -78,13 +78,16 @@ public static class CharacterSelection
 
         pc.name = characterName;
         pc.clonename = charactertofind;
-        pc.health = hp;
-        pc.attributes = stats;
+        pc.setHealth(hp);
+        pc.setStats(stats);
         pc.skill1info = ability1info;
         pc.skill1 = ability1list;
         pc.skill2info = ability2info;
         pc.skill2 = ability2list;
-
+        pc.bio = bio;
+        pc.quest = quest;
+        pc.weapon01 = new Weapon(Weapon.WeaponType.KnightSword);
+        pc.weapon02 = new Weapon(Weapon.WeaponType.KnightShield);
         //reader.Close();
 
         return pc;

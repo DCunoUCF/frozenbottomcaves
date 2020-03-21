@@ -259,7 +259,8 @@ public class OverworldManager : MonoBehaviour
         else if (random == 2)
         {
             print("FAIL");
-            this.gm.pm.pc.setHealth(this.gm.pm.pc.getHealth() - 2);
+            this.gm.pm.takeDmg(2); // Changed to use new dmg method
+            //this.gm.pm.pc.setHealth(this.gm.pm.pc.getHealth() - 2);
         }
 
         this.dm.Panel.SetActive(true);
