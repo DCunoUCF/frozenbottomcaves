@@ -5,31 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
+using UnityEngine.UI;
+using UnityEngine;
 
     public class Program
     {
         // Global File Reference Variable
-        public static StreamReader sr;
+        public static TextAsset textAsset;
 
         // Function that loads up Dialogue text files
         public Dialogue LoadFile(String filename)
         {
-            // Initialize stream reader
-            sr = new StreamReader(filename);
-
-            Dialogue dialogueList = new Dialogue();
+             // Initialize stream reader
+            textAsset = Resources.Load(filename) as TextAsset;
             
+            // Text Asset Parsing Variables
+            string[] lines = textAsset.text.Split('\n');
+            string line;
+            int lineCount;
+
             // Key data to be obtained from file
             int id;
             String text;
             int options;
 
-            while(sr.Peek() >= 0)
+            Dialogue dialogueList = new Dialogue();
+
+        for (lineCount = 0; lineCount < lines.Length; lineCount++)
             {
+                 line = lines[lineCount];
+           
                 // If we come across carriage return or newline, loop again
-                if ((char)sr.Peek() == '\r' || (char)sr.Peek() == '\n' || (char)sr.Peek() == '#')
+                if ((char)line[0] == '\r' || (char)line[0] == '\n' || (char)line[0] == '#')
                 {
-                    sr.ReadLine();
                     continue;
                 }
 
@@ -37,21 +45,25 @@ using System.IO;
                 DialogueNode dialogue = new DialogueNode();
 
                 // Get the id and text from file
-                id = parseId();
-                text = parseText();
+                id = parseId(line);
+                lineCount++;
+
+                text = parseText(line);
+                lineCount++;
 
                 // Add the extracted data into our dialogue node object
                 dialogue.addDialogue(text, id);
 
                 // Number of options to be added
-                options = parseId();
+                options = parseId(line);
+                lineCount++;
 
                 // Loop through and get the text and data from file
                 // Add the option to our dialogue node
                 for(int i = 0; i < options; i++)
                 {
-                    text = parseText();
-                    id = parseId();
+                    text = parseText(line);
+                    id = parseId(line);
                     dialogue.addOption(text, id);
                 }
 
@@ -63,7 +75,7 @@ using System.IO;
         }
         
         // Function to extract ids from text file
-        public static int parseId()
+        public static int parseId(string str)
         {
             // String to hold the data we actually want.
             StringBuilder buffer = new StringBuilder();
@@ -78,7 +90,7 @@ using System.IO;
             int index;
 
             // Grab line from text file
-            data = sr.ReadLine();
+            data = str;
 
             // Jump to relevant delimeter
             index = data.IndexOf(":");
@@ -100,7 +112,7 @@ using System.IO;
         }
 
         // Function to extract text from file
-        public static string parseText()
+        public static string parseText(string str)
         {
             // String to hold the data we actually want.
             StringBuilder buffer = new StringBuilder();
@@ -115,7 +127,7 @@ using System.IO;
             int index;
 
             // Grab line from text file
-            data = sr.ReadLine();
+            data = str;
 
             // Jump to relevant delimeter
             index = data.IndexOf(":");
@@ -139,16 +151,5 @@ using System.IO;
         }
 
         // Not used at the moment but could be useful in future
-        public static void consumeFeeds()
-        {
-            if (sr.Peek() >= 0)
-                return;
-
-            if ((char)sr.Peek() == '\r')
-                sr.Read();
-
-            if ((char)sr.Peek() == '\n')
-                sr.Read();
-        }
     }
 
