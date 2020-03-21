@@ -102,7 +102,7 @@ options: 2
 text: "More small goblins to kick! Have at you!"
 destId: 15
 text: "These cursed bushes keep making noise, how annoying!"
-destId: 20
+destId: 24
 
 nodeId : 15
 text : You kick the bush with all of your might. A goblin yelps and flies backwards out of the bush, presumed dead by the distance he flew.

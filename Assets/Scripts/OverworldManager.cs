@@ -135,6 +135,7 @@ public class OverworldManager : MonoBehaviour
             {
                 destReached = true;
                 dm.Panel.SetActive(true);
+                dm.setInitialSelection();
             }
 
         }
@@ -233,6 +234,7 @@ public class OverworldManager : MonoBehaviour
         //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
+        dm.setInitialSelection();
     }
 
     public void SkillSaveEvent()
@@ -257,10 +259,52 @@ public class OverworldManager : MonoBehaviour
         else if (random == 2)
         {
             print("FAIL");
-            this.gm.pm.pc.setHealth(this.gm.pm.pc.getHealth() - 2);
+            this.gm.pm.takeDmg(2); // Changed to use new dmg method
+            //this.gm.pm.pc.setHealth(this.gm.pm.pc.getHealth() - 2);
         }
 
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
+        dm.setInitialSelection();
+    }
+
+    public GameObject GetCurrentNode()
+    {
+        WorldNode curWorldNode;
+
+        if (this.nodes == null)
+        {
+            Debug.AssertFormat(false, "OWNodes list(nodes) has not been created yet.");
+            return null;
+        }
+
+        for (int i = 0; i < this.nodes.Count; i++)
+        {
+            curWorldNode = this.nodes[i].GetComponent<WorldNode>();
+
+            for (int j = 0; j < curWorldNode.NodeIDs.Count; j++)
+            {
+                if (curWorldNode.NodeIDs[j] == this.dm.currentNode)
+                    return this.nodes[i];
+            }
+        }
+
+
+        Debug.AssertFormat(false, "Couldn't find currentNode " + this.dm.currentNode + " in OWNodes list(nodes).");
+        return null;
+    }
+
+    public BattleClass GetBattleClass()
+    {
+        WorldNode curWorldNode = this.GetCurrentNode().GetComponent<WorldNode>();
+
+        for (int i = 0; i < curWorldNode.NodeIDs.Count; i++)
+        {
+            if (curWorldNode.NodeIDs[i] == this.dm.currentNode)
+                return curWorldNode.battleClassList.list[i];
+        }
+
+        Debug.AssertFormat(false, "Couldn't find BattleClass in BattleClassList at currentNode " + this.dm.currentNode);
+        return null;
     }
 }

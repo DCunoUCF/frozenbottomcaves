@@ -8,10 +8,15 @@ public enum FlagType
 	Battle, Event, Item
 }
 
+public enum GridType
+{
+    Random = 0, Forest, Cave, Ice, Castle, Boss
+}
+
 public enum EncounterEnemy
 {
 	None,
-	Goblin, Slime
+	goblin, slime_G, gnoll, lich
 }
 
 public enum ItemType
@@ -27,18 +32,20 @@ public class WorldNode : MonoBehaviour
 {
 	public List<int> NodeIDs;
 	public List<FlagType> NodeTypes;
-	public List<List<EncounterEnemy>> NodeEnemies;
+    public BattleClassList battleClassList = new BattleClassList();
 	public List<ItemType> NodeItems;
+}
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[System.Serializable]
+public class BattleClass
+{
+    public GridType grid;
+    public string arena;
+    public List<EncounterEnemy> nodeEnemies;
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+[System.Serializable]
+public class BattleClassList
+{
+    public List<BattleClass> list;
 }
