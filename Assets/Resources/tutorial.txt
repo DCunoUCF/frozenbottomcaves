@@ -1,0 +1,201 @@
+# Leave Quotes in text
+# Comments can be added on its own line but must be preceded by a # sign
+# destId of -1 will trigger the program to end when user presses 1 to Exit
+
+nodeId : 0 
+text : You are Sir Rancelot, the Knight of Rockside Castle. You find yourself in a dark and gloomy forest. You hold a scroll given to you by the Wizard of Rockside, Welbo. The scroll tells of an evil warrior dubbed "The Warrior of Frozenbottom Caves." He is growing in strength deep within the wilds. You are here to stop him at all costs!
+options : 1
+text : "I must stop him at all costs! Onward!" (Continue)
+destId : 1
+
+nodeId : 1
+text : You find yourself on a dirt path. Trees hang over you, casting shadows across the forest.
+options : 1
+text : "Your shadows don't scare me, tall trees!" Move deeper into the forest.
+destId : 2
+
+nodeId : 2
+text: You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
+options : 2
+text: "The trees to the left look promising!" (Left)
+destId:3
+text: "Some bushes! What fun! Just like the castle gardens!" (Right)
+destId:12
+
+## Left Path ##
+nodeId : 3
+text : As you move through the trees you turn your head at every creak of a branch. You come to a stop. A puddle crosses the entire path, blocking your way.
+options: 1
+text: "Puddles are the least of my concern. I must continue!"
+destId:4
+
+nodeId : 4
+text : You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance!
+options : 1
+text : Find your balance! (Agility Save Roll)
+destId : 5
+
+nodeId: 5
+text : AGILITY EVENT
+options: 2
+text: SAVE
+destId: 6
+text: FAIL
+destId: 7
+
+nodeId : 6
+text : You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path!
+options: 1
+text: "And he sticks the landing, amazing!" Continue in style.
+destId:8
+
+nodeId : 7
+text : (-2 Health) You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part. 
+options: 1
+text: "..." Trudge along.
+destId:8
+
+nodeId : 8
+text : As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
+options: 1
+text: "Gross! I shall tear you apart with my gloved hands!" (Battle!)
+destId:9
+
+nodeId: 9
+text : BATTLE
+options: 2
+text: WIN
+destId: 10
+text: LOSE
+destId: 11
+
+nodeId : 10
+text : Covered in slime and victory, you emerge from the fray!
+options: 1
+text: "Huzzah! Though I need a bath now..."
+destId:-1
+
+nodeId : 11
+text : The slimes overtake you and you drown in their muck!
+options: 1
+text: Gross!
+destId:-1
+
+## Right Path ##
+nodeId : 12
+text : The brush comes close, scraping against your armor. The sound is grating. Suddenly, a rustling in the bushes startles you!
+options: 2
+text: "I fear no rustling! Have at you!"
+destId:13
+text: "Rustling, schmustling, I need to keep moving!"
+destId: 25
+
+nodeId : 13
+text : You kick the bush angrily, and hear a small yelp. A tiny goblin scout falls from the bush with a thud, dead.
+options: 1
+text: "Amazing! I should attack rustlings more often."
+destId:14
+
+nodeId : 14
+text : Moving along the bushes, you hear more rustling. The bushes feel as if they have eyes that watch you.
+options: 2
+text: "More small goblins to kick! Have at you!"
+destId: 15
+text: "These cursed bushes keep making noise, how annoying!"
+destId: 24
+
+nodeId : 15
+text : You kick the bush with all of your might. A goblin yelps and flies backwards out of the bush, presumed dead by the distance he flew.
+options: 1
+text: "Incredible! I could make this a sport."
+destId: 16
+
+nodeId : 16
+text : A goblin jumps out of the bush ahead of you. "Stop it wit ya kickin', ya louzy knight!" He rushes you in a frenzy!
+options: 1
+text: "I shall never stop!" (Battle!)
+destId: 17
+
+# 1 goblin battle
+nodeId: 17
+text : BATTLE
+options: 2
+text: WIN
+destId: 18
+text: LOSE
+destId: 19
+
+nodeId : 18
+text : You win the melee with relative ease! The rest of your journey awaits...
+options: 1
+text: VICTORY!
+destId:-1
+
+nodeId : 19
+text : As quickly as it began, your journey has ended...
+options: 1
+text: FAILURE!
+destId:-1
+
+nodeId :20
+text : You try to continue along the path, but two goblins jump in front of you! "You'ze kill our friend, so we'z kill you!" They raise their bony fists!
+options: 1
+text: "A fist-fight! I love it!" (Battle!)
+destId: 21
+
+# 2 goblin battle
+nodeId: 21
+text : BATTLE
+options: 2
+text: WIN
+destId: 22
+text: LOSE
+destId: 23
+
+nodeId : 22
+text : You win the melee with relative ease! The rest of your journey awaits...
+options: 1
+text: VICTORY!
+destId:-1
+
+nodeId : 23
+text : As quickly as it began, your journey has ended...
+options: 1
+text: FAILURE!
+destId:-1
+
+nodeId : 24
+text : Moving along the bushes, you hear more rustling in the bushes. The bushes feel as if they have eyes that watch you.
+options: 1
+text: "These cursed bushes keep making noise, how annoying!"
+destId: 25
+
+nodeId : 25
+text : You try to continue along the path, but three goblins jump in front of you! "Stoopid knight, yer journey ends heer!" They grin and raise their bony fists!
+options: 1
+text: "O-ho! Stop me if you can!" (Battle!)
+destId: 26
+
+# 3 goblin battle
+nodeId: 26
+text : BATTLE
+options: 2
+text: WIN
+destId: 27
+text: LOSE
+destId: 28
+
+nodeId : 27
+text : You win the melee with relative ease! The rest of your journey awaits...
+options: 1
+text: VICTORY!
+destId:-1
+
+nodeId : 28
+text : As quickly as it began, your journey has ended...
+options: 1
+text: FAILURE!
+destId:-1
+
+Test
+Test
