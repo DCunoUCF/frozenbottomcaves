@@ -22,10 +22,7 @@ public class Program
     // Function that loads up Dialogue text files
     public Dialogue LoadFile(string filename)
     {
-
-        string path = "Assets/Resources/tutorial.txt";
-
-        TextAsset textAsset = (TextAsset)Resources.Load("tutorial");
+        TextAsset textAsset = (TextAsset)Resources.Load(filename);
 
         lines = textAsset.text.Split('\n');
         line = null;
