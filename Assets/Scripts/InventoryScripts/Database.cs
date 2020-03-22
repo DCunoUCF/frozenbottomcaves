@@ -5,8 +5,7 @@ using UnityEngine;
 public class Database : MonoBehaviour
 {
     List<Item> items;
-    List<Weapon> weapons;
-
+   
     public void BuildDatabase()
     {
         items = new List<Item>()
@@ -26,17 +25,6 @@ public class Database : MonoBehaviour
         {
             if (tempItem.item == item)
                 return tempItem;
-        }
-
-        return null;
-    }
-
-    public Weapon getWeapon(Weapon.WeaponType weapon)
-    {
-        foreach(Weapon tempWeapon in weapons)
-        {
-            if (tempWeapon.weapon == weapon)
-                return tempWeapon;
         }
 
         return null;

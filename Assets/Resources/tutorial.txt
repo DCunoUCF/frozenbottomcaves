@@ -196,6 +196,3 @@ text : As quickly as it began, your journey has ended...
 options: 1
 text: FAILURE!
 destId:-1
-
-Test
-Test

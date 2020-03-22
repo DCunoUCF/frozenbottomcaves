@@ -14,20 +14,21 @@ public class Program
     // Global File Reference Variable
     public static StreamReader sr;
 
+    // Globals
+    static String[] lines;
+    static String line;
+    static int lineNumber;
+
     // Function that loads up Dialogue text files
     public Dialogue LoadFile(string filename)
     {
 
         string path = "Assets/Resources/tutorial.txt";
 
-        //Re-import the file to update the reference in the editor
-        AssetDatabase.ImportAsset(path);
-
         TextAsset textAsset = (TextAsset)Resources.Load("tutorial");
 
-        String[] lines = textAsset.text.Split('\n');
-        String line;
-        int i;
+        lines = textAsset.text.Split('\n');
+        line = null;
 
         Dialogue dialogueList = new Dialogue();
 
@@ -36,9 +37,11 @@ public class Program
         String text;
         int options;
 
-        for (i = 0; i < lines.Length; i++)
-        {
-            line = lines[i];
+        lineNumber = 0;
+
+        while(lineNumber < lines.Length)
+        { 
+            line = lines[lineNumber++];
 
             // Continue if line begins with any of these characters
             if (line == null || line == "" || line[0] == '\r' || line[0] == '\n' || line[0] == '#')
@@ -48,33 +51,23 @@ public class Program
 
             // Dialogue Id
             id = parseId(line);
-            i++;
-            line = lines[i];
 
             // Dialogue Text
             text = parseText(line);
-            i++;
-            line = lines[i];
 
             // Add it to Dialogue Node
             dialogue.addDialogue(text, id);
 
             // Number of Options
             options = parseId(line);
-            i++;
-            line = lines[i];
 
             for (int j = 0; j < options; j++)
             {
                 // Option Text
                 text = parseText(line);
-                i++;
-                line = lines[i];
 
                 // Option Id
                 id = parseId(line);
-                i++;
-                line = lines[i];
 
                 // Add Option to Dialogue Node
                 dialogue.addOption(text, id);
@@ -88,7 +81,7 @@ public class Program
     }
 
     // Function to extract ids from text file
-    public static int parseId(String line)
+    public static int parseId(String str)
     {
         // String to hold the data we actually want.
         StringBuilder buffer = new StringBuilder();
@@ -103,7 +96,7 @@ public class Program
         int index;
 
         // Grab line from text file
-        data = line;
+        data = str;
 
         // Jump to relevant delimeter
         index = data.IndexOf(":");
@@ -115,17 +108,20 @@ public class Program
         temp.Append(data);
 
         // Only append to our buffer if it is a number
-        for (int i = 0; i < temp.Length; i++)
+        for (int j = 0; j < temp.Length; j++)
         {
-            if (Char.IsDigit(temp[i]) || temp[i] == '-')
-                buffer.Append(temp[i]);
+            if (Char.IsDigit(temp[j]) || temp[j] == '-')
+                buffer.Append(temp[j]);
         }
+
+        if (lineNumber < lines.Length)
+            line = lines[lineNumber++];
 
         return Int32.Parse(buffer.ToString());
     }
 
     // Function to extract text from file
-    public static string parseText(String line)
+    public static string parseText(String str)
     {
         // String to hold the data we actually want.
         StringBuilder buffer = new StringBuilder();
@@ -140,7 +136,7 @@ public class Program
         int index;
 
         // Grab line from text file
-        data = line;
+        data = str;
 
         // Jump to relevant delimeter
         index = data.IndexOf(":");
@@ -159,6 +155,9 @@ public class Program
 
             buffer.Append(temp[i]);
         }
+
+        if (lineNumber < lines.Length)
+            line = lines[lineNumber++];
 
         return buffer.ToString();
     }
