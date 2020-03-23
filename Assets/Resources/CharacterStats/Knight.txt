@@ -4,7 +4,23 @@ bio
 quest
 20
 10 10 10
-5 1 0
-0 1 1 1 1 0 1 -1 0 -1 -1 -1 -1 0 -1 1
+Basic Move
+Move one tile in a cardinal direction
+Prefabs/TileHighlight2
 0 -1 1
 0 1 1 0 0 -1 -1 0
+Basic Attack
+Attack one adjacent tile for 5 damage
+Prefabs/TileHighlight1
+5 1 0
+0 1 1 1 1 0 1 -1 0 -1 -1 -1 -1 0 -1 1
+Cleave
+Simultaneously strike 3 tiles for 3 damage
+Prefabs/TileHighlight1
+3 1 0
+0 1 1 0 0 -1 -1 0
+Defensive Stance
+Assume a defensive stance, blocking all incoming damage this turn
+Prefabs/TileHighlight2
+0 2 0
+0 0 0 0

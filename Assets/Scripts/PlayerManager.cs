@@ -184,11 +184,17 @@ public class PlayerManager : MonoBehaviour
             }
             else if (Input.GetButtonDown("Skill3"))
             {
-
+                clearHighlights();
+                placeHighlights(pc.skill3, 3);
+                this.abilityinfo = pc.getInfo(3);
+                fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Skill4"))
             {
-
+                clearHighlights();
+                placeHighlights(pc.skill4, 4);
+                this.abilityinfo = pc.getInfo(4);
+                fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Cancel"))
             {
@@ -297,6 +303,22 @@ public class PlayerManager : MonoBehaviour
     {
         clearHighlights();
         StartCoroutine(HODL());
+
+        int direction = 0;
+
+        if (this.player.transform.GetChild(0).gameObject.activeSelf) // SE
+            direction = 2;
+        else if (this.player.transform.GetChild(1).gameObject.activeSelf) // SW
+            direction = 3;
+        else if (this.player.transform.GetChild(2).gameObject.activeSelf) // NW
+            direction = 0;
+        else if (this.player.transform.GetChild(3).gameObject.activeSelf) // NE
+            direction = 1;
+
+        if (points.Count == 8)
+            direction *= 2;
+
+
         if (!hold)
         {
             GameObject highlight = pc.getHighlight(key);
@@ -320,10 +342,11 @@ public class PlayerManager : MonoBehaviour
             {
                 hl.transform.SetParent(HM.transform);
             }
-            HMScript.setTiles(highlights);
+            HMScript.setTiles(highlights, direction);
         }
         hold = true;
     }
+    
 
     // Returns the requested stat, 1 - str, 2 - int, 3 - dex
     public int getStat(string i)
