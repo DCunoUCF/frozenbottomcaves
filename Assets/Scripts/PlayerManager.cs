@@ -321,10 +321,13 @@ public class PlayerManager : MonoBehaviour
 
         if (!hold)
         {
-            GameObject highlight = pc.getHighlight(key);
+            GameObject[] highlight = pc.getHighlight(key);
 
+            int i = -1;
             foreach (Point tile in points)
             {
+                i++;
+                print(i);
                 int newX = x + tile.X;
                 int newY = y + tile.Y;
                 if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))
@@ -333,10 +336,28 @@ public class PlayerManager : MonoBehaviour
                 if (newY < 0 || newY > BattleManager.Instance.gridCell.GetLength(0))
                     continue;
 
-                if (BattleManager.Instance.gridCell[newX, newY] != null)
-                    if (BattleManager.Instance.gridCell[newX, newY].pass)
-                        highlights.Add(Instantiate(highlight,
-                              BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+                if (i == 1 || i == 3)
+                {
+                    if (BattleManager.Instance.gridCell[newX, newY] != null)
+                        if (BattleManager.Instance.gridCell[newX, newY].pass)
+                            highlights.Add(Instantiate(highlight[1],
+                                  BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+                }
+                else
+                {
+                    if (BattleManager.Instance.gridCell[newX, newY] != null)
+                            if (BattleManager.Instance.gridCell[newX, newY].pass)
+                                highlights.Add(Instantiate(highlight[0],
+                                      BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+                }
+
+
+
+
+                //if (BattleManager.Instance.gridCell[newX, newY] != null)
+                //    if (BattleManager.Instance.gridCell[newX, newY].pass)
+                //        highlights.Add(Instantiate(highlight,
+                //              BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
             }
             foreach (GameObject hl in highlights)
             {
