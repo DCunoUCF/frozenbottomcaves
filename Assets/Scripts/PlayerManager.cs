@@ -215,17 +215,17 @@ public class PlayerManager : MonoBehaviour
 
 
     // After selecting a tile, the players turn is ended
-    public void setSelectedTile(Vector3 pos)
+    public void setSelectedTile(List<Vector3> pos)
     {
         if (this.isTurn)
         {
             clearHighlights();
-            this.selectedTile = pos;
-            this.combatInfo.movTar = pos;
+            //this.selectedTile = pos;
+            this.combatInfo.movTar = pos[0];
             this.combatInfo.atkTar = pos;
             //Debug.Log(selectedTile.ToString("F2"));
             this.isTurn = false;
-            getMoveXY(pos);
+            //getMoveXY(pos);
             this.selectingSkill = true;
             BattleManager.Instance.combatantList[0] = this.combatInfo;
             clearHighlights();
