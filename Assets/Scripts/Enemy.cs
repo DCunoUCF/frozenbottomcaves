@@ -14,6 +14,14 @@ public abstract class Enemy : MonoBehaviour
 	protected Vector3 attackTarget;
 	protected int decision; // 0 - no decision, 1 - move, 2 - attack
 	protected CList combatantEntry;
+	
+	protected int standardDamage;
+	protected int cleaveDamage;
+	protected int thrustDamage;
+	protected int doubleCornerDamage;
+	protected int oneAwayDamage;
+	protected int twoAwayDamage;
+	protected int threeAwayDamage;
 
 	//===========   Unity Methods   ============//
 

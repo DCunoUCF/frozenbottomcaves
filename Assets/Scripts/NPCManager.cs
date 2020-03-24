@@ -122,6 +122,7 @@ public class NPCManager// : MonoBehaviour
                     c.atkTar = e.atkTar;
                     c.attack = e.attack;
                     c.move = e.move;
+                    c.attackDmg = e.attackDmg;
                     Debug.Log("Exported an enemy!");
                 }
             }

@@ -38,6 +38,15 @@ public class EnemyDunce : Enemy
     	this.damage = 1;
     	this.strength = 1;
 
+    	// Set default attack damage
+    	this.standardDamage = 1;
+    	this.cleaveDamage = 2;
+    	this.thrustDamage = 0;
+    	this.doubleCornerDamage = 0;
+    	this.oneAwayDamage = 0;
+    	this.twoAwayDamage = 0;
+    	this.threeAwayDamage = 0;
+
     	// Set initial positions
     	this.gridPosition = new Vector3(0, 0, 0);
     	this.attackTarget = new Vector3(0, 0, 0);
@@ -50,6 +59,10 @@ public class EnemyDunce : Enemy
     	{
     		Debug.Log("E#"+this.enemyId+" says AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHH");
     		this.kill();
+    	}
+    	else
+    	{
+    		this.gridPosition = new Vector3(this.combatantEntry.gridX, this.combatantEntry.gridY, 0);
     	}
     }
 
