@@ -50,7 +50,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         // Default volume options
-        this.musicVolume = 0.25f;
+        this.musicVolume = 0f; // CHANGED TO 0 TO PRESERVE MY SANITY
         this.effectsVolume = 0.5f;
         this.musicMute = false;
         this.effectsMute = false;

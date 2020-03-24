@@ -21,6 +21,7 @@ public class DialogueManager2 : MonoBehaviour
     void Start()
     {
         Program p = new Program();
+
         dialogue = p.LoadFile("Dialogue/tutorial");
 
         // Add Listeners

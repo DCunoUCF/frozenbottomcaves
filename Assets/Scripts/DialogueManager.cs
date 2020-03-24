@@ -101,6 +101,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         DialogueSizer();
+        setInitialSelection();
     }
 
     // Run if user clicks second choice
@@ -138,6 +139,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         DialogueSizer();
+        setInitialSelection();
     }
 
     // Run if user clicks third choice
@@ -175,6 +177,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         DialogueSizer();
+        setInitialSelection();
     }
 
     public void EventComplete()
@@ -283,6 +286,29 @@ public class DialogueManager : MonoBehaviour
         {
             optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer * i)));
         }
+    }
+
+    // Sets the initial choice selection as Option1
+    // Called here to handle if we don't move and in OM after reaching a destination if moving since we disable the panel
+    public void setInitialSelection()
+    {
+        Choices[0].Select();
+        Choices[0].OnSelect(null);
+    }
+
+    // Used when the inventory is opened to prevent the dialogue options from being selectable/selected
+    public void setUninteractable()
+    {
+        foreach (Button b in Choices)
+            b.interactable = false;
+    }
+
+    // Opposite of above, as well as setting the first option back to the initial selection
+    public void setInteractable()
+    {
+        foreach (Button b in Choices)
+            b.interactable = true;
+        setInitialSelection();
     }
 }
 
