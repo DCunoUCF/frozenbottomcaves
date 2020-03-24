@@ -101,6 +101,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator combatUpdate()
     {
         // Get NPC decisions
+        npcm.makeDecisions();
         yield return StartCoroutine(ResolveMoves()); // Allow this coroutine time to finishing sliding ppl around that are moving
         ResolveAttacks();
         WhoStillHasLimbs();
