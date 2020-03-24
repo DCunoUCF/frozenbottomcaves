@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; set; }
 
     public GameManager gm;
-    
+
     // Info about player, PC, name, and gameobject
     [SerializeField]
     public PlayerClass pc;
@@ -83,10 +83,8 @@ public class PlayerManager : MonoBehaviour
         {
             if (moved)
             {
-                print("Original x,y: " + x + ", " + y);
-                print("Moving x,y: " + movx + ", " + movy);
-                this.x += movx;
-                this.y += movy;
+                this.x = this.gm.bm.combatantList[0].gridX;
+                this.y = this.gm.bm.combatantList[0].gridY;
                 movx = 0;
                 movy = 0;
                 moved = false;
@@ -301,7 +299,7 @@ public class PlayerManager : MonoBehaviour
         HM.transform.DetachChildren();
         hold = false;
     }
-    
+
     public void placeHighlights(List<Point> points, int key)
     {
         clearHighlights();
@@ -369,7 +367,7 @@ public class PlayerManager : MonoBehaviour
         }
         hold = true;
     }
-    
+
 
     // Returns the requested stat, 1 - str, 2 - int, 3 - dex
     public int getStat(string i)
