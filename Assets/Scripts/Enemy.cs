@@ -78,17 +78,17 @@ public abstract class Enemy : MonoBehaviour
 
     protected void moveDown()
     {
-    	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
+    	this.moveTarget = new Vector3(-0.5f, -0.25f, 0f);
     }
 
     protected void moveLeft()
     {
-    	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
+    	this.moveTarget = new Vector3(-0.5f, 0.25f, 0f);
     }
 
     protected void moveRight()
     {
-    	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
+    	this.moveTarget = new Vector3(0.5f, -0.25f, 0f);
     }
 
     //===========   Hitters   ===========//

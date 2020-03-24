@@ -68,8 +68,9 @@ public class EnemyManager// : MonoBehaviour
 
             e.entity.GetComponent<EnemyDunce>().moveRandomly();
 
-            e.movTar = e.entity.GetComponent<EnemyDunce>().getMoveVector();
+            e.movTar = e.entity.transform.position + e.entity.GetComponent<EnemyDunce>().getMoveVector();
             e.move = true;
+            e.attack = 0;
             Debug.Log(e.movTar);
         }
 
