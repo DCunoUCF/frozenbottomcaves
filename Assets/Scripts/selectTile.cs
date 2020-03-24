@@ -21,6 +21,7 @@ public class selectTile : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log("pos: "+transform.parent.position);
         PlayerManager.Instance.setSelectedTile(transform.parent.position);
     }
 
