@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCManager : MonoBehaviour
+public class NPCManager// : MonoBehaviour
 {
 	public BattleManager bm;
 
@@ -19,6 +19,9 @@ public class NPCManager : MonoBehaviour
 	public NPCManager(BattleManager battle)
 	{
 		this.bm = battle;
+        this.enemyM = new EnemyManager(this);
+        this.updateLocalLists();
+        this.enemyM.setEntityLists(this.enemyList, this.friendlyList);
 	}
 
 	//==========   Unity Methods   ==========//
@@ -29,12 +32,12 @@ public class NPCManager : MonoBehaviour
     {
     	// Instantiate our sub-managers
         this.enemyM = new EnemyManager(this);
-        this.companionM = new CompanionManager(this);
+        // this.companionM = new CompanionManager(this);
 
         this.updateLocalLists();
 
         // CompanionManager gets a list of all companions, and a list of all enemies
-        this.companionM.setEntityLists(this.companionList, this.enemyList);
+        // this.companionM.setEntityLists(this.companionList, this.enemyList);
         // EnemyManager gets a list of all enemies, and a list of all companions plus the player
         this.enemyM.setEntityLists(this.enemyList, this.friendlyList);
     }
@@ -66,11 +69,16 @@ public class NPCManager : MonoBehaviour
         	this.friendlyList = new List<CList>();
         	// foreach FRIENDLY in this.combatantList
         		// this.friendlyList.Add(FRIENDLY)
-        	this.companionList = this.friendlyList;
+        	// this.companionList = this.friendlyList;
         	// this.companionList.Remove(PLAYER);
 
         	// EnemyList
         	this.enemyList = new List<CList>();
+            foreach (CList e in this.combatantList)
+            {
+                if (e.entity.tag == "Enemy")
+                    this.enemyList.Add(e);
+            }
         	// foreach ENEMY in this.combatantList
         		// this.enemyList.Add(ENEMY)
     }
@@ -87,14 +95,14 @@ public class NPCManager : MonoBehaviour
 
     private void updateManagerLists()
     {
-    	this.companionM.setEntityLists(this.companionList, this.enemyList);
+    	// this.companionM.setEntityLists(this.companionList, this.enemyList);
     	this.enemyM.setEntityLists(this.enemyList, this.friendlyList);
     }
 
     private void exportLists()
     {
     	this.exportEnemyList();
-    	this.exportCompanionList();
+    	// this.exportCompanionList();
     }
 
     // TODO
@@ -104,6 +112,20 @@ public class NPCManager : MonoBehaviour
     		// foreach CList in bm.combatantList
     			// if ENEMY.id == CList.id
     				// Copy over decisions to bm.combatantList
+        foreach (CList e in this.enemyList)
+        {
+            foreach (CList c in this.bm.combatantList)
+            {
+                if (e.entity == c.entity)
+                {
+                    c.movTar = e.movTar;
+                    c.atkTar = e.atkTar;
+                    c.attack = e.attack;
+                    c.move = e.move;
+                    Debug.Log("Exported an enemy!");
+                }
+            }
+        }
     }
 
     // TODO
@@ -122,7 +144,7 @@ public class NPCManager : MonoBehaviour
 
     	// Make the decisions
     	enemyM.makeDecisions();
-    	companionM.makeDecisions();
+    	// companionM.makeDecisions();
 
     	// Update the correct CList peoples in the BattleManager
     	this.exportLists();

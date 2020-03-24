@@ -67,8 +67,8 @@ public class PlayerManager : MonoBehaviour
         {
             if (moved)
             {
-                this.x += movx;
-                this.y += movy;
+                this.x = this.gm.bm.combatantList[0].gridX;
+                this.y = this.gm.bm.combatantList[0].gridY;
                 movx = 0;
                 movy = 0;
                 moved = false;
@@ -145,6 +145,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (isTurn)
         {
+            this.combatInfo = BattleManager.Instance.combatantList[0];
             this.selectedTile = pos;
             this.combatInfo.movTar = pos;
             this.combatInfo.atkTar = pos;

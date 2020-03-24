@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; set; }
     private GameManager gm;
+    private NPCManager npcm;
     public List<CList> combatantList;
     private BattleClass battleClass;
     private int curNode;
@@ -76,6 +77,8 @@ public class BattleManager : MonoBehaviour
         this.gm.pm.x = playerX;
         this.gm.pm.y = playerY;
         this.gm.pm.isTurn = true;
+        PlayerManager.Instance.isTurn = true;
+        this.npcm = new NPCManager(this);
     }
 
     void Update()
@@ -83,6 +86,7 @@ public class BattleManager : MonoBehaviour
         if (!this.gm.pm.isTurn)
         {
             // NPCManager.Instance.Decide();
+            this.npcm.makeDecisions();
             ResolveMoves();
             ResolveAttacks();
             WhoStillHasLimbs();
@@ -279,7 +283,20 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < this.combatantList.Count; i++)
         {
             if (combatantList[i] != null && combatantList[i].entity == entity)
+            {
                 return i;
+            }
+            // else if (combatantList[i] == null)
+            // {
+            //     Debug.Log("There is no combantant in the list at pos("+i+")");
+            // }
+            // else if (combatantList[i] != null && combatantList[i].entity != entity)
+            // {
+            //     Debug.Log("Found entity "+
+            //         combatantList[i].entity.name
+            //         +" instead of "+entity.name);
+            // }
+
         }
 
         Debug.AssertFormat(false, "Couldn't find " + entity + " in CombatantList");
@@ -467,4 +484,9 @@ public class BattleManager : MonoBehaviour
             availEnemySpawnerLocs.RemoveAt(random);
         }
     }
+
+    public List<CList> getCombatantList() { return this.combatantList; }
+    public Cell[,] getGrid() { return this.gridCell; }
+    public Vector3 getPlayerPosition() { return new Vector3(this.playerX, this.playerY, 0); }
+    public Vector3 getCompanionPosition() { return this.companionLoc; }
 }
