@@ -12,6 +12,7 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; set; }
     private GameManager gm;
+    private NPCManager npcm;
     public List<CList> combatantList;
     private List<GameObject> entitiesList;
     public Cell[,] gridCell;
@@ -189,6 +190,7 @@ public class BattleManager : MonoBehaviour
         combatantList[0].gridX = playerX;
         combatantList[0].gridY = playerY;
         PlayerManager.Instance.isTurn = true;
+        this.npcm = new NPCManager(this);
     }
 
     void Update()
@@ -196,6 +198,7 @@ public class BattleManager : MonoBehaviour
         if (!PlayerManager.Instance.isTurn)
         {
             // NPCManager.Instance.Decide();
+            this.npcm.makeDecisions();
             ResolveMoves();
             ResolveAttacks();
             WhoStillHasLimbs();
@@ -406,7 +409,20 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < this.combatantList.Count; i++)
         {
             if (combatantList[i] != null && combatantList[i].entity == entity)
+            {
                 return i;
+            }
+            // else if (combatantList[i] == null)
+            // {
+            //     Debug.Log("There is no combantant in the list at pos("+i+")");
+            // }
+            // else if (combatantList[i] != null && combatantList[i].entity != entity)
+            // {
+            //     Debug.Log("Found entity "+
+            //         combatantList[i].entity.name
+            //         +" instead of "+entity.name);
+            // }
+
         }
 
         Debug.AssertFormat(false, "Couldn't find in CombatantList");

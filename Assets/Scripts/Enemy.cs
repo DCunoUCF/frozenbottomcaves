@@ -46,7 +46,7 @@ public abstract class Enemy : MonoBehaviour
     {
     	// Fucking die you piece of shit enemy
     	Debug.Log("Oy blyat! E#"+this.enemyId+" am dead");
-    	Destroy(this)
+    	Destroy(this);
     }
 
     public void dealDamage(int dam)
@@ -55,6 +55,61 @@ public abstract class Enemy : MonoBehaviour
 
     	if (this.health <= 0)
     		kill();
+    }
+
+    //===========   Movers   ===========//
+    public void moveRandomly()
+    {
+    	float r = Random.value;
+    	if (r < .25f)
+    		this.moveUp();
+    	else if (r < .5f)
+    		this.moveDown();
+    	else if (r < .75f)
+    		this.moveLeft();
+    	else
+    		this.moveRight();
+    }
+
+    protected void moveUp()
+    {
+    	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
+    }
+
+    protected void moveDown()
+    {
+    	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
+    }
+
+    protected void moveLeft()
+    {
+    	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
+    }
+
+    protected void moveRight()
+    {
+    	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
+    }
+
+    //===========   Hitters   ===========//
+    protected void attackUp()
+    {
+    	this.attackTarget = new Vector3(this.gridPosition.x + 0.5f, this.gridPosition.y + 0.25f, 0f);
+    }
+
+    protected void attackDown()
+    {
+    	this.attackTarget = new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y - 0.25f, 0f);
+    }
+
+    protected void attackLeft()
+    {
+    	this.attackTarget = new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y + 0.25f, 0f);
+    }
+
+    protected void attackRight()
+    {
+    	this.attackTarget = new Vector3(this.gridPosition.x + 0.5f, this.gridPosition.y - 0.25f, 0f);
     }
 
     //===========   Getters   ===========//
@@ -68,7 +123,11 @@ public abstract class Enemy : MonoBehaviour
     public char getRole() { return this.enemyRole; }
 
     //===========   Setters   ===========//
-    public void setCombatantEntry(CList c) { this.combatantEntry = c; }
+    public void setCombatantEntry(CList c)
+    {
+    	this.combatantEntry = c;
+    	this.health = c.hp;
+    }
     public void setHealth(int h) { this.health = h; }
     public void setDamage(int d) { this.damage = d; }
     public void setStrength(int s) { this.strength = s; }

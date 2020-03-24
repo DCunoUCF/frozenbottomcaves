@@ -7,13 +7,12 @@ public class EnemyDunce : Enemy
 	public EnemyDunce()
 	{
 		this.combatantEntry = null;
-		this.initialize();
 	}
 
 	public EnemyDunce(CList c)
 	{
 		this.combatantEntry = c;
-		this.initialize();
+		// this.initialize();
 	}
 
     // Start is called before the first frame update
