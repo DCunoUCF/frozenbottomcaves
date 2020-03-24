@@ -14,6 +14,7 @@ public class BattleManager : MonoBehaviour
     public Cell[,] gridCell;
     private GameObject grid;
     private GameObject activeArena;
+    public int gridsizeX, gridsizeY; // Maintain size of board to reduce repeated computation in PM
 
     // Player GameObject references. playerX/Y are stand-ins because of the ordering of script execution
     public GameObject player;
@@ -222,7 +223,8 @@ public class BattleManager : MonoBehaviour
             combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
             if (combatantList[atkTarIndex].entity == player)
-                this.gm.pm.pc.health -= combatantList[i].attackDmg;
+                this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
+           
         }
     }
 

@@ -135,6 +135,7 @@ public class OverworldManager : MonoBehaviour
             {
                 destReached = true;
                 dm.Panel.SetActive(true);
+                dm.setInitialSelection();
             }
 
         }
@@ -233,6 +234,7 @@ public class OverworldManager : MonoBehaviour
         //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
+        dm.setInitialSelection();
     }
 
     public void SkillSaveEvent()
@@ -257,11 +259,13 @@ public class OverworldManager : MonoBehaviour
         else if (random == 2)
         {
             print("FAIL");
-            this.gm.pm.pc.setHealth(this.gm.pm.pc.getHealth() - 2);
+            this.gm.pm.takeDmg(2); // Changed to use new dmg method
+            //this.gm.pm.pc.setHealth(this.gm.pm.pc.getHealth() - 2);
         }
 
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
+        dm.setInitialSelection();
     }
 
     public GameObject GetCurrentNode()
