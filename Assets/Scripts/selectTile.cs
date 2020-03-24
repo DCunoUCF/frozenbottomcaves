@@ -25,14 +25,16 @@ public class selectTile : MonoBehaviour
     {
         if (Input.GetButtonDown("Submit") && filled)
         {
-            PlayerManager.Instance.setSelectedTile(transform.parent.position);
+            PlayerManager.Instance.setSelectedTile(tiles);
+            //PlayerManager.Instance.setSelectedTile(tiles);
         }
     }
 
     private void OnMouseDown()
     {
         Debug.Log("pos: "+transform.parent.position);
-        PlayerManager.Instance.setSelectedTile(transform.parent.position);
+        PlayerManager.Instance.setSelectedTile(tiles);
+        //PlayerManager.Instance.setSelectedTile(tiles);
     }
 
     private void OnMouseOver()

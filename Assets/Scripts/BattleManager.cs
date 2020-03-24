@@ -103,7 +103,7 @@ public class BattleManager : MonoBehaviour
         // Get NPC decisions
         npcm.makeDecisions();
         yield return StartCoroutine(ResolveMoves()); // Allow this coroutine time to finishing sliding ppl around that are moving
-        ResolveAttacks();
+        ResolveAttacks(); // quick jab .25 move
         WhoStillHasLimbs();
         resolvingTurn = false; // Done with the steps of resolving a turn, flip the flag back
     }
@@ -182,12 +182,14 @@ public class BattleManager : MonoBehaviour
                 if (combatantList[i].entity == combatantList[j].entity || !combatantList[i].move)
                     continue;
 
+                // both go halfway
                 if (combatantList[j].move && combatantList[i].movTar == combatantList[j].movTar)
                 {
                     popped = true;
                     break;
                 }
 
+                // i goes halfway
                 if (combatantList[j].attack > -1 && combatantList[i].movTar == combatantList[j].entity.transform.localPosition)
                 {
                     popped = true;
