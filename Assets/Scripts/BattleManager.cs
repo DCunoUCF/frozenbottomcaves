@@ -15,10 +15,9 @@ public class BattleManager : MonoBehaviour
     private GameObject grid;
     private GameObject activeArena;
 
-    // Player and Companion GameObject references. playerX/Y are stand-ins because of the ordering of script execution
+    // Player GameObject references. playerX/Y are stand-ins because of the ordering of script execution
     public GameObject player;
     private int playerX, playerY;
-    private GameObject companion;
 
     // Enemy Variables
     private List<GameObject> enemies;
@@ -266,13 +265,6 @@ public class BattleManager : MonoBehaviour
             this.CleanScene();
             Debug.Log("Win");
         }
-        else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
-        {
-            this.didWeWin = true;
-            this.isResolved = true;
-            this.CleanScene();
-            Debug.Log("Win");
-        }
 
         // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
         this.gm.pm.isTurn = true;
@@ -401,10 +393,6 @@ public class BattleManager : MonoBehaviour
         // Add player to combatantList
         combatantList.Add(this.gm.pm.combatInfo);
 
-        // If the player has a companion, add the companion to the combatantList
-        if (companion != null)
-            combatantList.Add(new CList(companion));
-
         // For the number of enemies requested to be spawned, add them to the compatantList
         for (int i = 0; i < this.numEnemies; i++)
         {
@@ -445,13 +433,10 @@ public class BattleManager : MonoBehaviour
     {
         // Have to grab spawners after other arenas with spawners in them are deactivated
         Vector3 playerSpawnerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
-        Vector3 companionSpawnerLoc = GameObject.FindGameObjectWithTag("cSpawn").transform.position;
 
-        // Instantiate Player and Companion
+        // Instantiate Player
         this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), playerSpawnerLoc, Quaternion.identity);
         this.player.transform.SetParent(Entities.transform);
-        //this.companion = GameObject.Instantiate(GameObject.Find("honey"), companionSpawnerLoc, Quaternion.identity);
-        //this.companion.transform.SetParent(Entities.transform);
 
         // Chooses random spawners for the enemy entities to spawn at        
         RandomEnemyPos();
@@ -488,5 +473,4 @@ public class BattleManager : MonoBehaviour
     public List<CList> getCombatantList() { return this.combatantList; }
     public Cell[,] getGrid() { return this.gridCell; }
     public Vector3 getPlayerPosition() { return new Vector3(this.playerX, this.playerY, 0); }
-    public Vector3 getCompanionPosition() { return this.companionLoc; }
 }
