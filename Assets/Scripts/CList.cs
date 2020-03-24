@@ -24,4 +24,18 @@ public class CList
         gridX = 0;
         gridY = 0;
     }
+
+    public void Print()
+    {
+        Debug.Log("entity: " + this.entity);
+        Debug.Log("gridX: " + this.gridX);
+        Debug.Log("gridY: " + this.gridY);
+        Debug.Log("move: " + this.move);
+        Debug.Log("movTar: " + this.movTar);
+        Debug.Log("atkTar: " + this.atkTar);
+        Debug.Log("dir: " + this.dir);
+        Debug.Log("attack: " + this.attack);
+        Debug.Log("attackDmg: " + this.attackDmg);
+        Debug.Log("hp: " + this.hp);
+    }
 }

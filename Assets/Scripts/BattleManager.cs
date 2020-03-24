@@ -3,37 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum Biome : short
-{
-    NOTHING = -1, FOREST, CAVE, ICECAVE, CASTLE, BOSS
-};
-
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; set; }
     private GameManager gm;
     private NPCManager npcm;
     public List<CList> combatantList;
-    private List<GameObject> entitiesList;
+    private BattleClass battleClass;
+    private int curNode;
     public Cell[,] gridCell;
     private GameObject grid;
-    public GameObject activeArena;
-    private GameObject[] arenaDeactivate;
-    private GameObject[] gridDeactivate;
+    private GameObject activeArena;
+    public int gridsizeX, gridsizeY; // Maintain size of board to reduce repeated computation in PM
+
+    // Player GameObject references. playerX/Y are stand-ins because of the ordering of script execution
     public GameObject player;
     private int playerX, playerY;
-    private GameObject companion;
-    private List<GameObject> enemies, enemyType;
-    private Vector3 playerLoc;
-    private Vector3 companionLoc;
-    private GameObject[] enemiesLoc;
-    private List<Vector3> availEnemyLoc;
-    private List<Vector3> enemyLoc;
-    private int numEnemies, numEnemyTypes;
-    private bool isResolved;
-    private bool didWeWin;
 
-    private GameObject Entities; // parent to all entities spawned for cleanup
+    // Enemy Variables
+    private List<GameObject> enemies;
+    private int numEnemies;
+    private List<Vector3> chosenEnemyLocList;
+
+    // Battle Conclusion Booleans
+    private bool isResolved, didWeWin;
+
+    // Parent to all entities spawned. Used for cleanup after battle is resolved
+    private GameObject Entities; 
 
     void Awake()
     {
@@ -48,154 +44,46 @@ public class BattleManager : MonoBehaviour
         }
 
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        this.combatantList = new List<CList>();
+        this.curNode = this.gm.om.dm.currentNode;
+        this.battleClass = this.gm.om.GetBattleClass();
+        this.grid = GameObject.Find(this.battleClass.grid.ToString());
+        this.activeArena = GameObject.Find(this.battleClass.arena);
+        this.numEnemies = this.battleClass.nodeEnemies.Count;
+        this.isResolved = false;
+        this.didWeWin = false;
+        this.Entities = GameObject.Find("Entities");
 
-        combatantList = new List<CList>();
-        grid = GameObject.Find("ForestGrid"); // Overworld will set this
-        arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
-        gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
-        entitiesList = new List<GameObject>();
-        availEnemyLoc = new List<Vector3>();
-        isResolved = false;
-        didWeWin = false;
+        // Deactivating all Grids and Arenas not needed
+        this.SetupArena();
 
-        Entities = GameObject.Find("Entities");
-
-
-        // Using number of enemies to be spawned to initiliaze their fields and finding random locations for them to spawn
-        if (this.gm.om.dm.currentNode == 9)
-        {
-            activeArena = GameObject.Find("slime_arena"); // Overworld will set this
-            numEnemies = 4;
-            numEnemyTypes = 1;
-            enemyLoc = new List<Vector3>(numEnemies);
-            enemyType = new List<GameObject>(numEnemyTypes);
-            enemies = new List<GameObject>(numEnemies);
-            for (int i = 0; i < numEnemyTypes; i++)
-            {
-                enemyType.Add(GameObject.Find("slime_G1"));
-            }
-        }
-        else if (this.gm.om.dm.currentNode == 17)
-        {
-            activeArena = GameObject.Find("goblin_arena"); // Overworld will set this
-            numEnemies = 1;
-            numEnemyTypes = 1;
-            enemyLoc = new List<Vector3>(numEnemies);
-            enemyType = new List<GameObject>(numEnemyTypes);
-            enemies = new List<GameObject>(numEnemies);
-            for (int i = 0; i < numEnemyTypes; i++)
-            {
-                enemyType.Add(GameObject.Find("goblin"));
-            }
-        }
-        else if (this.gm.om.dm.currentNode == 21)
-        {
-            activeArena = GameObject.Find("goblin_arena"); // Overworld will set this
-            numEnemies = 2;
-            numEnemyTypes = 1;
-            enemyLoc = new List<Vector3>(numEnemies);
-            enemyType = new List<GameObject>(numEnemyTypes);
-            enemies = new List<GameObject>(numEnemies);
-            for (int i = 0; i < numEnemyTypes; i++)
-            {
-                enemyType.Add(GameObject.Find("goblin"));
-            }
-        }
-        else if (this.gm.om.dm.currentNode == 26)
-        {
-            activeArena = GameObject.Find("goblin_arena"); // Overworld will set this
-            numEnemies = 3;
-            numEnemyTypes = 1;
-            enemyLoc = new List<Vector3>(numEnemies);
-            enemyType = new List<GameObject>(numEnemyTypes);
-            enemies = new List<GameObject>(numEnemies);
-            for (int i = 0; i < numEnemyTypes; i++)
-            {
-                enemyType.Add(GameObject.Find("goblin"));
-            }
-        }
-        else
-        {
-            activeArena = GameObject.Find("goblin_arena"); // Overworld will set this
-            numEnemies = 3;
-            numEnemyTypes = 1;
-            enemyLoc = new List<Vector3>(numEnemies);
-            enemyType = new List<GameObject>(numEnemyTypes);
-            enemies = new List<GameObject>(numEnemies);
-            for (int i = 0; i < numEnemyTypes; i++)
-            {
-                enemyType.Add(GameObject.Find("goblin"));
-            }
-        }
-
-        // Deactivate all grids except for chosen grid
-        for (int i = 0; i < gridDeactivate.Length; i++)
-        {
-            if (gridDeactivate[i] == grid)
-                continue;
-            gridDeactivate[i].SetActive(false);
-        }
-
-        // Deactivate all arenas except for chosen arena
-        for (int i = 0; i < arenaDeactivate.Length; i++)
-        {
-            if (arenaDeactivate[i] == activeArena)
-                continue;
-            arenaDeactivate[i].SetActive(false);
-        }
-
-        // Have to grab spawners after other arenas with spawners in them are deactivated
-        playerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
-        companionLoc = GameObject.FindGameObjectWithTag("cSpawn").transform.position;
-        enemiesLoc = GameObject.FindGameObjectsWithTag("eSpawn");
-
-        // Instantiate Player and Companion
-        player = GameObject.Instantiate(GameObject.Find(PlayerManager.Instance.characterName), playerLoc, Quaternion.identity);
-        player.transform.SetParent(Entities.transform);
-        //companion = GameObject.Instantiate(GameObject.Find("honey"), companionLoc, Quaternion.identity);
-        //companion.transform.SetParent(Entities.transform);
-
-        entitiesList.Add(player);
-        //entitiesList.Add(companion);
-
-
-        // Chooses random spawners for the enemy entities to spawn at        
-        RandomEnemyPos();
-
-        // Instantiate Enemies
-        for (int i = 0; i < numEnemies; i++)
-        {
-            enemies.Add(GameObject.Instantiate(enemyType[0], enemyLoc[i], Quaternion.identity)); // Overworld will set the enemy types
-            entitiesList.Add(enemies[i]);
-            enemies[i].transform.SetParent(Entities.transform);
-        }
+        this.InstantiateEntities();
 
         // Since gameobject is here, tell playerMan to initialize combat vars
-        PlayerManager.Instance.initCombat();
+        this.gm.pm.initCombat();
 
         // Fill CombatantList with entities that were just instantiated
-        FillCombatantList();
-
-
+        this.FillCombatantList();
 
         // Creating the Grid
-        CreateGrid();
+        this.CreateGrid();
     }
 
     private void Start()
     {
-        PlayerManager.Instance.x = playerX;
-        PlayerManager.Instance.y = playerY;
-        combatantList[0] = PlayerManager.Instance.combatInfo;
+        combatantList[0] = this.gm.pm.combatInfo;
         combatantList[0].gridX = playerX;
         combatantList[0].gridY = playerY;
+        this.gm.pm.x = playerX;
+        this.gm.pm.y = playerY;
+        this.gm.pm.isTurn = true;
         PlayerManager.Instance.isTurn = true;
         this.npcm = new NPCManager(this);
     }
 
     void Update()
     {
-        if (!PlayerManager.Instance.isTurn)
+        if (!this.gm.pm.isTurn)
         {
             // NPCManager.Instance.Decide();
             this.npcm.makeDecisions();
@@ -216,7 +104,6 @@ public class BattleManager : MonoBehaviour
         BoundsInt bounds = tilemap.cellBounds;
 
         this.gridCell = new Cell[bounds.size.x + buffer, bounds.size.y + buffer]; // Added a buffer for upper edges of board
-        //Debug.Log("bounds.size.x: " + (bounds.size.x + buffer) + "bounds.size.y" + (bounds.size.y + buffer));
 
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
@@ -225,9 +112,7 @@ public class BattleManager : MonoBehaviour
 
             // If we have made a Cell at this grid position already, skip this iteration
             if (this.gridCell[xDif, yDif] != null)
-            {
                 continue;
-            }
 
             // If there's no tile here, make a "zero" Cell, then skip this iteration
             if (!tilemap.HasTile(position))
@@ -238,7 +123,7 @@ public class BattleManager : MonoBehaviour
 
             // This x and y needs to be converted to the vector at the center of the tile to grab the GameObject entity from the tile
             currentVector = ConvertVector(position.x, position.y);
-            tileEntity = GetEntity(currentVector);
+            tileEntity = GetCombatant(currentVector);
 
             // If the tile is NOT an obstruction and there is no entity
             if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != wall && tileEntity == null)
@@ -253,7 +138,7 @@ public class BattleManager : MonoBehaviour
                 // Passing the combatantList the coordinates on the grid for the entity
                 if (tileEntity != player)
                 {
-                    clidx = FindInCombatantList(tileEntity);
+                    clidx = GetIndexOfCombatant(tileEntity);
                     combatantList[clidx].gridX = xDif;
                     combatantList[clidx].gridY = yDif;
                 }
@@ -269,16 +154,6 @@ public class BattleManager : MonoBehaviour
                 this.gridCell[xDif, yDif] = new Cell(false, tileEntity, currentVector, xDif, yDif);
             }
         }
-        //int count = 0;
-        //for (int i = 0; i < bounds.size.x; i++)
-        //    for (int j = 0; j < bounds.size.y; j++)
-        //    {
-        //        if (this.gridCell[i, j].entity != null)
-        //        {
-        //            Debug.Log("(" + i + "," + j + ") is a " + this.gridCell[i,j].entity);
-        //        }
-        //    }
-        //Debug.Log("count: " + count);
     }
 
     void ResolveMoves()
@@ -310,10 +185,10 @@ public class BattleManager : MonoBehaviour
             {
                 MoveOnGrid(combatantList[i]);
                 combatantList[i].entity.transform.SetPositionAndRotation(combatantList[i].movTar, Quaternion.identity);
-                PlayerManager.Instance.moved = true;
+                this.gm.pm.moved = true;
 
                 if (combatantList[i].entity == player)
-                    PlayerManager.Instance.playerLoc = combatantList[i].movTar;
+                    this.gm.pm.playerLoc = combatantList[i].movTar;
 
                 combatantList[i].move = false;
                 popped = false;
@@ -332,7 +207,7 @@ public class BattleManager : MonoBehaviour
             if (combatantList[i].attack < 0)
                 continue;
 
-            atkTarIndex = FindInCombatantList(GetEntity(combatantList[i].atkTar));
+            atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar));
 
             if (atkTarIndex < 0)
                 continue;
@@ -344,12 +219,12 @@ public class BattleManager : MonoBehaviour
             if (gridCell[atkX, atkY].entity == null)
                 continue;
 
-            Debug.Log("Attacker:" + combatantList[i].entity + " Target:" + combatantList[atkTarIndex].entity + " HP was:" + combatantList[atkTarIndex].hp + " HP is now:" + (combatantList[atkTarIndex].hp - combatantList[i].attackDmg));
             // Roll Dice / Incorporate entity stats
             combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
             if (combatantList[atkTarIndex].entity == player)
-                PlayerManager.Instance.pc.health -= combatantList[i].attackDmg;
+                this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
+           
         }
     }
 
@@ -392,19 +267,12 @@ public class BattleManager : MonoBehaviour
             this.CleanScene();
             Debug.Log("Win");
         }
-        else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
-        {
-            this.didWeWin = true;
-            this.isResolved = true;
-            this.CleanScene();
-            Debug.Log("Win");
-        }
 
         // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
-        PlayerManager.Instance.isTurn = true;
+        this.gm.pm.isTurn = true;
     }
 
-    int FindInCombatantList(GameObject entity)
+    int GetIndexOfCombatant(GameObject entity)
     {
         for (int i = 0; i < this.combatantList.Count; i++)
         {
@@ -425,7 +293,7 @@ public class BattleManager : MonoBehaviour
 
         }
 
-        Debug.AssertFormat(false, "Couldn't find in CombatantList");
+        Debug.AssertFormat(false, "Couldn't find " + entity + " in CombatantList");
         return -1;
     }
 
@@ -456,9 +324,6 @@ public class BattleManager : MonoBehaviour
         GameObject SE = sprite.transform.GetChild(0).gameObject, SW = sprite.transform.GetChild(1).gameObject,
                    NW = sprite.transform.GetChild(2).gameObject, NE = sprite.transform.GetChild(3).gameObject;
 
-        //Debug.Log("dirX: " + dirX + " dirY: " + dirY);
-        //Debug.Log("moving from (" + entity.gridX + "," + entity.gridY + ")");
-
         xPlus = (entity.gridX + 1) % bounds.size.x;
         yPlus = (entity.gridY + 1) % bounds.size.y;
         xMinus = Mathf.Abs(entity.gridX - 1) % bounds.size.x;
@@ -468,7 +333,6 @@ public class BattleManager : MonoBehaviour
         {
             if (dirY > 0)
             {
-                //Debug.Log("moving to (" + xPlus + "," + entity.gridY + ")");
                 gridCell[entity.gridX, entity.gridY].entity = null;
                 gridCell[xPlus, entity.gridY].entity = entity.entity;
                 entity.gridX = xPlus;
@@ -479,7 +343,6 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                //Debug.Log("moving to (" + entity.gridX + "," + yMinus + ")");
                 gridCell[entity.gridX, entity.gridY].entity = null;
                 gridCell[entity.gridX, yMinus].entity = entity.entity;
                 entity.gridY = yMinus;
@@ -494,7 +357,6 @@ public class BattleManager : MonoBehaviour
         {
             if (dirY < 0)
             {
-                //Debug.Log("moving to (" + xMinus + "," + entity.gridY + ")");
                 gridCell[entity.gridX, entity.gridY].entity = null;
                 gridCell[xMinus, entity.gridY].entity = entity.entity;
                 entity.gridX = xMinus;
@@ -505,7 +367,6 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                //Debug.Log("moving to (" + entity.gridX + "," + yPlus + ")");
                 gridCell[entity.gridX, entity.gridY].entity = null;
                 gridCell[entity.gridX, yPlus].entity = entity.entity;
                 entity.gridY = yPlus;
@@ -517,24 +378,25 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    GameObject GetEntity(Vector3 pos)
+    GameObject GetCombatant(Vector3 pos)
     {
-        for (int i = 0; i < this.entitiesList.Count; i++)
+        for (int i = 0; i < this.combatantList.Count; i++)
         {
-            if (entitiesList[i].transform.position == pos)
-                return entitiesList[i];
+            if (combatantList[i].entity.transform.position == pos)
+                return combatantList[i].entity;
         }
 
+        Debug.AssertFormat(false, "Could not find Combatant in combatantList at Vector3: " + pos);
         return null;
     }
 
     void FillCombatantList()
     {
-        combatantList.Add(PlayerManager.Instance.combatInfo);
-        Debug.Log(combatantList[0].entity);
-        //combatantList.Add(new CList(companion));
+        // Add player to combatantList
+        combatantList.Add(this.gm.pm.combatInfo);
 
-        for (int i = 0; i < numEnemies; i++)
+        // For the number of enemies requested to be spawned, add them to the compatantList
+        for (int i = 0; i < this.numEnemies; i++)
         {
             combatantList.Add(new CList(enemies[i]));
         }
@@ -545,39 +407,72 @@ public class BattleManager : MonoBehaviour
         return new Vector3((x * 0.5f) - (y * 0.5f), ((x + 1) * 0.25f) + (y * 0.25f), 0);
     }
 
-    void PrintCList(CList c)
+    private void SetupArena()
     {
-        Debug.Log("entity: " + c.entity);
-        Debug.Log("gridX: " + c.gridX);
-        Debug.Log("gridY: " + c.gridY);
-        Debug.Log("move: " + c.move);
-        Debug.Log("movTar: " + c.movTar);
-        Debug.Log("atkTar: " + c.atkTar);
-        Debug.Log("dir: " + c.dir);
-        Debug.Log("attack: " + c.attack);
-        Debug.Log("attackDmg: " + c.attackDmg);
-        Debug.Log("hp: " + c.hp);
+        GameObject[] arenaDeactivate = GameObject.FindGameObjectsWithTag("Tilemap");
+        GameObject[] gridDeactivate = GameObject.FindGameObjectsWithTag("Grid");
+        grid = GameObject.Find(this.battleClass.grid.ToString());
+        activeArena = GameObject.Find(this.battleClass.arena);
+
+        // Deactivate all grids except for chosen grid
+        for (int i = 0; i < gridDeactivate.Length; i++)
+        {
+            if (gridDeactivate[i] == grid)
+                continue;
+            gridDeactivate[i].SetActive(false);
+        }
+
+        // Deactivate all arenas except for chosen arena
+        for (int i = 0; i < arenaDeactivate.Length; i++)
+        {
+            if (arenaDeactivate[i] == activeArena)
+                continue;
+            arenaDeactivate[i].SetActive(false);
+        }
+    }
+
+    private void InstantiateEntities()
+    {
+        // Have to grab spawners after other arenas with spawners in them are deactivated
+        Vector3 playerSpawnerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
+
+        // Instantiate Player
+        this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), playerSpawnerLoc, Quaternion.identity);
+        this.player.transform.SetParent(Entities.transform);
+
+        // Chooses random spawners for the enemy entities to spawn at        
+        RandomEnemyPos();
+
+        // Instantiate Enemies
+        for (int i = 0; i < this.numEnemies; i++)
+        {
+            this.enemies.Add(GameObject.Instantiate(GameObject.Find(this.battleClass.nodeEnemies[i].ToString()), chosenEnemyLocList[i], Quaternion.identity)); // Overworld will set the enemy types
+            this.enemies[i].transform.SetParent(Entities.transform);
+        }
     }
 
     void RandomEnemyPos()
     {
         int random;
+        List<Vector3> availEnemySpawnerLocs = new List<Vector3>();
+        GameObject[] enemiesSpawnerLocs = GameObject.FindGameObjectsWithTag("eSpawn");
+        this.enemies = new List<GameObject>();
+        this.chosenEnemyLocList = new List<Vector3>(this.numEnemies);
 
-        foreach (GameObject i in enemiesLoc)
+        foreach (GameObject i in enemiesSpawnerLocs)
         {
-            availEnemyLoc.Add(i.transform.position);
+            availEnemySpawnerLocs.Add(i.transform.position);
         }
 
-        for (int i = 0; i < numEnemies; i++)
+        for (int i = 0; i < this.numEnemies; i++)
         {
-            random = (int)Random.Range(0, availEnemyLoc.Count);
-            enemyLoc.Add(availEnemyLoc[random]);
-            availEnemyLoc.RemoveAt(random);
+            random = (int)Random.Range(0, availEnemySpawnerLocs.Count);
+            chosenEnemyLocList.Add(availEnemySpawnerLocs[random]);
+            availEnemySpawnerLocs.RemoveAt(random);
         }
     }
 
     public List<CList> getCombatantList() { return this.combatantList; }
     public Cell[,] getGrid() { return this.gridCell; }
     public Vector3 getPlayerPosition() { return new Vector3(this.playerX, this.playerY, 0); }
-    public Vector3 getCompanionPosition() { return this.companionLoc; }
 }

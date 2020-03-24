@@ -6,25 +6,37 @@ using System.Drawing;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; set; }
+
+    public GameManager gm;
+    
+    // Info about player, PC, name, and gameobject
     [SerializeField]
     public PlayerClass pc;
     public string characterName;
     public string characterNameClone;
-    public string characterNameClone2 = "TheWhiteKnight(Clone)";
-    public string characterTag = "Player";
     public GameObject player;
+    public bool characterSelected, characterFoundOW;
+
+    // Inventory stuff
+    public Canvas inventoryCanvas;
+    public Inventory inventory;
+    public UIInventory inventoryUI;
+    public GameObject InventoryPanel;
+    public GameObject BioPanel;
+
+    // Combat information, clist, bools to guard turn logic
     public Vector3 playerLoc, selectedTile;
     public bool inCombat, isTurn, selectingSkill;
     public List<GameObject> highlights;
     public int x, y;
     public int movx = 0, movy = 0;
     public bool moved;
-    private GameManager gm;
-
-    public bool characterSelected;
-
-    public bool combatInitialized;
+    public bool combatInitialized, hold;
     public CList combatInfo;
+
+    // References to highlight manager, to communicate with highlighted tiles in combat
+    GameObject HM;
+    HighlightManager HMScript;
 
     // int array with {type, dmg, move}
     public int[] abilityinfo;
@@ -59,9 +71,13 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        if (!inCombat && characterSelected)
+        // If we're in the OW and the player gameobject has not yet been assigned
+        if (!inCombat && characterSelected && !characterFoundOW)
         {
+            print("finding character");
             player = GameObject.Find(characterNameClone);
+            if (player != null)
+                characterFoundOW = true;
         }
         else if(inCombat)// We fightin now bois
         {
@@ -77,6 +93,10 @@ public class PlayerManager : MonoBehaviour
             // Player can select what ability/move to use
             playerTurnCombat();
         }
+        else // Not in combat, just check if player wants to open inventory
+        {
+            inventoryCheck();
+        }
     }
 
     public void initCombat()
@@ -88,13 +108,57 @@ public class PlayerManager : MonoBehaviour
         combatInitialized = true;
         inCombat = true;
         pc.setHighlights();
+        HM = GameObject.Find("Highlights");
+        HMScript = (HighlightManager)HM.GetComponent("HighlightManager");
     }
 
+    // Fills in a few fields for PM to recognize player, as well as set up inventory
     public void initPM()
     {
         characterName = pc.name;
         characterNameClone = pc.clonename;
         characterSelected = true;
+
+        inventory = new Inventory(this);
+        inventoryCanvas = GameObject.Find("InventoryCanvas").GetComponent<Canvas>();
+        inventoryUI = (UIInventory)GameObject.Find("Inventory").GetComponent("UIInventory");
+        InventoryPanel = GameObject.Find("InventoryPanel");
+        BioPanel = GameObject.Find("BioPanel");
+
+        pc.inventory = inventory;
+        pc.inventory.updateStats(pc);
+        pc.inventory.addItem(Item.ItemType.Sword, 5);
+        pc.inventory.addItem(Item.ItemType.Ressurection, 3);
+        pc.inventory.addItem(Item.ItemType.Provisions, 5);
+        pc.inventory.addItem(Item.ItemType.Gold, 100);
+
+        inventoryUI.gameObject.SetActive(false);
+        //inventoryCanvas.gameObject.SetActive(false);
+        inventoryCanvas.transform.SetParent(gm.transform);
+        inventoryCanvas.sortingOrder = 5;
+    }
+
+    private void inventoryCheck()
+    {
+        if (Input.GetButtonDown("Inventory"))
+        {
+            print("Button press");
+
+            if (inventoryUI.gameObject.activeSelf)
+            {
+                inventoryUI.gameObject.SetActive(false);
+                gm.om.dm.setInteractable();
+            }
+            else
+            {
+                gm.om.dm.setUninteractable();
+                inventory.updateStats(pc);
+                InventoryPanel.SetActive(true);
+                BioPanel.SetActive(false); // This is set active by default already in Inventory.cs
+                inventoryUI.gameObject.SetActive(true);
+                inventory.setInitSelection();
+            }
+        }
     }
 
     // Player turn -> select ability -> select tile -> turn end
@@ -104,19 +168,29 @@ public class PlayerManager : MonoBehaviour
         {
             this.combatInfo = BattleManager.Instance.combatantList[0];
             // Read input and set combat info based off of what skill
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetButtonDown("Skill1"))
             {
+                clearHighlights();
                 placeHighlights(pc.skill1, 1);
                 this.abilityinfo = pc.getInfo(1);
                 fillCombatInfo(abilityinfo);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetButtonDown("Skill2"))
             {
+                clearHighlights();
                 placeHighlights(pc.skill2, 2);
                 this.abilityinfo = pc.getInfo(2);
                 fillCombatInfo(abilityinfo);
             }
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            else if (Input.GetButtonDown("Skill3"))
+            {
+
+            }
+            else if (Input.GetButtonDown("Skill4"))
+            {
+
+            }
+            else if (Input.GetButtonDown("Cancel"))
             {
                 clearHighlights();
             }
@@ -132,13 +206,6 @@ public class PlayerManager : MonoBehaviour
         BattleManager.Instance.combatantList[0] = this.combatInfo;
     }
 
-    // Clears current highlights
-    public void clearHighlights()
-    {
-        foreach (GameObject highlight in highlights)
-            Destroy(highlight);
-        highlights.Clear();
-    }
 
     // After selecting a tile, the players turn is ended
     public void setSelectedTile(Vector3 pos)
@@ -204,23 +271,69 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    // Waits .3s, used to wait until child highlights are properly orphaned
+    IEnumerator HODL()
+    {
+        yield return new WaitForSeconds(.3f);
+        hold = false;
+    }
+
+    // Clears current highlights
+    public void clearHighlights()
+    {
+        HMScript.clearTiles();
+        StartCoroutine(HODL());
+        if (!hold)
+        {
+            foreach (GameObject highlight in highlights)
+                Destroy(highlight);
+            highlights.Clear();
+        }
+        HM.transform.DetachChildren();
+        hold = false;
+    }
+    
     public void placeHighlights(List<Point> points, int key)
     {
         clearHighlights();
-        GameObject highlight = pc.getHighlight(key);
-        foreach (Point tile in points)
+        StartCoroutine(HODL());
+        if (!hold)
         {
-            if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)] != null)
-                if (BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].pass)
-                    highlights.Add(Instantiate(highlight,
-                          BattleManager.Instance.gridCell[Mathf.Abs(x + tile.X), Mathf.Abs(y + tile.Y)].center, Quaternion.identity));
+            GameObject highlight = pc.getHighlight(key);
+
+            foreach (Point tile in points)
+            {
+                int newX = x + tile.X;
+                int newY = y + tile.Y;
+                if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))
+                    continue;
+
+                if (newY < 0 || newY > BattleManager.Instance.gridCell.GetLength(0))
+                    continue;
+
+                if (BattleManager.Instance.gridCell[newX, newY] != null)
+                    if (BattleManager.Instance.gridCell[newX, newY].pass)
+                        highlights.Add(Instantiate(highlight,
+                              BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+            }
+            foreach (GameObject hl in highlights)
+            {
+                hl.transform.SetParent(HM.transform);
+            }
+            HMScript.setTiles(highlights);
         }
+        hold = true;
     }
 
     // Returns the requested stat, 1 - str, 2 - int, 3 - dex
-    public int getStat(int i)
+    public int getStat(string i)
     {
-        return this.pc.attributes[i];
+        return pc.getStat(i);
+    }
+
+    public void takeDmg(int i)
+    {
+        pc.takeDamage(i);
     }
 
 }
