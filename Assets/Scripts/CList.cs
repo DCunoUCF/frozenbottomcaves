@@ -17,7 +17,7 @@ public class CList
         move = false;
         movTar = new Vector3(0, 0, 0);
         dir = 0;
-        attack = 0; // stand in before AI is choosing attack or move. attack will be a number based on attack type. not attacking = -1
+        attack = -1; // stand in before AI is choosing attack or move. attack will be a number based on attack type. not attacking = -1
         hp = 10; // stand in before calling entity hp
         attackDmg = 5;
         atkTar = new Vector3(0, 0, 0);

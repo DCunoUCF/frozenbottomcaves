@@ -204,6 +204,7 @@ public class BattleManager : MonoBehaviour
         // This is only complicated because attack target right now isn't just a relative position which would be easier to check on the gridCell
         for (int i = 0; i < combatantList.Count; i++)
         {
+            Debug.Log("attack: " + combatantList[i].attack);
             if (combatantList[i].attack < 0)
                 continue;
 
@@ -274,6 +275,9 @@ public class BattleManager : MonoBehaviour
 
     int GetIndexOfCombatant(GameObject entity)
     {
+        if (entity == null)
+            return -1;
+
         for (int i = 0; i < this.combatantList.Count; i++)
         {
             if (combatantList[i] != null && combatantList[i].entity == entity)

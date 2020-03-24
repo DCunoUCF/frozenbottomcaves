@@ -129,7 +129,8 @@ public class HighlightManager : MonoBehaviour
     public void mousedOver(int index)
     {
         //print(index);
-        TSarr[this.index].setDeselected();
+        if (TSarr[this.index] != null)
+            TSarr[this.index].setDeselected();
         this.index = index;
     }
 }
