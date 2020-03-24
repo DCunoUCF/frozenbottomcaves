@@ -51,6 +51,7 @@ public static class CharacterSelection
         int[] stats = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
         pc.setStats(stats);
 
+        // Skill information, need to add specific prefabs to load for each skill
         pc.skill1name = lines[i++];
         pc.skill1desc = lines[i++];
         string sk1path = lines[i++];

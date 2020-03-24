@@ -28,7 +28,6 @@ public class EnemyHealthBar : MonoBehaviour
                 transform.localScale = new Vector3(0f, 1f, 1f);
             else
                 transform.localScale = new Vector3(CurrentHP / MaxHP, 1f, 1f);
-
         }
         hpText.text = "" + CurrentHP + "/" + MaxHP;
     }

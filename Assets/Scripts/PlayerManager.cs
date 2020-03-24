@@ -83,11 +83,14 @@ public class PlayerManager : MonoBehaviour
         {
             if (moved)
             {
+                print("Original x,y: " + x + ", " + y);
+                print("Moving x,y: " + movx + ", " + movy);
                 this.x += movx;
                 this.y += movy;
                 movx = 0;
                 movy = 0;
                 moved = false;
+                print("Final x,y: " + x + ", " + y);
             }
 
             // Player can select what ability/move to use
@@ -216,14 +219,14 @@ public class PlayerManager : MonoBehaviour
     // After selecting a tile, the players turn is ended
     public void setSelectedTile(Vector3 pos)
     {
-        if (isTurn)
+        if (this.isTurn)
         {
             clearHighlights();
             this.selectedTile = pos;
             this.combatInfo.movTar = pos;
             this.combatInfo.atkTar = pos;
             //Debug.Log(selectedTile.ToString("F2"));
-            isTurn = false;
+            this.isTurn = false;
             getMoveXY(pos);
             this.selectingSkill = true;
             BattleManager.Instance.combatantList[0] = this.combatInfo;
@@ -327,7 +330,6 @@ public class PlayerManager : MonoBehaviour
             foreach (Point tile in points)
             {
                 i++;
-                print(i);
                 int newX = x + tile.X;
                 int newY = y + tile.Y;
                 if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))

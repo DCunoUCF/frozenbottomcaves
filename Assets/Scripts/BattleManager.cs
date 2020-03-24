@@ -28,6 +28,10 @@ public class BattleManager : MonoBehaviour
     // Battle Conclusion Booleans
     private bool isResolved, didWeWin;
 
+    // Pegi added this garbage
+    private bool resolvingTurn;
+    public float slideSpeed = .5f;
+
     // Parent to all entities spawned. Used for cleanup after battle is resolved
     private GameObject Entities; 
 
@@ -81,13 +85,24 @@ public class BattleManager : MonoBehaviour
 
     void Update()
     {
-        if (!this.gm.pm.isTurn)
+        if (!this.gm.pm.isTurn && !resolvingTurn) // resolvingTurn guards the coroutine from being called multiple times
         {
+            resolvingTurn = true;
             // NPCManager.Instance.Decide();
-            ResolveMoves();
-            ResolveAttacks();
-            WhoStillHasLimbs();
+            StartCoroutine(combatUpdate());  // Added this to have the ability to resolve each step with animations if wanted
+            // ResolveMoves();
+            //ResolveAttacks();
+            //WhoStillHasLimbs();
         }
+    }
+
+    IEnumerator combatUpdate()
+    {
+        // Get NPC decisions
+        yield return StartCoroutine(ResolveMoves()); // Allow this coroutine time to finishing sliding ppl around that are moving
+        ResolveAttacks();
+        WhoStillHasLimbs();
+        resolvingTurn = false; // Done with the steps of resolving a turn, flip the flag back
     }
 
     void CreateGrid()
@@ -153,7 +168,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void ResolveMoves()
+    IEnumerator ResolveMoves() // Turned into a coroutine to allow the ability to wait until an entity is done sliding
     {
         bool popped = false;
 
@@ -181,16 +196,30 @@ public class BattleManager : MonoBehaviour
             if (!popped && combatantList[i].move)
             {
                 MoveOnGrid(combatantList[i]);
-                combatantList[i].entity.transform.SetPositionAndRotation(combatantList[i].movTar, Quaternion.identity);
-                this.gm.pm.moved = true;
-
-                if (combatantList[i].entity == player)
-                    this.gm.pm.playerLoc = combatantList[i].movTar;
-
-                combatantList[i].move = false;
+                yield return StartCoroutine(slideEntity(combatantList[i])); // Slides the entity to it's movTar, then does the stuff commented out below
                 popped = false;
             }
         }
+        yield break;
+    }
+
+    IEnumerator slideEntity(CList entity)
+    {
+        // This while loop is called each frame to slide the entity to it's destination
+        while (entity.entity.transform.position != entity.movTar)
+        {
+            entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, entity.movTar, slideSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        // If the entity was the player, update the pm accordingly
+        if (entity.entity == player)
+        {
+            this.gm.pm.playerLoc = entity.movTar;
+            this.gm.pm.moved = true;
+        }
+        // Flip the move bool back to it's default state
+        entity.move = false;
     }
 
     void ResolveAttacks()
@@ -368,6 +397,7 @@ public class BattleManager : MonoBehaviour
             }
         }
     }
+
 
     GameObject GetCombatant(Vector3 pos)
     {
