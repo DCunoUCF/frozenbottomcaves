@@ -56,7 +56,6 @@ public class UIInventory : MonoBehaviour
         // Miscellaneous Items
         else
         {
-            print("ADDING MISC ITEM");
             instance = Instantiate(Resources.Load("Prefabs/Text") as GameObject);
             instance.GetComponent<UIItem>().item = item;
             instance.GetComponent<Text>().text = item.item + " x" + item.count;

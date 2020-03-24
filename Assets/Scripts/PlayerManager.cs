@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; set; }
 
     public GameManager gm;
-    
+
     // Info about player, PC, name, and gameobject
     [SerializeField]
     public PlayerClass pc;
@@ -88,6 +88,7 @@ public class PlayerManager : MonoBehaviour
                 movx = 0;
                 movy = 0;
                 moved = false;
+                print("Final x,y: " + x + ", " + y);
             }
 
             // Player can select what ability/move to use
@@ -184,11 +185,17 @@ public class PlayerManager : MonoBehaviour
             }
             else if (Input.GetButtonDown("Skill3"))
             {
-
+                clearHighlights();
+                placeHighlights(pc.skill3, 3);
+                this.abilityinfo = pc.getInfo(3);
+                fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Skill4"))
             {
-
+                clearHighlights();
+                placeHighlights(pc.skill4, 4);
+                this.abilityinfo = pc.getInfo(4);
+                fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Cancel"))
             {
@@ -208,20 +215,20 @@ public class PlayerManager : MonoBehaviour
 
 
     // After selecting a tile, the players turn is ended
-    public void setSelectedTile(Vector3 pos)
+    public void setSelectedTile(List<Vector3> pos)
     {
-        if (isTurn)
+        if (this.isTurn)
         {
-            this.combatInfo = BattleManager.Instance.combatantList[0];
-            this.selectedTile = pos;
-            this.combatInfo.movTar = pos;
+            clearHighlights();
+            //this.selectedTile = pos;
+            this.combatInfo.movTar = pos[0];
             this.combatInfo.atkTar = pos;
             //Debug.Log(selectedTile.ToString("F2"));
-            isTurn = false;
-            clearHighlights();
-            getMoveXY(pos);
+            this.isTurn = false;
+            //getMoveXY(pos);
             this.selectingSkill = true;
             BattleManager.Instance.combatantList[0] = this.combatInfo;
+            clearHighlights();
             //Debug.Log("combatInfo.move: " + combatInfo.move);
         }
     }
@@ -292,17 +299,35 @@ public class PlayerManager : MonoBehaviour
         HM.transform.DetachChildren();
         hold = false;
     }
-    
+
     public void placeHighlights(List<Point> points, int key)
     {
         clearHighlights();
         StartCoroutine(HODL());
+
+        int direction = 0;
+
+        if (this.player.transform.GetChild(0).gameObject.activeSelf) // SE
+            direction = 2;
+        else if (this.player.transform.GetChild(1).gameObject.activeSelf) // SW
+            direction = 3;
+        else if (this.player.transform.GetChild(2).gameObject.activeSelf) // NW
+            direction = 0;
+        else if (this.player.transform.GetChild(3).gameObject.activeSelf) // NE
+            direction = 1;
+
+        if (points.Count == 8)
+            direction *= 2;
+
+
         if (!hold)
         {
-            GameObject highlight = pc.getHighlight(key);
+            GameObject[] highlight = pc.getHighlight(key);
 
+            int i = -1;
             foreach (Point tile in points)
             {
+                i++;
                 int newX = x + tile.X;
                 int newY = y + tile.Y;
                 if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))
@@ -311,19 +336,38 @@ public class PlayerManager : MonoBehaviour
                 if (newY < 0 || newY > BattleManager.Instance.gridCell.GetLength(0))
                     continue;
 
-                if (BattleManager.Instance.gridCell[newX, newY] != null)
-                    if (BattleManager.Instance.gridCell[newX, newY].pass)
-                        highlights.Add(Instantiate(highlight,
-                              BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+                if (i == 1 || i == 3)
+                {
+                    if (BattleManager.Instance.gridCell[newX, newY] != null)
+                        if (BattleManager.Instance.gridCell[newX, newY].pass)
+                            highlights.Add(Instantiate(highlight[1],
+                                  BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+                }
+                else
+                {
+                    if (BattleManager.Instance.gridCell[newX, newY] != null)
+                            if (BattleManager.Instance.gridCell[newX, newY].pass)
+                                highlights.Add(Instantiate(highlight[0],
+                                      BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+                }
+
+
+
+
+                //if (BattleManager.Instance.gridCell[newX, newY] != null)
+                //    if (BattleManager.Instance.gridCell[newX, newY].pass)
+                //        highlights.Add(Instantiate(highlight,
+                //              BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
             }
             foreach (GameObject hl in highlights)
             {
                 hl.transform.SetParent(HM.transform);
             }
-            HMScript.setTiles(highlights);
+            HMScript.setTiles(highlights, direction);
         }
         hold = true;
     }
+
 
     // Returns the requested stat, 1 - str, 2 - int, 3 - dex
     public int getStat(string i)

@@ -33,10 +33,34 @@ public class PlayerClass
     public GameObject attackHighlight;
     public GameObject moveHighlight;
     public List<GameObject> highlights;
+
+    public string skill1name;
+    public string skill1desc;
     public int[] skill1info;
     public List<Point> skill1;
+    public GameObject skill1Highlight;
+    public GameObject[] skill1Highlights = new GameObject[2];
+
+    public string skill2name;
+    public string skill2desc;
     public int[] skill2info;
     public List<Point> skill2;
+    public GameObject skill2Highlight;
+    public GameObject[] skill2Highlights = new GameObject[2];
+
+    public string skill3name;
+    public string skill3desc;
+    public int[] skill3info;
+    public List<Point> skill3;
+    public GameObject skill3Highlight;
+    public GameObject[] skill3Highlights = new GameObject[2];
+
+    public string skill4name;
+    public string skill4desc;
+    public int[] skill4info;
+    public List<Point> skill4;
+    public GameObject skill4Highlight;
+    public GameObject[] skill4Highlights = new GameObject[2];
 
     // STR = 0, INT = 1, AGI = 2
     public int getStat(string i)
@@ -77,20 +101,40 @@ public class PlayerClass
     // Need to create prefabs for each unique ability and load them here
     public void setHighlights()
     {
-        attackHighlight = Resources.Load<GameObject>("Prefabs/TileHighlight1");
-        moveHighlight = Resources.Load<GameObject>("Prefabs/TileHighlight2");
+        skill1Highlight = Resources.Load<GameObject>("Prefabs/TileHighlight2");
+        skill2Highlight = Resources.Load<GameObject>("Prefabs/TileHighlight1");
+        skill3Highlight = Resources.Load<GameObject>("Prefabs/TileHighlight1");
+        skill4Highlight = Resources.Load<GameObject>("Prefabs/TileHighlight2");
+
+        skill1Highlights[0] = Resources.Load<GameObject>("Prefabs/TileHighlight2");
+        skill1Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight2");
+
+        skill2Highlights[0] = Resources.Load<GameObject>("Prefabs/TileHighlight1");
+        skill2Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight1");
+
+        skill3Highlights[0] = Resources.Load<GameObject>("Prefabs/TileHighlight3");
+        skill3Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight3_5");
+
+        skill4Highlights[0] = Resources.Load<GameObject>("Prefabs/TileHighlight5");
+        skill4Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight5");
+
     }
 
-    public GameObject getHighlight(int key)
+    public GameObject[] getHighlight(int key)
     {
         switch(key)
         {
             case 1:
-                return attackHighlight;
+                return skill1Highlights;
             case 2:
-                return moveHighlight;
+                return skill2Highlights;
+            case 3:
+                return skill3Highlights;
+            case 4:
+                return skill4Highlights;
             default:
-                return moveHighlight;
+                Debug.Log("Get Highlight Failure");
+                return null;
         }
     }
 
@@ -100,9 +144,13 @@ public class PlayerClass
         switch (key)
         {
             case 1:
-                return new int[] { 5, 1, 0 };
+                return skill1info;
             case 2:
                 return skill2info;
+            case 3:
+                return skill3info;
+            case 4:
+                return skill4info;
         }
         return null;
     }
