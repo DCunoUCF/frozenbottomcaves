@@ -59,7 +59,7 @@ public class HighlightManager : MonoBehaviour
         }
     }
 
-    public void setTiles(List<GameObject> tiles)
+    public void setTiles(List<GameObject> tiles, int facing)
     {
         print("Setting tiles in HM, size of tiles list: " + tiles.Count);
         int childCount = tiles.Count, i = 0;
@@ -75,7 +75,6 @@ public class HighlightManager : MonoBehaviour
         for (i = 0; i < childCount; i++)
         {
             Transform temp = this.transform.GetChild(i);
-            print(temp.name);
             TSarr[i] = (selectTile)temp.GetChild(0).GetComponent("selectTile");
             TSarr[i].index = i;
             TSarr[i].hm = this;
@@ -87,13 +86,29 @@ public class HighlightManager : MonoBehaviour
         InvokeRepeating("getDpadInput", 1f, .15f);
 
         // Set the initial tile selection
-        TSarr[0].setSelected();                  // need to take into account mouse pos and last selected in the future
+        //TSarr[0].setSelected();                  // need to take into account mouse pos and last selected in the future
+
+        if (TSarr.Length > facing)
+        {
+            TSarr[facing].setSelected();
+            index = facing;
+        }
+        else if (TSarr.Length > facing - 1)
+        {
+            TSarr[facing - 1].setSelected();
+            index = facing - 1;
+        }
+        else
+        {
+            TSarr[0].setSelected();
+            index = 0;
+        }
+
         initSelection = true;
     }
 
     public void clearTiles()
     {
-        print("Clearing HM fields");
         CancelInvoke();
         this.dpadPressed = false;
 
@@ -129,7 +144,8 @@ public class HighlightManager : MonoBehaviour
     public void mousedOver(int index)
     {
         //print(index);
-        TSarr[this.index].setDeselected();
+        if (TSarr[this.index] != null)
+            TSarr[this.index].setDeselected();
         this.index = index;
     }
 }
