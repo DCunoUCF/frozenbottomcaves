@@ -225,7 +225,7 @@ public class PlayerManager : MonoBehaviour
             this.combatInfo.atkTar = pos;
             //Debug.Log(selectedTile.ToString("F2"));
             this.isTurn = false;
-            getMoveXY(pos);
+            //getMoveXY(pos);
             this.selectingSkill = true;
             BattleManager.Instance.combatantList[0] = this.combatInfo;
             clearHighlights();

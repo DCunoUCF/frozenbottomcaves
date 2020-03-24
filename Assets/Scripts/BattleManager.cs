@@ -239,24 +239,26 @@ public class BattleManager : MonoBehaviour
             if (combatantList[i].attack < 0)
                 continue;
 
-            atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar));
+            for (int j = 0; j < combatantList[i].atkTar.Count; j++)
+            {
+                atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar[j]));
 
-            if (atkTarIndex < 0)
-                continue;
+                if (atkTarIndex < 0)
+                    continue;
 
-            curAtkTar = combatantList[atkTarIndex];
-            atkX = curAtkTar.gridX;
-            atkY = curAtkTar.gridY;
+                curAtkTar = combatantList[atkTarIndex];
+                atkX = curAtkTar.gridX;
+                atkY = curAtkTar.gridY;
 
-            if (gridCell[atkX, atkY].entity == null)
-                continue;
+                if (gridCell[atkX, atkY].entity == null)
+                    continue;
 
-            // Roll Dice / Incorporate entity stats
-            combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+                // Roll Dice / Incorporate entity stats
+                combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
-            if (combatantList[atkTarIndex].entity == player)
-                this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
-
+                if (combatantList[atkTarIndex].entity == player)
+                    this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
+            }
         }
     }
 

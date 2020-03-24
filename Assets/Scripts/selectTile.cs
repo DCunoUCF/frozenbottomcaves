@@ -26,7 +26,6 @@ public class selectTile : MonoBehaviour
         if (Input.GetButtonDown("Submit") && filled)
         {
             PlayerManager.Instance.setSelectedTile(tiles);
-            //PlayerManager.Instance.setSelectedTile(tiles);
         }
     }
 
@@ -34,7 +33,6 @@ public class selectTile : MonoBehaviour
     {
         Debug.Log("pos: "+transform.parent.position);
         PlayerManager.Instance.setSelectedTile(tiles);
-        //PlayerManager.Instance.setSelectedTile(tiles);
     }
 
     private void OnMouseOver()
