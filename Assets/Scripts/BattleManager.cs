@@ -510,5 +510,6 @@ public class BattleManager : MonoBehaviour
 
     public List<CList> getCombatantList() { return this.combatantList; }
     public Cell[,] getGrid() { return this.gridCell; }
-    public Vector3 getPlayerPosition() { return new Vector3(this.playerX, this.playerY, 0); }
+    public Cell getGridPosition(int x, int y) { return this.gridCell[x, y]; }
+    public Vector3Int getPlayerPosition() { return new Vector3Int(this.combatantList[0].gridX, this.combatantList[0].gridY, 0); }
 }

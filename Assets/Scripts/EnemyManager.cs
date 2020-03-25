@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyManager// : MonoBehaviour
 {
+    private BattleManager bm;
 	private NPCManager myManager;
 
 	private List<CList> enemyList;
@@ -14,6 +15,7 @@ public class EnemyManager// : MonoBehaviour
 	public EnemyManager(NPCManager manager)
 	{
 		this.myManager = manager;
+        this.bm = manager.bm;
 	}
 
 	//==========   Unity Methods   ==========//
@@ -64,9 +66,11 @@ public class EnemyManager// : MonoBehaviour
             {
                 e.entity.AddComponent<EnemyDunce>();
                 e.entity.GetComponent<EnemyDunce>().setCombatantEntry(e);
+                e.entity.GetComponent<EnemyDunce>().setBattleManager(this.bm);
             }
 
-            e.entity.GetComponent<EnemyDunce>().moveRandomly();
+            // e.entity.GetComponent<EnemyDunce>().moveRandomly();
+            e.entity.GetComponent<EnemyDunce>().decide();
 
             e.movTar = e.entity.transform.position + e.entity.GetComponent<EnemyDunce>().getMoveVector();
             e.move = true;

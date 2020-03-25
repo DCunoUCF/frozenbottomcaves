@@ -65,13 +65,6 @@ public class NPCManager// : MonoBehaviour
     	// Take list of combatants and split into two lists
         this.combatantList = bm.combatantList;
 
-        	// FriendlyList
-        	this.friendlyList = new List<CList>();
-        	// foreach FRIENDLY in this.combatantList
-        		// this.friendlyList.Add(FRIENDLY)
-        	// this.companionList = this.friendlyList;
-        	// this.companionList.Remove(PLAYER);
-
         	// EnemyList
         	this.enemyList = new List<CList>();
             foreach (CList e in this.combatantList)
