@@ -23,6 +23,12 @@ public class PlayerManager : MonoBehaviour
     public UIInventory inventoryUI;
     public GameObject InventoryPanel;
     public GameObject BioPanel;
+    public GameObject uiParent;
+
+    // Battle Overlay stuff
+    public PlayerHealthBar phb;
+    public GameObject battleCanvas;
+    public SkillButtons sb;
 
     // Combat information, clist, bools to guard turn logic
     public Vector3 playerLoc, selectedTile;
@@ -33,13 +39,11 @@ public class PlayerManager : MonoBehaviour
     public bool moved;
     public bool combatInitialized, hold;
     public CList combatInfo;
+    public int[] abilityinfo; // int array with {type, dmg, move}
 
     // References to highlight manager, to communicate with highlighted tiles in combat
     GameObject HM;
     HighlightManager HMScript;
-
-    // int array with {type, dmg, move}
-    public int[] abilityinfo;
 
     // Keep only one instance alive
     private void Awake()
@@ -96,7 +100,12 @@ public class PlayerManager : MonoBehaviour
         }
         else // Not in combat, just check if player wants to open inventory
         {
-            inventoryCheck();
+            if (battleCanvas != null)
+                if (battleCanvas.gameObject.activeSelf)
+                    battleCanvas.SetActive(false);
+
+            if (Input.GetButtonDown("Inventory"))
+                inventoryOpen();
         }
     }
 
@@ -106,6 +115,9 @@ public class PlayerManager : MonoBehaviour
         playerLoc = player.transform.position;
         print(playerLoc);
         combatInfo = new CList(this.player);
+
+        battleCanvas.gameObject.SetActive(true);
+
         combatInitialized = true;
         inCombat = true;
         pc.setHighlights();
@@ -119,7 +131,9 @@ public class PlayerManager : MonoBehaviour
         characterName = pc.name;
         characterNameClone = pc.clonename;
         characterSelected = true;
+        uiParent = GameObject.Find("UIParent");
 
+        // Inventory setup
         inventory = new Inventory(this);
         inventoryCanvas = GameObject.Find("InventoryCanvas").GetComponent<Canvas>();
         inventoryUI = (UIInventory)GameObject.Find("Inventory").GetComponent("UIInventory");
@@ -134,31 +148,36 @@ public class PlayerManager : MonoBehaviour
         pc.inventory.addItem(Item.ItemType.Gold, 100);
 
         inventoryUI.gameObject.SetActive(false);
-        //inventoryCanvas.gameObject.SetActive(false);
-        inventoryCanvas.transform.SetParent(gm.transform);
+
+        battleCanvas = GameObject.Find("BattleCanvas");
+        phb = GameObject.Find("HealthFill").GetComponent<PlayerHealthBar>();
+        phb.initHealthBar(pc.maxHealth);
+        sb = battleCanvas.GetComponent<SkillButtons>();
+        sb.initSkillButtons();
+        battleCanvas.gameObject.SetActive(false);
+        
+
+        uiParent.transform.SetParent(gm.transform);
         inventoryCanvas.sortingOrder = 5;
     }
 
-    private void inventoryCheck()
+    public void inventoryOpen()
     {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            print("Button press");
+        print("Opening Inventory");
 
-            if (inventoryUI.gameObject.activeSelf)
-            {
-                inventoryUI.gameObject.SetActive(false);
-                gm.om.dm.setInteractable();
-            }
-            else
-            {
-                gm.om.dm.setUninteractable();
-                inventory.updateStats(pc);
-                InventoryPanel.SetActive(true);
-                BioPanel.SetActive(false); // This is set active by default already in Inventory.cs
-                inventoryUI.gameObject.SetActive(true);
-                inventory.setInitSelection();
-            }
+        if (inventoryUI.gameObject.activeSelf)
+        {
+            inventoryUI.gameObject.SetActive(false);
+            gm.om.dm.setInteractable();
+        }
+        else
+        {
+            gm.om.dm.setUninteractable();
+            inventory.updateStats(pc);
+            InventoryPanel.SetActive(true);
+            BioPanel.SetActive(false); // This is set active by default already in Inventory.cs
+            inventoryUI.gameObject.SetActive(true);
+            inventory.setInitSelection();
         }
     }
 
@@ -171,31 +190,35 @@ public class PlayerManager : MonoBehaviour
             // Read input and set combat info based off of what skill
             if (Input.GetButtonDown("Skill1"))
             {
-                clearHighlights();
-                placeHighlights(pc.skill1, 1);
-                this.abilityinfo = pc.getInfo(1);
-                fillCombatInfo(abilityinfo);
+                useSkill(1);
+                //clearHighlights();
+                //placeHighlights(pc.skill1, 1);
+                //this.abilityinfo = pc.getInfo(1);
+                //fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Skill2"))
             {
-                clearHighlights();
-                placeHighlights(pc.skill2, 2);
-                this.abilityinfo = pc.getInfo(2);
-                fillCombatInfo(abilityinfo);
+                useSkill(2);
+                //clearHighlights();
+                //placeHighlights(pc.skill2, 2);
+                //this.abilityinfo = pc.getInfo(2);
+                //fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Skill3"))
             {
-                clearHighlights();
-                placeHighlights(pc.skill3, 3);
-                this.abilityinfo = pc.getInfo(3);
-                fillCombatInfo(abilityinfo);
+                useSkill(3);
+                //clearHighlights();
+                //placeHighlights(pc.skill3, 3);
+                //this.abilityinfo = pc.getInfo(3);
+                //fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Skill4"))
             {
-                clearHighlights();
-                placeHighlights(pc.skill4, 4);
-                this.abilityinfo = pc.getInfo(4);
-                fillCombatInfo(abilityinfo);
+                useSkill(4);
+                //clearHighlights();
+                //placeHighlights(pc.skill4, 4);
+                //this.abilityinfo = pc.getInfo(4);
+                //fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Cancel"))
             {
@@ -205,7 +228,16 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void fillCombatInfo(int[] info)
+    public void useSkill(int n)
+    {
+        clearHighlights();
+        placeHighlights(pc.getPoints(n), n);
+        this.abilityinfo = pc.getInfo(n);
+        fillCombatInfo(abilityinfo);
+    }
+
+
+    private void fillCombatInfo(int[] info)
     {
         this.combatInfo.attackDmg = abilityinfo[0];
         this.combatInfo.attack = abilityinfo[1];
@@ -350,14 +382,6 @@ public class PlayerManager : MonoBehaviour
                                 highlights.Add(Instantiate(highlight[0],
                                       BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
                 }
-
-
-
-
-                //if (BattleManager.Instance.gridCell[newX, newY] != null)
-                //    if (BattleManager.Instance.gridCell[newX, newY].pass)
-                //        highlights.Add(Instantiate(highlight,
-                //              BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
             }
             foreach (GameObject hl in highlights)
             {
@@ -368,6 +392,31 @@ public class PlayerManager : MonoBehaviour
         hold = true;
     }
 
+    public string[] getSkillInfo(int i)
+    {
+        string[] info = new string[2];
+        switch (i)
+        {
+            case 1:
+                info[0] = pc.skill1name;
+                info[1] = pc.skill1desc;
+                return info;
+            case 2:
+                info[0] = pc.skill2name;
+                info[1] = pc.skill2desc;
+                return info;
+            case 3:
+                info[0] = pc.skill3name;
+                info[1] = pc.skill3desc;
+                return info;
+            case 4:
+                info[0] = pc.skill4name;
+                info[1] = pc.skill4desc;
+                return info;
+            default:
+                return null;
+        }
+    }
 
     // Returns the requested stat, 1 - str, 2 - int, 3 - dex
     public int getStat(string i)
@@ -378,6 +427,7 @@ public class PlayerManager : MonoBehaviour
     public void takeDmg(int i)
     {
         pc.takeDamage(i);
+        phb.updateHealthBar(pc.health);
     }
 
 }

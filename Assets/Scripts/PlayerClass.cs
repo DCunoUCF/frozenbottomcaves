@@ -119,6 +119,24 @@ public class PlayerClass
         skill4Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight5");
 
     }
+    
+    public List<Point> getPoints(int key)
+    {
+        switch(key)
+        {
+            case 1:
+                return skill1;
+            case 2:
+                return skill2;
+            case 3:
+                return skill3;
+            case 4:
+                return skill4;
+            default:
+                Debug.Log("Get info failed");
+                return null;
+        }
+    }
 
     public GameObject[] getHighlight(int key)
     {

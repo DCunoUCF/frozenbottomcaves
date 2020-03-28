@@ -15,12 +15,12 @@ Prefabs/TileHighlight1
 5 1 0
 0 1 1 1 1 0 1 -1 0 -1 -1 -1 -1 0 -1 1
 Cleave
-Simultaneously strike 3 tiles for 3 damage
+Simultaneously strike 3 tiles for 3 (10 temporarily) damage
 Prefabs/TileHighlight1
-3 1 0
+10 1 0
 0 1 1 0 0 -1 -1 0
 Defensive Stance
-Assume a defensive stance, blocking all incoming damage this turn
+Take a defensive stance, granting damage reduction and 5 temporary hitpoints
 Prefabs/TileHighlight2
 0 2 0
 0 0 0 0

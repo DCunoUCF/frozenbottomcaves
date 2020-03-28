@@ -201,6 +201,8 @@ public class MenuManager : MonoBehaviour
             SceneManager.UnloadSceneAsync("LoseSplash");
 
         overworldTilemap.SetActive(true);
+        this.gm.om.dm.setInteractable();
+        this.gm.om.dm.setInitialSelection();
     }
 
     void ReturnToMainMenu()

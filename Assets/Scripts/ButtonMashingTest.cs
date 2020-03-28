@@ -7,13 +7,12 @@ public class ButtonMashingTest : MonoBehaviour
     private float max = 100f;
     private float start = 50f;
     private float current;
-    private bool done, ready;
+    private bool done;
 
     // Start is called before the first frame update
     void Start()
     {
         current = start;
-        ready = false;
         StartCoroutine("decrementTimer");
     }
 
@@ -21,7 +20,7 @@ public class ButtonMashingTest : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0) == true)
-            current += 3f;
+            current += 5f;
 
         if (!done)
             transform.localScale = new Vector3(current / max, 1f, 1f);
@@ -44,8 +43,8 @@ public class ButtonMashingTest : MonoBehaviour
     {
         while (!done)
         {
-            yield return new WaitForSeconds(.015f);
-            current -= .15f;
+            yield return new WaitForSeconds(.03f);
+            current -= .5f;
         }
         yield break;
     }

@@ -335,7 +335,6 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator ResolveAttacks()
     {
-        print("RESOLVING ATTACKS");
         CList curAtkTar;
         int atkX, atkY, atkTarIndex;
 
@@ -373,15 +372,12 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator attackAnim(CList c)
     {
-        print("PLAYING ATTACK ANIM");
         Vector3 s = c.entity.transform.position; // start pos
         List<Vector3> attacks = new List<Vector3>(); // list of attack spots
         foreach (Vector3 v in c.atkTar)
         {
             attacks.Add((((v+s)/2) + s)/2);
         }
-        foreach (Vector3 v in attacks)
-            print(v.ToString("F2") + " SHOULD BE ATTACKING THIS WAY");
 
         foreach(Vector3 v in attacks)
         {
@@ -682,9 +678,9 @@ public class BattleManager : MonoBehaviour
                 if (gridCell[i,j] != null)
                 {
                     if (gridCell[i,j].pass)
-                        matrix += string.Format("{0, 3}", "1");
-                    else
                         matrix += string.Format("{0, 3}", "0");
+                    else
+                        matrix += string.Format("{0, 3}", "1");
                 }
                 else                   
                         matrix += string.Format("{0, 3}", "n");
