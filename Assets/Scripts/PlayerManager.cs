@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
     public string characterName;
     public string characterNameClone;
     public GameObject player;
-    public bool characterSelected, characterFoundOW;
+    public bool characterSelected, characterFoundOW, inOptions;
 
     // Inventory stuff
     public Canvas inventoryCanvas;
@@ -89,10 +89,10 @@ public class PlayerManager : MonoBehaviour
             {
                 this.x = this.gm.bm.combatantList[0].gridX;
                 this.y = this.gm.bm.combatantList[0].gridY;
-                movx = 0;
-                movy = 0;
+                //movx = 0;
+                //movy = 0;
                 moved = false;
-                print("Final x,y: " + x + ", " + y);
+                //print("Final x,y: " + x + ", " + y);
             }
 
             // Player can select what ability/move to use
@@ -103,9 +103,9 @@ public class PlayerManager : MonoBehaviour
             if (battleCanvas != null)
                 if (battleCanvas.gameObject.activeSelf)
                     battleCanvas.SetActive(false);
-
-            if (Input.GetButtonDown("Inventory"))
-                inventoryOpen();
+            if (!inOptions)
+                if (Input.GetButtonDown("Inventory"))
+                    inventoryOpen();
         }
     }
 
@@ -125,7 +125,7 @@ public class PlayerManager : MonoBehaviour
         HMScript = (HighlightManager)HM.GetComponent("HighlightManager");
     }
 
-    // Fills in a few fields for PM to recognize player, as well as set up inventory
+    // Fills in a few fields for PM to recognize player, as well as set up player UI
     public void initPM()
     {
         characterName = pc.name;
@@ -149,6 +149,7 @@ public class PlayerManager : MonoBehaviour
 
         inventoryUI.gameObject.SetActive(false);
 
+        // Setup battle overlay
         battleCanvas = GameObject.Find("BattleCanvas");
         phb = GameObject.Find("HealthFill").GetComponent<PlayerHealthBar>();
         phb.initHealthBar(pc.maxHealth);
@@ -191,34 +192,18 @@ public class PlayerManager : MonoBehaviour
             if (Input.GetButtonDown("Skill1"))
             {
                 useSkill(1);
-                //clearHighlights();
-                //placeHighlights(pc.skill1, 1);
-                //this.abilityinfo = pc.getInfo(1);
-                //fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Skill2"))
             {
                 useSkill(2);
-                //clearHighlights();
-                //placeHighlights(pc.skill2, 2);
-                //this.abilityinfo = pc.getInfo(2);
-                //fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Skill3"))
             {
                 useSkill(3);
-                //clearHighlights();
-                //placeHighlights(pc.skill3, 3);
-                //this.abilityinfo = pc.getInfo(3);
-                //fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Skill4"))
             {
                 useSkill(4);
-                //clearHighlights();
-                //placeHighlights(pc.skill4, 4);
-                //this.abilityinfo = pc.getInfo(4);
-                //fillCombatInfo(abilityinfo);
             }
             else if (Input.GetButtonDown("Cancel"))
             {
@@ -226,6 +211,12 @@ public class PlayerManager : MonoBehaviour
             }
             // Add more cases for more abilities
         }
+    }
+
+    public void newTurn()
+    {
+        isTurn = true;
+        pc.updatePlayerCombat();
     }
 
     public void useSkill(int n)
@@ -266,49 +257,49 @@ public class PlayerManager : MonoBehaviour
     }
 
     // Gets the x, y for moving on the grid based of given mov target
-    public void getMoveXY(Vector3 movTarget)
-    {
-        Vector3 temp = movTarget - playerLoc;
-        int x, y;
-        x = (int)(temp.x / .5f);
-        y = (int)(temp.y / .25f);
-        if (x == 0)
-        {
-            movx = 0;
-            movy = y;
-        }
-        if (y == 0)
-        {
-            movx = x;
-            movy = 0;
-        }
-        if (x > 0)
-        {
-            if (y > 0)
-            {
-                movx = x;
-                movy = 0;
-            }
-            if (y < 0)
-            {
-                movx = 0;
-                movy = y;
-            }
-        }
-        else if (x < 0)
-        {
-            if (y > 0)
-            {
-                movx = 0;
-                movy = y;
-            }
-            if (y < 0)
-            {
-                movx = x;
-                movy = 0;
-            }
-        }
-    }
+    //public void getMoveXY(Vector3 movTarget)
+    //{
+    //    Vector3 temp = movTarget - playerLoc;
+    //    int x, y;
+    //    x = (int)(temp.x / .5f);
+    //    y = (int)(temp.y / .25f);
+    //    if (x == 0)
+    //    {
+    //        movx = 0;
+    //        movy = y;
+    //    }
+    //    if (y == 0)
+    //    {
+    //        movx = x;
+    //        movy = 0;
+    //    }
+    //    if (x > 0)
+    //    {
+    //        if (y > 0)
+    //        {
+    //            movx = x;
+    //            movy = 0;
+    //        }
+    //        if (y < 0)
+    //        {
+    //            movx = 0;
+    //            movy = y;
+    //        }
+    //    }
+    //    else if (x < 0)
+    //    {
+    //        if (y > 0)
+    //        {
+    //            movx = 0;
+    //            movy = y;
+    //        }
+    //        if (y < 0)
+    //        {
+    //            movx = x;
+    //            movy = 0;
+    //        }
+    //    }
+    //}
 
     // Waits .3s, used to wait until child highlights are properly orphaned
     IEnumerator HODL()

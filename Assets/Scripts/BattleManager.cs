@@ -268,6 +268,9 @@ public class BattleManager : MonoBehaviour
         Vector3 halfway = (start + end) / 2;
         Vector3 halfway2 = (start2 + end2) / 2;
 
+        turnEntity(entity.entity, entity.movTar);
+        turnEntity(entity2.entity, entity2.movTar);
+
         while (entity.entity.transform.position != halfway && entity2.entity.transform.position != halfway2)
         {
             if (entity.entity.transform.position != halfway)
@@ -298,6 +301,8 @@ public class BattleManager : MonoBehaviour
         Vector3 start = entity.entity.transform.position;
         Vector3 end = entity.movTar;
         Vector3 halfway = (start + end) / 2;
+
+        turnEntity(entity.entity, entity.movTar);
 
         while (entity.entity.transform.position != halfway)
         {
@@ -374,13 +379,19 @@ public class BattleManager : MonoBehaviour
     {
         Vector3 s = c.entity.transform.position; // start pos
         List<Vector3> attacks = new List<Vector3>(); // list of attack spots
+
+        turnEntity(c.entity, c.atkTar[0]);
+
+        GameObject tile = Resources.Load<GameObject>("Prefabs/TileHighlight1");
         foreach (Vector3 v in c.atkTar)
         {
             attacks.Add((((v+s)/2) + s)/2);
         }
 
+        int i = 0;
         foreach(Vector3 v in attacks)
         {
+            GameObject tileTemp = Instantiate(tile, c.atkTar[i++], Quaternion.identity);
             while (c.entity.transform.position != v)
             {
                 c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, v, slideSpeed * Time.deltaTime);
@@ -391,6 +402,7 @@ public class BattleManager : MonoBehaviour
                 c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, s, slideSpeed * Time.deltaTime);
                 yield return null;
             }
+            Destroy(tileTemp);
         }
 
         c.entity.transform.position = s; // incase something went wrong with the moveTowards
@@ -438,7 +450,8 @@ public class BattleManager : MonoBehaviour
         }
 
         // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
-        this.gm.pm.isTurn = true;
+        //this.gm.pm.isTurn = true;
+        this.gm.pm.newTurn();
     }
 
     int GetIndexOfCombatant(GameObject entity)
@@ -693,4 +706,51 @@ public class BattleManager : MonoBehaviour
     public List<CList> getCombatantList() { return this.combatantList; }
     public Cell[,] getGrid() { return this.gridCell; }
     public Vector3 getPlayerPosition() { return new Vector3(this.playerX, this.playerY, 0); }
+
+    void turnEntity(GameObject entity, Vector3 movTar)
+    {
+        // How I WILL do it later entity.dir... maybe?
+        float dirX, dirY;
+        dirX = movTar.x - entity.transform.localPosition.x;
+        dirY = movTar.y - entity.transform.localPosition.y;
+
+        GameObject SE = entity.transform.GetChild(0).gameObject, SW = entity.transform.GetChild(1).gameObject,
+                   NW = entity.transform.GetChild(2).gameObject, NE = entity.transform.GetChild(3).gameObject;
+
+        if (dirX > 0)
+        {
+            if (dirY > 0)
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(true);
+            }
+            else
+            {
+                SE.gameObject.SetActive(true);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+            }
+
+        }
+        else if (dirX <= 0)
+        {
+            if (dirY < 0)
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(true);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+            }
+            else
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(true);
+                NE.gameObject.SetActive(false);
+            }
+        }
+    }
 }

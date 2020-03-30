@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class ButtonOverlay : MonoBehaviour
 {
-    public Button inventory, options;
+    public Button inventory, options, quit;
 
     void Start()
     {
         inventory.onClick.AddListener(invOpen);
         options.onClick.AddListener(optOpen);
+        quit.onClick.AddListener(quitGame);
     }
 
     private void invOpen()
@@ -21,6 +22,13 @@ public class ButtonOverlay : MonoBehaviour
 
     private void optOpen()
     {
-        // Open options menu
+        options.interactable = false;
+        inventory.interactable = false;
+        PlayerManager.Instance.inOptions = true;
+    }
+
+    private void quitGame()
+    {
+        Application.Quit();
     }
 }

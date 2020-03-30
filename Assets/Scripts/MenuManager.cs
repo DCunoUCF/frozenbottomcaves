@@ -16,7 +16,7 @@ public enum UIType
     NewGame, Continue, Options, Exit, Back, Return, Restart,
 	WizardClass, KnightClass, RogueClass, MonkClass,
     MusicMute, EffectMute,
-    BattleButton
+    BattleButton, OptionsOnTop, OptionBack
 }
 
 public enum SliderType
@@ -62,10 +62,18 @@ public class MenuManager : MonoBehaviour
     		case UIType.Continue:
     			Debug.Log("Clicked continue!");
     			break;
+            // Used on MainMenu
     		case UIType.Options:
     			Debug.Log("Clicked options!");
-    			OpenOptions();
+    			OpenOptionsOnTop();
+                //StartCoroutine(OptionActive());
     			break;
+            // Used in OW
+            case UIType.OptionsOnTop:
+                this.gm.pm.inventoryUI.gameObject.SetActive(false);
+                this.gm.om.dm.setUninteractable();
+                OpenOptionsOnTop();
+                break;
     		case UIType.Exit:
     			Debug.Log("Clicked exit!");
     			QuitGame();
@@ -75,6 +83,14 @@ public class MenuManager : MonoBehaviour
     			// ExitOptions();
     			ReturnToMainMenu();
     			break;
+            case UIType.OptionBack:
+                ExitOptions();
+                if (this.gm.om.playerSpawned)
+                {
+                    this.gm.om.dm.setInteractable();
+                    this.gm.om.dm.setInitialSelection();
+                }
+                break;
             case UIType.Return:
                 Debug.Log("Clicked return!");
                 // TODO: change to Go back to Overworld
@@ -159,6 +175,55 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    IEnumerator OptionActive()
+    {
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            disableMainMenuButtons();
+            yield return new WaitForSeconds(.002f);
+            GameObject.Find("OptionsCanvas").transform.Find("FakeBackground").gameObject.SetActive(true);
+        }
+        else if (this.gm.pm.inCombat)
+        {
+            disableCombatButtons();
+        }
+
+        GameObject.Find("OptionsCanvas").GetComponent<Canvas>().worldCamera = GameObject.Find("MainCameraMM").GetComponent<Camera>();
+
+        yield return new WaitForSeconds(.002f);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("OptionsMenu"));
+        GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
+        GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
+        GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
+        GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
+        yield break;
+    }
+
+    private void disableMainMenuButtons()
+    {
+        GameObject.Find("NewGameButton").GetComponent<Button>().interactable = false;
+        GameObject.Find("ContinueButton").GetComponent<Button>().interactable = false;
+        GameObject.Find("OptionsButton").GetComponent<Button>().interactable = false;
+        GameObject.Find("QuitButton").GetComponent<Button>().interactable = false;
+
+    }
+
+    private void disableCombatButtons()
+    {
+        GameObject.Find("Skill1").GetComponent<Button>().interactable = false;
+        GameObject.Find("Skill2").GetComponent<Button>().interactable = false;
+        GameObject.Find("Skill3").GetComponent<Button>().interactable = false;
+        GameObject.Find("Skill4").GetComponent<Button>().interactable = false;
+    }
+
+    private void enableCombatButtons()
+    {
+        GameObject.Find("Skill1").GetComponent<Button>().interactable = true;
+        GameObject.Find("Skill2").GetComponent<Button>().interactable = true;
+        GameObject.Find("Skill3").GetComponent<Button>().interactable = true;
+        GameObject.Find("Skill4").GetComponent<Button>().interactable = true;
+    }
+
     void OpenDemoLevel()
     {
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Single);
@@ -177,6 +242,7 @@ public class MenuManager : MonoBehaviour
     void OpenOptionsOnTop()
     {
     	SceneManager.LoadScene("OptionsMenu", LoadSceneMode.Additive);
+        StartCoroutine(OptionActive());
     }
 
     void OpenOptions()
@@ -186,7 +252,24 @@ public class MenuManager : MonoBehaviour
 
     void ExitOptions()
     {
-    	SceneManager.UnloadSceneAsync("OptionsMenu");
+        if (this.gm.om.playerSpawned)
+        {
+            SceneManager.UnloadSceneAsync("OptionsMenu");
+            enableOWButtons();
+            if (this.gm.pm.inCombat)
+            {
+                enableCombatButtons();
+            }
+        }
+        else
+            ReturnToMainMenu();
+    }
+
+    private void enableOWButtons()
+    {
+        GameObject.Find("OptionsButtonOW").GetComponent<Button>().interactable = true;
+        GameObject.Find("InventoryButtonOW").GetComponent<Button>().interactable = true;
+
     }
 
     void ExitBattle()

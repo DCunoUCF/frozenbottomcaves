@@ -157,7 +157,7 @@ public class OverworldManager : MonoBehaviour
         player.transform.position = GameObject.Find("0").transform.position; // hard coding node 0
         print("node 0:" + nodes[0].transform.position);
         playerSpawned = true;
-        GameObject cam = GameObject.Find("MainCamera");
+        GameObject cam = GameObject.Find("MainCameraOW");
         cam.transform.SetParent(player.transform);
         cam.transform.localPosition = new Vector3(0, 0, -10);
 

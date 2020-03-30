@@ -40,6 +40,7 @@ public class PlayerClass
     public List<Point> skill1;
     public GameObject skill1Highlight;
     public GameObject[] skill1Highlights = new GameObject[2];
+    public int cd1;
 
     public string skill2name;
     public string skill2desc;
@@ -47,6 +48,7 @@ public class PlayerClass
     public List<Point> skill2;
     public GameObject skill2Highlight;
     public GameObject[] skill2Highlights = new GameObject[2];
+    public int cd2;
 
     public string skill3name;
     public string skill3desc;
@@ -54,6 +56,7 @@ public class PlayerClass
     public List<Point> skill3;
     public GameObject skill3Highlight;
     public GameObject[] skill3Highlights = new GameObject[2];
+    public int cd3;
 
     public string skill4name;
     public string skill4desc;
@@ -61,6 +64,9 @@ public class PlayerClass
     public List<Point> skill4;
     public GameObject skill4Highlight;
     public GameObject[] skill4Highlights = new GameObject[2];
+    public int cd4;
+
+    public int[] cooldowns;
 
     // STR = 0, INT = 1, AGI = 2
     public int getStat(string i)
@@ -171,5 +177,9 @@ public class PlayerClass
                 return skill4info;
         }
         return null;
+    }
+
+    public void updatePlayerCombat()
+    {
     }
 }
