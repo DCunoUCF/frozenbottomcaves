@@ -16,22 +16,23 @@ public class selectTile : MonoBehaviour
 
         for (int i = 0; i < this.transform.childCount; i++)
             tiles.Add(parent + this.transform.GetChild(i).transform.localPosition);
-        print(parent);
-        foreach (Vector3 v in tiles)
-            print(v);
+        //print(parent);
+        //foreach (Vector3 v in tiles)
+        //    print(v);
 
     }
     private void Update()
     {
         if (Input.GetButtonDown("Submit") && filled)
         {
-            PlayerManager.Instance.setSelectedTile(transform.parent.position);
+            PlayerManager.Instance.setSelectedTile(tiles);
         }
     }
 
     private void OnMouseDown()
     {
-        PlayerManager.Instance.setSelectedTile(transform.parent.position);
+        Debug.Log("pos: "+transform.parent.position);
+        PlayerManager.Instance.setSelectedTile(tiles);
     }
 
     private void OnMouseOver()

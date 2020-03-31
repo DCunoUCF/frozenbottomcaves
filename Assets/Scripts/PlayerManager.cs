@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; set; }
 
     public GameManager gm;
-    
+
     // Info about player, PC, name, and gameobject
     [SerializeField]
     public PlayerClass pc;
@@ -83,11 +83,12 @@ public class PlayerManager : MonoBehaviour
         {
             if (moved)
             {
-                this.x += movx;
-                this.y += movy;
+                this.x = this.gm.bm.combatantList[0].gridX;
+                this.y = this.gm.bm.combatantList[0].gridY;
                 movx = 0;
                 movy = 0;
                 moved = false;
+                print("Final x,y: " + x + ", " + y);
             }
 
             // Player can select what ability/move to use
@@ -214,17 +215,17 @@ public class PlayerManager : MonoBehaviour
 
 
     // After selecting a tile, the players turn is ended
-    public void setSelectedTile(Vector3 pos)
+    public void setSelectedTile(List<Vector3> pos)
     {
-        if (isTurn)
+        if (this.isTurn)
         {
             clearHighlights();
-            this.selectedTile = pos;
-            this.combatInfo.movTar = pos;
+            //this.selectedTile = pos;
+            this.combatInfo.movTar = pos[0];
             this.combatInfo.atkTar = pos;
             //Debug.Log(selectedTile.ToString("F2"));
-            isTurn = false;
-            getMoveXY(pos);
+            this.isTurn = false;
+            //getMoveXY(pos);
             this.selectingSkill = true;
             BattleManager.Instance.combatantList[0] = this.combatInfo;
             clearHighlights();
@@ -298,7 +299,7 @@ public class PlayerManager : MonoBehaviour
         HM.transform.DetachChildren();
         hold = false;
     }
-    
+
     public void placeHighlights(List<Point> points, int key)
     {
         clearHighlights();
@@ -327,7 +328,6 @@ public class PlayerManager : MonoBehaviour
             foreach (Point tile in points)
             {
                 i++;
-                print(i);
                 int newX = x + tile.X;
                 int newY = y + tile.Y;
                 if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))
@@ -367,7 +367,7 @@ public class PlayerManager : MonoBehaviour
         }
         hold = true;
     }
-    
+
 
     // Returns the requested stat, 1 - str, 2 - int, 3 - dex
     public int getStat(string i)

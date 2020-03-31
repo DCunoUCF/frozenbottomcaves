@@ -75,7 +75,6 @@ public class HighlightManager : MonoBehaviour
         for (i = 0; i < childCount; i++)
         {
             Transform temp = this.transform.GetChild(i);
-            print(temp.name);
             TSarr[i] = (selectTile)temp.GetChild(0).GetComponent("selectTile");
             TSarr[i].index = i;
             TSarr[i].hm = this;
@@ -110,7 +109,6 @@ public class HighlightManager : MonoBehaviour
 
     public void clearTiles()
     {
-        print("Clearing HM fields");
         CancelInvoke();
         this.dpadPressed = false;
 

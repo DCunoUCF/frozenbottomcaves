@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager// : MonoBehaviour
 {
 	private NPCManager myManager;
 
@@ -50,6 +50,29 @@ public class EnemyManager : MonoBehaviour
     				// if (distance to POT_TARGET) < (distance to closestTarget)
     					// closestTarget = POT_TARGET
     			// choose move towards closestTarget or attack towards closestTarget
+        Debug.Log("Here's the enemyList!");
+        int i = 1;
+        foreach (CList e in this.enemyList)
+        {
+            Debug.Log("Enemy "+i+": "+e.entity.name);
+            i++;
+        }
+
+        foreach (CList e in this.enemyList)
+        {
+            if (e.entity.GetComponent<EnemyDunce>() == null)
+            {
+                e.entity.AddComponent<EnemyDunce>();
+                e.entity.GetComponent<EnemyDunce>().setCombatantEntry(e);
+            }
+
+            e.entity.GetComponent<EnemyDunce>().moveRandomly();
+
+            e.movTar = e.entity.transform.position + e.entity.GetComponent<EnemyDunce>().getMoveVector();
+            e.move = true;
+            e.attack = -1;
+            Debug.Log(e.movTar);
+        }
 
     	// Export our list of decided peoples to the NPCManager
     	this.myManager.importEnemyList(this.enemyList);

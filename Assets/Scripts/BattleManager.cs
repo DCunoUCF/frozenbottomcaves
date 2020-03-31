@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; set; }
     private GameManager gm;
+    private NPCManager npcm;
     public List<CList> combatantList;
     private BattleClass battleClass;
     private int curNode;
@@ -15,10 +16,9 @@ public class BattleManager : MonoBehaviour
     private GameObject activeArena;
     public int gridsizeX, gridsizeY; // Maintain size of board to reduce repeated computation in PM
 
-    // Player and Companion GameObject references. playerX/Y are stand-ins because of the ordering of script execution
+    // Player GameObject references. playerX/Y are stand-ins because of the ordering of script execution
     public GameObject player;
     private int playerX, playerY;
-    private GameObject companion;
 
     // Enemy Variables
     private List<GameObject> enemies;
@@ -28,8 +28,12 @@ public class BattleManager : MonoBehaviour
     // Battle Conclusion Booleans
     private bool isResolved, didWeWin;
 
+    // Pegi added this garbage
+    private bool resolvingTurn;
+    public float slideSpeed = .5f;
+
     // Parent to all entities spawned. Used for cleanup after battle is resolved
-    private GameObject Entities; 
+    private GameObject Entities;
 
     void Awake()
     {
@@ -77,17 +81,31 @@ public class BattleManager : MonoBehaviour
         this.gm.pm.x = playerX;
         this.gm.pm.y = playerY;
         this.gm.pm.isTurn = true;
+        PlayerManager.Instance.isTurn = true;
+        this.npcm = new NPCManager(this);
     }
 
     void Update()
     {
-        if (!this.gm.pm.isTurn)
+        if (!this.gm.pm.isTurn && !resolvingTurn) // resolvingTurn guards the coroutine from being called multiple times
         {
+            resolvingTurn = true;
             // NPCManager.Instance.Decide();
-            ResolveMoves();
-            ResolveAttacks();
-            WhoStillHasLimbs();
+            StartCoroutine(combatUpdate());  // Added this to have the ability to resolve each step with animations if wanted
+            // ResolveMoves();
+            //ResolveAttacks();
+            //WhoStillHasLimbs();
         }
+    }
+
+    IEnumerator combatUpdate()
+    {
+        // Get NPC decisions
+        npcm.makeDecisions();
+        yield return StartCoroutine(ResolveMoves()); // Allow this coroutine time to finishing sliding ppl around that are moving
+        ResolveAttacks();
+        WhoStillHasLimbs();
+        resolvingTurn = false; // Done with the steps of resolving a turn, flip the flag back
     }
 
     void CreateGrid()
@@ -153,7 +171,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void ResolveMoves()
+    IEnumerator ResolveMoves() // Turned into a coroutine to allow the ability to wait until an entity is done sliding
     {
         bool popped = false;
 
@@ -181,16 +199,30 @@ public class BattleManager : MonoBehaviour
             if (!popped && combatantList[i].move)
             {
                 MoveOnGrid(combatantList[i]);
-                combatantList[i].entity.transform.SetPositionAndRotation(combatantList[i].movTar, Quaternion.identity);
-                this.gm.pm.moved = true;
-
-                if (combatantList[i].entity == player)
-                    this.gm.pm.playerLoc = combatantList[i].movTar;
-
-                combatantList[i].move = false;
+                yield return StartCoroutine(slideEntity(combatantList[i])); // Slides the entity to it's movTar, then does the stuff commented out below
                 popped = false;
             }
         }
+        yield break;
+    }
+
+    IEnumerator slideEntity(CList entity)
+    {
+        // This while loop is called each frame to slide the entity to it's destination
+        while (entity.entity.transform.position != entity.movTar)
+        {
+            entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, entity.movTar, slideSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        // If the entity was the player, update the pm accordingly
+        if (entity.entity == player)
+        {
+            this.gm.pm.playerLoc = entity.movTar;
+            this.gm.pm.moved = true;
+        }
+        // Flip the move bool back to it's default state
+        entity.move = false;
     }
 
     void ResolveAttacks()
@@ -201,27 +233,30 @@ public class BattleManager : MonoBehaviour
         // This is only complicated because attack target right now isn't just a relative position which would be easier to check on the gridCell
         for (int i = 0; i < combatantList.Count; i++)
         {
+            Debug.Log("attack: " + combatantList[i].attack);
             if (combatantList[i].attack < 0)
                 continue;
 
-            atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar));
+            for (int j = 0; j < combatantList[i].atkTar.Count; j++)
+            {
+                atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar[j]));
 
-            if (atkTarIndex < 0)
-                continue;
+                if (atkTarIndex < 0)
+                    continue;
 
-            curAtkTar = combatantList[atkTarIndex];
-            atkX = curAtkTar.gridX;
-            atkY = curAtkTar.gridY;
+                curAtkTar = combatantList[atkTarIndex];
+                atkX = curAtkTar.gridX;
+                atkY = curAtkTar.gridY;
 
-            if (gridCell[atkX, atkY].entity == null)
-                continue;
+                if (gridCell[atkX, atkY].entity == null)
+                    continue;
 
-            // Roll Dice / Incorporate entity stats
-            combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+                // Roll Dice / Incorporate entity stats
+                combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
-            if (combatantList[atkTarIndex].entity == player)
-                this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
-           
+                if (combatantList[atkTarIndex].entity == player)
+                    this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
+            }
         }
     }
 
@@ -264,13 +299,6 @@ public class BattleManager : MonoBehaviour
             this.CleanScene();
             Debug.Log("Win");
         }
-        else if (combatantList.Count == 2 && combatantList[0].entity == player && combatantList[1].entity == companion)
-        {
-            this.didWeWin = true;
-            this.isResolved = true;
-            this.CleanScene();
-            Debug.Log("Win");
-        }
 
         // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
         this.gm.pm.isTurn = true;
@@ -278,10 +306,26 @@ public class BattleManager : MonoBehaviour
 
     int GetIndexOfCombatant(GameObject entity)
     {
+        if (entity == null)
+            return -1;
+
         for (int i = 0; i < this.combatantList.Count; i++)
         {
             if (combatantList[i] != null && combatantList[i].entity == entity)
+            {
                 return i;
+            }
+            // else if (combatantList[i] == null)
+            // {
+            //     Debug.Log("There is no combantant in the list at pos("+i+")");
+            // }
+            // else if (combatantList[i] != null && combatantList[i].entity != entity)
+            // {
+            //     Debug.Log("Found entity "+
+            //         combatantList[i].entity.name
+            //         +" instead of "+entity.name);
+            // }
+
         }
 
         Debug.AssertFormat(false, "Couldn't find " + entity + " in CombatantList");
@@ -369,6 +413,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+
     GameObject GetCombatant(Vector3 pos)
     {
         for (int i = 0; i < this.combatantList.Count; i++)
@@ -385,10 +430,6 @@ public class BattleManager : MonoBehaviour
     {
         // Add player to combatantList
         combatantList.Add(this.gm.pm.combatInfo);
-
-        // If the player has a companion, add the companion to the combatantList
-        if (companion != null)
-            combatantList.Add(new CList(companion));
 
         // For the number of enemies requested to be spawned, add them to the compatantList
         for (int i = 0; i < this.numEnemies; i++)
@@ -430,15 +471,12 @@ public class BattleManager : MonoBehaviour
     {
         // Have to grab spawners after other arenas with spawners in them are deactivated
         Vector3 playerSpawnerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
-        Vector3 companionSpawnerLoc = GameObject.FindGameObjectWithTag("cSpawn").transform.position;
 
-        // Instantiate Player and Companion
+        // Instantiate Player
         this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), playerSpawnerLoc, Quaternion.identity);
         this.player.transform.SetParent(Entities.transform);
-        //this.companion = GameObject.Instantiate(GameObject.Find("honey"), companionSpawnerLoc, Quaternion.identity);
-        //this.companion.transform.SetParent(Entities.transform);
 
-        // Chooses random spawners for the enemy entities to spawn at        
+        // Chooses random spawners for the enemy entities to spawn at
         RandomEnemyPos();
 
         // Instantiate Enemies
@@ -469,4 +507,8 @@ public class BattleManager : MonoBehaviour
             availEnemySpawnerLocs.RemoveAt(random);
         }
     }
+
+    public List<CList> getCombatantList() { return this.combatantList; }
+    public Cell[,] getGrid() { return this.gridCell; }
+    public Vector3 getPlayerPosition() { return new Vector3(this.playerX, this.playerY, 0); }
 }
