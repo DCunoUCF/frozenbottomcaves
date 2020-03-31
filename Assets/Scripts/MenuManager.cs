@@ -70,9 +70,22 @@ public class MenuManager : MonoBehaviour
     			break;
             // Used in OW
             case UIType.OptionsOnTop:
-                this.gm.pm.inventoryUI.gameObject.SetActive(false);
-                this.gm.om.dm.setUninteractable();
-                OpenOptionsOnTop();
+                if (!this.gm.pm.inOptions)
+                {
+                    this.gm.pm.inventoryUI.gameObject.SetActive(false);
+                    this.gm.om.dm.setUninteractable();
+                    OpenOptionsOnTop();
+                }
+                else
+                {
+                    ExitOptions();
+                    if (this.gm.om.playerSpawned)
+                    {
+                        this.gm.pm.inOptions = false;
+                        this.gm.om.dm.setInteractable();
+                        this.gm.om.dm.setInitialSelection();
+                    }
+                }
                 break;
     		case UIType.Exit:
     			Debug.Log("Clicked exit!");
@@ -180,17 +193,19 @@ public class MenuManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
             disableMainMenuButtons();
-            yield return new WaitForSeconds(.002f);
+            //yield return new WaitForSeconds(.001f);
+            yield return null;
             GameObject.Find("OptionsCanvas").transform.Find("FakeBackground").gameObject.SetActive(true);
         }
         else if (this.gm.pm.inCombat)
         {
             disableCombatButtons();
+            yield return null;
         }
 
-        GameObject.Find("OptionsCanvas").GetComponent<Canvas>().worldCamera = GameObject.Find("MainCameraMM").GetComponent<Camera>();
+        //GameObject.Find("OptionsCanvas").GetComponent<Canvas>().worldCamera = GameObject.Find("MainCameraMM").GetComponent<Camera>();
 
-        yield return new WaitForSeconds(.002f);
+        //yield return new WaitForSeconds(.001f);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("OptionsMenu"));
         GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
         GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
@@ -254,6 +269,7 @@ public class MenuManager : MonoBehaviour
     {
         if (this.gm.om.playerSpawned)
         {
+            this.gm.pm.inOptions = false;
             SceneManager.UnloadSceneAsync("OptionsMenu");
             enableOWButtons();
             if (this.gm.pm.inCombat)

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class ButtonOverlay : MonoBehaviour
 {
     public Button inventory, options, quit;
+    private bool inv, opt;
+
 
     void Start()
     {
@@ -18,13 +20,29 @@ public class ButtonOverlay : MonoBehaviour
     {
         if (!PlayerManager.Instance.inCombat)
             PlayerManager.Instance.inventoryOpen();
+        if (opt)
+        {
+            options.onClick.Invoke();
+            PlayerManager.Instance.gm.om.dm.setUninteractable();
+        }
     }
 
     private void optOpen()
     {
-        options.interactable = false;
-        inventory.interactable = false;
-        PlayerManager.Instance.inOptions = true;
+        if (!opt)
+        {
+            PlayerManager.Instance.inOptions = true;
+            opt = true;
+        }
+        else
+        {
+            opt = false;
+            PlayerManager.Instance.inOptions = false;
+        }
+
+        //options.interactable = false;
+        //inventory.interactable = false;
+        //PlayerManager.Instance.inOptions = true;
     }
 
     private void quitGame()

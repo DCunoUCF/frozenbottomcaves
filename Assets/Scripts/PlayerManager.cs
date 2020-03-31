@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Drawing;
 
 public class PlayerManager : MonoBehaviour
@@ -29,6 +30,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerHealthBar phb;
     public GameObject battleCanvas;
     public SkillButtons sb;
+    public Button opt, inv;
 
     // Combat information, clist, bools to guard turn logic
     public Vector3 playerLoc, selectedTile;
@@ -104,8 +106,15 @@ public class PlayerManager : MonoBehaviour
                 if (battleCanvas.gameObject.activeSelf)
                     battleCanvas.SetActive(false);
             if (!inOptions)
+            {
                 if (Input.GetButtonDown("Inventory"))
                     inventoryOpen();
+            }
+            else
+            {
+                if (Input.GetButtonDown("Inventory"))
+                    inv.onClick.Invoke();
+            }
         }
     }
 
@@ -156,7 +165,10 @@ public class PlayerManager : MonoBehaviour
         sb = battleCanvas.GetComponent<SkillButtons>();
         sb.initSkillButtons();
         battleCanvas.gameObject.SetActive(false);
-        
+
+        inv = GameObject.Find("InventoryButtonOW").GetComponent<Button>();
+        opt = GameObject.Find("OptionButtonOW").GetComponent<Button>();
+
 
         uiParent.transform.SetParent(gm.transform);
         inventoryCanvas.sortingOrder = 5;
