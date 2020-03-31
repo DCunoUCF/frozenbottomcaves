@@ -451,7 +451,7 @@ public class BattleManager : MonoBehaviour
 
         // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
         //this.gm.pm.isTurn = true;
-        this.gm.pm.newTurn();
+        this.gm.pm.newTurn(); // This new method will flip it back to player turn and decrement any cooldown timers
     }
 
     int GetIndexOfCombatant(GameObject entity)

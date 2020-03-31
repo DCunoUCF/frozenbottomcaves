@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviour
     public Vector3 playerLoc, selectedTile;
     public bool inCombat, isTurn, selectingSkill;
     public List<GameObject> highlights;
-    public int x, y;
+    public int x, y, tempCD, skillNumber;
     public int movx = 0, movy = 0;
     public bool moved;
     public bool combatInitialized, hold;
@@ -91,10 +91,7 @@ public class PlayerManager : MonoBehaviour
             {
                 this.x = this.gm.bm.combatantList[0].gridX;
                 this.y = this.gm.bm.combatantList[0].gridY;
-                //movx = 0;
-                //movy = 0;
                 moved = false;
-                //print("Final x,y: " + x + ", " + y);
             }
 
             // Player can select what ability/move to use
@@ -129,9 +126,12 @@ public class PlayerManager : MonoBehaviour
 
         combatInitialized = true;
         inCombat = true;
+        pc.enterCombat();
         pc.setHighlights();
+
         HM = GameObject.Find("Highlights");
         HMScript = (HighlightManager)HM.GetComponent("HighlightManager");
+        
     }
 
     // Fills in a few fields for PM to recognize player, as well as set up player UI
@@ -201,19 +201,19 @@ public class PlayerManager : MonoBehaviour
         {
             this.combatInfo = BattleManager.Instance.combatantList[0];
             // Read input and set combat info based off of what skill
-            if (Input.GetButtonDown("Skill1"))
+            if (Input.GetButtonDown("Skill1") && pc.cooldowns[0] == 0)
             {
                 useSkill(1);
             }
-            else if (Input.GetButtonDown("Skill2"))
+            else if (Input.GetButtonDown("Skill2") && pc.cooldowns[1] == 0)
             {
                 useSkill(2);
             }
-            else if (Input.GetButtonDown("Skill3"))
+            else if (Input.GetButtonDown("Skill3") && pc.cooldowns[2] == 0)
             {
                 useSkill(3);
             }
-            else if (Input.GetButtonDown("Skill4"))
+            else if (Input.GetButtonDown("Skill4") && pc.cooldowns[3] == 0)
             {
                 useSkill(4);
             }
@@ -228,7 +228,8 @@ public class PlayerManager : MonoBehaviour
     public void newTurn()
     {
         isTurn = true;
-        pc.updatePlayerCombat();
+        pc.updatePlayerCd();
+        sb.updateButtons(pc.cooldowns);
     }
 
     public void useSkill(int n)
@@ -237,6 +238,8 @@ public class PlayerManager : MonoBehaviour
         placeHighlights(pc.getPoints(n), n);
         this.abilityinfo = pc.getInfo(n);
         fillCombatInfo(abilityinfo);
+        tempCD = pc.getCD(n);
+        skillNumber = n - 1; // index for setting the cooldown
     }
 
 
@@ -255,63 +258,15 @@ public class PlayerManager : MonoBehaviour
         if (this.isTurn)
         {
             clearHighlights();
-            //this.selectedTile = pos;
             this.combatInfo.movTar = pos[0];
             this.combatInfo.atkTar = pos;
-            //Debug.Log(selectedTile.ToString("F2"));
             this.isTurn = false;
-            //getMoveXY(pos);
             this.selectingSkill = true;
+            pc.setCD(skillNumber, tempCD);
             BattleManager.Instance.combatantList[0] = this.combatInfo;
             clearHighlights();
-            //Debug.Log("combatInfo.move: " + combatInfo.move);
         }
     }
-
-    // Gets the x, y for moving on the grid based of given mov target
-    //public void getMoveXY(Vector3 movTarget)
-    //{
-    //    Vector3 temp = movTarget - playerLoc;
-    //    int x, y;
-    //    x = (int)(temp.x / .5f);
-    //    y = (int)(temp.y / .25f);
-    //    if (x == 0)
-    //    {
-    //        movx = 0;
-    //        movy = y;
-    //    }
-    //    if (y == 0)
-    //    {
-    //        movx = x;
-    //        movy = 0;
-    //    }
-    //    if (x > 0)
-    //    {
-    //        if (y > 0)
-    //        {
-    //            movx = x;
-    //            movy = 0;
-    //        }
-    //        if (y < 0)
-    //        {
-    //            movx = 0;
-    //            movy = y;
-    //        }
-    //    }
-    //    else if (x < 0)
-    //    {
-    //        if (y > 0)
-    //        {
-    //            movx = 0;
-    //            movy = y;
-    //        }
-    //        if (y < 0)
-    //        {
-    //            movx = x;
-    //            movy = 0;
-    //        }
-    //    }
-    //}
 
     // Waits .3s, used to wait until child highlights are properly orphaned
     IEnumerator HODL()

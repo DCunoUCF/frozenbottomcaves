@@ -55,24 +55,28 @@ public static class CharacterSelection
         pc.skill1name = lines[i++];
         pc.skill1desc = lines[i++];
         string sk1path = lines[i++];
+        pc.cd1 = int.Parse(lines[i++]);
         pc.skill1info = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
         int[] ability1 = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
 
         pc.skill2name = lines[i++];
         pc.skill2desc = lines[i++];
         string sk2path = lines[i++];
+        pc.cd2 = int.Parse(lines[i++]);
         pc.skill2info = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
         int[] ability2 = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
 
         pc.skill3name = lines[i++];
         pc.skill3desc = lines[i++];
         string sk3path = lines[i++];
+        pc.cd3 = int.Parse(lines[i++]);
         pc.skill3info = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
         int[] ability3 = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
 
         pc.skill4name = lines[i++];
         pc.skill4desc = lines[i++];
         string sk4path = lines[i++];
+        pc.cd4 = int.Parse(lines[i++]);
         pc.skill4info = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
         int[] ability4 = Array.ConvertAll(lines[i++].Split(' '), int.Parse);
 

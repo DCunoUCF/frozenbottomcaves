@@ -66,7 +66,7 @@ public class PlayerClass
     public GameObject[] skill4Highlights = new GameObject[2];
     public int cd4;
 
-    public int[] cooldowns;
+    public int[] cooldowns = new int[4];
 
     // STR = 0, INT = 1, AGI = 2
     public int getStat(string i)
@@ -179,7 +179,37 @@ public class PlayerClass
         return null;
     }
 
-    public void updatePlayerCombat()
+    public int getCD(int key)
     {
+        switch (key)
+        {
+            case 1:
+                return cd1;
+            case 2:
+                return cd2;
+            case 3:
+                return cd3;
+            case 4:
+                return cd4;
+        }
+        return 0;
+    }
+
+    public void setCD(int n, int cd) { cooldowns[n] = cd; }
+
+    public void enterCombat()
+    {
+        for (int i = 0; i < 4; i++)
+            cooldowns[i] = 0;
+    }
+
+    // decrement any cd > 0
+    public void updatePlayerCd()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (cooldowns[i] > 0)
+                cooldowns[i] -= 1;
+        }
     }
 }
