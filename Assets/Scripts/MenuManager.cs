@@ -193,7 +193,6 @@ public class MenuManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
             disableMainMenuButtons();
-            //yield return new WaitForSeconds(.001f);
             yield return null;
             GameObject.Find("OptionsCanvas").transform.Find("FakeBackground").gameObject.SetActive(true);
         }
@@ -206,6 +205,7 @@ public class MenuManager : MonoBehaviour
         //GameObject.Find("OptionsCanvas").GetComponent<Canvas>().worldCamera = GameObject.Find("MainCameraMM").GetComponent<Camera>();
 
         //yield return new WaitForSeconds(.001f);
+        yield return null; // Wait 1 frame
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("OptionsMenu"));
         GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
         GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
@@ -270,6 +270,7 @@ public class MenuManager : MonoBehaviour
         if (this.gm.om.playerSpawned)
         {
             this.gm.pm.inOptions = false;
+            ButtonOverlay.Instance.opt = false;
             SceneManager.UnloadSceneAsync("OptionsMenu");
             enableOWButtons();
             if (this.gm.pm.inCombat)

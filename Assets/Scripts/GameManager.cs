@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
         // Can't create this from the start because it relies on objects in the Arena Scene
         // this.bm = this.gameObject.AddComponent<BattleManager>();
         this.bm = null;

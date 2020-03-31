@@ -5,12 +5,27 @@ using UnityEngine.UI;
 
 public class ButtonOverlay : MonoBehaviour
 {
+    public static ButtonOverlay Instance { get; set; }
     public Button inventory, options, quit;
-    private bool inv, opt;
+    public bool inv, opt;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
+        inv = false;
+        opt = false;
         inventory.onClick.AddListener(invOpen);
         options.onClick.AddListener(optOpen);
         quit.onClick.AddListener(quitGame);

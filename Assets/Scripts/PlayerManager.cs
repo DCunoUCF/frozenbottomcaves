@@ -167,7 +167,7 @@ public class PlayerManager : MonoBehaviour
         battleCanvas.gameObject.SetActive(false);
 
         inv = GameObject.Find("InventoryButtonOW").GetComponent<Button>();
-        opt = GameObject.Find("OptionButtonOW").GetComponent<Button>();
+        opt = GameObject.Find("OptionsButtonOW").GetComponent<Button>();
 
 
         uiParent.transform.SetParent(gm.transform);
