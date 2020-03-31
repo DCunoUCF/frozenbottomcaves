@@ -2154,16 +2154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 193ccfef5042ace4a9ac7a68fc98ba18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  database: {fileID: 1197168703}
-  inventoryUI: {fileID: 848718643}
-  InventoryPanel: {fileID: 1678130189}
-  BioPanel: {fileID: 1356446317}
-  buttons:
-  - {fileID: 1261526232}
-  - {fileID: 1776873973}
-  - {fileID: 1619905404}
-  - {fileID: 802766788}
-  - {fileID: 1567858342}
 --- !u!4 &780917047
 Transform:
   m_ObjectHideFlags: 0
@@ -2190,10 +2180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3daccd534ae9024891454a25289ef9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 780917046}
-  inventoryUI: {fileID: 848718643}
-  InventoryPanel: {fileID: 1678130189}
-  BioPanel: {fileID: 1356446317}
 --- !u!1 &790627542
 GameObject:
   m_ObjectHideFlags: 0
@@ -2480,17 +2466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87f43dd9db903e4babc23cdeecf141d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIitems: []
-  textPrefab: {fileID: 1958557330633003177, guid: b304fff53a67d324baab56f5a5290775,
-    type: 3}
-  textPanel: {fileID: 379632564}
-  MainMenu: {fileID: 1640907514}
-  GoldMenu: {fileID: 790627542}
-  MiscellaneousMenu: {fileID: 1836160193}
-  QuestMenu: {fileID: 698155229}
-  BioPanel: {fileID: 1356446317}
-  content: {fileID: 1781345866}
-  scrollbar: {fileID: 1539309539}
 --- !u!1 &894732827
 GameObject:
   m_ObjectHideFlags: 0
