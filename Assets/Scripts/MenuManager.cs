@@ -81,7 +81,7 @@ public class MenuManager : MonoBehaviour
                     ExitOptions();
                     if (this.gm.om.playerSpawned)
                     {
-                        this.gm.pm.inOptions = false;
+                        //this.gm.pm.inOptions = false;
                         this.gm.om.dm.setInteractable();
                         this.gm.om.dm.setInitialSelection();
                     }
@@ -201,6 +201,12 @@ public class MenuManager : MonoBehaviour
             disableCombatButtons();
             yield return null;
         }
+        else if (this.gm.om.playerSpawned)
+        {
+            ButtonOverlay.Instance.opt = true;
+        }
+
+        this.gm.pm.inOptions = true;
 
         //GameObject.Find("OptionsCanvas").GetComponent<Canvas>().worldCamera = GameObject.Find("MainCameraMM").GetComponent<Camera>();
 
@@ -279,7 +285,10 @@ public class MenuManager : MonoBehaviour
             }
         }
         else
+        {
+            this.gm.pm.inOptions = false;
             ReturnToMainMenu();
+        }
     }
 
     private void enableOWButtons()

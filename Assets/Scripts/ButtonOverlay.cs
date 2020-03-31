@@ -12,14 +12,7 @@ public class ButtonOverlay : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     void Start()
@@ -44,20 +37,6 @@ public class ButtonOverlay : MonoBehaviour
 
     private void optOpen()
     {
-        if (!opt)
-        {
-            PlayerManager.Instance.inOptions = true;
-            opt = true;
-        }
-        else
-        {
-            opt = false;
-            PlayerManager.Instance.inOptions = false;
-        }
-
-        //options.interactable = false;
-        //inventory.interactable = false;
-        //PlayerManager.Instance.inOptions = true;
     }
 
     private void quitGame()

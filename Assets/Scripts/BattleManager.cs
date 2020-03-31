@@ -382,7 +382,7 @@ public class BattleManager : MonoBehaviour
 
         turnEntity(c.entity, c.atkTar[0]);
 
-        GameObject tile = Resources.Load<GameObject>("Prefabs/TileHighlight1");
+        GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
         foreach (Vector3 v in c.atkTar)
         {
             attacks.Add((((v+s)/2) + s)/2);
@@ -572,7 +572,7 @@ public class BattleManager : MonoBehaviour
                 return combatantList[i].entity;
         }
 
-        Debug.AssertFormat(false, "Could not find Combatant in combatantList at Vector3: " + pos);
+        // Debug.AssertFormat(false, "Could not find Combatant in combatantList at Vector3: " + pos);
         return null;
     }
 
