@@ -59,7 +59,7 @@ public class UIInventory : MonoBehaviour
         {
             instance = Instantiate(Resources.Load("Prefabs/Text") as GameObject);
             instance.GetComponent<UIItem>().item = item;
-            instance.GetComponent<Text>().text = item.item + " x" + item.count;
+            instance.GetComponent<TextMeshProUGUI>().text = item.item + " x" + item.count;
             instance.transform.SetParent(textPanel);
             UIitems.Add(instance.GetComponent<UIItem>());
             content.sizeDelta = new Vector2(content.sizeDelta.x, content.sizeDelta.y + 30f);
@@ -139,7 +139,7 @@ public class UIInventory : MonoBehaviour
         Quest.GetComponent<TextMeshProUGUI>().text = player.quest;
 
         Bio = Content.transform.GetChild(3).gameObject;
-        Bio.GetComponent<Text>().text = player.bio;
+        Bio.GetComponent<TextMeshProUGUI>().text = player.bio;
     }
 
 
