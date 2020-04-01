@@ -188,7 +188,7 @@ public class UIInventory : MonoBehaviour
         {
             foreach (UIItem uItem in UIitems)
             {
-                uItem.GetComponent<Text>().text = uItem.item.item + " x" + uItem.item.count;
+                uItem.GetComponent<TextMeshProUGUI>().text = uItem.item.item + " x" + uItem.item.count;
             }
         }
     }
