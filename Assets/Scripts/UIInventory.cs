@@ -125,15 +125,15 @@ public class UIInventory : MonoBehaviour
         Weapon02.GetComponent<TextMeshProUGUI>().text = player.weapon02.weapon.ToString();
 
         Stamina = Content.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Stamina.GetComponent<Text>().text = "" + player.health + "/" + player.maxHealth;
+        Stamina.GetComponent<TextMeshProUGUI>().text = "" + player.health + "/" + player.maxHealth;
 
 
         Skill = Content.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Skill.GetComponent<Text>().text = "" + player.getStat("STR");
+        Skill.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("STR");
         print(player.getStat("STR"));
 
         Luck = Content.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Luck.GetComponent<Text>().text = "" + player.getStat("AGI");
+        Luck.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("AGI");
 
         Quest = QuestMenu.transform.GetChild(1).gameObject;
         Quest.GetComponent<TextMeshProUGUI>().text = player.quest;
