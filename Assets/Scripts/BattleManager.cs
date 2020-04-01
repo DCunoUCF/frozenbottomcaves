@@ -131,21 +131,25 @@ public class BattleManager : MonoBehaviour
             if (this.gridCell[xDif, yDif] != null)
                 continue;
 
+
+            // This used to be after we add "zero" cells, moved here to test where these zero cells really are
+            currentVector = ConvertVector(position.x, position.y);
+
             // If there's no tile here, make a "zero" Cell, then skip this iteration
             if (!tilemap.HasTile(position))
             {
-                this.gridCell[xDif, yDif] = new Cell(false, null, new Vector3(0, 0, 0), xDif, yDif);
+                this.gridCell[xDif, yDif] = new Cell(false, null, currentVector, xDif, yDif);
                 continue;
             }
 
             // This x and y needs to be converted to the vector at the center of the tile to grab the GameObject entity from the tile
-            currentVector = ConvertVector(position.x, position.y);
             tileEntity = GetCombatant(currentVector);
 
             // If the tile is NOT an obstruction and there is no entity
             if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != wall && tileEntity == null)
             {
                 this.gridCell[xDif, yDif] = new Cell(true, tileEntity, currentVector, xDif, yDif);
+
             }
             // If the tile is NOT an obstruction and there is an entity
             else if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != wall && tileEntity != null)
@@ -683,6 +687,9 @@ public class BattleManager : MonoBehaviour
 
         print("Here's the grid");
         string matrix = "";
+
+        if (gridCell[0,0] != null)
+            print(gridCell[0, 0].center.ToString("F2"));
 
         for (int i = 0; i < rowLen; i++)
         {
