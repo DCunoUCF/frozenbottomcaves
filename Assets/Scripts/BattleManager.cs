@@ -125,6 +125,23 @@ public class BattleManager : MonoBehaviour
             xDif = position.x - bounds.position.x;
             yDif = position.y - bounds.position.y;
 
+            if (xDif == 0 && yDif == 0)
+            {
+                Debug.Log("&&&& -> gridCell[0, 0] = ("+position.x+", "+position.y+", "+position.z+")");
+            }
+            if (xDif == 0 && yDif == 1)
+            {
+                Debug.Log("&&&& -> gridCell[0, 1] = ("+position.x+", "+position.y+", "+position.z+")");
+            }
+            if (xDif == 1 && yDif == 0)
+            {
+                Debug.Log("&&&& -> gridCell[1, 0] = ("+position.x+", "+position.y+", "+position.z+")");
+            }
+            if (xDif == 1 && yDif == 1)
+            {
+                Debug.Log("&&&& -> gridCell[0, 0] = ("+position.x+", "+position.y+", "+position.z+")");
+            }
+
             // If we have made a Cell at this grid position already, skip this iteration
             if (this.gridCell[xDif, yDif] != null)
                 continue;

@@ -132,9 +132,13 @@ public class EnemyDunce : Enemy
     	// else
     	// 	this.moveNorth = this.combatantEntry.gridY - targetGridY;
     	// this.moveNorth = Mathf.Abs(targetGridX - this.combatantEntry.gridX) + Mathf.Abs(targetGridY - (this.combatantEntry.gridY - 1));
-    	this.moveNorth = Mathf.Abs(targetGridX - this.combatantEntry.gridX) + Mathf.Abs(targetGridY - (this.combatantEntry.gridY + 1));
-    	if (this.moveNorth == 0)
-    		this.moveNorth = 99999;
+    	this.moveNorth = Mathf.Abs(targetGridX - this.combatantEntry.gridX + 1) + Mathf.Abs(targetGridY - this.combatantEntry.gridY);
+    	if (targetGridX < this.combatantEntry.gridX)
+    		this.moveNorth += this.combatantEntry.gridX - targetGridX;
+    	else
+    		this.moveNorth -= targetGridX - this.combatantEntry.gridX;
+    	// if (this.moveNorth == 0)
+    		// this.moveNorth = 99999;
 
     	// this.moveSouth = this.combatantEntry.gridY - targetGridY;
     	// this.moveSouth = targetGridY - this.combatantEntry.gridY;
@@ -143,9 +147,13 @@ public class EnemyDunce : Enemy
     	// else
     	// 	this.moveSouth = this.combatantEntry.gridY - targetGridY;
     	// this.moveSouth = Mathf.Abs(targetGridX - this.combatantEntry.gridX) + Mathf.Abs(targetGridY - (this.combatantEntry.gridY + 1));
-    	this.moveSouth = Mathf.Abs(targetGridX - this.combatantEntry.gridX) + Mathf.Abs(targetGridY - (this.combatantEntry.gridY - 1));
-    	if (this.moveSouth == 0)
-    		this.moveSouth = 99999;
+    	this.moveSouth = Mathf.Abs(targetGridX - (this.combatantEntry.gridX - 1)) + Mathf.Abs(targetGridY - this.combatantEntry.gridY);
+    	if (targetGridX > this.combatantEntry.gridX)
+    		this.moveSouth += targetGridX - this.combatantEntry.gridX;
+    	else
+    		this.moveSouth -= this.combatantEntry.gridX - targetGridX;
+    	// if (this.moveSouth == 0)
+    		// this.moveSouth = 99999;
 
     	// this.moveEast = targetGridX - this.combatantEntry.gridX;
     	// this.moveEast = this.combatantEntry.gridX - targetGridX;
@@ -154,9 +162,13 @@ public class EnemyDunce : Enemy
     	// else
     	// 	this.moveEast = this.combatantEntry.gridX - targetGridX;
     	// this.moveEast = Mathf.Abs(targetGridX - (this.combatantEntry.gridX + 1)) + Mathf.Abs(targetGridY - this.combatantEntry.gridY);
-    	this.moveEast = Mathf.Abs(targetGridX - (this.combatantEntry.gridX - 1)) + Mathf.Abs(targetGridY - this.combatantEntry.gridY);
-    	if (this.moveEast == 0)
-    		this.moveEast = 99999;
+    	this.moveEast = Mathf.Abs(targetGridX - this.combatantEntry.gridX) + Mathf.Abs(targetGridY - this.combatantEntry.gridY - 1);
+    	if (targetGridY > this.combatantEntry.gridY)
+    		this.moveEast += targetGridY - this.combatantEntry.gridY;
+    	else
+    		this.moveEast -= this.combatantEntry.gridY - targetGridY;
+    	// if (this.moveEast == 0)
+    		// this.moveEast = 99999;
 
     	// this.moveWest = this.combatantEntry.gridX - targetGridX;
     	// this.moveWest = targetGridX - this.combatantEntry.gridX;
@@ -165,19 +177,34 @@ public class EnemyDunce : Enemy
     	// else
     	// 	this.moveWest = this.combatantEntry.gridX - targetGridX;
     	// this.moveWest = Mathf.Abs(targetGridX - (this.combatantEntry.gridX - 1)) + Mathf.Abs(targetGridY - this.combatantEntry.gridY);
-    	this.moveWest = Mathf.Abs(targetGridX - (this.combatantEntry.gridX + 1)) + Mathf.Abs(targetGridY - this.combatantEntry.gridY);
-    	if (this.moveWest == 0)
-    		this.moveWest = 99999;
+    	this.moveWest = Mathf.Abs(targetGridX - this.combatantEntry.gridX) + Mathf.Abs(targetGridY - this.combatantEntry.gridY + 1);
+    	if (targetGridY < this.combatantEntry.gridY)
+    		this.moveWest += this.combatantEntry.gridY - targetGridY;
+    	else
+    		this.moveWest -= targetGridY - this.combatantEntry.gridY;
+    		// this.moveWest += targetGridY - this.combatantEntry.gridY;
+    	// if (this.moveWest == 0)
+    		// this.moveWest = 99999;
 
     	// Invalidate any positions that are impassable or at the bounds
     	if (this.combatantEntry.gridX == 0)
-    		this.moveWest = 99999;
-    	if (this.combatantEntry.gridX == this.bm.gridCell.GetLength(1)) // Columns
-    		this.moveEast = 99999;
-    	if (this.combatantEntry.gridY == 0)
     		this.moveNorth = 99999;
-    	if (this.combatantEntry.gridY == this.bm.gridCell.GetLength(0)) // Rows
+    	if (this.combatantEntry.gridX == this.bm.gridCell.GetLength(1)) // Columns
     		this.moveSouth = 99999;
+    	if (this.combatantEntry.gridY == 0)
+    		this.moveEast = 99999;
+    	if (this.combatantEntry.gridY == this.bm.gridCell.GetLength(0)) // Rows
+    		this.moveWest = 99999;
+
+    	if (!this.bm.gridCell[this.combatantEntry.gridX, this.combatantEntry.gridY + 1].pass)
+	    	this.moveWest = 99999;
+	    if (!this.bm.gridCell[this.combatantEntry.gridX, this.combatantEntry.gridY - 1].pass)
+	    	this.moveEast = 99999;
+
+	    if (!this.bm.gridCell[this.combatantEntry.gridX - 1, this.combatantEntry.gridY].pass)
+	    	this.moveSouth = 99999;
+	    if (!this.bm.gridCell[this.combatantEntry.gridX + 1, this.combatantEntry.gridY].pass)
+	    	this.moveNorth = 99999;
 
     	/*
     	if (this.combatantEntry.gridY > 0 && this.combatantEntry.gridY < this.bm.gridCell.GetLength(0))
@@ -251,6 +278,10 @@ public class EnemyDunce : Enemy
     public override void decide()
     {
     	Debug.Log("E#"+this.enemyId+" has been called upon to think!");
+
+    	Debug.Log("E#"+this.enemyId+" is at world position ("+this.combatantEntry.entity.transform.position.x+", "+this.combatantEntry.entity.transform.position.y+", "+this.combatantEntry.entity.transform.position.z+")");
+    	Debug.Log("The first postiion in the gridCell array is at world position ("+this.bm.gridCell[0,0].center.x+", "+this.bm.gridCell[0,0].center.y+", "+this.bm.gridCell[0,0].center.z+")");
+    	Debug.Log("The player is at position ("+this.bm.getPlayerPosition().x+", "+this.bm.getPlayerPosition().y+", "+this.bm.getPlayerPosition().z+")");
 
     	this.move();
     	this.attack();
