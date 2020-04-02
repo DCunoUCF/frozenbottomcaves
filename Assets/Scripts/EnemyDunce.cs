@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Drawing;
 
 public class EnemyDunce : Enemy
 {
@@ -56,6 +57,10 @@ public class EnemyDunce : Enemy
     protected override void move()
     {
     	Debug.Log("E#"+this.enemyId+" is moving!");
+        Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
+        Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
+        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target);
+        this.setMove(BattleManager.Instance.gridCell[nextSpot.X, nextSpot.Y].center);
     }
 
     protected override void attack()
@@ -67,10 +72,12 @@ public class EnemyDunce : Enemy
     {
     	Debug.Log("E#"+this.enemyId+" has been called upon to think!");
 
-    	if (Random.value < .5f)
-    		this.move();
-    	else
-    		this.attack();
+        this.move();
+
+    	//if (Random.value < .5f)
+    	//	this.move();
+    	//else
+    	//	this.attack();
     }
 
 }

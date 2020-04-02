@@ -60,15 +60,21 @@ public abstract class Enemy : MonoBehaviour
     //===========   Movers   ===========//
     public void moveRandomly()
     {
-    	float r = Random.value;
-    	if (r < .25f)
-    		this.moveUp();
-    	else if (r < .5f)
-    		this.moveDown();
-    	else if (r < .75f)
-    		this.moveLeft();
-    	else
-    		this.moveRight();
+        //float r = Random.value;
+        //if (r < .25f)
+        //	this.moveUp();
+        //else if (r < .5f)
+        //	this.moveDown();
+        //else if (r < .75f)
+        //	this.moveLeft();
+        //else
+        //	this.moveRight();
+        this.move();
+    }
+
+    protected void setMove(Vector3 target)
+    {
+        this.moveTarget = target;
     }
 
     protected void moveUp()
