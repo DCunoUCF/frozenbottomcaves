@@ -110,9 +110,10 @@ public class UIInventory : MonoBehaviour
         GameObject Weapon01;
         GameObject Weapon02;
 
-        GameObject Stamina;
-        GameObject Skill;
-        GameObject Luck;
+        GameObject HP;
+        GameObject STR;
+        GameObject INT;
+        GameObject AGI;
         GameObject Quest;
         GameObject Bio;
 
@@ -124,21 +125,24 @@ public class UIInventory : MonoBehaviour
         Weapon02 = MainMenu.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
         Weapon02.GetComponent<TextMeshProUGUI>().text = player.weapon02.weapon.ToString();
 
-        Stamina = Content.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Stamina.GetComponent<TextMeshProUGUI>().text = "" + player.health + "/" + player.maxHealth;
+        HP = Content.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        HP.GetComponent<TextMeshProUGUI>().text = "" + player.health + "/" + player.maxHealth;
 
 
-        Skill = Content.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Skill.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("STR");
-        print(player.getStat("STR"));
+        STR = Content.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        STR.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("STR");
 
-        Luck = Content.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        Luck.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("AGI");
+        INT = Content.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        INT.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("INT");
+
+        AGI = Content.transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        AGI.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("AGI");
 
         Quest = QuestMenu.transform.GetChild(1).gameObject;
         Quest.GetComponent<TextMeshProUGUI>().text = player.quest;
+        Debug.Log(Quest.GetComponent<TextMeshProUGUI>().text + "REAL QUEST" + player.quest);
 
-        Bio = Content.transform.GetChild(3).gameObject;
+        Bio = Content.transform.GetChild(4).gameObject;
         Bio.GetComponent<TextMeshProUGUI>().text = player.bio;
     }
 

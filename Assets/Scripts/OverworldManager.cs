@@ -160,7 +160,6 @@ public class OverworldManager : MonoBehaviour
         GameObject cam = GameObject.Find("MainCameraOW");
         cam.transform.SetParent(player.transform);
         cam.transform.localPosition = new Vector3(0, 0, -10);
-
         gm.pm.initPM();
     }
 
