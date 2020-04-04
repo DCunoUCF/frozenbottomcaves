@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
         // Can't create this from the start because it relies on objects in the Arena Scene
         // this.bm = this.gameObject.AddComponent<BattleManager>();
         this.bm = null;
@@ -97,9 +100,11 @@ public class GameManager : MonoBehaviour
                 if (this.battleResolvedCheck)
                 {
                     string splash;
+                    bool won = false;
                     if (this.bm.didWeWinTheBattle())
                     {
                         splash = "WinSplash";
+                        won = true;
                     }
                     else
                     { 
@@ -115,9 +120,12 @@ public class GameManager : MonoBehaviour
                         this.sm.playLoseJingle();
                     }
 
-                    if(!SceneManager.GetSceneByName(splash).IsValid())
+                    if (!SceneManager.GetSceneByName(splash).IsValid())
+                    {
+                        this.om.dm.setUninteractable();
                         SceneManager.LoadScene(splash, LoadSceneMode.Additive);
-
+                        StartCoroutine(setReturnRestartActive(splash, won));
+                    }
                     this.panic = true;
                     this.battleResolvedCheck = false;
                     this.bm = null;
@@ -146,5 +154,19 @@ public class GameManager : MonoBehaviour
             // SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             Application.Quit();
         }
+    }
+
+
+    IEnumerator setReturnRestartActive(string path, bool won)
+    {
+        yield return new WaitForSeconds(.1f);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(path));
+
+        if (won)
+            GameObject.Find("ReturnButton").GetComponent<Button>().Select();
+        else
+            GameObject.Find("RestartButton").GetComponent<Button>().Select();
+
+        yield break;
     }
 }

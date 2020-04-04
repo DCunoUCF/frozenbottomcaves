@@ -21,7 +21,8 @@ public class DialogueManager2 : MonoBehaviour
     void Start()
     {
         Program p = new Program();
-        dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial.txt");
+
+        dialogue = p.LoadFile("Dialogue/tutorial");
 
         // Add Listeners
         Choices[0].onClick.AddListener(choiceOption01);

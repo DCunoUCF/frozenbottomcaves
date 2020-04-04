@@ -30,7 +30,8 @@ public class BattleManager : MonoBehaviour
 
     // Pegi added this garbage
     private bool resolvingTurn;
-    public float slideSpeed = .5f;
+    public float slideSpeed = 1.5f;
+    public float attackSpeed = 4.0f;
 
     // Parent to all entities spawned. Used for cleanup after battle is resolved
     private GameObject Entities;
@@ -83,6 +84,7 @@ public class BattleManager : MonoBehaviour
         this.gm.pm.isTurn = true;
         PlayerManager.Instance.isTurn = true;
         this.npcm = new NPCManager(this);
+        printGrid();
     }
 
     void Update()
@@ -103,7 +105,7 @@ public class BattleManager : MonoBehaviour
         // Get NPC decisions
         npcm.makeDecisions();
         yield return StartCoroutine(ResolveMoves()); // Allow this coroutine time to finishing sliding ppl around that are moving
-        ResolveAttacks();
+        yield return StartCoroutine(ResolveAttacks()); // quick jab .25 move
         WhoStillHasLimbs();
         resolvingTurn = false; // Done with the steps of resolving a turn, flip the flag back
     }
@@ -146,21 +148,25 @@ public class BattleManager : MonoBehaviour
             if (this.gridCell[xDif, yDif] != null)
                 continue;
 
+
+            // This used to be after we add "zero" cells, moved here to test where these zero cells really are
+            currentVector = ConvertVector(position.x, position.y);
+
             // If there's no tile here, make a "zero" Cell, then skip this iteration
             if (!tilemap.HasTile(position))
             {
-                this.gridCell[xDif, yDif] = new Cell(false, null, new Vector3(0, 0, 0), xDif, yDif);
+                this.gridCell[xDif, yDif] = new Cell(false, null, currentVector, xDif, yDif);
                 continue;
             }
 
             // This x and y needs to be converted to the vector at the center of the tile to grab the GameObject entity from the tile
-            currentVector = ConvertVector(position.x, position.y);
             tileEntity = GetCombatant(currentVector);
 
             // If the tile is NOT an obstruction and there is no entity
             if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != wall && tileEntity == null)
             {
                 this.gridCell[xDif, yDif] = new Cell(true, tileEntity, currentVector, xDif, yDif);
+
             }
             // If the tile is NOT an obstruction and there is an entity
             else if (!obstaclesMap.HasTile(position) && tilemap.GetTile(position).name != wall && tileEntity != null)
@@ -191,6 +197,9 @@ public class BattleManager : MonoBehaviour
     IEnumerator ResolveMoves() // Turned into a coroutine to allow the ability to wait until an entity is done sliding
     {
         bool popped = false;
+        List<Vector3> freedSpots = new List<Vector3>();
+        List<CList> leftoverMovers = new List<CList>();
+        List<CList> collidedAlready = new List<CList>();
 
         for (int i = 0; i < combatantList.Count; i++)
         {
@@ -199,14 +208,23 @@ public class BattleManager : MonoBehaviour
                 if (combatantList[i].entity == combatantList[j].entity || !combatantList[i].move)
                     continue;
 
+                // both go halfway
                 if (combatantList[j].move && combatantList[i].movTar == combatantList[j].movTar)
                 {
+                    if (!collidedAlready.Contains(combatantList[j]) || !collidedAlready.Contains(combatantList[i]))
+                    {
+                        collidedAlready.Add(combatantList[i]);
+                        collidedAlready.Add(combatantList[j]);
+                        yield return StartCoroutine(slideBothCollide(combatantList[i], combatantList[j]));
+                    }
                     popped = true;
                     break;
                 }
 
+                // i goes halfway
                 if (combatantList[j].attack > -1 && combatantList[i].movTar == combatantList[j].entity.transform.localPosition)
                 {
+                    yield return StartCoroutine(slideSingleCollide(combatantList[i]));
                     popped = true;
                     break;
                 }
@@ -215,11 +233,110 @@ public class BattleManager : MonoBehaviour
             // If the mover won't collide with anyone else on the board, they can legally move to their target move location
             if (!popped && combatantList[i].move)
             {
-                MoveOnGrid(combatantList[i]);
-                yield return StartCoroutine(slideEntity(combatantList[i])); // Slides the entity to it's movTar, then does the stuff commented out below
+                if (GetCombatant(combatantList[i].movTar) == null && checkFreeSpots(freedSpots, combatantList[i].movTar))
+                {
+                    if (isPassable(combatantList[i].movTar))
+                    {
+                        freedSpots.Add(combatantList[i].entity.transform.position);
+                        MoveOnGrid(combatantList[i]);
+                        yield return StartCoroutine(slideEntity(combatantList[i])); // Slides the entity to it's movTar, then does the stuff commented out below
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(slideSingleCollide(combatantList[i]));
+                    }
+                }
+                else
+                {
+                    leftoverMovers.Add(combatantList[i]);
+                }
                 popped = false;
             }
         }
+        foreach (CList c in leftoverMovers)
+        {
+            if (isPassable(c.movTar) && GetCombatant(c.movTar) == null)
+            {
+                MoveOnGrid(c);
+                yield return StartCoroutine(slideEntity(c));
+            }
+            else
+            {
+                yield return StartCoroutine(slideSingleCollide(c));
+
+            }
+        }
+
+        yield break;
+    }
+
+    private bool checkFreeSpots(List<Vector3> spots, Vector3 check)
+    {
+        foreach (Vector3 v in spots)
+        {
+            if (check == v)
+                return false;
+        }
+        return true;
+    }
+
+    IEnumerator slideBothCollide(CList entity, CList entity2)
+    {
+        Vector3 start = entity.entity.transform.position;
+        Vector3 end = entity.movTar;
+        Vector3 start2 = entity2.entity.transform.position;
+        Vector3 end2 = entity.movTar;
+        Vector3 halfway = (start + end) / 2;
+        Vector3 halfway2 = (start2 + end2) / 2;
+
+        turnEntity(entity.entity, entity.movTar);
+        turnEntity(entity2.entity, entity2.movTar);
+
+        while (entity.entity.transform.position != halfway && entity2.entity.transform.position != halfway2)
+        {
+            if (entity.entity.transform.position != halfway)
+                entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, halfway, slideSpeed * Time.deltaTime);
+            if (entity2.entity.transform.position != halfway2)
+                entity2.entity.transform.position = Vector3.MoveTowards(entity2.entity.transform.position, halfway2, slideSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        while (entity.entity.transform.position != start && entity2.entity.transform.position != start2)
+        {
+            if (entity.entity.transform.position != start)
+                entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, start, slideSpeed * Time.deltaTime);
+            if (entity2.entity.transform.position != start2)
+                entity2.entity.transform.position = Vector3.MoveTowards(entity2.entity.transform.position, start2, slideSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+        // In case something happens, framerate dip or something that leads to them being off, force them to be in their appropriate spots
+        entity.entity.transform.position = start;
+        entity2.entity.transform.position = start2;
+        yield break;
+    }
+
+    IEnumerator slideSingleCollide(CList entity)
+    {
+        Vector3 start = entity.entity.transform.position;
+        Vector3 end = entity.movTar;
+        Vector3 halfway = (start + end) / 2;
+
+        turnEntity(entity.entity, entity.movTar);
+
+        while (entity.entity.transform.position != halfway)
+        {
+            entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, halfway, slideSpeed * Time.deltaTime);
+            yield return null;
+        }
+        while (entity.entity.transform.position != start)
+        {
+            entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, start, slideSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        entity.entity.transform.position = start;
         yield break;
     }
 
@@ -242,7 +359,7 @@ public class BattleManager : MonoBehaviour
         entity.move = false;
     }
 
-    void ResolveAttacks()
+    IEnumerator ResolveAttacks()
     {
         CList curAtkTar;
         int atkX, atkY, atkTarIndex;
@@ -250,10 +367,11 @@ public class BattleManager : MonoBehaviour
         // This is only complicated because attack target right now isn't just a relative position which would be easier to check on the gridCell
         for (int i = 0; i < combatantList.Count; i++)
         {
-            Debug.Log("attack: " + combatantList[i].attack);
+            //Debug.Log("attack: " + combatantList[i].attack);
             if (combatantList[i].attack < 0)
                 continue;
 
+            yield return StartCoroutine(attackAnim(combatantList[i]));
             for (int j = 0; j < combatantList[i].atkTar.Count; j++)
             {
                 atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar[j]));
@@ -275,6 +393,41 @@ public class BattleManager : MonoBehaviour
                     this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
             }
         }
+        yield break;
+    }
+
+    IEnumerator attackAnim(CList c)
+    {
+        Vector3 s = c.entity.transform.position; // start pos
+        List<Vector3> attacks = new List<Vector3>(); // list of attack spots
+
+        turnEntity(c.entity, c.atkTar[0]);
+
+        GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
+        foreach (Vector3 v in c.atkTar)
+        {
+            attacks.Add((((v+s)/2) + s)/2);
+        }
+
+        int i = 0;
+        foreach(Vector3 v in attacks)
+        {
+            GameObject tileTemp = Instantiate(tile, c.atkTar[i++], Quaternion.identity);
+            while (c.entity.transform.position != v)
+            {
+                c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, v, slideSpeed * Time.deltaTime);
+                yield return null;
+            }
+            while (c.entity.transform.position != s)
+            {
+                c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, s, slideSpeed * Time.deltaTime);
+                yield return null;
+            }
+            Destroy(tileTemp);
+        }
+
+        c.entity.transform.position = s; // incase something went wrong with the moveTowards
+        yield break;
     }
 
     public bool isBattleResolved()
@@ -318,7 +471,8 @@ public class BattleManager : MonoBehaviour
         }
 
         // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?
-        this.gm.pm.isTurn = true;
+        //this.gm.pm.isTurn = true;
+        this.gm.pm.newTurn(); // This new method will flip it back to player turn and decrement any cooldown timers
     }
 
     int GetIndexOfCombatant(GameObject entity)
@@ -439,8 +593,26 @@ public class BattleManager : MonoBehaviour
                 return combatantList[i].entity;
         }
 
-        Debug.AssertFormat(false, "Could not find Combatant in combatantList at Vector3: " + pos);
+        // Debug.AssertFormat(false, "Could not find Combatant in combatantList at Vector3: " + pos);
         return null;
+    }
+
+    // Garbage O(n^2) passable detector for checking if a vector3 is passable
+    // Used by highlights to detect whether or not to draw tile in a wall or off the map etc.
+    public bool isPassable(Vector3 v)
+    {
+        int rows = gridCell.GetLength(0);
+        int cols = gridCell.GetLength(1);
+        for (int i = 0; i<rows; i++)
+        {
+            for (int j = 0; j<cols; j++)
+            {
+                if (gridCell[i,j] != null)
+                    if (gridCell[i, j].center == v)
+                        return gridCell[i, j].pass;
+            }
+        }
+        return false;
     }
 
     void FillCombatantList()
@@ -525,8 +697,84 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    void printGrid()
+    {
+        int rowLen = this.gridCell.GetLength(0);
+        int colLen = this.gridCell.GetLength(1);
+
+        print("Here's the grid");
+        string matrix = "";
+
+        if (gridCell[0,0] != null)
+            print(gridCell[0, 0].center.ToString("F2"));
+
+        for (int i = 0; i < rowLen; i++)
+        {
+            for (int j = 0; j < colLen; j++)
+            {
+                if (gridCell[i,j] != null)
+                {
+                    if (gridCell[i,j].pass)
+                        matrix += string.Format("{0, 3}", "0");
+                    else
+                        matrix += string.Format("{0, 3}", "1");
+                }
+                else                   
+                        matrix += string.Format("{0, 3}", "n");
+            }
+            matrix += System.Environment.NewLine + System.Environment.NewLine;
+        }
+        print(matrix);
+    }
+
     public List<CList> getCombatantList() { return this.combatantList; }
     public Cell[,] getGrid() { return this.gridCell; }
-    public Cell getGridPosition(int x, int y) { return this.gridCell[x, y]; }
-    public Vector3Int getPlayerPosition() { return new Vector3Int(this.combatantList[0].gridX, this.combatantList[0].gridY, 0); }
+    public Vector3 getPlayerPosition() { return new Vector3(this.playerX, this.playerY, 0); }
+
+    void turnEntity(GameObject entity, Vector3 movTar)
+    {
+        // How I WILL do it later entity.dir... maybe?
+        float dirX, dirY;
+        dirX = movTar.x - entity.transform.localPosition.x;
+        dirY = movTar.y - entity.transform.localPosition.y;
+
+        GameObject SE = entity.transform.GetChild(0).gameObject, SW = entity.transform.GetChild(1).gameObject,
+                   NW = entity.transform.GetChild(2).gameObject, NE = entity.transform.GetChild(3).gameObject;
+
+        if (dirX > 0)
+        {
+            if (dirY > 0)
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(true);
+            }
+            else
+            {
+                SE.gameObject.SetActive(true);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+            }
+
+        }
+        else if (dirX <= 0)
+        {
+            if (dirY < 0)
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(true);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+            }
+            else
+            {
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(true);
+                NE.gameObject.SetActive(false);
+            }
+        }
+    }
 }

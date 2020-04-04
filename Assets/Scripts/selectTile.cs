@@ -12,14 +12,29 @@ public class selectTile : MonoBehaviour
     private void Start()
     {
         Vector3 parent = transform.parent.position;
+        List<GameObject> delete = new List<GameObject>();
+
         tiles = new List<Vector3>();
 
+        // Loop through looking for tiles in invalid locations and add them to the deletion list
         for (int i = 0; i < this.transform.childCount; i++)
-            tiles.Add(parent + this.transform.GetChild(i).transform.localPosition);
-        //print(parent);
-        //foreach (Vector3 v in tiles)
-        //    print(v);
+        {
+            if (!BattleManager.Instance.isPassable(parent + this.transform.GetChild(i).transform.localPosition))
+                delete.Add(this.transform.GetChild(i).gameObject);
+        }
 
+        // Delete tiles in the deletion list
+        foreach(GameObject g in delete)
+        {
+            Destroy(g);
+            g.transform.parent = null;
+        }
+
+        // Grab the remaining tiles positions for potential attack locations
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            tiles.Add(parent + this.transform.GetChild(i).transform.localPosition);
+        }
     }
     private void Update()
     {

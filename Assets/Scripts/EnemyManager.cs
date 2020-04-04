@@ -72,7 +72,7 @@ public class EnemyManager// : MonoBehaviour
             // e.entity.GetComponent<EnemyDunce>().moveRandomly();
             e.entity.GetComponent<EnemyDunce>().decide();
 
-            e.movTar = e.entity.transform.position + e.entity.GetComponent<EnemyDunce>().getMoveVector();
+            e.movTar = e.entity.GetComponent<EnemyDunce>().getMoveVector();
             e.move = true;
             e.attack = -999;
             e.attackDmg = 1; // Based on what attack we pick
