@@ -4,16 +4,77 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+	protected BattleManager bm;
 	protected int enemyId;
 	protected char enemyRole;
 	protected int health;
 	protected int damage;
 	protected int strength;
-	protected Vector3 gridPosition;
+	protected Vector3Int gridPosition;
 	protected Vector3 moveTarget;
-	protected Vector3 attackTarget;
+	protected List<Vector3> attackTarget;
 	protected int decision; // 0 - no decision, 1 - move, 2 - attack
 	protected CList combatantEntry;
+	protected bool initFlag = false;
+
+	protected int standardDamage;
+	protected int cleaveDamage;
+	protected int thrustDamage;
+	protected int doubleCornerDamage;
+	protected int oneAwayDamage;
+	protected int twoAwayDamage;
+	protected int threeAwayDamage;
+
+	protected int moveNorth;
+	protected int moveSouth;
+	protected int moveEast;
+	protected int moveWest;
+
+	protected int attackNorth;
+	protected int attackSouth;
+	protected int attackEast;
+	protected int attackWest;
+
+	protected int cleaveNorth;
+	protected int cleaveSouth;
+	protected int cleaveEast;
+	protected int cleaveWest;
+
+	protected int thrustNorth;
+	protected int thrustSouth;
+	protected int thrustEast;
+	protected int thrustWest;
+
+	protected int doubleCornerNorth;
+	protected int doubleCornerSouth;
+	protected int doubleCornerEast;
+	protected int doubleCornerWest;
+
+	protected int oneAwayNorth;
+	protected int oneAwaySouth;
+	protected int oneAwayEast;
+	protected int oneAwayWest;
+
+	protected int twoAwayNorth;
+	protected int twoAwaySouth;
+	protected int twoAwayEast;
+	protected int twoAwayWest;
+
+	protected int threeAwayNorth;
+	protected int threeAwaySouth;
+	protected int threeAwayEast;
+	protected int threeAwayWest;
+
+	protected int lowestMoveScore;
+	protected int lowestAttackScore;
+	protected int lowestCleaveScore;
+	protected int lowestThrustScore;
+	protected int lowestCornerScore;
+	protected int lowestOneAwayScore;
+	protected int lowestTwoAwayScore;
+	protected int lowestThreeAwayScore;
+
+	protected int lowestDecisionScore;
 
 	//===========   Unity Methods   ============//
 
@@ -41,6 +102,14 @@ public abstract class Enemy : MonoBehaviour
     protected abstract void move();
     protected abstract void attack();
     public abstract void decide();
+
+    public void init()
+    {
+    	if (!this.initFlag)
+    	{
+    		this.initialize();
+    	}
+    }
 
     public void kill()
     {
@@ -77,6 +146,18 @@ public abstract class Enemy : MonoBehaviour
         this.moveTarget = target;
     }
 
+    protected void setSingleAttack(Vector3 target)
+    {
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(target);
+    }
+
+    protected void setAttacks(List<Vector3> target)
+    {
+    	this.attackTarget.Clear();
+    	this.attackTarget = target;
+    }
+
     protected void moveUp()
     {
     	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
@@ -100,22 +181,26 @@ public abstract class Enemy : MonoBehaviour
     //===========   Hitters   ===========//
     protected void attackUp()
     {
-    	this.attackTarget = new Vector3(this.gridPosition.x + 0.5f, this.gridPosition.y + 0.25f, 0f);
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(new Vector3(0.5f, 0.25f, 0f));
     }
 
     protected void attackDown()
     {
-    	this.attackTarget = new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y - 0.25f, 0f);
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y - 0.25f, 0f));
     }
 
     protected void attackLeft()
     {
-    	this.attackTarget = new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y + 0.25f, 0f);
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y + 0.25f, 0f));
     }
 
     protected void attackRight()
     {
-    	this.attackTarget = new Vector3(this.gridPosition.x + 0.5f, this.gridPosition.y - 0.25f, 0f);
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(new Vector3(this.gridPosition.x + 0.5f, this.gridPosition.y - 0.25f, 0f));
     }
 
     //===========   Getters   ===========//
@@ -125,7 +210,7 @@ public abstract class Enemy : MonoBehaviour
     public int getID() { return this.enemyId; }
     public int getDecision() { return this.decision; }
     public Vector3 getMoveVector() { return this.moveTarget; }
-    public Vector3 getAttackVector() { return this.attackTarget; }
+    public List<Vector3> getAttackVector() { return this.attackTarget; }
     public char getRole() { return this.enemyRole; }
 
     //===========   Setters   ===========//
@@ -143,4 +228,5 @@ public abstract class Enemy : MonoBehaviour
     	this.setDamage(d);
     	this.setStrength(s);
     }
+    public void setBattleManager(BattleManager b) { this.bm = b; }
 }
