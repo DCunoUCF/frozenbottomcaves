@@ -152,6 +152,12 @@ public class OverworldManager : MonoBehaviour
                             print("Losing item(s)");
                             this.ItemRemove(curNode.NodeItemsLose[this.nodeTypeCount].item, curNode.NodeItemsLose[this.nodeTypeCount].count);
                         }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.HPMaxEvent)
+                        {
+                            print("HP MAX event");
+                            this.HPMaxEvent(curNode.MaxHealthChange[this.nodeTypeCount]);
+                        }
                     }
 
                     this.nodeTypeCount++;
@@ -253,6 +259,11 @@ public class OverworldManager : MonoBehaviour
     public void HPEvent(int dmg)
     {
         this.gm.pm.setHealthEvent(dmg);
+    }
+
+    public void HPMaxEvent(int change)
+    {
+        this.gm.pm.maxHealthEvent(change);
     }
 
     public void ItemGet(Item.ItemType item, int count)

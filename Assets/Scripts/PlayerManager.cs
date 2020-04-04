@@ -400,5 +400,8 @@ public class PlayerManager : MonoBehaviour
     {
         pc.setHealthEvent(i);
     }
-
+    public void maxHealthEvent(int i)
+    {
+        pc.changeMaxHealth(i);
+    }
 }

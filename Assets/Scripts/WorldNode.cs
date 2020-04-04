@@ -5,7 +5,7 @@ using UnityEngine;
 public enum FlagType
 {
 	None,
-	Battle, STREvent, INTEvent, AGIEvent, Item, HPEvent, ItemLose
+	Battle, STREvent, INTEvent, AGIEvent, Item, HPEvent, ItemLose, HPMaxEvent
 }
 
 public enum GridType
@@ -37,6 +37,7 @@ public class WorldNode : MonoBehaviour
 	public List<itemEvent> NodeItems;
     public List<itemLoseEvent> NodeItemsLose;
     public List<int> HealthChange;
+    public List<int> MaxHealthChange;
 }
 
 [System.Serializable]

@@ -74,9 +74,12 @@ public class PlayerClass
         return stats[(int)Enum.Parse(typeof(stats), i)];
     }
 
+    // Ability score modifier, same as D&D 5e rules
     public int getStatModifier(string i)
     {
         int temp = stats[(int)Enum.Parse(typeof(stats), i)];
+        if (temp < 6)
+            return -3;
         if (temp < 8)
             return -2;
         if (temp < 10)
@@ -87,6 +90,8 @@ public class PlayerClass
             return 1;
         if (temp < 16)
             return 2;
+        if (temp > 16)
+            return 3;
         return 0;
     }
 
@@ -107,6 +112,8 @@ public class PlayerClass
     public void setHealthEvent(int hp)
     {
         this.health += hp;
+        if (health > maxHealth)
+            this.health = this.maxHealth;
     }
 
     public int getHealth()
@@ -114,10 +121,20 @@ public class PlayerClass
         return health;
     }
 
+    // ONLY USED IN BUILDING CLASS DON'T USE ANYWHERE ELSE PLS
     public void setHealth(int hp)
     {
         this.health = hp;
         this.maxHealth = hp;
+    }
+
+    public void changeMaxHealth(int hp)
+    {
+        this.maxHealth += hp;
+        if (hp > 0)
+            setHealthEvent(hp);
+        if (this.health > this.maxHealth)
+            this.health = this.maxHealth;
     }
 
     public void setStats(int[] stats)
