@@ -385,10 +385,20 @@ public class PlayerManager : MonoBehaviour
         return pc.getStat(i);
     }
 
+    public int getStatModifier(string i)
+    {
+        return pc.getStatModifier(i);
+    }
+
     public void takeDmg(int i)
     {
         pc.takeDamage(i);
         phb.updateHealthBar(pc.health);
+    }
+
+    public void setHealthEvent(int i)
+    {
+        pc.setHealthEvent(i);
     }
 
 }

@@ -74,6 +74,22 @@ public class PlayerClass
         return stats[(int)Enum.Parse(typeof(stats), i)];
     }
 
+    public int getStatModifier(string i)
+    {
+        int temp = stats[(int)Enum.Parse(typeof(stats), i)];
+        if (temp < 8)
+            return -2;
+        if (temp < 10)
+            return -1;
+        if (temp < 12)
+            return 0;
+        if (temp < 14)
+            return 1;
+        if (temp < 16)
+            return 2;
+        return 0;
+    }
+
     // Whenever the player takes damage
     public void takeDamage(int dmg)
     {
@@ -86,6 +102,11 @@ public class PlayerClass
 
         health -= dmg;
 
+    }
+
+    public void setHealthEvent(int hp)
+    {
+        this.health += hp;
     }
 
     public int getHealth()
