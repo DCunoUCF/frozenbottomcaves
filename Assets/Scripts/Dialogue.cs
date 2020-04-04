@@ -18,8 +18,6 @@ public class Dialogue
     {
         nodes.Add(node);
     }
-
-  
 }
 
 public class DialogueNode
@@ -45,9 +43,6 @@ public class DialogueNode
 
         op = new OptionNode(text, dest);
         this.options.Add(op);
-
-
-
     }
 }
 

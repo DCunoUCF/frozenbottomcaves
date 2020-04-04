@@ -65,13 +65,6 @@ public class NPCManager// : MonoBehaviour
     	// Take list of combatants and split into two lists
         this.combatantList = bm.combatantList;
 
-        	// FriendlyList
-        	this.friendlyList = new List<CList>();
-        	// foreach FRIENDLY in this.combatantList
-        		// this.friendlyList.Add(FRIENDLY)
-        	// this.companionList = this.friendlyList;
-        	// this.companionList.Remove(PLAYER);
-
         	// EnemyList
         	this.enemyList = new List<CList>();
             foreach (CList e in this.combatantList)
@@ -122,6 +115,7 @@ public class NPCManager// : MonoBehaviour
                     c.atkTar = e.atkTar;
                     c.attack = e.attack;
                     c.move = e.move;
+                    c.attackDmg = e.attackDmg;
                     Debug.Log("Exported an enemy!");
                 }
             }

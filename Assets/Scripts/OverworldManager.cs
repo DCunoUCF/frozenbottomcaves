@@ -157,10 +157,9 @@ public class OverworldManager : MonoBehaviour
         player.transform.position = GameObject.Find("0").transform.position; // hard coding node 0
         print("node 0:" + nodes[0].transform.position);
         playerSpawned = true;
-        GameObject cam = GameObject.Find("MainCamera");
+        GameObject cam = GameObject.Find("MainCameraOW");
         cam.transform.SetParent(player.transform);
         cam.transform.localPosition = new Vector3(0, 0, -10);
-
         gm.pm.initPM();
     }
 
@@ -234,7 +233,7 @@ public class OverworldManager : MonoBehaviour
         //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
-        dm.setInitialSelection();
+        //dm.setInitialSelection();
     }
 
     public void SkillSaveEvent()

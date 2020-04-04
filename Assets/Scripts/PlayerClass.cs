@@ -40,6 +40,7 @@ public class PlayerClass
     public List<Point> skill1;
     public GameObject skill1Highlight;
     public GameObject[] skill1Highlights = new GameObject[2];
+    public int cd1;
 
     public string skill2name;
     public string skill2desc;
@@ -47,6 +48,7 @@ public class PlayerClass
     public List<Point> skill2;
     public GameObject skill2Highlight;
     public GameObject[] skill2Highlights = new GameObject[2];
+    public int cd2;
 
     public string skill3name;
     public string skill3desc;
@@ -54,6 +56,7 @@ public class PlayerClass
     public List<Point> skill3;
     public GameObject skill3Highlight;
     public GameObject[] skill3Highlights = new GameObject[2];
+    public int cd3;
 
     public string skill4name;
     public string skill4desc;
@@ -61,6 +64,9 @@ public class PlayerClass
     public List<Point> skill4;
     public GameObject skill4Highlight;
     public GameObject[] skill4Highlights = new GameObject[2];
+    public int cd4;
+
+    public int[] cooldowns = new int[4];
 
     // STR = 0, INT = 1, AGI = 2
     public int getStat(string i)
@@ -119,6 +125,24 @@ public class PlayerClass
         skill4Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight5");
 
     }
+    
+    public List<Point> getPoints(int key)
+    {
+        switch(key)
+        {
+            case 1:
+                return skill1;
+            case 2:
+                return skill2;
+            case 3:
+                return skill3;
+            case 4:
+                return skill4;
+            default:
+                Debug.Log("Get info failed");
+                return null;
+        }
+    }
 
     public GameObject[] getHighlight(int key)
     {
@@ -153,5 +177,39 @@ public class PlayerClass
                 return skill4info;
         }
         return null;
+    }
+
+    public int getCD(int key)
+    {
+        switch (key)
+        {
+            case 1:
+                return cd1;
+            case 2:
+                return cd2;
+            case 3:
+                return cd3;
+            case 4:
+                return cd4;
+        }
+        return 0;
+    }
+
+    public void setCD(int n, int cd) { cooldowns[n] = cd; }
+
+    public void enterCombat()
+    {
+        for (int i = 0; i < 4; i++)
+            cooldowns[i] = 0;
+    }
+
+    // decrement any cd > 0
+    public void updatePlayerCd()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (cooldowns[i] > 0)
+                cooldowns[i] -= 1;
+        }
     }
 }

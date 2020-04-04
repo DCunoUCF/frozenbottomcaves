@@ -1,0 +1,62 @@
+# Leave Quotes in text
+# Comments can be added on its own line but must be preceded by a # sign
+# destId of -1 will trigger the program to end when user presses 1 to Exit
+
+nodeId : 0 
+text : "You come across a glowing stone"
+options : 3
+text : "Smash the stone"
+destId : 1
+text : "You pocket the stone"
+destId : 2
+text : "Walk away from the stone"
+destId : 3
+
+nodeId : 1
+text : "You die"
+options : 1
+text : "Exit"
+destId : -1 
+
+nodeId : 2
+text: "You pocketed the stone"
+options : 1
+text: "Continue"
+destId:4
+
+nodeId : 3
+text : "You walked away from the stone"
+options: 1
+text: "Continue"
+destId:4
+
+nodeId : 4
+text : "You come across a bunch of ogres"
+options : 3
+text : "Fight the ogres"
+destId : 5
+text : "Sneak passed them"
+destId : 6
+text : "Talk to them"
+destId : 7
+
+nodeId : 5
+text : "You fought the ogres and won"
+options: 1
+text: "Exit"
+destId:-1
+
+nodeId : 6
+text : "You sneaked past the ogres"
+options: 1
+text: "Exit"
+destId:-1
+
+nodeId : 7
+text : "They don't want to talk"
+options: 1
+text: "Exit"
+destId:-1
+
+
+

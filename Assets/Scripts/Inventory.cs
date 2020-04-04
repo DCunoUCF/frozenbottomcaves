@@ -47,6 +47,7 @@ public class Inventory
         buttons[3].OnSelect(null);
     }
 
+
     // Adds an item to our inventory
     public void addItem(Item.ItemType item, int count)
     {
@@ -55,7 +56,7 @@ public class Inventory
         // 2 item is in the list and is stackable
         // 3 item is not in the list and is not stackable
 
-        if(count <= 0)
+        if (count <= 0)
         {
             Debug.Log("Count cannot be less than or equal 0");
             return;
@@ -70,10 +71,10 @@ public class Inventory
         Item inventoryItem = CheckItem(item);
 
         // Item is not the Inventory
-        if(inventoryItem == null)
+        if (inventoryItem == null)
         {
             // Not stackable
-            if(!databaseItem.stackable)
+            if (!databaseItem.stackable)
             {
                 for (int i = 0; i < count; i++)
                 {
@@ -93,7 +94,7 @@ public class Inventory
             }
         }
         // Item is in the inventory and stackable
-        else if(inventoryItem != null && inventoryItem.stackable)
+        else if (inventoryItem != null && inventoryItem.stackable)
         {
             inventoryItem.count += count;
             flag = 2;
@@ -131,7 +132,7 @@ public class Inventory
     // Removes an item from our inventory
     public void removeItem(Item.ItemType item, int count)
     {
-        if(count <= 0)
+        if (count <= 0)
         {
             Debug.Log("Error. Count cannot be less than or equal to 0");
             return;
@@ -141,7 +142,7 @@ public class Inventory
         Item inventoryItem = CheckItem(item);
 
         // If it does exist, proceed
-        if(inventoryItem != null)
+        if (inventoryItem != null)
         {
             // Count greater than 0 and Stackable
             if (inventoryItem.count - count > 0 && inventoryItem.stackable)
@@ -160,18 +161,9 @@ public class Inventory
 
             }
             // Item is not stackable
-            else if(!(inventoryItem.stackable))
+            else if (!(inventoryItem.stackable))
             {
-                if (count > 0)
-                {
-                    for (int i = 0; i < count; i++)
-                    {
-                        items.Remove(inventoryItem);
-                        inventoryUI.removeItem(inventoryItem);
-                        inventoryUI.updateUIInventory(inventoryItem);
-                    }                   
-                }
-                else
+                for (int i = 0; i < count; i++)
                 {
                     items.Remove(inventoryItem);
                     inventoryUI.removeItem(inventoryItem);
@@ -182,8 +174,8 @@ public class Inventory
             {
                 Debug.Log("Error. Option not possible. RemoveItem function");
             }
-            
-        } 
+
+        }
     }
 
     // Checks if item exists in our inventory
