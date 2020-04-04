@@ -12,10 +12,13 @@ enum stats
 
 public class PlayerClass
 {
+    // For cloning
+    public string txtName;
+
     // Stats
     public int health;
     public int maxHealth;
-    private int[] stats; // STR, INT, AGI
+    public int[] stats; // STR, INT, AGI
 
     // Inventory
     public Inventory inventory;

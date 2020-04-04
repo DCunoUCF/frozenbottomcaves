@@ -24,4 +24,11 @@ public class Item
         this.stackable = stackable;
         this.count = 0;
     }
+
+    public Item(ItemType item, bool stackable, int count)
+    {
+        this.item = item;
+        this.stackable = stackable;
+        this.count = count;
+    }
 }

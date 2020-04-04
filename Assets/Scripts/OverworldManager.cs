@@ -12,9 +12,14 @@ public class OverworldManager : MonoBehaviour
     public DialogueManager dm;
     public bool playerSpawned;
 
+    public int startingNode;
     public List<GameObject> nodes;
     public int playerNodeId;
     public int nodeTypeCount;
+    public bool load;
+    public List<int> nodeSavedAt;
+
+    public int saveNode, saveNodeTypeCount, saveCurrentNode, facing;
 
     private Vector3 destPos;
     private float speed = .20f, startTime, journeyLength;
@@ -33,35 +38,13 @@ public class OverworldManager : MonoBehaviour
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         destReached = true;
-        // nodes = new List<GameObject>();
-
-        // foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
-        // {
-        // 	nodes.Add(n);
-        // }
-
-        // nodes = GameObject.FindGameObjectsWithTag("OWNode");
-
-        // if (GameObject.Find("Node0") != null)
-        // 	Debug.Log("Hooray!");
-        // else
-        // 	Debug.Log("Fail whale :(");
-
-        // Debug.Log(OWNodes.ToString());
+        startingNode = 0;
+        nodeSavedAt = new List<int>();
     }
 
     // Update is called once per frame
     void Update()
     {
-/*        if(!playerSpawned)
-        {
-            List<GameObject> nodes = new List<GameObject>();
-            foreach (GameObject g in GameObject.FindGameObjectsWithTag("OWNode"))
-                nodes.Add(g);
-            foreach (GameObject g in nodes)
-                print(g);
-        }*/
-
         // If we're in the overworld for the first time, plop the player character in
         if (SceneManager.GetActiveScene().name == "Overworld" && !playerSpawned)
         {
@@ -81,8 +64,10 @@ public class OverworldManager : MonoBehaviour
 
         if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
         {
-        	foreach (GameObject n in nodes)
+        	for(int i = startingNode; i < nodes.Count; i++)
         	{
+                load = false;
+                GameObject n = nodes[i];
         		this.nodeTypeCount = 0;
                 curNode = n.GetComponent<WorldNode>();
         		foreach (int id in curNode.NodeIDs)
@@ -158,10 +143,52 @@ public class OverworldManager : MonoBehaviour
                             print("HP MAX event");
                             this.HPMaxEvent(curNode.MaxHealthChange[this.nodeTypeCount]);
                         }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.SaveEvent)
+                        {
+                            if (!nodeSavedAt.Contains(curNode.NodeIDs[this.nodeTypeCount]))
+                            {
+                                nodeSavedAt.Add(curNode.NodeIDs[this.nodeTypeCount]);
+                                
+                                // If this save event has the provisions checked, eat one 
+                                if (curNode.SaveProvisions[this.nodeTypeCount])
+                                    this.gm.pm.pc.inventory.removeProvision();
+                                // Either way heal 5
+                                this.HPEvent(5);
+
+                                // Tell the pm to create a deep copy of the current player and inventory
+                                this.gm.pm.createSave();
+
+                                // Remember the node information
+                                this.saveNode = i;
+                                this.saveNodeTypeCount = this.nodeTypeCount;
+                                this.saveCurrentNode = this.dm.currentNode;
+
+                                // Save direction they're facing
+                                if (player.transform.GetChild(0).gameObject.activeSelf)
+                                    facing = 0;
+                                else if (player.transform.GetChild(1).gameObject.activeSelf)
+                                    facing = 1;
+                                else if (player.transform.GetChild(2).gameObject.activeSelf)
+                                    facing = 2;
+                                else if (player.transform.GetChild(3).gameObject.activeSelf)
+                                    facing = 3;
+                            }
+                        }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.LoadEvent)
+                        {
+                            this.loadSave();
+                            load = true;
+                        }
                     }
 
                     this.nodeTypeCount++;
+                    if (load)
+                        break;
         		}
+                if (load)
+                    break;
         	}
         }
         else if (playerSpawned && !gm.pm.inCombat && !destReached)
@@ -174,6 +201,29 @@ public class OverworldManager : MonoBehaviour
                 dm.setInitialSelection();
             }
 
+        }
+    }
+
+    public void loadSave()
+    {
+        this.gm.pm.loadSave();
+        this.dm.currentNode = this.saveCurrentNode;
+        this.startingNode = saveNode;
+        this.nodeTypeCount = saveNodeTypeCount;
+
+        this.dm.init();
+
+        destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);
+        this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
+                                                     nodes[startingNode].transform.position.y,
+                                                     nodes[startingNode].transform.position.z);
+        movePlayer();
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == facing)
+                this.player.transform.GetChild(i).gameObject.SetActive(true);
+            else
+                this.player.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 
