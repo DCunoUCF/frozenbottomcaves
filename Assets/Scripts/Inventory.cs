@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Inventory
 {
-    List<Item> items;
+    public List<Item> items;
     public Database database;
     public UIInventory inventoryUI;
     public GameObject InventoryPanel;
@@ -231,6 +231,7 @@ public class Inventory
     public void removeProvision()
     {
         removeItem(Item.ItemType.Provisions, 1);
+        this.pm.pc.setHealthEvent(5);
     }
 
     public void addRessurection()
@@ -245,6 +246,7 @@ public class Inventory
 
     public void toggleInventory()
     {
+        pm.invImg.color = Color.white;
         inventoryUI.gameObject.SetActive(false);
         pm.gm.om.dm.setInteractable();
     }

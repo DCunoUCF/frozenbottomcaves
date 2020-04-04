@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviour
     // Info about player, PC, name, and gameobject
     [SerializeField]
     public PlayerClass pc;
+    public PlayerClass save;
+    public List<Item> saveItems;
     public string characterName;
     public string characterNameClone;
     public GameObject player;
@@ -31,6 +33,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject battleCanvas;
     public SkillButtons sb;
     public Button opt, inv;
+    public Image optImg, invImg;
 
     // Combat information, clist, bools to guard turn logic
     public Vector3 playerLoc, selectedTile;
@@ -112,11 +115,19 @@ public class PlayerManager : MonoBehaviour
                 if (Input.GetButtonDown("Inventory"))
                     inv.onClick.Invoke();
             }
+            if (invImg != null)
+            {
+                if (inventoryUI.gameObject.activeSelf)
+                    invImg.color = UnityEngine.Color.gray;
+                else
+                    invImg.color = UnityEngine.Color.white;
+            }
         }
     }
 
     public void initCombat()
     {
+        invImg.color = UnityEngine.Color.gray;
         this.player = BattleManager.Instance.player;
         playerLoc = player.transform.position;
         print(playerLoc);
@@ -172,6 +183,9 @@ public class PlayerManager : MonoBehaviour
         inv = GameObject.Find("InventoryButtonOW").GetComponent<Button>();
         opt = GameObject.Find("OptionsButtonOW").GetComponent<Button>();
 
+        invImg = inv.transform.parent.GetComponent<Image>();
+        optImg = opt.transform.parent.GetComponent<Image>();
+
 
         uiParent.transform.SetParent(gm.transform);
         inventoryCanvas.sortingOrder = 5;
@@ -179,15 +193,17 @@ public class PlayerManager : MonoBehaviour
 
     public void inventoryOpen()
     {
-        print("Opening Inventory");
 
         if (inventoryUI.gameObject.activeSelf)
         {
+            invImg.color = UnityEngine.Color.white;
             inventoryUI.gameObject.SetActive(false);
             gm.om.dm.setInteractable();
         }
         else
         {
+            optImg.color = UnityEngine.Color.white;
+            invImg.color = UnityEngine.Color.gray;
             gm.om.dm.setUninteractable();
             inventory.updateStats(pc);
             InventoryPanel.SetActive(true);
@@ -385,10 +401,63 @@ public class PlayerManager : MonoBehaviour
         return pc.getStat(i);
     }
 
+    public int getStatModifier(string i)
+    {
+        return pc.getStatModifier(i);
+    }
+
     public void takeDmg(int i)
     {
         pc.takeDamage(i);
         phb.updateHealthBar(pc.health);
     }
 
+    public void setHealthEvent(int i)
+    {
+        pc.setHealthEvent(i);
+    }
+    public void maxHealthEvent(int i)
+    {
+        pc.changeMaxHealth(i);
+    }
+
+    public void createSave()
+    {
+        PlayerClass clone = CharacterSelection.writeStats(this.pc.txtName);
+        saveItems = new List<Item>();
+        //clone.inventory = new Inventory(this);
+        foreach(Item i in this.pc.inventory.items)
+        {
+            saveItems.Add(new Item(i.item, i.stackable, i.count));
+            //clone.inventory.addItem(i.item, i.count);
+        }
+        clone.health = pc.health;
+        clone.maxHealth = pc.maxHealth;
+        for (int i = 0; i < 3; i++)
+            clone.stats[i] = pc.stats[i];
+
+        this.save = clone;
+
+        print("Save successful?");
+    }
+
+    public void loadSave()
+    {
+        //pc.inventory.items.Clear();
+        for (int i = pc.inventory.items.Count - 1; i >= 0; i--)
+            pc.inventory.removeItem(pc.inventory.items[i].item, pc.inventory.items[i].count);
+
+        //foreach (Item i in pc.inventory.items)
+        //    pc.inventory.removeItem(i.item, i.count);
+
+        foreach (Item i in this.saveItems)
+        {
+            pc.inventory.addItem(i.item, i.count);
+        }
+
+
+        this.save.inventory = pc.inventory;
+        this.save.inventory.removeRessurection();
+        this.pc = this.save;
+    }
 }

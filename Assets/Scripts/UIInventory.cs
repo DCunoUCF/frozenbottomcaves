@@ -140,7 +140,6 @@ public class UIInventory : MonoBehaviour
 
         Quest = QuestMenu.transform.GetChild(1).gameObject;
         Quest.GetComponent<TextMeshProUGUI>().text = player.quest;
-        Debug.Log(Quest.GetComponent<TextMeshProUGUI>().text + "REAL QUEST" + player.quest);
 
         Bio = Content.transform.GetChild(4).gameObject;
         Bio.GetComponent<TextMeshProUGUI>().text = player.bio;

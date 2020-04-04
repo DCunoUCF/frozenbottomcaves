@@ -16,6 +16,8 @@ public static class CharacterSelection
     {
         PlayerClass pc = new PlayerClass();
 
+        pc.txtName = filename;
+
         string path = "./Assets/Resources/CharacterStats/";
 
         string path2 = "CharacterStats/";

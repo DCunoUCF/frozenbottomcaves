@@ -27,7 +27,11 @@ public class ButtonOverlay : MonoBehaviour
     private void invOpen()
     {
         if (!PlayerManager.Instance.inCombat)
+        {
+            inv = true;
+            //PlayerManager.Instance.invImg.color = Color.gray;
             PlayerManager.Instance.inventoryOpen();
+        }
         if (opt)
         {
             options.onClick.Invoke();
@@ -37,6 +41,12 @@ public class ButtonOverlay : MonoBehaviour
 
     private void optOpen()
     {
+        if (inv)
+        {
+            inv = false;
+            print("SETTING INV COLOR");
+            PlayerManager.Instance.invImg.color = Color.white;
+        }
     }
 
     private void quitGame()

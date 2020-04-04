@@ -81,6 +81,7 @@ public class MenuManager : MonoBehaviour
                     ExitOptions();
                     if (this.gm.om.playerSpawned)
                     {
+                        // this.gm.pm.invImg.color = Color.gray;
                         //this.gm.pm.inOptions = false;
                         this.gm.om.dm.setInteractable();
                         this.gm.om.dm.setInitialSelection();
@@ -203,6 +204,7 @@ public class MenuManager : MonoBehaviour
         }
         else if (this.gm.om.playerSpawned)
         {
+            PlayerManager.Instance.optImg.color = Color.gray;
             ButtonOverlay.Instance.opt = true;
         }
 
@@ -275,6 +277,7 @@ public class MenuManager : MonoBehaviour
     {
         if (this.gm.om.playerSpawned)
         {
+            PlayerManager.Instance.optImg.color = Color.white;
             this.gm.pm.inOptions = false;
             ButtonOverlay.Instance.opt = false;
             SceneManager.UnloadSceneAsync("OptionsMenu");
