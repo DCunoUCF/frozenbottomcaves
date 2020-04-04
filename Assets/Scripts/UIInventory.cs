@@ -40,7 +40,7 @@ public class UIInventory : MonoBehaviour
             instance = MainMenu;
             instance.transform.GetChild(3).gameObject.SetActive(true);
             temp = instance.transform.GetChild(3).gameObject.transform.GetChild(0).gameObject;
-            temp.GetComponent<TextMeshProUGUI>().text = item.item + " x" + item.count;
+            temp.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;
         }
 
         // Ressurection
@@ -51,7 +51,7 @@ public class UIInventory : MonoBehaviour
             instance.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.SetActive(true);
             temp = instance.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
             temp.SetActive(true);
-            temp.GetComponent<TextMeshProUGUI>().text = item.item + " x" + item.count;
+            temp.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;
         }
 
         // Miscellaneous Items
@@ -59,7 +59,7 @@ public class UIInventory : MonoBehaviour
         {
             instance = Instantiate(Resources.Load("Prefabs/Text") as GameObject);
             instance.GetComponent<UIItem>().item = item;
-            instance.GetComponent<TextMeshProUGUI>().text = item.item + " x" + item.count;
+            instance.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;
             instance.transform.SetParent(textPanel);
             UIitems.Add(instance.GetComponent<UIItem>());
             content.sizeDelta = new Vector2(content.sizeDelta.x, content.sizeDelta.y + 30f);
@@ -119,10 +119,10 @@ public class UIInventory : MonoBehaviour
         GameObject Content = BioPanel.transform.GetChild(0).gameObject;
 
         Weapon01 = MainMenu.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject;
-        Weapon01.GetComponent<TextMeshProUGUI>().text = player.weapon01.weapon.ToString();
+        Weapon01.GetComponent<TextMeshProUGUI>().text = player.weapon01.displayName;
 
         Weapon02 = MainMenu.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
-        Weapon02.GetComponent<TextMeshProUGUI>().text = player.weapon02.weapon.ToString();
+        Weapon02.GetComponent<TextMeshProUGUI>().text = player.weapon02.displayName;
 
         Stamina = Content.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         Stamina.GetComponent<TextMeshProUGUI>().text = "" + player.health + "/" + player.maxHealth;
@@ -162,7 +162,7 @@ public class UIInventory : MonoBehaviour
         {
       
             temp = MainMenu.transform.GetChild(3).gameObject.transform.GetChild(0).gameObject;
-            temp.GetComponent<TextMeshProUGUI>().text = item.item + " x" + item.count;
+            temp.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;
 
             if(item.count == 0)
             {
@@ -174,7 +174,7 @@ public class UIInventory : MonoBehaviour
         else if (item.item == Item.ItemType.Ressurection)
         {
             temp = MainMenu.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-            temp.GetComponent<TextMeshProUGUI>().text = item.item + " x" + item.count;
+            temp.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;
 
             if(item.count == 0)
             {
@@ -188,7 +188,7 @@ public class UIInventory : MonoBehaviour
         {
             foreach (UIItem uItem in UIitems)
             {
-                uItem.GetComponent<TextMeshProUGUI>().text = uItem.item.item + " x" + uItem.item.count;
+                uItem.GetComponent<TextMeshProUGUI>().text = uItem.item.displayName + " x" + uItem.item.count;
             }
         }
     }

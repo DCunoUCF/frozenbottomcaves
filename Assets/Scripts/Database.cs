@@ -16,12 +16,11 @@ public class Database
     {
         items = new List<Item>()
         {
-           new Item(Item.ItemType.Sword,false),
-           new Item(Item.ItemType.Sheild,false),
-           new Item(Item.ItemType.Provisions,true),
-           new Item(Item.ItemType.Sword,true),
-           new Item(Item.ItemType.Ressurection,true),
-           new Item(Item.ItemType.Gold,true)
+           new Item(Item.ItemType.Sword,"Sword",false),
+           new Item(Item.ItemType.Sheild,"Shield",false),
+           new Item(Item.ItemType.Provisions, "Provisions",true),
+           new Item(Item.ItemType.Ressurection,"Ressurections",true),
+           new Item(Item.ItemType.Gold,"Gold",true)
         };
     }
 
