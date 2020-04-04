@@ -67,16 +67,26 @@ public class EnemyManager// : MonoBehaviour
                 e.entity.AddComponent<EnemyDunce>();
                 e.entity.GetComponent<EnemyDunce>().setCombatantEntry(e);
                 e.entity.GetComponent<EnemyDunce>().setBattleManager(this.bm);
+                e.entity.GetComponent<EnemyDunce>().init();
             }
 
             // e.entity.GetComponent<EnemyDunce>().moveRandomly();
             e.entity.GetComponent<EnemyDunce>().decide();
 
-            e.movTar = e.entity.GetComponent<EnemyDunce>().getMoveVector();
-            e.move = true;
-            e.attack = -999;
-            e.attackDmg = 1; // Based on what attack we pick
-            Debug.Log(e.movTar);
+            int decision = e.entity.GetComponent<EnemyDunce>().getDecision();
+            if (decision == 1)
+            {
+                e.movTar = e.entity.GetComponent<EnemyDunce>().getMoveVector();
+                e.move = true;
+                e.attack = -999;
+            }
+            else if (decision == 2)
+            {
+                e.move = false;
+                e.attack = 1;
+                e.attackDmg = e.entity.GetComponent<EnemyDunce>().getDamage();
+                e.atkTar = e.entity.GetComponent<EnemyDunce>().getAttackVector();
+            }
         }
 
     	// Export our list of decided peoples to the NPCManager

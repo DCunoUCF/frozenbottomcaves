@@ -50,13 +50,21 @@ public static class BFS
         return curr.p;
     }
 
-    public static Point bfs(Cell[,] grid, Point start, Point target)
+    public static Point bfs(Cell[,] grid, Point start, Point target, List<Point> offlimits)
     {
         // Set the limits of the grid
         ROW = grid.GetLength(0);
         COL = grid.GetLength(1);
 
         bool[,] visited = new bool[ROW,COL];
+
+        foreach (Point p in offlimits)
+        {
+            if (p.X < ROW && p.X >= 0 && p.Y < COL && p.Y >= 0)
+            {
+                visited[p.X, p.Y] = true;
+            }
+        }
 
         visited[start.X, start.Y] = true;
 

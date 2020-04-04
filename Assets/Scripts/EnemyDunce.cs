@@ -19,18 +19,26 @@ public class EnemyDunce : Enemy
     // Start is called before the first frame update
     void Start()
     {
-        this.initialize();
+    	if (!this.initFlag)
+    	{
+    		this.initialize();
+    	}
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!this.initFlag)
+        {
+        	this.initialize();
+        }
     }
 
     //=============   You Did This To Me David   =============//
     protected override void initialize()
     {
+    	this.initFlag = true;
+
     	// Set type
     	this.enemyRole = 'd';
 
@@ -50,7 +58,7 @@ public class EnemyDunce : Enemy
 
     	// Set initial positions
     	this.gridPosition = new Vector3Int(0, 0, 0);
-    	this.attackTarget = new Vector3(0, 0, 0);
+    	this.attackTarget = new List<Vector3>();
     	this.moveTarget = new Vector3(0, 0, 0);
 
     	// Make move scores
@@ -117,20 +125,72 @@ public class EnemyDunce : Enemy
     	{
     		this.gridPosition = new Vector3Int(this.combatantEntry.gridX, this.combatantEntry.gridY, 0);
     	}
+
+    	Debug.Log("E#"+this.enemyId+" has initialized successfully!");
     }
 
     protected override void move()
     {
     	Debug.Log("E#"+this.enemyId+" is moving!");
         Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
+
+        List<Point> offlimits = new List<Point>();
+
+        // Dunce randomly picks a position around the player to avoid
+        int xOffset = (int)(Random.value * 2) + -1;
+        int yOffset = (int)(Random.value * 2) + -1;
+        Debug.Log("Chosen offset, ("+xOffset+", "+yOffset+")");
+        offlimits.Add(new Point(target.X + xOffset, target.Y + yOffset));
+
+        // Hardcoded offlimits tiles covering the northwest, north, and northeast
+        // offlimits.Add(new Point(target.X + 1, target.Y + 1));
+        // offlimits.Add(new Point(target.X + 1, target.Y));
+        // offlimits.Add(new Point(target.X + 1, target.Y - 1));
+
         Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
-        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target);
-        this.setMove(BattleManager.Instance.gridCell[nextSpot.X, nextSpot.Y].center);
+        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, offlimits);
+
+        Debug.Log("GridCell X-Length: "+BattleManager.Instance.gridCell.GetLength(0));
+        Debug.Log("GridCell Y-Length: "+BattleManager.Instance.gridCell.GetLength(1));
+        Debug.Log("Chosen Next Point: ("+nextSpot.X+", "+nextSpot.Y+")");
+
+        if (nextSpot.X < 0 || nextSpot.X >= BattleManager.Instance.gridCell.GetLength(0) || nextSpot.Y < 0 || nextSpot.Y >= BattleManager.Instance.gridCell.GetLength(1))
+        	this.setMove(BattleManager.Instance.gridCell[me.X, me.Y].center);
+        else
+	        this.setMove(BattleManager.Instance.gridCell[nextSpot.X, nextSpot.Y].center);
     }
 
     protected override void attack()
     {
     	// Grab the target from the grid
+
+    	List<Point> attackTiles = new List<Point>();
+    	Point decidedTile;
+
+    	Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
+    	Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
+
+    	for (int xx = -1; xx < 2; xx++)
+    	{
+    		for (int yy = -1; yy < 2; yy++)
+    		{
+    			attackTiles.Add(new Point(me.X + xx, me.Y + yy));
+    		}
+    	}
+
+    	if (attackTiles.Contains(target))
+		{
+			decidedTile = target;
+			Debug.Log("E#"+this.enemyId+" picked the target's tile to attack!");
+		}
+		else
+    	{
+    		int choice = (int)(Random.value * attackTiles.Count);
+    		decidedTile = attackTiles[choice];
+    		Debug.Log("E#"+this.enemyId+" picked a random tile to attack!");
+    	}
+
+    	this.setSingleAttack(BattleManager.Instance.gridCell[decidedTile.X, decidedTile.Y].center);
 
     	// Score Positions based on what is closest to the target
 	    	// Standard Attack
@@ -170,12 +230,18 @@ public class EnemyDunce : Enemy
     {
     	Debug.Log("E#"+this.enemyId+" has been called upon to think!");
 
-        this.move();
+        // this.move();
 
-    	//if (Random.value < .5f)
-    	//	this.move();
-    	//else
-    	//	this.attack();
+    	if (Random.value < .66f)
+    	{
+    		this.move();
+    		this.decision = 1;
+    	}
+    	else
+    	{
+    		this.attack();
+    		this.decision = 2;
+    	}
     }
 
 }

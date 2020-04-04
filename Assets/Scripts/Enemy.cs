@@ -12,9 +12,10 @@ public abstract class Enemy : MonoBehaviour
 	protected int strength;
 	protected Vector3Int gridPosition;
 	protected Vector3 moveTarget;
-	protected Vector3 attackTarget;
+	protected List<Vector3> attackTarget;
 	protected int decision; // 0 - no decision, 1 - move, 2 - attack
 	protected CList combatantEntry;
+	protected bool initFlag = false;
 
 	protected int standardDamage;
 	protected int cleaveDamage;
@@ -102,6 +103,14 @@ public abstract class Enemy : MonoBehaviour
     protected abstract void attack();
     public abstract void decide();
 
+    public void init()
+    {
+    	if (!this.initFlag)
+    	{
+    		this.initialize();
+    	}
+    }
+
     public void kill()
     {
     	// Fucking die you piece of shit enemy
@@ -137,6 +146,18 @@ public abstract class Enemy : MonoBehaviour
         this.moveTarget = target;
     }
 
+    protected void setSingleAttack(Vector3 target)
+    {
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(target);
+    }
+
+    protected void setAttacks(List<Vector3> target)
+    {
+    	this.attackTarget.Clear();
+    	this.attackTarget = target;
+    }
+
     protected void moveUp()
     {
     	this.moveTarget = new Vector3(0.5f, 0.25f, 0f);
@@ -160,22 +181,26 @@ public abstract class Enemy : MonoBehaviour
     //===========   Hitters   ===========//
     protected void attackUp()
     {
-    	this.attackTarget = new Vector3(0.5f, 0.25f, 0f);
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(new Vector3(0.5f, 0.25f, 0f));
     }
 
     protected void attackDown()
     {
-    	this.attackTarget = new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y - 0.25f, 0f);
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y - 0.25f, 0f));
     }
 
     protected void attackLeft()
     {
-    	this.attackTarget = new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y + 0.25f, 0f);
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(new Vector3(this.gridPosition.x - 0.5f, this.gridPosition.y + 0.25f, 0f));
     }
 
     protected void attackRight()
     {
-    	this.attackTarget = new Vector3(this.gridPosition.x + 0.5f, this.gridPosition.y - 0.25f, 0f);
+    	this.attackTarget.Clear();
+    	this.attackTarget.Add(new Vector3(this.gridPosition.x + 0.5f, this.gridPosition.y - 0.25f, 0f));
     }
 
     //===========   Getters   ===========//
@@ -185,7 +210,7 @@ public abstract class Enemy : MonoBehaviour
     public int getID() { return this.enemyId; }
     public int getDecision() { return this.decision; }
     public Vector3 getMoveVector() { return this.moveTarget; }
-    public Vector3 getAttackVector() { return this.attackTarget; }
+    public List<Vector3> getAttackVector() { return this.attackTarget; }
     public char getRole() { return this.enemyRole; }
 
     //===========   Setters   ===========//
