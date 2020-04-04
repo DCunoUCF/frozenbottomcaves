@@ -5,7 +5,7 @@ using UnityEngine;
 public enum FlagType
 {
 	None,
-	Battle, STREvent, INTEvent, AGIEvent, Item, HPEvent
+	Battle, STREvent, INTEvent, AGIEvent, Item, HPEvent, ItemLose
 }
 
 public enum GridType
@@ -35,6 +35,7 @@ public class WorldNode : MonoBehaviour
 	public List<FlagType> NodeTypes;
     public BattleClassList battleClassList = new BattleClassList();
 	public List<itemEvent> NodeItems;
+    public List<itemLoseEvent> NodeItemsLose;
     public List<int> HealthChange;
 }
 
@@ -54,6 +55,13 @@ public class BattleClassList
 
 [System.Serializable]
 public class itemEvent
+{
+    public Item.ItemType item;
+    public int count;
+}
+
+[System.Serializable]
+public class itemLoseEvent
 {
     public Item.ItemType item;
     public int count;

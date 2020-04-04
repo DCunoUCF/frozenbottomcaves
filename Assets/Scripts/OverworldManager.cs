@@ -137,12 +137,20 @@ public class OverworldManager : MonoBehaviour
 
                         if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.HPEvent)
                         {
+                            print("Hp event");
                             this.HPEvent(curNode.HealthChange[this.nodeTypeCount]);
                         }
 
                         if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.Item)
                         {
+                            print("Getting item(s)");
                             this.ItemGet(curNode.NodeItems[this.nodeTypeCount].item, curNode.NodeItems[this.nodeTypeCount].count);
+                        }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.ItemLose)
+                        {
+                            print("Losing item(s)");
+                            this.ItemRemove(curNode.NodeItemsLose[this.nodeTypeCount].item, curNode.NodeItemsLose[this.nodeTypeCount].count);
                         }
                     }
 
@@ -250,6 +258,11 @@ public class OverworldManager : MonoBehaviour
     public void ItemGet(Item.ItemType item, int count)
     {
         this.gm.pm.pc.inventory.addItem(item, count);
+    }
+
+    public void ItemRemove(Item.ItemType item, int count)
+    {
+        this.gm.pm.pc.inventory.removeItem(item, count);
     }
 
     public GameObject GetCurrentNode()
