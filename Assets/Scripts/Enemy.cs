@@ -306,7 +306,10 @@ public class Enemy : MonoBehaviour
 
     	foreach (Point p in decidedTile)
     	{
-    		temp.Add(BattleManager.Instance.gridCell[p.X, p.Y].center);
+    		if (p.X >= 0 && p.X < BattleManager.Instance.gridCell.GetLength(0) && p.Y >= 0 && p.Y < BattleManager.Instance.gridCell.GetLength(1))
+    		{
+	    		temp.Add(BattleManager.Instance.gridCell[p.X, p.Y].center);
+    		}
     	}
 
     	// Set attacks to be ready for export
@@ -438,10 +441,15 @@ public class Enemy : MonoBehaviour
     	List<Point> list = new List<Point>();
 
     	// Always stays at least 1 tile away from the target
+    	// Makes a single hole to traverse through to try and keep its distance at most times
     	list.Add(new Point(target.X + 1, target.Y));
     	list.Add(new Point(target.X - 1, target.Y));
     	list.Add(new Point(target.X, target.Y + 1));
     	list.Add(new Point(target.X, target.Y - 1));
+
+    	int choice = (int)(Random.value * list.Count);
+    	list.RemoveAt(choice);
+
     	list.Add(new Point(target.X + 1, target.Y + 1));
     	list.Add(new Point(target.X + 1, target.Y - 1));
     	list.Add(new Point(target.X - 1, target.Y + 1));
