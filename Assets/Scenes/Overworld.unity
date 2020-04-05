@@ -6688,7 +6688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 113469828, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[0]
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 113469828, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeItemsLose.Array.data[0].item
@@ -6720,7 +6720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 248976199, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[0]
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 248976199, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: MaxHealthChange.Array.data[0]
@@ -6760,7 +6760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 722167652, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[0]
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 722167652, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeItems.Array.data[0]
@@ -6796,7 +6796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[0]
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeItemsLose.Array.data[0].item
@@ -6840,7 +6840,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1753270890, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[1]
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1753270890, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[2]
@@ -6860,7 +6860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1753270890, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: SkillCheckDifficulty.Array.data[1]
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}

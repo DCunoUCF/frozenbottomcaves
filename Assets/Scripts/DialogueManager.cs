@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
 
         // Loads the file
         // dialogue = p.LoadFile(Application.streamingAssetsPath + "/tutorial.txt");
-        dialogue = p.LoadFile("Dialogue/tutorial");
+        dialogue = p.LoadFile("Dialogue/dialogue2");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);
@@ -95,6 +95,29 @@ public class DialogueManager : MonoBehaviour
 
         StartCoroutine(resizerDelayed());
     }
+
+    // return proper index BACKUP WIP IF SOMETHING MAJOR BREAKS AGAIN
+    //private int findNode(int ID)
+    //{
+    //    int index = 0;
+
+    //    for (int i = 0; i < dialogue.nodes.Count; i++)
+    //    {
+
+    //    }
+
+    //    foreach (DialogueNode d in dialogue.nodes)
+    //    {
+    //        if (d.nodeId == ID)
+    //        {
+    //            index = 
+    //        }
+    //    }
+
+
+
+    //    return index;
+    //}
 
     // Run if user clicks first choice
     public void choiceOption01()
