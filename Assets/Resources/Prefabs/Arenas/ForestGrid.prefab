@@ -771,7 +771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1180009508
 Transform:
   m_ObjectHideFlags: 0
@@ -1680,7 +1680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1307122883
 Transform:
   m_ObjectHideFlags: 0
@@ -2594,7 +2594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1971514894
 Transform:
   m_ObjectHideFlags: 0
@@ -3905,11 +3905,11 @@ GameObject:
   - component: {fileID: 4845558096728496641}
   m_Layer: 0
   m_Name: dirt_arena
-  m_TagString: Untagged
+  m_TagString: Tilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8294651303314986385
 Transform:
   m_ObjectHideFlags: 0
@@ -4811,11 +4811,11 @@ GameObject:
   - component: {fileID: 7947868692978406822}
   m_Layer: 0
   m_Name: circulardirt_arena
-  m_TagString: Untagged
+  m_TagString: Tilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9076869030495939001
 Transform:
   m_ObjectHideFlags: 0
@@ -5862,7 +5862,7 @@ Tilemap:
   - first: {x: -2, y: 0, z: 0}
     second:
       m_TileIndex: 4
-      m_TileSpriteIndex: 4
+      m_TileSpriteIndex: 6
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -5956,12 +5956,12 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 0b93209eea88c5e49b1fb5ceb67295f5, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: 8f4109c422f4896428c1bdce7aec58a1, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 88950ad8a6a33a64088b50fc40b65de3, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 15
     m_Data:
@@ -6628,7 +6628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4752655640327862300
 Transform:
   m_ObjectHideFlags: 0
@@ -7245,7 +7245,7 @@ GameObject:
   - component: {fileID: 5906846505096875808}
   m_Layer: 0
   m_Name: halfdirt_arena
-  m_TagString: Untagged
+  m_TagString: Tilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8151,11 +8151,11 @@ GameObject:
   - component: {fileID: 2839030801614873802}
   m_Layer: 0
   m_Name: pond_arena
-  m_TagString: Untagged
+  m_TagString: Tilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &98525734453971901
 Transform:
   m_ObjectHideFlags: 0
@@ -8168,6 +8168,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2260152269171139498}
+  - {fileID: 4766219390895493531}
   m_Father: {fileID: 2940914128599544697}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10997,6 +10998,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8443577848489301879, guid: 46e7ec970a3450740beb42226324eb01,
     type: 3}
   m_PrefabInstance: {fileID: 6772750284798446909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7008109747540852541
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 98525734453971901}
+    m_Modifications:
+    - target: {fileID: 2550389684290743972, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_Name
+      value: playerSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 00160e13855d96440b516fe5f49965bd, type: 3}
+--- !u!4 &4766219390895493531 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2550389684290743974, guid: 00160e13855d96440b516fe5f49965bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 7008109747540852541}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7680129642198320157
 PrefabInstance:

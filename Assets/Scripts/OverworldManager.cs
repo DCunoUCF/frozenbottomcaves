@@ -11,6 +11,10 @@ public class OverworldManager : MonoBehaviour
     private GameObject player;
     public DialogueManager dm;
     public bool playerSpawned;
+    public GameObject rollParchment;
+    public RollMaster rollScript;
+    public GameObject die1, die2;
+    public DiceRoller dr1, dr2;
 
     public int startingNode;
     public List<GameObject> nodes;
@@ -107,17 +111,24 @@ public class OverworldManager : MonoBehaviour
                         if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.STREvent)
                         {
                             print("entered str event");
-                            this.SkillSaveEvent("STR");
+                            this.dm.putCanvasBehind();
+                            StartCoroutine(SkillSaveEventCR("STR", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
+                            this.dm.putCanvasInFront();
                         }
                         if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.INTEvent)
                         {
                             print("entered int event");
-                            this.SkillSaveEvent("INT");
+                            this.dm.putCanvasBehind();
+                            StartCoroutine(SkillSaveEventCR("INT", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
+                            this.dm.putCanvasInFront();
                         }
                         if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.AGIEvent)
                         {
                             print("entered agi event");
-                            this.SkillSaveEvent("AGI");
+                            this.dm.putCanvasBehind();
+                            StartCoroutine(SkillSaveEventCR("AGI", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
+                            this.dm.putCanvasInFront();
+                            //this.SkillSaveEvent("AGI");
                         }
 
                         if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.HPEvent)
@@ -247,12 +258,22 @@ public class OverworldManager : MonoBehaviour
         cam.transform.SetParent(player.transform);
         cam.transform.localPosition = new Vector3(0, 0, -10);
         gm.pm.initPM();
+
+
+        rollParchment = GameObject.Find("RollParchment");
+        rollScript = rollParchment.GetComponent<RollMaster>();
+        die1 = GameObject.Find("d1");
+        die2 = GameObject.Find("d2");
+        dr1 = die1.GetComponent<DiceRoller>();
+        dr2 = die2.GetComponent<DiceRoller>();
+        
     }
 
 
     public IEnumerator BattleEvent()
     {
         this.dm.Panel.SetActive(false);
+        this.rollParchment.SetActive(false);
         //this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
         this.gm.sm.setBattleMusic();
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
@@ -271,8 +292,10 @@ public class OverworldManager : MonoBehaviour
         this.gm.pm.inCombat = false;
 
         //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
+        
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
+        this.rollParchment.SetActive(true);
         //dm.setInitialSelection();
     }
 
@@ -304,6 +327,38 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
         dm.setInitialSelection();
+    }
+
+    public IEnumerator SkillSaveEventCR(string stat, GameObject n, int difficulty)
+    {
+        this.dm.Panel.SetActive(false);
+
+        yield return StartCoroutine(rollScript.waitForStart(stat, this.gm.pm.getStatModifier(stat), difficulty));
+
+
+        int modifier = this.gm.pm.getStatModifier(stat);
+        if (dr1.final + dr2.final + modifier < difficulty)
+        {
+            print("FAIL");
+            this.dm.currentNode += 2;
+        }
+        else
+        {
+            print("SAVE");
+            this.dm.currentNode += 1;
+        }
+
+        yield return new WaitForSeconds(.05f);
+        this.dm.Panel.SetActive(true);
+        this.dm.EventComplete();
+        dm.setInitialSelection();
+        if (player.transform.position == n.transform.position)
+            this.dm.Panel.SetActive(true);
+        else
+            this.dm.Panel.SetActive(false);
+        dr1.final = 0;
+        dr2.final = 0;
+        yield break;
     }
 
     public void HPEvent(int dmg)

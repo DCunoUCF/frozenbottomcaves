@@ -129,6 +129,9 @@ public class PlayerManager : MonoBehaviour
     {
         invImg.color = UnityEngine.Color.gray;
         this.player = BattleManager.Instance.player;
+        if (this.player == null)
+            this.player = GameObject.Find("Entities/TheWhiteKnight1(Clone)");
+
         playerLoc = player.transform.position;
         print(playerLoc);
         combatInfo = new CList(this.player);
@@ -141,6 +144,7 @@ public class PlayerManager : MonoBehaviour
         pc.setHighlights();
 
         HM = GameObject.Find("Highlights");
+        HM.transform.SetParent(this.gm.transform);
         HMScript = (HighlightManager)HM.GetComponent("HighlightManager");
         
     }
@@ -415,6 +419,7 @@ public class PlayerManager : MonoBehaviour
     public void setHealthEvent(int i)
     {
         pc.setHealthEvent(i);
+        phb.updateHealthBar(pc.health);
     }
     public void maxHealthEvent(int i)
     {

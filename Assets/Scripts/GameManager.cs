@@ -156,6 +156,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void setBM(BattleManager bm)
+    {
+        this.bm = bm;
+    }
+
 
     IEnumerator setReturnRestartActive(string path, bool won)
     {
