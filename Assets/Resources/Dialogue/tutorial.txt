@@ -18,9 +18,9 @@ nodeId : 2
 text: You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
 options : 2
 text: "The trees to the left look promising!" (Left)
-destId:3
+destId : 3
 text: "Some bushes! What fun! Just like the castle gardens!" (Right)
-destId:12
+destId : 12
 
 ## Left Path ##
 nodeId : 3

@@ -62,21 +62,65 @@ public class EnemyManager// : MonoBehaviour
 
         foreach (CList e in this.enemyList)
         {
-            if (e.entity.GetComponent<EnemyDunce>() == null)
+            Enemy comp;
+
+            if (e.entity.GetComponent<Enemy>() != null)
             {
-                e.entity.AddComponent<EnemyDunce>();
-                e.entity.GetComponent<EnemyDunce>().setCombatantEntry(e);
-                e.entity.GetComponent<EnemyDunce>().setBattleManager(this.bm);
-                e.entity.GetComponent<EnemyDunce>().init();
+                comp = e.entity.GetComponent<Enemy>();
+                comp.setCombatantEntry(e);
+                comp.setBattleManager(this.bm);
+                comp.init();
+            }
+            // else if (e.entity.GetComponent<EnemyBrawler>() != null)
+            // {
+            //     comp = e.entity.GetComponent<EnemyBrawler>();
+            //     comp.setCombatantEntry(e);
+            //     comp.setBattleManager(this.bm);
+            //     comp.init();
+            // }
+            // else if (e.entity.GetComponent<EnemyFlanker>() != null)
+            // {
+            //     comp = e.entity.GetComponent<EnemyFlanker>();
+            //     comp.setCombatantEntry(e);
+            //     comp.setBattleManager(this.bm);
+            //     comp.init();
+            // }
+            // else if (e.entity.GetComponent<EnemyAssassin>() != null)
+            // {
+            //     comp = e.entity.GetComponent<EnemyAssassin>();
+            //     comp.setCombatantEntry(e);
+            //     comp.setBattleManager(this.bm);
+            //     comp.init();
+            // }
+            // else if (e.entity.GetComponent<EnemyAuxillary>() != null)
+            // {
+            //     comp = e.entity.GetComponent<EnemyAuxillary>();
+            //     comp.setCombatantEntry(e);
+            //     comp.setBattleManager(this.bm);
+            //     comp.init();
+            // }
+
+            // else if (has ARCHER)
+                // comp = ARCHER
+            // No component found, defaulting enemy to Dunce
+            else
+            {
+                e.entity.AddComponent<Enemy>();
+                e.entity.GetComponent<Enemy>().setEnemyClass(EnemyClass.Dunce);
+                e.entity.GetComponent<Enemy>().setCombatantEntry(e);
+                e.entity.GetComponent<Enemy>().setBattleManager(this.bm);
+                e.entity.GetComponent<Enemy>().init();
+
+                comp = e.entity.GetComponent<Enemy>();
             }
 
             // e.entity.GetComponent<EnemyDunce>().moveRandomly();
-            e.entity.GetComponent<EnemyDunce>().decide();
+            comp.decide();
 
-            int decision = e.entity.GetComponent<EnemyDunce>().getDecision();
+            int decision = comp.getDecision();
             if (decision == 1)
             {
-                e.movTar = e.entity.GetComponent<EnemyDunce>().getMoveVector();
+                e.movTar = comp.getMoveVector();
                 e.move = true;
                 e.attack = -999;
             }
@@ -84,8 +128,8 @@ public class EnemyManager// : MonoBehaviour
             {
                 e.move = false;
                 e.attack = 1;
-                e.attackDmg = e.entity.GetComponent<EnemyDunce>().getDamage();
-                e.atkTar = e.entity.GetComponent<EnemyDunce>().getAttackVector();
+                e.attackDmg = comp.getDamage();
+                e.atkTar = comp.getAttackVector();
             }
         }
 
