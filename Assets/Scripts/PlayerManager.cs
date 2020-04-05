@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     public string characterName;
     public string characterNameClone;
     public GameObject player;
-    public bool characterSelected, characterFoundOW, inOptions;
+    public bool characterSelected, characterFoundOW, inOptions, PLAYERDEAD;
 
     // Inventory stuff
     public Canvas inventoryCanvas;
@@ -414,16 +414,23 @@ public class PlayerManager : MonoBehaviour
     {
         pc.takeDamage(i);
         phb.updateHealthBar(pc.health);
+        if (pc.health <= 0)
+            PLAYERDEAD = true;
     }
 
     public void setHealthEvent(int i)
     {
         pc.setHealthEvent(i);
         phb.updateHealthBar(pc.health);
+        if (pc.health <= 0)
+            PLAYERDEAD = true;
     }
     public void maxHealthEvent(int i)
     {
         pc.changeMaxHealth(i);
+        phb.maxHpchange(pc.maxHealth);
+        phb.updateHealthBar(pc.health);
+
     }
 
     public void createSave()
