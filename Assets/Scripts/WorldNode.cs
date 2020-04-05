@@ -39,6 +39,7 @@ public class WorldNode : MonoBehaviour
     public List<int> HealthChange;
     public List<int> MaxHealthChange;
     public List<bool> SaveProvisions;
+    public List<int> SkillCheckDifficulty;
 }
 
 [System.Serializable]

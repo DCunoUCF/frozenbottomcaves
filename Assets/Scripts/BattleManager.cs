@@ -38,17 +38,18 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        //if (Instance == null)
+        //{
+        //    Instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
+        Instance = this;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        this.gm.setBM(this);
         this.combatantList = new List<CList>();
         this.curNode = this.gm.om.dm.currentNode;
         this.battleClass = this.gm.om.GetBattleClass();
@@ -91,6 +92,8 @@ public class BattleManager : MonoBehaviour
     {
         if (!this.gm.pm.isTurn && !resolvingTurn) // resolvingTurn guards the coroutine from being called multiple times
         {
+            foreach (CList c in combatantList)
+                print(c.gridX);
             resolvingTurn = true;
             // NPCManager.Instance.Decide();
             StartCoroutine(combatUpdate());  // Added this to have the ability to resolve each step with animations if wanted
@@ -370,10 +373,13 @@ public class BattleManager : MonoBehaviour
             //Debug.Log("attack: " + combatantList[i].attack);
             if (combatantList[i].attack < 0)
                 continue;
+            if (combatantList[i].hp <= 0)
+                continue;
 
             yield return StartCoroutine(attackAnim(combatantList[i]));
             for (int j = 0; j < combatantList[i].atkTar.Count; j++)
             {
+
                 atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar[j]));
 
                 if (atkTarIndex < 0)
@@ -388,6 +394,10 @@ public class BattleManager : MonoBehaviour
 
                 // Roll Dice / Incorporate entity stats
                 combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+                if (combatantList[atkTarIndex].hp <= 0)
+                {
+                    combatantList[atkTarIndex].entity.SetActive(false);
+                }
 
                 if (combatantList[atkTarIndex].entity == player)
                     this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
@@ -466,7 +476,6 @@ public class BattleManager : MonoBehaviour
         {
             this.didWeWin = true;
             this.isResolved = true;
-            this.CleanScene();
             Debug.Log("Win");
         }
 
@@ -486,36 +495,11 @@ public class BattleManager : MonoBehaviour
             {
                 return i;
             }
-            // else if (combatantList[i] == null)
-            // {
-            //     Debug.Log("There is no combantant in the list at pos("+i+")");
-            // }
-            // else if (combatantList[i] != null && combatantList[i].entity != entity)
-            // {
-            //     Debug.Log("Found entity "+
-            //         combatantList[i].entity.name
-            //         +" instead of "+entity.name);
-            // }
 
         }
 
         Debug.AssertFormat(false, "Couldn't find " + entity + " in CombatantList");
         return -1;
-    }
-
-
-    public void CleanScene()
-    {
-        //Destroy(sceneCleaner);
-        //foreach (CList entity in this.combatantList)
-        //{
-        //    Destroy(entity.entity);
-        //}
-
-        //foreach (CList entity in this.trashList)
-        //{
-        //    Destroy(entity.entity);
-        //}
     }
 
     void MoveOnGrid(CList entity)
@@ -623,8 +607,11 @@ public class BattleManager : MonoBehaviour
         // For the number of enemies requested to be spawned, add them to the compatantList
         for (int i = 0; i < this.numEnemies; i++)
         {
+            print(enemies[i].name);
             combatantList.Add(new CList(enemies[i]));
         }
+        if (combatantList == null)
+            print("OH NO");
     }
 
     Vector3 ConvertVector(int x, int y)
@@ -664,7 +651,6 @@ public class BattleManager : MonoBehaviour
         // Instantiate Player
         this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), playerSpawnerLoc, Quaternion.identity);
         this.player.transform.SetParent(Entities.transform);
-
         // Chooses random spawners for the enemy entities to spawn at
         RandomEnemyPos();
 

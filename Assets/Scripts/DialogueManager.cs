@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
     public GameObject TextBox;
     public Button[] Choices;
     public Dialogue dialogue;
+    public GameObject dialogueCanvas;
 
     public GameObject ContinueButton;
 
@@ -336,6 +337,18 @@ public class DialogueManager : MonoBehaviour
             b.interactable = true;
         setInitialSelection();
     }
+
+    public void putCanvasBehind()
+    {
+        print("CANVAS GOING BEHIND");
+        dialogueCanvas.GetComponent<Canvas>().sortingOrder = -2;
+    }
+
+    public void putCanvasInFront()
+    {
+        dialogueCanvas.GetComponent<Canvas>().sortingOrder = 3;
+    }
+
 }
 
 //// David's Start Method
