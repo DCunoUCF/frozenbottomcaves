@@ -7,14 +7,14 @@ destId: 1
 nodeId: 1
 text: You find yourself on a dirt path. Trees hang over you, casting shadows across the forest.
 options: 1
-text : "Your shadows don't scare me, tall trees!" Move deeper into the forest.
+text: "Your shadows don't scare me, tall trees!" Move deeper into the forest.
 destId: 2
 
-nodeId : 2
+nodeId: 2
 text: You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
-options : 2
+options: 2
 text: "The trees to the left look promising!"
-destId:3
+destId: 3
 text: "Some bushes! What fun! Just like the castle gardens!"
 destId:12
 
@@ -24,11 +24,11 @@ options: 1
 text: "Puddles are the least of my concern. I must continue!"
 destId:4
 
-nodeId : 4
-text : You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance!
-options : 1
-text : Find your balance! (AGI)
-destId : 5
+nodeId: 4
+text: You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance!
+options: 1
+text: Find your balance! (AGI)
+destId: 5
 
 nodeId: 5
 text : AGILITY EVENT
@@ -38,34 +38,34 @@ destId: 6
 text: FAIL
 destId: 7
 
-nodeId : 7
-text : You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
+nodeId: 7
+text: You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
 options: 1
-text: "..." Trudge along. (-2 Health)
+text: "..." Trudge along. (-2 HP)
 destId:8
 
-nodeId : 6
-text : You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path!
+nodeId: 6
+text: You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path!
 options: 1
 text: "And he sticks the landing, amazing!" Continue in style.
-destId:8
+destId: 8
 
-nodeId : 8
-text : As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
+nodeId: 8
+text: As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
 options: 1
 text: "Gross! I shall tear you apart with my gloved hands!" (Battle!)
-destId:9
+destId: 9
 
 nodeId: 9
-text : BATTLE
+text: BATTLE
 options: 2
 text: WIN
 destId: 10
 text: LOSE
 destId: 11
 
-nodeId : 10
-text : Covered in slime and victory, you emerge from the fray!
+nodeId: 10
+text: Covered in slime and victory, you emerge from the fray!
 options: 1
 text: "Huzzah! Though I need a bath now..."
 destId: 106

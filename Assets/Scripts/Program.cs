@@ -51,7 +51,6 @@ public class Program
 
             // Dialogue Text
             text = parseText(line);
-            Debug.Log("Main dialogue ID: " + id + " text: " + text);
             // Add it to Dialogue Node
             dialogue.addDialogue(text, id);
 
@@ -66,13 +65,12 @@ public class Program
                 // Option Id
                 id = parseId(line);
 
-            Debug.Log("Option " + (j+1) + ": destId:" + id + " text: " + text);
                 // Add Option to Dialogue Node
                 dialogue.addOption(text, id);
             }
 
             // Add Dialogue Node to our Dialogue List
-            dialogueList.addNode(dialogue);
+            dialogueList.addNode(dialogue.nodeId, dialogue);
         }
 
         return dialogueList;
