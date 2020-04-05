@@ -112,21 +112,21 @@ public class OverworldManager : MonoBehaviour
                         {
                             print("entered str event");
                             this.dm.putCanvasBehind();
-                            StartCoroutine(SkillSaveEventCR("STR"));
+                            StartCoroutine(SkillSaveEventCR("STR", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
                             this.dm.putCanvasInFront();
                         }
                         if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.INTEvent)
                         {
                             print("entered int event");
                             this.dm.putCanvasBehind();
-                            StartCoroutine(SkillSaveEventCR("INT"));
+                            StartCoroutine(SkillSaveEventCR("INT", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
                             this.dm.putCanvasInFront();
                         }
                         if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.AGIEvent)
                         {
                             print("entered agi event");
                             this.dm.putCanvasBehind();
-                            StartCoroutine(SkillSaveEventCR("AGI"));
+                            StartCoroutine(SkillSaveEventCR("AGI", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
                             this.dm.putCanvasInFront();
                             //this.SkillSaveEvent("AGI");
                         }
@@ -329,9 +329,8 @@ public class OverworldManager : MonoBehaviour
         dm.setInitialSelection();
     }
 
-    public IEnumerator SkillSaveEventCR(string stat)
+    public IEnumerator SkillSaveEventCR(string stat, GameObject n, int difficulty)
     {
-        int difficulty = 3;
         this.dm.Panel.SetActive(false);
 
         yield return StartCoroutine(rollScript.waitForStart(stat, this.gm.pm.getStatModifier(stat), difficulty));
@@ -353,6 +352,10 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
         dm.setInitialSelection();
+        if (player.transform.position == n.transform.position)
+            this.dm.Panel.SetActive(true);
+        else
+            this.dm.Panel.SetActive(false);
         dr1.final = 0;
         dr2.final = 0;
         yield break;

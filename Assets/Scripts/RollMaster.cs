@@ -28,8 +28,11 @@ public class RollMaster : MonoBehaviour
         d1b.interactable = false;
         d2b.interactable = false;
         startRoll.interactable = false;
+        startRoll.gameObject.SetActive(false);
+        endCheck.gameObject.SetActive(true);
+        endCheck.interactable = false;
 
-        waiting = true;
+        waiting = false;
     }
 
     private void d1Click()
@@ -55,8 +58,8 @@ public class RollMaster : MonoBehaviour
     {
         waiting = true;
         endCheck.interactable = false;
-        endCheck.gameObject.SetActive(false);
-        startRoll.gameObject.SetActive(true);
+        //endCheck.gameObject.SetActive(false);
+        //startRoll.gameObject.SetActive(true);
     }
 
     public IEnumerator waitForStart(string atribute, int modifier, int difficulty)
@@ -64,12 +67,14 @@ public class RollMaster : MonoBehaviour
         startRoll.interactable = true;
         limText.text = "Need: " + difficulty;
         modText.text = "+ " + atribute + "(" + modifier + ")";
-        while (waiting)
+        StartCoroutine(d1r.RollTheDice());
+        StartCoroutine(d2r.RollTheDice());
+
+        while (d1r.final == 0 || d2r.final == 0)
         {
-            yield return new WaitForSeconds(.1f);
+            resText.text = "Rolled: " + (d1r.final + d2r.final + modifier);
+            yield return null;
         }
-        yield return StartCoroutine(d1r.RollTheDice());
-        yield return StartCoroutine(d2r.RollTheDice());
         resText.text = "Rolled: " + (d1r.final + d2r.final + modifier);
 
         yield return StartCoroutine(waitForEnd());
@@ -79,6 +84,7 @@ public class RollMaster : MonoBehaviour
     {
         endCheck.interactable = true;
         while (!waiting){ yield return new WaitForSeconds(.1f); }
+        waiting = false;
         yield break;
     }
 }
