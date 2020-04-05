@@ -319,6 +319,7 @@ public class MenuManager : MonoBehaviour
 
     void ReturnToMainMenu()
     {
+        DestroyImmediate(this.gm.gameObject);
     	SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 

@@ -32,6 +32,11 @@ public class PlayerHealthBar : MonoBehaviour
         hpText.text = "" + hp + "/" + MaxHP;
     }
 
+    public void maxHpchange(int newMax)
+    {
+        this.MaxHP = newMax;
+    }
+
     // In practice will not use update and will call a method here whenever player takes dmg
     //void Update()
     //{

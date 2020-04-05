@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private bool panic;
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
+    private bool splashUp;
 
     public int whatsMyId()
     {
@@ -147,6 +148,13 @@ public class GameManager : MonoBehaviour
                 // GameObject.Find("DialogueManager").SetActive(true);
                 // SceneManager.LoadScene("Dialogue", LoadSceneMode.Additive);
             }
+        }
+
+        if (this.pm.PLAYERDEAD && !splashUp)
+        {
+            this.om.dm.setUninteractable();
+            splashUp = true;
+            SceneManager.LoadScene("LoseSplash", LoadSceneMode.Additive);
         }
 
         if (Input.GetButtonDown("Cancel"))
