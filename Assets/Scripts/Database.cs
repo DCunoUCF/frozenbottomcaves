@@ -19,10 +19,15 @@ public class Database
            new Item(Item.ItemType.Sword,false),
            new Item(Item.ItemType.Shield,false),
            new Item(Item.ItemType.Provisions,true),
-           new Item(Item.ItemType.Sword,true),
-           new Item(Item.ItemType.Ressurection,true),
+           new Item(Item.ItemType.Resurrection,true),
            new Item(Item.ItemType.Gold,true),
-           new Item(Item.ItemType.DwarfKey,false)
+           new Item(Item.ItemType.BeardedKey,false),
+           new Item(Item.ItemType.WolfMeat,false),
+           new Item(Item.ItemType.WolfCollar,false),
+           new Item(Item.ItemType.Acorn,false),
+           new Item(Item.ItemType.CherryPit,false),
+           new Item(Item.ItemType.HalfChewedChocolate,false),
+           new Item(Item.ItemType.TowerShield,false)
         };
     }
 

@@ -167,7 +167,7 @@ public class PlayerManager : MonoBehaviour
         pc.inventory = inventory;
         pc.inventory.updateStats(pc);
         pc.inventory.addItem(Item.ItemType.Sword, 5);
-        pc.inventory.addItem(Item.ItemType.Ressurection, 3);
+        pc.inventory.addItem(Item.ItemType.Resurrection, 3);
         pc.inventory.addItem(Item.ItemType.Provisions, 5);
         pc.inventory.addItem(Item.ItemType.Gold, 100);
         pc.inventory.addItem(Item.ItemType.Sword, 50);

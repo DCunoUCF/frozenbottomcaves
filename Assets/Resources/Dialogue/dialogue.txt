@@ -1,0 +1,1689 @@
+nodeId: 0
+text: You are Sir Rancelot, the Knight of Rockside Castle. You find yourself in a dark and gloomy forest. You hold a scroll given to you by the Wizard of Rockside, Welbo. The scroll tells of an evil warrior dubbed "The Warrior of Frozenbottom Caves." He is growing in strength deep within the wilds. You are here to stop him at all costs!
+options: 1
+text: "I must stop him at all costs! Onward!"
+destId: 1
+
+nodeId: 1
+text: You find yourself on a dirt path. Trees hang over you, casting shadows across the forest.
+options: 1
+text : "Your shadows don't scare me, tall trees!" Move deeper into the forest.
+destId: 2
+
+nodeId : 2
+text: You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
+options : 2
+text: "The trees to the left look promising!"
+destId:3
+text: "Some bushes! What fun! Just like the castle gardens!"
+destId:12
+
+nodeId: 3
+text: As you move through the trees you turn your head at every creak of a branch. You come to a stop. A puddle crosses the entire path, blocking your way.
+options: 1
+text: "Puddles are the least of my concern. I must continue!"
+destId:4
+
+nodeId : 4
+text : You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance!
+options : 1
+text : Find your balance! (AGI)
+destId : 5
+
+nodeId: 5
+text : AGILITY EVENT
+options: 2
+text: SAVE
+destId: 6
+text: FAIL
+destId: 7
+
+nodeId : 7
+text : You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
+options: 1
+text: "..." Trudge along. (-2 Health)
+destId:8
+
+nodeId : 6
+text : You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path!
+options: 1
+text: "And he sticks the landing, amazing!" Continue in style.
+destId:8
+
+nodeId : 8
+text : As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
+options: 1
+text: "Gross! I shall tear you apart with my gloved hands!" (Battle!)
+destId:9
+
+nodeId: 9
+text : BATTLE
+options: 2
+text: WIN
+destId: 10
+text: LOSE
+destId: 11
+
+nodeId : 10
+text : Covered in slime and victory, you emerge from the fray!
+options: 1
+text: "Huzzah! Though I need a bath now..."
+destId: 106
+
+nodeId : 11
+text : The slimes overtake you and you drown in their muck!
+options: 1
+text: Gross!
+destId:-1
+
+nodeId: 106
+text: You hear the trickling of water to your side. There must be a stream nearby. You notice an unbeaten path branching from the road.
+options: 2
+text: Stick to the main road.
+destId: 159
+text: Take the unbeaten path.
+destId: 107
+
+nodeId: 159
+text: Content with continuing down the road, you march on. The trees open up wide here offering plenty of room to breathe. Your claustrophobia leaves you.
+options: 1
+text: "Roads are for heroes, unlike that dirty trail!"
+destId: 160
+
+nodeId: 160
+text: You spot a black wolf off the road chewing one bone among many beneath it. It raises its eyes to meet your gaze. It looks hungry.
+options: 1
+text: "Just one wolf? I can take this with ease!"
+destId: 161
+
+nodeId: 161
+text: It lets out a loud howl calling more wolves to its side!
+options: 2
+text: "Foul curs!" (Battle!)
+destId: 162
+text: Howl back!
+destId:165
+
+nodeId: 162
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 163
+text: DEFEATED
+destId: 164
+
+nodeId: 163
+text: The broken pack yelps and flees as the alpha wolf falls before you.
+options: 1
+text: "Your king will be my supper!" (Gain Wolf Meat)
+destId: 176
+
+nodeId: 164
+text: The wolves overtake you in a flash of teeth and claws!
+options: 1
+text: Make a contribution to the bone pile.
+destId: -1
+
+nodeId: 165
+text: You let out a howl mightier than the wolf's. Within moments a grey wolf springs from the trees and lands by your side. Its fierceness is unmatched by the dark specters. They all bolt back from whence they came.
+options: 1
+text: "Sir Rancelot the Wild Whisperer they call me!"
+destId: 166
+
+nodeId: 166
+text: The kind wolf looks up at you expectantly.
+options: 1
+text: "What is it?!"
+destId: 167 
+
+nodeId: 167
+text: The sad wolf nudges your arm, whining.
+options: 3
+text: Kick the wolf. (STR)
+destId: 168
+text: Pat the wolf on its head.
+destId: 171
+text: "Here you go, friend!" (-1 Provision)
+destId: 174 
+
+nodeId: 168
+text : STR EVENT
+options: 2
+text: SUCCESS
+destId: 169
+text: FAILURE
+destId: 170
+
+nodeId: 169
+text: You give the wolf a swift boot to its side, just strong enough to scare it off.
+options: 1
+text: "Be you friend or merely a beggar? Off with you!"
+destId: 173
+
+nodeId: 170
+text: You muster up what strength you can, but your foot lands like a feather on the wolf's side. The wolf reciprocates to your act of aggression in kind. It snaps at your leg!
+options: 1
+text: "OW!" (-5 HP)
+destId: 172
+
+nodeId: 171
+text: You go to pat the wolf gently upon its scruffy scruff, but it recoils quickly and snaps at your hand!
+options: 1
+text: "OW!" (-5 HP)
+destId: 172
+
+nodeId: 172
+text: The wolf retreats into the woods, but doesn't seem sorry about its choices.
+options: 1
+text: "And don't come back!"
+destId: 176
+
+nodeId: 173
+text: The now disheartened wolf mopes away, presumably to panhandle elsewhere.
+options: 1
+text: "One more victory under my belt!"
+destId: 176
+
+nodeId: 174
+text: You pull some food from your pouch. The wolf eats it happily from your hand, content with its reward.
+options: 1
+text: "The slobber on my glove is a trophy!"
+destId: 175
+
+nodeId: 175
+text: The wolf disappears into the trees with a pep in its step. You notice a collar lying in the dirt. It has a bell and tag on it. It says "Dog." You place it in your pack and move along.
+options: 1
+text: "Enough dilly dallying! Onward!" (Gain Wolf Collar)
+destId: 251
+
+# STUMP SAVE SPOT
+nodeId: 256
+text: With the conflict behind you, you continue your quest.. You spot a comfortable looking stump to rest upon.
+options: 3
+text: Rest. (+5 HP and Save Progress)
+destId: 257
+text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+destId: 258
+text: Continue without resting.
+destId: 177
+
+nodeId: 257
+text: You get up after a good sit.
+options: 1
+text: "Ah, sitting. The standing of laying."
+destId: 177
+
+nodeId: 258
+text: You finish your meal and get up.
+options: 1
+text: "That hit the spot!"
+destId: 177
+
+nodeId: 177
+text: The road widens evermore, large enough to fit a wagon without hazard. It's not long before you see a secure looking bridge. It offers passage above a rushing river.
+options: 1
+text: "Perfect! These boots shall be relieved to stay dry."
+destId: 178
+
+nodeId: 178
+text: As you near the start of the bridge, you notice a brooding figure crouched beneath. It looks like a troll!
+options: 2
+text: Attempt to sneak across. (AGI)
+destId:179
+text: Pretend not to notice.
+destId: 187
+
+nodeId: 179
+text : AGI EVENT
+options: 2
+text: SUCCESS
+destId: 180
+text: FAILURE
+destId: 181
+
+nodeId: 181
+text: You step on what seems to be every single creak in the bridge, making it only halfway. Where the troll leaps out energetically. "Ah HAH! Me git you!"
+options: 1
+text: *Gulp!*
+destId: 185
+
+nodeId: 185
+text: "You try be smart! You pay DOUBLE! 10 GOLD!"
+options: 1
+text: "Fine!" Forfeit your coins. (-10 Gold)
+destId: 186
+
+nodeId: 187
+text: The troll swings itself onto the bridge, blocking your path. "HALT!"
+options: 1
+text: *Act surprised by the trolls appearance*
+destId: 188
+
+nodeId: 188
+text: "I are the Great Bridge Troll! You pay toll or no cross!" It seems proud to remember its lines.
+options: 1
+text: "No need for violence. I'll get your gold"
+destId: 189
+
+nodeId: 189
+text: As you're reaching for your pouch, the troll interrupts you. He blurts out "Peepl always see me under bridge. They no come to bridge wen see me. You see me?"
+options: 2
+text: "Of course, you're huge!"
+destId: 190
+text: *Lie* "No, you really got me!" (INT)
+destId: 191
+
+nodeId: 190
+text: "Thank for true tell. You pay 5 gold!"
+options: 1
+text: "Thanks, I guess." (-5 Gold)
+destId: 194
+
+nodeId: 191
+text: INT EVENT
+options: 2
+text: SUCCESS
+destId: 192
+text: FAILURE
+destId: 193
+
+nodeId: 192
+text: "I good toll gitter. You pay 3 gold for so dumb no see me!"
+options: 1
+text: "That's me!" (-3 Gold)
+destId: 184
+
+nodeId: 193
+text: The troll raises its eyebrow. "You no true tell. You see me. You pay 10 gold!"
+options: 1
+text: *Gulp* (-10 Gold)
+destId: 186
+
+nodeId: 180
+text: You step softly as a mouse and cross the entire length of the bridge by the time the troll notices you. "HEY!" He climbs up the bridge and starts toward you.
+options: 1
+text: "Who me?"
+destId: 182
+
+nodeId: 182
+text: "You no sneak across my bridge! I not ready yet! You pay toll! " The troll shouts angrily as he steps up to you.
+options: 1
+text: "Well, I've already made it across. Perhaps you should be more vigilant. Like me!"
+destId: 183
+
+nodeId: 183
+text: The troll scratches his head and lets out an onion-breathed sigh. "Fine. You go now!"
+options: 1
+text: "Thought so!"
+destId: 184
+
+nodeId: 184
+text: You stride forward, proud of  beguiling the boorish brute.
+options: 1
+text: "Journey forth!"
+destId: 195
+
+nodeId: 156
+text: As you make it up to the end of the bridge, you see a troll stomping towards you angrily.
+options: 1
+text: *Try not to make eye contact*
+destId: 157
+
+nodeId: 157
+text: The troll comes close enough for you to smell the onions on his breath. Towering over you, he shouts "Wut you do near my comfy stump?!"
+options: 1
+text: "I didn't know it belonged to you."
+destId: 158
+
+nodeId: 158
+text: "It my stump. You pay toll! 5 GOLD!" Drool flies from its mouth as it barks at you.
+options: 1
+text: "A stump toll? All right then..." (-5 Gold)
+destId: 194
+
+nodeId: 186
+text: You grumble and sulk your way off the bridge. You hear the troll laugh heartily and count his coins with great difficulty as you leave.
+options: 1
+text: "..." Trudge along.
+destId: 195
+
+nodeId: 194
+text: You don't like to give up gold, but can respect an honest job.
+options: 1
+text: You hand over the gold and give a swift nod.
+destId: 195
+
+nodeId: 195
+text: You thought the worst of your troubles were over until you hear what sounds like the cackling of hyenas.
+options: 1
+text: "More foul beasts to meet my fists!"
+destId: 196
+
+nodeId: 196
+text: Trying to find the source of the cackling proves difficult. You move toward what seems to be the source, but the laughter echoes and bounces from tree to tree.
+options: 1
+text: "Blasted sounds!"
+destId: 197
+
+nodeId: 197
+text: One powerful cackle behind you makes you jump! When you turn around, you see that no one is near. Panic creeps over you. Keeping a close eye on the trees, you step backwards cautiously.
+options: 1
+text: *Crunch*
+destId: 198
+
+nodeId: 198
+text: You look down and see tattered cloth around the bone that you stepped on. You glance frantically about you and spot more bones, hides, and furs hung like decorations. Is this some sort of camp?
+options: 1
+text: "What fresh hell have you stumbled into, Rancelot?!"
+destId: 199
+
+nodeId: 199
+text: Beady yellow eyes appear from the bushes. The cackling surrounds you as the hyena faced creatures approach.
+options: 2
+text: "Damn gnolls! I'll put an end to your laughter!"
+destId: 200
+text: "I have a tasty treat here!" (Lose Half Chewed Chocolate)
+destId: 205
+
+nodeId: 200
+text: All at once, the cackling stops and is replaced by snarling fangs. The gnolls pounce!
+options: 1
+text: "Have at thee!" (Battle!)
+destId: 201
+
+# 5 gnolls
+nodeId: 201
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 202
+text: DEFEATED
+destId: 203
+
+nodeId: 202
+text: You stand victorious over the pack of slain gnolls, the last of their cackling ceased.
+options: 1
+text: "Your laughter shall plague these woods no longer!"
+destId: 204
+
+nodeId: 203
+text: The gnolls overpower you, cackling all the while.
+options: 1
+text: You feel like you missed the punchline.
+destId: -1
+
+nodeId: 204
+text: The woods fall eerily silent.
+options: 1
+text: "I would like to leave now."
+destId: 211
+
+nodeId: 205
+text: You take the half chewed chocolate and a piece of provision out of your pack. You wrap the food around the chocolate, concealing it, before tossing it to the ground in front of you. Two of the hungriest fight over the poisoned provision. Not long after each having some scraps, they both keel over dead.
+options: 1
+text: "Whoops."
+destId: 206
+
+nodeId: 206
+text: The remaining gnolls lower their ears in aggression and let out a low growl. They rush toward you in a frenzy.
+options: 1
+text: "Come at me, you curs from hell!" (Battle!)
+destId: 207
+
+# 3 gnolls
+nodeId: 207
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 208
+text: DEFEATED
+destId: 209
+
+nodeId: 208
+text: You stand victorious over the pack of slain gnolls, the last of their cackling ceased.
+options: 1
+text: "Your laughter shall plague these woods no longer!"
+destId: 210
+
+nodeId: 209
+text: Even with your cunning trick, the gnolls overpower you, cackling all the while.
+options: 1
+text: You feel like you missed the punchline.
+destId: -1
+
+nodeId: 210
+text: The woods fall eerily silent.
+options: 1
+text: "I would like to leave now."
+destId: 211
+
+nodeId: 211
+text: Using the mountain over the trees as a lodestar, you make your way through the thick vegetation.
+options: 1
+text: "Nothing will stop me, Warrior!"
+destId: 212
+
+# STUMP SAVE SPOT
+nodeId: 212
+text: You reach the main path, with a comfortable looking stump to rest your weary body.
+options: 3
+text: Rest. (+5 HP and Save Progress)
+destId: 213
+text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+destId: 214
+text: Continue without resting.
+destId: 215
+
+nodeId: 213
+text: You get up after a good sit.
+options: 1
+text: "Ah, sitting. The standing of laying."
+destId: 215
+
+nodeId: 214
+text: You finish your meal and get up.
+options: 1
+text: "That hit the spot!"
+destId: 215
+
+nodeId: 215
+text: As you follow the path, you reach a crossroad. All the roads converge into a single path towards the mountain. You have but one choice.
+options: 1
+text: "Sally forth and tally ho!"
+destId: 216
+
+nodeId: 216
+text: You feel tremors beneath your feet and hear a thunderous rumbling build and build. You see rocks begin rolling down the mountain face. They're coming right for you!
+options: 2
+text: "Maybe this shield is magical!" (Use Tower Shield)
+destId: 217
+text: "Time to make like seamstress and WEAVE!" (AGI)
+destId: 219
+
+nodeId: 217
+text: The boulders rip through the dirt as they descend upon you. Holding your shield high and standing fast, you are struck by a boulder with the force of multiple boulders! You are knocked off your feet.
+options: 1
+text: "BAH!"
+destId: 218
+
+nodeId: 218
+text: The rumbling settles... You stand up, covered in dust, but without a scratch. The same can't be said about your shield. It hangs loosely from your arm, battered beyond recognition.
+options: 1
+text: "Not magical after all." (Lose Tower Shield)
+destId: 222
+
+nodeId: 219
+text : AGI EVENT
+options: 2
+text: SUCCESS
+destId: 220
+text: FAILURE
+destId: 221
+
+nodeId: 221
+text: The boulders rip through the dirt at a terrifying speed, but it's no match for your reflexes. You leap from side to side, dodging them with ease. You manage not to get hit by anything larger than a pebble.
+options: 1
+text: *HUH HUH HUH*
+destId: 222
+
+nodeId: 221
+text: The boulders rip through the dirt at a terrifying speed! You manage to avoid the first, then the second, until *SPLAT*
+options: 1
+text: "For king and. . .!"
+destId: -1
+
+nodeId: 222
+text: You continue toward the mountain, feeling bolder than ever.
+options: 1
+text: "Huzzah!"
+destId: 223
+
+nodeId: 223
+text: The trees close in as you near the base of the mountain. Your steps begin to stick to the road and the trees look coated in a kind of snow.
+options: 1
+text: "These trees seem webbier than usual."
+destId: 224
+
+nodeId: 224
+text: Each step is harder to take than the last as your feet begin to sink into what used to be road.
+options: 1
+text: "Maybe this is the cave's version of a red carpet! Then why don't I feel welcome?..."
+destId: 225
+
+nodeId: 225
+text: Suddenly, spiders descend from the treetops, hanging over you like ornaments. A large shadow moves about the webs. 6 red eyes gleam from within.
+options: 1
+text: "Reveal yourself!"
+destId: 226
+
+nodeId: 226
+text: "Who dares disturb my Queendom?!" A bellowing booms across the webs, causing them to sway. Your boots are stuck fast.
+options: 1
+text: "I am Sir Rancelot sent by the King and Queen of Rockside Castle! I recognize no majesty but Hers!"
+destId: 227
+
+nodeId: 227
+text: "I can change that." As the Spider Queen finishes her threat, tiny spiders crawl about you, covering you in their webs!
+options: 1
+text: *Try to break free!* (STR)
+destId: 228
+
+nodeId: 228
+text : STR EVENT
+options: 2
+text: SUCCESS
+destId: 229
+text: FAILURE
+destId: 230
+
+nodeId: 229
+text: You burst free from the spindled cage! The Queen steps back, shocked. "Impossible!" she cries.
+options: 1
+text: "Did you truly think your flimsy webs could contain ME?!"
+destId: 238
+
+nodeId: 230
+text: You struggle against the webs, but they hold strong. "My children are numerous and can easily subdue any knight in your weak disgusting kingdom." She steps closer. You feel small bites upon your flesh as the spiders race about! (-1 HP)
+options: 1
+text: *Try to break free!* (STR)
+destId: 231
+
+nodeId: 231
+text : STR EVENT
+options: 2
+text: SUCCESS
+destId: 232
+text: FAILURE
+destId: 233
+
+nodeId: 232
+text: You burst free from the spindled cage! The Queen steps back, shocked. "Impossible!" she cries.
+options: 1
+text: "Did you truly think your flimsy webs could contain ME?!"
+destId: 238
+
+nodeId: 233
+text: You try again, but the webs stay taut. "My webs will cover your fields, your castle walls will become my playground, a wonderland of sticky silk." You feel more bites, your vision begins to darken. The Queen stares into your eyes, her face inches from your own. (-1 HP)
+options: 1
+text: *Try to break free!* (STR)
+destId: 234
+
+nodeId: 234
+text : STR EVENT
+options: 2
+text: SUCCESS
+destId: 235
+text: FAILURE
+destId: 236
+
+nodeId: 235
+text: You burst free from the spindled cage! The Queen steps back, shocked. "Impossible!" she cries.
+options: 1
+text: "Did you truly think your flimsy webs could contain ME?!"
+destId: 238
+
+nodeId: 236
+text: "Why do you struggle? Would you not rather have the honor of being the first victim of my crusade? This will be over soon enough. Best you relax and savor these final moments." She unhinges her jaw. (-1 HP)
+options: 1
+text: "This is it..."
+destId: 237
+
+nodeId: 237
+text: You burst free from the spindled cage! The Queen steps back, shocked. "Impossible!" she cries.
+options: 1
+text: "Did you truly think your flimsy webs could contain ME?!"
+destId: 238
+
+nodeId: 238
+text: You shake of the last of the webbing, preparing to fight.
+options: 1
+text: "For QUEEN and country!" (Battle!)
+destId: 239
+
+nodeId: 239
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 240
+text: DEFEATED
+destId: 241
+
+nodeId: 240
+text: As the would-be queen falls and her subjects retreat. You feel a surge of vigor rush through you. The monster's legs twist and crumple as you look onward to the great looming mountain.
+options: 1
+text: "Warrior of Frozenbottom Caves..."
+destId: 242
+
+nodeId: 241
+text: The Queen steps to you as you stagger and fall to one knee. "A noble effort, but ultimately futile. Don't worry, your king and queen will join you soon enough."
+options: 1
+text: "Get on with it then!"
+destId: -1
+
+nodeId: 242
+text: You continue on your quest.
+options: 1
+text: "you're next."
+destId: 243
+
+nodeId: 243
+text: CONGRATULATIONS! Thank you for playing The Warrior of Frozenbottom Caves, Chapter 1: The Forest!
+options: 1
+text: "Huzzah!"
+destId: -1
+
+nodeId: 107
+text: You decide to take the unbeaten path. Weaving between bushes and stepping over branches as you make your way.
+options: 1
+text: "Time to wash up!"
+destId: 108
+
+nodeId: 108
+text: You reach a small clearing. In the center lies a pond with a cluster of mushrooms near its edge.
+options: 2
+text: "And what do we have here?" Investigate the pond.
+destId: 109
+text: "Bah, I need more water than that to clean up!"
+destId: 121
+
+nodeId: 109
+text: As you move towards the pond, you notice 3 creatures no larger than your head. They have clear wings like a bug and a green hue to their bodies. They seem to be chatting quite happily among themselves.
+options: 2
+text: "Assist me or perish, you fiends!" (Battle!)
+destId: 110
+text: "Pardon my intrusion, I didn't realize anyone was here."
+destId:114
+
+nodeId: 114
+text: The small creatures fly up to you, at eye level. "We'll forgive your intrusion if you try a biscuit." Their large dark eyes grow wider in anticipation and their grins stretch ear to ear. Each of them lifts up their hands, and offers a different looking biscuit.
+options: 3
+text: The creature on the left holds a biscuit with a cherry in the center.
+destId: 115
+text: The creature in the middle holds a biscuit with a piece of chocolate in the center.
+destId: 116
+text: The creature on the right holds a biscuit with a piece of toffee in the center.
+destId: 117
+
+nodeId: 115
+text: You take the cherry biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The cherry tastes sweet and refreshing!
+options: 1
+text: "Thank you, little ones!" (FULL HEAL)
+destId: 119
+
+nodeId: 116
+text: You take the chocolate biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The chocolate tastes bitter and and leaves a putrid after taste!
+options: 1
+text: "YUCK!" You spit out what you can. (-10 HP)
+destId: 120
+
+nodeId: 117
+text: You take the toffee biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The toffee tastes salty and comforting... You begin to drift off... to sleep. . .
+options: 1
+text: *Yawn*
+destId: 118
+
+nodeId: 118
+text: As your vision fades and your muscles grow weak, you see the creatures come close, bearing mouths full of sharp teeth.
+options: 1
+text: Onward to dreamless and eternal slumber.
+destId: -1
+
+nodeId: 119
+text: The creatures scatter into the trees, leaving only their giggles behind.
+options: 1
+text: "Onward to the river. With luck, I'll meet these tiny creatures again!" (Gained a Cherry Pit)
+destId: 252
+
+nodeId: 120
+text: The creatures scatter into the trees, leaving only their giggles behind.
+options: 1
+text: "Onward to the river... Hopefully that's the last I'll see of those nasty tricksters!" (Gained Half Chewed Chocolate)
+destId: 253
+
+nodeId: 110
+text: The creatures brandish spears like hornets ready to sting!
+options: 1
+text: "Have at thee!"
+destId: 111
+
+# 3 Nixies
+nodeId: 111
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 112
+text: DEFEATED
+destId: 113
+
+nodeId: 112
+text: With a final swat, the nixies think it wiser to retreat. They fly away hastily.
+options: 1
+text: "And don't come back!"
+destId: 121
+
+nodeId: 113
+text: Their tiny spears must have been dipped in poison. After one too many pokes, you begin to feel too exhausted to stand. The creatures come close, bearing mouths full of sharp teeth.
+options: 1
+text: Onward to dreamless and eternal slumber.
+destId: -1
+
+nodeId: 121
+text: You come near to the edge of the river. Marveling at the mountain that lies past the river, and beyond the forest treeline.
+options: 1
+text: "I'm coming for you, Warrior of the Frozenbottom Caves!" You yell at the mountain.
+destId: 122
+
+nodeId: 252
+text: You come near to the edge of the river. Marveling at the mountain that lies past the river, and beyond the forest treeline.
+options: 1
+text: "I'm coming for you, Warrior of the Frozenbottom Caves!" You yell at the mountain.
+destId: 122
+
+nodeId: 253
+text: You come near to the edge of the river. Marveling at the mountain that lies past the river, and beyond the forest treeline.
+options: 1
+text: "I'm coming for you, Warrior of the Frozenbottom Caves!" You yell at the mountain.
+destId: 122
+
+nodeId: 122
+text: You notice the river is shallow at this point. Good for both crossing and a quick bath.
+options: 1
+text: "The slime may be dried, but it still needs to go!"
+destId: 123
+
+nodeId: 123
+text: You step into the warm waters. As you wade further, you find a slightly deeper spot.
+options: 1
+text: "Perfect place to scrub off!"
+destId: 124
+
+nodeId: 124
+text: As you're whistling to yourself, cleaning off gobs of goo, you hear a rushing sound. Looking up river, you see a wall of water not too far off.
+options: 1
+text: "Uh oh!"
+destId: 125
+
+nodeId: 125
+text: The wall of water quickly approaches. What do you do?
+options: 3
+text: Stand! (STR)
+destId: 126
+text: Run! (AGI)
+destId: 129
+text: Think! (INT)
+destId:132
+
+nodeId: 126
+text : STR EVENT
+options: 2
+text: SUCCESS
+destId: 127
+text: FAILURE
+destId: 128
+
+nodeId: 127
+text: You sure your footing and brace yourself for impact. The wave breaks against your armor, crashing around you while you remain unmoved. After a few moments the water calms, revealing your statuesque form.
+options: 1
+text: Move to the far side of the river.
+destId: 135
+
+nodeId: 128
+text: You sure your footing and brace yourself for impact. The wave breaks against your armor, crashing around you. Your stance wavers and you're swept away like a fish in a fast moving river!
+options: 1
+text: *Gurgle!* (-2 HP)
+destId: 151
+
+nodeId: 129
+text : AGI EVENT
+options: 2
+text: SUCCESS
+destId: 130
+text: FAILURE
+destId: 131
+
+nodeId: 130
+text: You cut through the water with deft speed. The wall of water quickly approaches, but with one final push you leap to solid ground. Moments from certain doom with only a splash to the face.
+options: 1
+text: Catch your breath.
+destId: 135
+
+nodeId: 131
+text: You trudge through the water heavily despite your efforts. The wall of water closes quickly and sweeps you away!
+options: 1
+text: *Gurgle!* (-2 HP)
+destId: 151
+
+nodeId: 132
+text: INT EVENT
+options: 2
+text: SUCCESS
+destId: 133
+text: FAILURE
+destId: 134
+
+nodeId: 133
+text: You dive underwater and find strong roots that you use to hold yourself steady. A roaring crash passes overhead. As you successfully avoid the bulk of the impact, the water settles.
+options: 1
+text: You surface for air and move to the far side of the river.
+destId: 135
+
+nodeId: 134
+text: You dive underwater, but you hadn't planned further than this! You are swept away beneath the wave like a kite in a storm!
+options: 1
+text: *Gurgle!* (-2 HP)
+destId: 151
+
+nodeId: 151
+text: Battered and bruised you lay on the ground spitting and coughing up water. You regain your composure and stand up.
+options: 1
+text: "It'll take more than some water and black magic to break this spirit!"
+destId: 152
+
+# STUMP SAVE SPOT
+nodeId: 152
+text: You briefly take in your surroundings and notice a comfortable looking stump next to a bridge.
+options: 3
+text: Rest. (+5 HP and Save Progress)
+destId: 153
+text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+destId: 154
+text: Continue without resting.
+destId: 155
+
+nodeId: 153
+text: You get up after a good sit.
+options: 1
+text: "Ah, sitting. The standing of laying."
+destId: 155
+
+nodeId: 154
+text: You finish your meal and get up.
+options: 1
+text: "That hit the spot!"
+destId: 155
+
+nodeId: 155
+text: You see a road from the bridge. It seems to lead in the direction of the mountain.
+options: 1
+text: "Onward!"
+destId: 156
+
+nodeId: 135
+text: You spend a few moments spitting and coughing up water. You regain your composure and stand up.
+options: 1
+text: "That's not a normal river! It must be enchanted!"
+destId: 136
+
+# STUMP SAVE SPOT
+nodeId: 136
+text: You briefly take in your surroundings and notice a comfortable looking stump nearby.
+options: 3
+text: Rest. (+5 HP and Save Progress)
+destId: 137
+text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+destId: 138
+text: Continue without resting.
+destId: 139
+
+nodeId: 137
+text: You get up after a good sit.
+options: 1
+text: "Ah, sitting. The standing of laying."
+destId: 139
+
+nodeId: 138
+text: You finish your meal and get up.
+options: 1
+text: "That hit the spot!"
+destId: 139
+
+nodeId: 139
+text: You move from the edge of the river towards the mountain. As you're making your way, you notice a dark smoke rising from beyond the treeline. You're able to find a narrow road that winds in the direction of the smoke.
+options: 1
+text: "Well, it's on the way. Might as well see if someone needs saving!"
+destId: 140
+
+nodeId: 140
+text: Walking with full stride, you make your way down the path. You hear some complaining and shouting beyond a few trees.
+options: 1
+text:
+destId:141
+
+nodeId: 141
+text: As you near the sounds, you see two goblins. One has a spider the size of a melon jumping about it. "Git it off!" The goblin screeches. "I'm trying! I'm trying!" The other says while swiping wildly.
+options: 2
+text: "Die foul beasts!" (Battle!)
+destId: 142
+text: Throw your cherry pit at the spider. (Lose Cherry Pit)
+destId: 145
+
+nodeId: 142
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 143
+text: DEFEATED
+destId: 144
+
+nodeId: 143
+text: You stand over bodies with a renewed sense of pride. Goblins and spiders across the land will fear your might.
+options: 1
+text: "Ah HAH!"
+destId: 149
+
+nodeId: 144
+text: Between the spider bites and goblin bruisings, you succumb to your wounds.
+options: 1
+text: "Gahhhhhhh!"
+destId: -1
+
+nodeId: 145
+text: You chuck the cherry pit with all your might! It knocks the spider from the goblins back. The spider rears its head and hisses in your direction as the goblins scamper away into the woods.
+options: 1
+text: "Ah!" (Battle!)
+destId: 146
+
+nodeId: 146
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 147
+text: DEFEATED
+destId: 148
+
+nodeId: 147
+text: You revel in the glory of your fleshy slain foe. The little spider lays crumpled and broken next to your foot.
+options: 1
+text: "Too bad the goblins got away!"
+destId: 149
+
+nodeId: 148
+text: The spider's bites prove too numerous and its venom too potent. The spider scurries into the brush and leaves you to your fate.
+options: 1
+text: "I'm sure this poison will wear off in no time. . ."
+destId: -1
+
+nodeId: 149
+text: After the dust settles and your focus returns to the path toward the mountain, you can just make out the source of the smoke. It's a ruined farmstead. To the left of the farmstead, you hear the cackling like hyenas.
+options: 2
+text: Investigate farmstead.
+destId: 150
+text: Investigate cackling.
+destId: 196
+
+nodeId: 150
+text: You pass through the last of the trees and walk onto the farmstead. You see a barn with its doors wide open.
+options: 1
+text: "Time to investigate!"
+destId: 86
+
+nodeId: 12
+text: The brush comes close, scraping against your armor. The sound is grating. Suddenly, a rustling in the bushes startles you!
+options: 2
+text: "I fear no rustling! Have at you!"
+destId:13
+text: "Rustling, schmustling, I need to keep moving!"
+destId: 25
+
+nodeId : 13
+text : You kick the bush angrily, and hear a small yelp. A tiny goblin scout falls from the bush with a thud, dead.
+options: 1
+text: "Amazing! I should attack rustlings more often."
+destId:14
+
+nodeId : 14
+text : Moving along the bushes, you hear more rustling. The bushes feel as if they have eyes that watch you.
+options: 2
+text: "More small goblins to kick! Have at you!"
+destId: 15
+text: "These cursed bushes keep making noise, how annoying!"
+destId: 20
+
+nodeId : 15
+text : You kick the bush with all of your might. A goblin yelps and flies backwards out of the bush, presumed dead by the distance he flew.
+options: 1
+text: "Incredible! I could make this a sport."
+destId: 16
+
+nodeId : 16
+text : A goblin jumps out of the bush ahead of you. "Stop it wit ya kickin', ya louzy knight!" He rushes you in a frenzy!
+options: 1
+text: "I shall never stop!" (Battle!)
+destId: 17
+
+# 1 goblin battle
+nodeId: 17
+text : BATTLE
+options: 2
+text: WIN
+destId: 18
+text: LOSE
+destId: 19
+
+nodeId : 18
+text : You win the melee with great ease!
+options: 1
+text: "Great, now my fists are dirty!"
+destId: 29
+
+nodeId : 19
+text : As quickly as it began, your journey has ended...
+options: 1
+text: "I wasn't cut out for this..."
+destId: -1
+
+nodeId : 24
+text : Moving along the bushes, you hear more rustling in the bushes. The bushes feel as if they have eyes that watch you.
+options: 1
+text: "These cursed bushes keep making noise, how annoying!"
+destId: 25
+
+nodeId : 25
+text : You try to continue along the path, but three goblins jump in front of you! "Stoopid knight, yer journey ends heer!" They grin and raise their bony fists!
+options: 1
+text: "O-ho! Stop me if you can!" (Battle!)
+destId: 26
+
+# 3 goblin battle
+nodeId: 26
+text : BATTLE
+options: 2
+text: WIN
+destId: 27
+text: LOSE
+destId: 28
+
+nodeId : 27
+text : You win the melee with relative ease!
+options: 1
+text: "That scrap was enough to break a sweat!"
+destId: 29
+
+nodeId : 28
+text : As quickly as it began, your journey has ended...
+options: 1
+text: "If only I had a third fist to even the odds..."
+destId: -1
+
+nodeId :20
+text : You try to continue along the path, but two goblins jump in front of you! "You'ze kill our friend, so we'z kill you!" They raise their bony fists!
+options: 1
+text: "A fist-fight! I love it!" (Battle!)
+destId: 21
+
+# 2 goblin battle
+nodeId: 21
+text : BATTLE
+options: 2
+text: WIN
+destId: 22
+text: LOSE
+destId: 23
+
+nodeId : 22
+text : You win the melee with moderate ease!
+options: 1
+text: "One goblin per fist!"
+destId: 29
+
+nodeId : 23
+text : As quickly as it began, your journey has ended...
+options: 1
+text: "What formidable foes... maybe not..."
+destId: -1
+
+nodeId: 29
+text: You continue through the previously goblin-riddled shrubbery. You see the edge of a thin cloud of fog up ahead.
+options: 1
+text: "Fog smaug. Onward!"
+destId: 30
+
+nodeId: 30
+text: You enter the fog with bravery the land has never seen before. Immediately as you step into it, you hear a crow caw loudly in the tree above you. You notice that it's looking directly at you.
+options: 2
+text: Yell at the crow.
+destId:31
+text: "Mother told me crows are good luck. Hello to you too!"
+destId: 244
+
+nodeId: 31
+text: You begin yelling. "CAW! CAW to you too! Bugger off, you rotten feathered rat!" The bird flies off into the forest.
+options: 1
+text: "Excellent! One more victory under my belt." You feel very wise.
+destId: 32
+
+nodeId: 244
+text: The crow swoops down at you with great speed!
+options: 1
+text: "Ah!" (AGI)
+destId: 245
+
+nodeId: 245
+text : AGI EVENT
+options: 2
+text: SUCCESS
+destId: 246
+text: FAILURE
+destId: 247
+
+nodeId: 246
+text: You duck just in time before the crow strikes you. As it flies overhead, an acorn falls to your feet. The crow must have dropped this. You pocket the acorn.
+options: 1
+text: "Thank you!"  You move forward feeling very wise. (Gain Acorn)
+destId: 33
+
+nodeId: 247
+text: You are caught off guard by this quarrelsome crow! It pecks and claws at you before taking its leave.
+options: 1
+text: "And don't come back!" (-4 HP)
+destId: 254
+
+nodeId: 32
+text: Black feathers float gently down from the crow's retreat and you reorient yourself in the fog.
+options: 1
+text: "There's the path!"
+destId: 33
+
+nodeId: 254
+text: Black feathers float gently down from the crow's retreat and you reorient yourself in the fog.
+options: 1
+text: "There's the path!"
+destId: 33
+
+nodeId: 33
+text: You continue through the fog, stumbling on roots and rocks as you try to navigate. You step with a KERPLUNK into a river. You back up and step out of it. Examining it, you see the river is too deep to ford on your own.
+options: 1
+text: "It seems I have no choice but to craft a raft!"
+destId: 34
+
+nodeId: 34
+text: You gather up plenty of driftwood, but you can't find anything to hold it all together. As that thought crosses your mind, you hear flapping. Along comes that crow from before. It appears to be holding a spool of twine in its beak.
+options: 2
+text: "Give me that now, thumb-less creature! You have no use for it!"
+destId: 35
+text: "Here you go, friend!" Toss the crow your acorn. (Lose Acorn)
+destId: 36
+
+nodeId: 35
+text: The crow flies off. Leaving you with no option but to cross the stream with what you have.
+options: 1
+text: "No problem! I can float across easily with what I have!"
+destId: 37 
+
+nodeId: 36
+text: The crow drops the twine to catch the acorn midair. With the twine, you tie all of the driftwood together into a satisfyingly sturdy raft. You keep one piece as a paddle.
+options: 1
+text: "Away I go! "
+destId: 38
+
+nodeId: 37
+text: You cling onto the bunch of driftwood that you have and belly flop into the river.
+options: 1
+text: "For King and country!"
+destId: 39
+
+nodeId : 38
+text : You set the raft into the river and jump aboard.
+options: 1
+text: "For King and country!"
+destId: 40
+
+nodeId: 39
+text: You hang onto the loose driftwood as best you can, losing a few branches and a little honor when colliding with rocks sticking out of the water.
+options: 1
+text: "'Gah!" (-2 HP)
+destId: 41
+
+nodeId : 40
+text : You paddle across the river effortlessly, only struggling momentarily from a few rough spots.
+options: 1
+text: "What a nice day it is today."
+destId: 42
+
+nodeId: 41
+text: Miraculously, you reach the opposite shore of the river, battered but not broken.
+options: 1
+text: "Down but not out!"
+destId: 43
+
+nodeId : 42
+text: Your makeshift raft settles gently on the opposite shore of the river.
+options: 1
+text: "My arrival was inevitable!"
+destId: 43
+
+nodeId: 43
+text: Leaving the river behind, you begin to feel a bit peckish. You notice some bushes bearing berries of all kinds. They look quite enticing.
+options: 2
+text: Search for edible berries. (INT)
+destId: 44
+text: "I have no time for berries! I must feed my honor before I feed my belly!"
+destId: 67
+
+nodeId: 44
+text: INT EVENT
+options: 2
+text: SUCCESS
+destId: 45
+text: FAILURE
+destId: 46
+
+nodeId: 45
+text: Searching through the bushes, you pick the most lackluster of the berries.
+options: 1
+text: "With berries and blades, the shinier, the deadlier! Best to pick from this dull bunch." (+3 HP)
+destId: 67
+
+nodeId: 46
+text: Searching through the bushes, you pick a handful of bright red berries. The taste is surprisingly sour.
+options: 1
+text: "I don't feel so good." (-2 HP)
+destId: 67
+
+# STUMP SAVE SPOT
+nodeId: 67
+text: A short distance from the berries, you spot a comfortable looking stump to rest upon.
+options: 3
+text: Rest. (+5 HP and Save Progress)
+destId: 68
+text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+destId: 69
+text: Continue without resting.
+destId: 47
+
+nodeId: 68
+text: You get up after a good sit.
+options: 1
+text: "Ah, sitting. The standing of laying."
+destId: 47
+
+nodeId: 69
+text: You finish your meal and get up.
+options: 1
+text: "That hit the spot!"
+destId: 47
+
+nodeId: 47
+text: Through the trees you hear a familiar sound. The clinking of mugs and the banter of men. You see smoke rising above the trees.
+options: 1
+text: "Good people don't reside in these woods."
+destId:48
+
+nodeId: 48
+text : You reach the edge of a clearing, and crouch low behind some bushes. You spot a few men brandishing weapons, they don't look friendly. The camp spreads too wide to go around. Looks like you'll have to go through.
+options: 2
+text: Sneak through the camp. (AGI)
+destId: 49
+text: Walk right in.
+destId: 52
+
+nodeId: 49
+text : AGI EVENT
+options: 2
+text: SUCCESS
+destId: 50
+text: FAILURE
+destId: 51
+
+nodeId: 50
+text: It's not easy, but you're able to avert the gaze of the patrolling bandits. You slip further into the camp unnoticed.
+options: 1
+text: *Whispering* "huzzah!"
+destId: 59
+
+nodeId: 51
+text: You try your best to tread lightly, but the clanking of your armor betrays you.
+options: 1
+text: "I hope no one heard that."
+destId: 52
+
+nodeId: 52
+text: One of the bandits locks eyes with you and shouts "Hey you're not supposed to be here!" He whistles to a few of his bandit buddies to take care of you.
+options: 1
+text: combat with 5 bandits (Battle!)
+destId: 54
+
+# 5 Bandits. 2 scouts, 3 thugs
+nodeId: 54
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 55
+text: DEFEATED
+destId: 56
+
+nodeId: 55
+text: The five bandits lay on the ground in a heap, rolling and groaning in pain.
+options: 1
+text: "Nothing like a morning skirmish to get the blood rushing! "
+destId: 57
+
+nodeId: 56
+text: These bandits prove more organized than your average ruffians. They pepper you with arrows and smash you with clubs.
+options: 1
+text: "I may have been in over my head."
+destId: -1
+
+nodeId: 57
+text: You're surprised the rest of the camp isn't descending upon you. You glance around and see only empty tents and tables.
+options: 1
+text: "Perhaps the rest of them are up ahead."
+destId: 58
+
+nodeId: 58
+text: You make it to the center of the camp. It looks like an arena set before the largest of the tents. Its occupant towers before it. This hulking warrior must be their leader.
+options: 1
+text: I must kill him to save countless villages.
+destId: 60
+
+nodeId: 59
+text: You sneak successfully to the center of the camp. It looks like an arena set before the largest of the tents. Its occupant towers before it. This hulking warrior must be their leader.
+options: 1
+text: I must kill him to save countless villages.
+destId: 60
+
+nodeId: 60
+text: You strut right up to the muscled figure. "I am Sir Rancelot of Rockside Castle and you are in my way! Prepare yourself for an honorable death, bridgand!" You backhand the bandit leader with your gauntlet.
+options: 1
+text: He turns his head slowly back to you his face flushed red with rage.
+destId: 61
+
+nodeId: 61
+text: The brute lifts you with one hand by your neck and tosses you back a few paces. He spits on the ground and lifts his fists up in challenge.
+options: 1
+text:  "A man of few words! Have at thee!" (Battle!)
+destId: 62
+
+# Bandit Leader
+nodeId: 62
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 63
+text: DEFEATED
+destId: 64
+
+nodeId: 63
+text: The ground quakes as the goliath crashes to the dirt. You put one foot on his chest in triumph. More bandits gather at the edge of the arena and stare in silence.
+options: 1
+text: You look around and examine the congregation.
+destId: 65
+
+nodeId: 64
+text: Each blow leaves a dent in your armor from the warrior's ham-sized fists. Before long, you are too winded to continue fighting. You fall to the ground.
+options: 1
+text: Before you get a word out, he crumples you like parchment.
+destId: -1
+
+nodeId: 65
+text: You now hold the attention of the entire bandit camp.
+options: 3
+text: Inspire the bandits.
+destId: 76
+text: Intimidate the bandits.
+destId: 77
+text: Continue through the encampment like nothing happened.
+destId: 75
+
+nodeId: 75
+text: The bandits look to each other confused. "We should stop him, right?" They begin to surround you.
+options: 1
+text: "Uh oh..."
+destId: -1
+
+nodeId: 76
+text: You shout at the top of your lungs "Shame on you! A life of banditry? You're better than that!" The bandits look guilty. One approaches you and hands you a bundle of goods. "Sorry..." he mutters as he sulks away.
+options: 1
+text: "Think long and hard about what you've done." (Gain Stolen Goods)
+destId: 66
+
+nodeId: 77
+text: You shout at the top of your lungs "Who's next?!" The bandits scatter in fear.
+options: 1
+text: You clap the dust from your gloves and continue.
+destId: 66
+
+nodeId: 66
+text: You make it to the edge of the encampment. Looking forward, you see a great mountain looming above the canopy of trees. You also spot a dark column of smoke rising from beyond a nearby hill.
+options: 1
+text: "Two quests!"
+destId: 67
+
+nodeId: 255
+text: You make it to the edge of the encampment. Looking forward, you see a great mountain looming above the canopy of trees. You also spot a dark column of smoke rising from beyond a nearby hill.
+options: 1
+text: "Two quests!"
+destId: 67
+
+# STUMP SAVE SPOT
+nodeId: 67
+text: Not far from the encampment, you find a comfortable looking stump to rest and ponder your choices.
+options: 3
+text: Rest. (+5 HP and Save Progress)
+destId: 72
+text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+destId: 73
+text: Continue without resting.
+destId: 70
+
+nodeId: 72
+text: You get up after a good sit.
+options: 1
+text: "Ah, sitting. The standing of laying."
+destId: 70
+
+nodeId: 73
+text: You finish your meal and get up.
+options: 1
+text: "That hit the spot!"
+destId: 70
+
+nodeId: 70
+text: Before you lies a fork in the road, one way leads toward the mountain and the other towards the hillside.
+options: 2
+text: "To the mountain!"
+destId: 78
+text: "To the hillside!"
+destId: 74
+
+nodeId: 74
+text: Following the path towards the hillside, you see a tree has fallen across the path.
+options: 1
+text: "A log on my path can't stop ME!"
+destId: 79
+
+nodeId: 79
+text : Approaching the tree, you hear muffled cries. Upon closer examination, you notice a gnome stuck between the tree and a rock. "plurs! hulp mur!" A weak stifled cry comes from the log, arms flailing.
+options: 2
+text: "Worry not, forest fellow. A hero has arrived!" (STR)
+destId: 80
+text: "In my experience, bad things only happen to bad people. Surely this gnome deserves this!"
+destId: 84
+
+nodeId: 80
+text : STR EVENT
+options: 2
+text: SUCCESS
+destId: 81
+text: FAILURE
+destId: 82
+
+nodeId: 81
+text: You reach around the log and heave with all your might. It begins to lift from the ground gradually at first. You bellow a mighty roar and lift the log clear over your own head before tossing it aside. The gnome stands up and rejoices!
+options: 1
+text: "Huzzah!"
+destId: 83
+
+nodeId: 82
+text: You reach around the log and heave with all your might. It begins to lift from the ground gradually at first, but then you feel a twist in your back, and you drop the log. "OOF" The gnome's arms stop flailing.
+options: 1
+text: "Out of its misery then! My back though..." (-2 HP)
+destId: 84
+
+nodeId: 83
+text: The gnome pipes up in a tiny voice. "Thank you thank you, human! If you hadn't have come along, who knows how long I would be stuck under that log. Thanks to that damn gnoll! Take this magic mushroom as my thanks!"
+options: 1
+text: "Of course, I am a hero after all! Me, Sir Rancelot of Rockside Castle!" You eat the mushroom. (+5 HP)
+destId: 84
+
+nodeId: 84
+text: You continue past the log, back to the task at hand. You reach the base of the hill.
+options: 1
+text: "I should have a better view up there!"
+destId: 85
+
+nodeId: 85
+text: At the top of the hill, you see the source of the smoke. A ruined farmstead lies ahead.
+options: 1
+text: "Time to investigate!"
+destId: 86
+
+nodeId: 86
+text: You approach the barn's open doors. You hear a quiet sobbing inside. Peeking your head in, you see the sobbing is coming from a disheveled farmer sitting on the ground, holding his face.
+options: 1
+text: "What seems to be the problem, good fellow?"
+destId: 87
+
+nodeId: 87
+text: "Bandits took all my precious goods! My tools, my grain, my gold!"
+options: 3
+text: "Are these your goods?" (Lose Stolen Goods)
+destId: 88
+text: "Maybe this can help you rebuild." (-5 Gold)
+destId: 248
+text: "I can't help you with that! Good luck!"
+destId: 89
+
+nodeId: 88
+text: "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
+options: 1
+text: One more victory under my belt! And under this helmet as well!" (Gain Rusty Helmet)
+destId: 249
+
+nodeId: 248
+text: "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
+options: 1
+text: One more victory under my belt! And under this helmet as well!" (Gain Rusty Helmet)
+destId: 249
+
+nodeId: 89
+text: The farmer continues sobbing into hands.
+options: 1
+text: "Welp, there it is!"
+destId: 90
+
+nodeId: 90
+text: You exit the barn, looking back at the mountain.
+options: 1
+text: "Onward!"
+destId: 250
+
+nodeId: 249
+text: You exit the barn, looking back at the mountain.
+options: 1
+text: "Onward!"
+destId: 250
+
+nodeId: 250
+text: Just beside the path, you notice a rock with moss growing in a pattern that makes it look like a smiling face.
+options: 1
+text: Smile back.
+destId: 215
+
+nodeId: 78
+text: Following the path towards the mountain you see a gnoll with a large backpack coming towards you.
+options: 1
+text: "Hmm..."
+destId: 91
+
+nodeId: 91
+text: As you approach each other, the gnoll shouts excitedly as he grabs a log from his pack. "Another victim for a good logging!"
+options: 1
+text: "Not on my watch!"
+destId: 92
+
+nodeId: 92
+text: BATTLE EVENT
+options: 2
+text: VICTORY
+destId: 93
+text: DEFEATED
+destId: 94
+
+nodeId: 93
+text: The gnoll lifts the log high above its head. With a swift kick to its gut, the log slips and crushes the gnoll.
+options: 1
+text: "That'll teach you to lumber around!"
+destId: 95
+
+nodeId: 94
+text: The gnoll lifts the log high above its head.
+options: 1
+text: "Well I'll be dammed."
+destId: -1
+
+nodeId: 96
+text: You stroll along the dirt path, the sun warming your helmet.
+options: 1
+text: "A fine day indeed for questing and heroing!"
+destId: 97
+
+nodeId: 97
+text: You reach a group of goblin bodies, each crushed beneath a large log.
+options: 2
+text: "Maybe there's some loot to be had!"
+destId: 98
+text: "No use mourning monsters."
+destId:105
+
+nodeId: 98
+text: There are 3 goblins to choose from.
+options: 3
+text: "How about the goblin with the ear ring?"
+destId: 99
+text: "How about the goblin with the club?"
+destId: 101
+text: "How about the goblin with the carrot?"
+destId:102
+
+nodeId: 99
+text: You lift up the log and a spider jumps on your arm. "The Spider Queen sends her regards!" it says with a hiss.
+options: 1
+text: "GAH!"
+destId: 100
+
+nodeId: 100
+text: The spider bites you and scurries away.
+options: 1
+text: "OUCH!" (-5 HP)
+destId: 104
+
+nodeId: 101
+text: You lift up the log hoping to find some worthy equipment, but find nothing of value from the bloodied goblin.
+options: 1
+text: "No honor under there!"
+destId: 104
+
+nodeId: 102
+text: You lift up the log and a sparkling in the dirt catches your eye immediately.
+options: 1
+text: "What do we have here?"
+destId: 103
+
+nodeId: 103
+text: Dropping the log to the side, you unearth a shiny and sturdy shield with a tower emblazoned upon its face.
+options: 1
+text: "This shall aid me in my quest!" (Gain Tower Shield)
+destId: 104
+
+nodeId: 104
+text: Looking over the rest of the logs and feeling an ache in your back, you decide to journey forth.
+options: 1
+text: "No more time to waste! Off I go!"
+destId: 105
+
+nodeId: 105
+text: You carry on along the path, feeling a sense of pride grow in you without cause.
+options: 1
+text: "I'm doing great!"
+destId: 215
