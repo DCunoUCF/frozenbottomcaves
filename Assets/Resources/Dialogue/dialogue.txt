@@ -7,14 +7,14 @@ destId: 1
 nodeId: 1
 text: You find yourself on a dirt path. Trees hang over you, casting shadows across the forest.
 options: 1
-text : "Your shadows don't scare me, tall trees!" Move deeper into the forest.
+text: "Your shadows don't scare me, tall trees!" Move deeper into the forest.
 destId: 2
 
-nodeId : 2
+nodeId: 2
 text: You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
-options : 2
+options: 2
 text: "The trees to the left look promising!"
-destId:3
+destId: 3
 text: "Some bushes! What fun! Just like the castle gardens!"
 destId:12
 
@@ -24,11 +24,11 @@ options: 1
 text: "Puddles are the least of my concern. I must continue!"
 destId:4
 
-nodeId : 4
-text : You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance!
-options : 1
-text : Find your balance! (AGI)
-destId : 5
+nodeId: 4
+text: You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance!
+options: 1
+text: Find your balance! (AGI)
+destId: 5
 
 nodeId: 5
 text : AGILITY EVENT
@@ -38,34 +38,34 @@ destId: 6
 text: FAIL
 destId: 7
 
-nodeId : 7
-text : You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
+nodeId: 7
+text: You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
 options: 1
-text: "..." Trudge along. (-2 Health)
+text: "..." Trudge along. (-2 HP)
 destId:8
 
-nodeId : 6
-text : You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path!
+nodeId: 6
+text: You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path!
 options: 1
 text: "And he sticks the landing, amazing!" Continue in style.
-destId:8
+destId: 8
 
-nodeId : 8
-text : As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
+nodeId: 8
+text: As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
 options: 1
 text: "Gross! I shall tear you apart with my gloved hands!" (Battle!)
-destId:9
+destId: 9
 
 nodeId: 9
-text : BATTLE
+text: BATTLE
 options: 2
 text: WIN
 destId: 10
 text: LOSE
 destId: 11
 
-nodeId : 10
-text : Covered in slime and victory, you emerge from the fray!
+nodeId: 10
+text: Covered in slime and victory, you emerge from the fray!
 options: 1
 text: "Huzzah! Though I need a bath now..."
 destId: 106
@@ -134,7 +134,7 @@ nodeId: 166
 text: The kind wolf looks up at you expectantly.
 options: 1
 text: "What is it?!"
-destId: 167 
+destId: 167
 
 nodeId: 167
 text: The sad wolf nudges your arm, whining.
@@ -144,7 +144,7 @@ destId: 168
 text: Pat the wolf on its head.
 destId: 171
 text: "Here you go, friend!" (-1 Provision)
-destId: 174 
+destId: 174
 
 nodeId: 168
 text : STR EVENT
@@ -954,7 +954,6 @@ text: As you near the sounds, you see two goblins. One has a spider the size of 
 options: 2
 text: "Die foul beasts!" (Battle!)
 destId: 142
-# CHERRY PIT ITEM
 text: Throw your cherry pit at the spider. (Lose Cherry Pit)
 destId: 145
 
@@ -1209,7 +1208,7 @@ nodeId: 35
 text: The crow flies off. Leaving you with no option but to cross the stream with what you have.
 options: 1
 text: "No problem! I can float across easily with what I have!"
-destId: 37 
+destId: 37
 
 nodeId: 36
 text: The crow drops the twine to catch the acorn midair. With the twine, you tie all of the driftwood together into a satisfyingly sturdy raft. You keep one piece as a paddle.
@@ -1547,8 +1546,7 @@ destId: 87
 
 nodeId: 87
 text: "Bandits took all my precious goods! My tools, my grain, my gold!"
-options: 2
-# STOLEN GOODS ITEM
+options: 3
 text: "Are these your goods?" (Lose Stolen Goods)
 destId: 88
 text: "Maybe this can help you rebuild." (-5 Gold)

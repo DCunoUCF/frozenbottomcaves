@@ -236,12 +236,12 @@ public class Inventory
 
     public void addRessurection()
     {
-        addItem(Item.ItemType.Ressurection, 1);
+        addItem(Item.ItemType.Resurrection, 1);
     }
 
     public void removeRessurection()
     {
-        removeItem(Item.ItemType.Ressurection, 1);
+        removeItem(Item.ItemType.Resurrection, 1);
     }
 
     public void toggleInventory()

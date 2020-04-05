@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
 
         // Loads the file
         // dialogue = p.LoadFile(Application.streamingAssetsPath + "/tutorial.txt");
-        dialogue = p.LoadFile("Dialogue/dialogue2");
+        dialogue = p.LoadFile("Dialogue/dialogue");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);
@@ -110,7 +110,7 @@ public class DialogueManager : MonoBehaviour
     //    {
     //        if (d.nodeId == ID)
     //        {
-    //            index = 
+    //            index =
     //        }
     //    }
 
@@ -271,7 +271,7 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
-        
+
 
         DialogueSizer();
         setInitialSelection();
@@ -499,7 +499,7 @@ public class DialogueManager : MonoBehaviour
 
         // Readjust Dialogue box location to be buffer from top of Panel
         dialogueRect.anchoredPosition = new Vector2(0,(panelRect.rect.height / 2) - (dialogueRect.rect.height/2) - winHeightBuffer);
-        
+
         // Readjust each option button to be buffer from bottom of Panel
         for (int i = 0; i < optionRect.Count; i++)
         {

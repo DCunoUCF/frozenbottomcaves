@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 public class Dialogue
 {
-    public List<DialogueNode> nodes;
+    public DialogueNode[] nodes;
 
     public Dialogue()
     {
-        nodes = new List<DialogueNode>();
+        nodes = new DialogueNode[1000]; // Hardcoded size. Make bigger if game bigger
     }
 
-    public void addNode(DialogueNode node)
+    public void addNode(int idx, DialogueNode node)
     {
-        nodes.Add(node);
+        nodes[idx] = node;
     }
 }
 

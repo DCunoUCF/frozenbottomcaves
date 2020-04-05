@@ -65,6 +65,7 @@ public class OverworldManager : MonoBehaviour
 	        }
 
             spawnPlayer();
+            Debug.Log("Node 6 text:" + this.dm.dialogue.nodes[6].text);
         }
 
         if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
@@ -79,7 +80,8 @@ public class OverworldManager : MonoBehaviour
         		{
         			if (id == this.dm.currentNode)
         			{
-        				// Move the player along the map
+                        Debug.Log("currentNode OM: " + this.dm.currentNode);
+                        // Move the player along the map
                         this.TurnPlayer(this.player, new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z));
         				//this.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z);
 

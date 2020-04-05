@@ -15,8 +15,16 @@ public class Item
         Shield,
         Provisions,
         Gold,
-        Ressurection,
-        DwarfKey,
+        Resurrection,
+        BeardedKey,
+        WolfMeat,
+        RustyHelmet,
+        StolenGoods,
+        Acorn,
+        WolfCollar,
+        CherryPit,
+        HalfChewedChocolate,
+        TowerShield
     }
 
     public Item(ItemType item, string displayName, bool stackable)
