@@ -12,13 +12,20 @@ public class OverworldManager : MonoBehaviour
     public DialogueManager dm;
     public bool playerSpawned;
 
+    public int startingNode;
     public List<GameObject> nodes;
     public int playerNodeId;
     public int nodeTypeCount;
+    public bool load;
+    public List<int> nodeSavedAt;
+
+    public int saveNode, saveNodeTypeCount, saveCurrentNode, facing;
 
     private Vector3 destPos;
     private float speed = .20f, startTime, journeyLength;
     private bool destReached;
+
+    WorldNode curNode;
 
     private void Awake()
     {
@@ -31,35 +38,13 @@ public class OverworldManager : MonoBehaviour
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         destReached = true;
-        // nodes = new List<GameObject>();
-
-        // foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
-        // {
-        // 	nodes.Add(n);
-        // }
-
-        // nodes = GameObject.FindGameObjectsWithTag("OWNode");
-
-        // if (GameObject.Find("Node0") != null)
-        // 	Debug.Log("Hooray!");
-        // else
-        // 	Debug.Log("Fail whale :(");
-
-        // Debug.Log(OWNodes.ToString());
+        startingNode = 0;
+        nodeSavedAt = new List<int>();
     }
 
     // Update is called once per frame
     void Update()
     {
-/*        if(!playerSpawned)
-        {
-            List<GameObject> nodes = new List<GameObject>();
-            foreach (GameObject g in GameObject.FindGameObjectsWithTag("OWNode"))
-                nodes.Add(g);
-            foreach (GameObject g in nodes)
-                print(g);
-        }*/
-
         // If we're in the overworld for the first time, plop the player character in
         if (SceneManager.GetActiveScene().name == "Overworld" && !playerSpawned)
         {
@@ -79,11 +64,13 @@ public class OverworldManager : MonoBehaviour
 
         if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
         {
-        	foreach (GameObject n in nodes)
+        	for(int i = startingNode; i < nodes.Count; i++)
         	{
+                load = false;
+                GameObject n = nodes[i];
         		this.nodeTypeCount = 0;
-
-        		foreach (int id in n.GetComponent<WorldNode>().NodeIDs)
+                curNode = n.GetComponent<WorldNode>();
+        		foreach (int id in curNode.NodeIDs)
         		{
         			if (id == this.dm.currentNode)
         			{
@@ -111,21 +98,97 @@ public class OverworldManager : MonoBehaviour
         				// Update the player node id
         				this.playerNodeId = id;
 
-        				if (n.GetComponent<WorldNode>().NodeTypes[this.nodeTypeCount] == FlagType.Battle)
+        				if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.Battle)
         				{
                             print("entered combat");
                             StartCoroutine(BattleEvent());
                         }
 
-                        if (n.GetComponent<WorldNode>().NodeTypes[this.nodeTypeCount] == FlagType.Event)
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.STREvent)
                         {
-                            print("entered event");
-                            this.SkillSaveEvent();
+                            print("entered str event");
+                            this.SkillSaveEvent("STR");
+                        }
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.INTEvent)
+                        {
+                            print("entered int event");
+                            this.SkillSaveEvent("INT");
+                        }
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.AGIEvent)
+                        {
+                            print("entered agi event");
+                            this.SkillSaveEvent("AGI");
+                        }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.HPEvent)
+                        {
+                            print("Hp event");
+                            this.HPEvent(curNode.HealthChange[this.nodeTypeCount]);
+                        }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.Item)
+                        {
+                            print("Getting item(s)");
+                            this.ItemGet(curNode.NodeItems[this.nodeTypeCount].item, curNode.NodeItems[this.nodeTypeCount].count);
+                        }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.ItemLose)
+                        {
+                            print("Losing item(s)");
+                            this.ItemRemove(curNode.NodeItemsLose[this.nodeTypeCount].item, curNode.NodeItemsLose[this.nodeTypeCount].count);
+                        }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.HPMaxEvent)
+                        {
+                            print("HP MAX event");
+                            this.HPMaxEvent(curNode.MaxHealthChange[this.nodeTypeCount]);
+                        }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.SaveEvent)
+                        {
+                            if (!nodeSavedAt.Contains(curNode.NodeIDs[this.nodeTypeCount]))
+                            {
+                                nodeSavedAt.Add(curNode.NodeIDs[this.nodeTypeCount]);
+                                
+                                // If this save event has the provisions checked, eat one 
+                                if (curNode.SaveProvisions[this.nodeTypeCount])
+                                    this.gm.pm.pc.inventory.removeProvision();
+                                // Either way heal 5
+                                this.HPEvent(5);
+
+                                // Tell the pm to create a deep copy of the current player and inventory
+                                this.gm.pm.createSave();
+
+                                // Remember the node information
+                                this.saveNode = i;
+                                this.saveNodeTypeCount = this.nodeTypeCount;
+                                this.saveCurrentNode = this.dm.currentNode;
+
+                                // Save direction they're facing
+                                if (player.transform.GetChild(0).gameObject.activeSelf)
+                                    facing = 0;
+                                else if (player.transform.GetChild(1).gameObject.activeSelf)
+                                    facing = 1;
+                                else if (player.transform.GetChild(2).gameObject.activeSelf)
+                                    facing = 2;
+                                else if (player.transform.GetChild(3).gameObject.activeSelf)
+                                    facing = 3;
+                            }
+                        }
+
+                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.LoadEvent)
+                        {
+                            this.loadSave();
+                            load = true;
                         }
                     }
 
                     this.nodeTypeCount++;
+                    if (load)
+                        break;
         		}
+                if (load)
+                    break;
         	}
         }
         else if (playerSpawned && !gm.pm.inCombat && !destReached)
@@ -138,6 +201,29 @@ public class OverworldManager : MonoBehaviour
                 dm.setInitialSelection();
             }
 
+        }
+    }
+
+    public void loadSave()
+    {
+        this.gm.pm.loadSave();
+        this.dm.currentNode = this.saveCurrentNode;
+        this.startingNode = saveNode;
+        this.nodeTypeCount = saveNodeTypeCount;
+
+        this.dm.init();
+
+        destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);
+        this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
+                                                     nodes[startingNode].transform.position.y,
+                                                     nodes[startingNode].transform.position.z);
+        movePlayer();
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == facing)
+                this.player.transform.GetChild(i).gameObject.SetActive(true);
+            else
+                this.player.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 
@@ -161,6 +247,123 @@ public class OverworldManager : MonoBehaviour
         cam.transform.SetParent(player.transform);
         cam.transform.localPosition = new Vector3(0, 0, -10);
         gm.pm.initPM();
+    }
+
+
+    public IEnumerator BattleEvent()
+    {
+        this.dm.Panel.SetActive(false);
+        //this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
+        this.gm.sm.setBattleMusic();
+        SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
+        this.gm.pm.combatInitialized = true;
+        this.gm.pm.inCombat = true;
+
+        yield return new WaitUntil(() => this.gm.bm != null);
+        yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true);
+
+        if (this.gm.bm.didWeWinTheBattle())
+            this.dm.currentNode += 1;
+        else
+            this.dm.currentNode += 2;
+        
+        this.gm.pm.combatInitialized = false;
+        this.gm.pm.inCombat = false;
+
+        //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
+        this.dm.Panel.SetActive(true);
+        this.dm.EventComplete();
+        //dm.setInitialSelection();
+    }
+
+    public void SkillSaveEvent(string stat)
+    {
+        // Check which skill the event is for from WorldNode struct
+        // Maybe have difficulties in the WorldNode struct to alter how high the roll needs to be
+        // Call getters to the playerClass/Manager to check the player's skill
+        // Do random chance roll
+        // Setter for dm.currentNode += 1(save) or += 2(fail)
+        this.dm.Panel.SetActive(false);
+        int modifier = this.gm.pm.getStatModifier(stat);
+        int r1 = Random.Range(1, 7);
+        int r2 = Random.Range(1, 7);
+        print("roll 1 " + r1 + " roll 2 " + r2 + "modifier " + modifier);
+
+        if (r1+r2+modifier < 3)
+        {
+            print("FAIL");
+            this.dm.currentNode += 2;
+        }
+        else
+        {
+            print("SAVE");
+            this.dm.currentNode += 1;
+        }
+
+
+        this.dm.Panel.SetActive(true);
+        this.dm.EventComplete();
+        dm.setInitialSelection();
+    }
+
+    public void HPEvent(int dmg)
+    {
+        this.gm.pm.setHealthEvent(dmg);
+    }
+
+    public void HPMaxEvent(int change)
+    {
+        this.gm.pm.maxHealthEvent(change);
+    }
+
+    public void ItemGet(Item.ItemType item, int count)
+    {
+        this.gm.pm.pc.inventory.addItem(item, count);
+    }
+
+    public void ItemRemove(Item.ItemType item, int count)
+    {
+        this.gm.pm.pc.inventory.removeItem(item, count);
+    }
+
+    public GameObject GetCurrentNode()
+    {
+        WorldNode curWorldNode;
+
+        if (this.nodes == null)
+        {
+            Debug.AssertFormat(false, "OWNodes list(nodes) has not been created yet.");
+            return null;
+        }
+
+        for (int i = 0; i < this.nodes.Count; i++)
+        {
+            curWorldNode = this.nodes[i].GetComponent<WorldNode>();
+
+            for (int j = 0; j < curWorldNode.NodeIDs.Count; j++)
+            {
+                if (curWorldNode.NodeIDs[j] == this.dm.currentNode)
+                    return this.nodes[i];
+            }
+        }
+
+
+        Debug.AssertFormat(false, "Couldn't find currentNode " + this.dm.currentNode + " in OWNodes list(nodes).");
+        return null;
+    }
+
+    public BattleClass GetBattleClass()
+    {
+        WorldNode curWorldNode = this.GetCurrentNode().GetComponent<WorldNode>();
+
+        for (int i = 0; i < curWorldNode.NodeIDs.Count; i++)
+        {
+            if (curWorldNode.NodeIDs[i] == this.dm.currentNode)
+                return curWorldNode.battleClassList.list[i];
+        }
+
+        Debug.AssertFormat(false, "Couldn't find BattleClass in BattleClassList at currentNode " + this.dm.currentNode);
+        return null;
     }
 
     void TurnPlayer(GameObject entity, Vector3 movTar)
@@ -208,102 +411,5 @@ public class OverworldManager : MonoBehaviour
                 NE.gameObject.SetActive(false);
             }
         }
-    }
-
-    public IEnumerator BattleEvent()
-    {
-        this.dm.Panel.SetActive(false);
-        //this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
-        this.gm.sm.setBattleMusic();
-        SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
-        this.gm.pm.combatInitialized = true;
-        this.gm.pm.inCombat = true;
-
-        yield return new WaitUntil(() => this.gm.bm != null);
-        yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true);
-
-        if (this.gm.bm.didWeWinTheBattle())
-            this.dm.currentNode += 1;
-        else
-            this.dm.currentNode += 2;
-        
-        this.gm.pm.combatInitialized = false;
-        this.gm.pm.inCombat = false;
-
-        //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
-        this.dm.Panel.SetActive(true);
-        this.dm.EventComplete();
-        //dm.setInitialSelection();
-    }
-
-    public void SkillSaveEvent()
-    {
-        // Check which skill the event is for from WorldNode struct
-        // Maybe have difficulties in the WorldNode struct to alter how high the roll needs to be
-        // Call getters to the playerClass/Manager to check the player's skill
-        // Do random chance roll
-        // Setter for dm.currentNode += 1(save) or += 2(fail)
-
-        this.dm.Panel.SetActive(false);
-        // Stand-in for first playable... 1 = save, 2 = fail
-        int random = (Random.Range(0, 2) + 1);
-        print("currentNode before:" + this.dm.currentNode);
-        this.dm.currentNode += random;
-        print("currentNode after:" + this.dm.currentNode);
-
-        if (random == 1)
-        {
-            print("SAVE");
-        }
-        else if (random == 2)
-        {
-            print("FAIL");
-            this.gm.pm.takeDmg(2); // Changed to use new dmg method
-            //this.gm.pm.pc.setHealth(this.gm.pm.pc.getHealth() - 2);
-        }
-
-        this.dm.Panel.SetActive(true);
-        this.dm.EventComplete();
-        dm.setInitialSelection();
-    }
-
-    public GameObject GetCurrentNode()
-    {
-        WorldNode curWorldNode;
-
-        if (this.nodes == null)
-        {
-            Debug.AssertFormat(false, "OWNodes list(nodes) has not been created yet.");
-            return null;
-        }
-
-        for (int i = 0; i < this.nodes.Count; i++)
-        {
-            curWorldNode = this.nodes[i].GetComponent<WorldNode>();
-
-            for (int j = 0; j < curWorldNode.NodeIDs.Count; j++)
-            {
-                if (curWorldNode.NodeIDs[j] == this.dm.currentNode)
-                    return this.nodes[i];
-            }
-        }
-
-
-        Debug.AssertFormat(false, "Couldn't find currentNode " + this.dm.currentNode + " in OWNodes list(nodes).");
-        return null;
-    }
-
-    public BattleClass GetBattleClass()
-    {
-        WorldNode curWorldNode = this.GetCurrentNode().GetComponent<WorldNode>();
-
-        for (int i = 0; i < curWorldNode.NodeIDs.Count; i++)
-        {
-            if (curWorldNode.NodeIDs[i] == this.dm.currentNode)
-                return curWorldNode.battleClassList.list[i];
-        }
-
-        Debug.AssertFormat(false, "Couldn't find BattleClass in BattleClassList at currentNode " + this.dm.currentNode);
-        return null;
     }
 }

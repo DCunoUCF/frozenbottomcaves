@@ -48,7 +48,27 @@ public class DialogueManager : MonoBehaviour
         Choices[1].onClick.AddListener(choiceOption02);
         Choices[2].onClick.AddListener(choiceOption03);
 
+        init();
         // Dialogue text
+        //TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
+
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    Choices[i].gameObject.SetActive(false);
+        //}
+
+        //// Dialogue Choices
+        //for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
+        //{
+        //    Choices[i].gameObject.SetActive(true);
+        //    Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+        //}
+
+        DialogueSizer();
+    }
+
+    public void init()
+    {
         TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < 3; i++)
@@ -63,7 +83,7 @@ public class DialogueManager : MonoBehaviour
             Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
-        DialogueSizer();
+        StartCoroutine(resizerDelayed());
     }
 
     // Run if user clicks first choice
@@ -229,6 +249,12 @@ public class DialogueManager : MonoBehaviour
         }
 
         Panel.SetActive(false);
+    }
+
+    IEnumerator resizerDelayed()
+    {
+        yield return new WaitForSeconds(.01f);
+        DialogueSizer();
     }
 
     public void DialogueSizer()

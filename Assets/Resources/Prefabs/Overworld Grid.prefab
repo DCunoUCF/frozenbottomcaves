@@ -45,7 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 0c0000000d000000
   NodeTypes: 0000000000000000
+  battleClassList:
+    list: []
   NodeItems: 0000000000000000
+  eventDamage: 0
 --- !u!1 &248976197
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +94,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 02000000
   NodeTypes: 00000000
+  battleClassList:
+    list: []
   NodeItems: 00000000
+  eventDamage: 0
 --- !u!1 &385291376
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +143,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 0e0000000f0000001000000011000000120000001300000018000000190000001a0000001b0000001c000000
   NodeTypes: 0000000000000000000000000100000000000000000000000000000000000000010000000000000000000000
+  battleClassList:
+    list: []
   NodeItems: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  eventDamage: 0
 --- !u!1 &408600724
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +192,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 03000000
   NodeTypes: 00000000
+  battleClassList:
+    list: []
   NodeItems: 00000000
+  eventDamage: 0
 --- !u!1 &474370915
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +241,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 08000000090000000a0000000b000000
   NodeTypes: 00000000010000000000000000000000
+  battleClassList:
+    list: []
   NodeItems: 00000000000000000000000000000000
+  eventDamage: 0
 --- !u!1 &722167650
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +290,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 06000000
   NodeTypes: 00000000
+  battleClassList:
+    list: []
   NodeItems: 00000000
+  eventDamage: 0
 --- !u!1 &777421099
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +339,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 00000000
   NodeTypes: 00000000
+  battleClassList:
+    list: []
   NodeItems: 00000000
+  eventDamage: 0
 --- !u!1 &1027051806
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +388,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 01000000
   NodeTypes: 00000000
+  battleClassList:
+    list: []
   NodeItems: 00000000
+  eventDamage: 0
 --- !u!1 &1753270888
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +437,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 040000000500000007000000
   NodeTypes: 000000000200000000000000
+  battleClassList:
+    list: []
   NodeItems: 000000000000000000000000
+  eventDamage: 0
 --- !u!1 &1985881636
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +486,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeIDs: 14000000150000001600000017000000
   NodeTypes: 00000000010000000000000000000000
+  battleClassList:
+    list: []
   NodeItems: 00000000000000000000000000000000
+  eventDamage: 0
 --- !u!1 &529555865867414381
 GameObject:
   m_ObjectHideFlags: 0
@@ -5481,7 +5511,7 @@ Tilemap:
   - first: {x: 0, y: 2, z: 0}
     second:
       m_TileIndex: 2
-      m_TileSpriteIndex: 2
+      m_TileSpriteIndex: 9
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -6468,8 +6498,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 0b93209eea88c5e49b1fb5ceb67295f5, type: 3}
   - m_RefCount: 92
     m_Data: {fileID: 21300000, guid: 7d4dd18a3eb934044911554b678e8a7d, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 9371f3c407dca424ea48161460282e5c, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 101
     m_Data: {fileID: 21300000, guid: c9f36756bffdc8e418597cb06e4ae2db, type: 3}
   - m_RefCount: 24
@@ -6482,8 +6512,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 2618e312afce95c42af9e92b61db03f4, type: 3}
   - m_RefCount: 8
     m_Data: {fileID: 21300000, guid: 8f4109c422f4896428c1bdce7aec58a1, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 9371f3c407dca424ea48161460282e5c, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 654
     m_Data:
