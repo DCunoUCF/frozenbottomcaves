@@ -5,6 +5,7 @@ using UnityEngine;
 public class Weapon
 {
     public WeaponType weapon;
+    public string displayName;
 
     public enum WeaponType
     {
@@ -16,8 +17,9 @@ public class Weapon
         MonkPendant
     };
 
-    public Weapon(WeaponType weapon)
+    public Weapon(WeaponType weapon, string displayName)
     {
+        this.displayName = displayName;
         this.weapon = weapon;
     }
 }
