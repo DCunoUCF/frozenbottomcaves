@@ -122,7 +122,7 @@ public class DialogueManager : MonoBehaviour
     // Run if user clicks first choice
     public void choiceOption01()
     {
-        setInterableAll();
+        setInteractableAll();
         currentNode = dialogue.nodes[currentNode].options[0].destId;
 
         if (currentNode == -1)
@@ -208,7 +208,7 @@ public class DialogueManager : MonoBehaviour
     // Run if user clicks second choice
     public void choiceOption02()
     {
-        setInterableAll();
+        setInteractableAll();
         currentNode = dialogue.nodes[currentNode].options[1].destId;
 
         if (currentNode == -1)
@@ -293,8 +293,7 @@ public class DialogueManager : MonoBehaviour
     // Run if user clicks third choice
     public void choiceOption03()
     {
-        setInterableAll();
-
+        setInteractableAll();
         currentNode = dialogue.nodes[currentNode].options[2].destId;
 
         if (currentNode == -1)
@@ -372,6 +371,12 @@ public class DialogueManager : MonoBehaviour
 
         DialogueSizer();
         setInitialSelection();
+    }
+
+    public void setInteractableAll()
+    {
+        foreach (Button b in Choices)
+            b.interactable = true;
     }
 
     public void EventComplete()
@@ -503,7 +508,7 @@ public class DialogueManager : MonoBehaviour
         // Buffers
         int winHeightBuffer = 20;
         int middleBuffer = winHeightBuffer / 2;
-        int optionBuffer = (int) ((optionRect[0].rect.height) + middleBuffer);
+        int optionBuffer = (int)((optionRect[0].rect.height) + middleBuffer);
 
         // Char Height/Width based on font size. Increase width buffer to increase the number of rows. Increase heightBuffer to increase the height of the rows
         float heightBuffer = 4.0f, widthBuffer = 1.0f;
@@ -518,17 +523,17 @@ public class DialogueManager : MonoBehaviour
         dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
 
         // Resize Panel box based on Dialogue box size, and number of options*option size + buffers
-        float newPanelTopY = dialogueRect.rect.height + winHeightBuffer*2;
-        float newPanelBotY = optionBuffer*optionRect.Count;
+        float newPanelTopY = dialogueRect.rect.height + winHeightBuffer * 2;
+        float newPanelBotY = optionBuffer * optionRect.Count;
         panelRect.sizeDelta = new Vector2(panelRect.rect.width, newPanelTopY + newPanelBotY);
 
         // Readjust Dialogue box location to be buffer from top of Panel
-        dialogueRect.anchoredPosition = new Vector2(0,(panelRect.rect.height / 2) - (dialogueRect.rect.height/2) - winHeightBuffer);
+        dialogueRect.anchoredPosition = new Vector2(0, (panelRect.rect.height / 2) - (dialogueRect.rect.height / 2) - winHeightBuffer);
 
         // Readjust each option button to be buffer from bottom of Panel
         for (int i = 0; i < optionRect.Count; i++)
         {
-            optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer * i)));
+            optionRect[i].anchoredPosition = new Vector2(0, (-1 * ((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer * i)));
         }
     }
 

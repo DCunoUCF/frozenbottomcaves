@@ -44,8 +44,8 @@ public class UIInventory : MonoBehaviour
             temp.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;
         }
 
-        // Ressurection
-        else if(item.item == Item.ItemType.Ressurection)
+        // Resurrection
+        else if(item.item == Item.ItemType.Resurrection)
         {
             instance = MainMenu;
             instance.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = color1;
@@ -72,7 +72,7 @@ public class UIInventory : MonoBehaviour
     public void removeItem(Item item)
     {
         // Main Menu Items
-        if (item.item == Item.ItemType.Gold || item.item == Item.ItemType.Provisions || item.item == Item.ItemType.Ressurection)
+        if (item.item == Item.ItemType.Gold || item.item == Item.ItemType.Provisions || item.item == Item.ItemType.Resurrection)
             return;
 
         // Only Miscellaneous Items
@@ -202,8 +202,8 @@ public class UIInventory : MonoBehaviour
             }
         }
 
-        // Ressurection
-        else if (item.item == Item.ItemType.Ressurection)
+        // Resurrection
+        else if (item.item == Item.ItemType.Resurrection)
         {
             temp = MainMenu.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
             temp.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;

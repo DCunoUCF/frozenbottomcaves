@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
             this.gameMusicChannel = this.gameObject.AddComponent<AudioSource>();
             this.sm.setMusicChannel(this.gameMusicChannel);
         }
-        
+
         if (this.gameEffectChannel == null)
         {
             this.gameEffectChannel = this.gameObject.AddComponent<AudioSource>();
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
                         won = true;
                     }
                     else
-                    { 
+                    {
                         splash = "LoseSplash";
                     }
 

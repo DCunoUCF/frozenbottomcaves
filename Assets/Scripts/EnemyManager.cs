@@ -71,38 +71,6 @@ public class EnemyManager// : MonoBehaviour
                 comp.setBattleManager(this.bm);
                 comp.init();
             }
-            // else if (e.entity.GetComponent<EnemyBrawler>() != null)
-            // {
-            //     comp = e.entity.GetComponent<EnemyBrawler>();
-            //     comp.setCombatantEntry(e);
-            //     comp.setBattleManager(this.bm);
-            //     comp.init();
-            // }
-            // else if (e.entity.GetComponent<EnemyFlanker>() != null)
-            // {
-            //     comp = e.entity.GetComponent<EnemyFlanker>();
-            //     comp.setCombatantEntry(e);
-            //     comp.setBattleManager(this.bm);
-            //     comp.init();
-            // }
-            // else if (e.entity.GetComponent<EnemyAssassin>() != null)
-            // {
-            //     comp = e.entity.GetComponent<EnemyAssassin>();
-            //     comp.setCombatantEntry(e);
-            //     comp.setBattleManager(this.bm);
-            //     comp.init();
-            // }
-            // else if (e.entity.GetComponent<EnemyAuxillary>() != null)
-            // {
-            //     comp = e.entity.GetComponent<EnemyAuxillary>();
-            //     comp.setCombatantEntry(e);
-            //     comp.setBattleManager(this.bm);
-            //     comp.init();
-            // }
-
-            // else if (has ARCHER)
-                // comp = ARCHER
-            // No component found, defaulting enemy to Dunce
             else
             {
                 e.entity.AddComponent<Enemy>();
