@@ -96,6 +96,29 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(resizerDelayed());
     }
 
+    // return proper index BACKUP WIP IF SOMETHING MAJOR BREAKS AGAIN
+    //private int findNode(int ID)
+    //{
+    //    int index = 0;
+
+    //    for (int i = 0; i < dialogue.nodes.Count; i++)
+    //    {
+
+    //    }
+
+    //    foreach (DialogueNode d in dialogue.nodes)
+    //    {
+    //        if (d.nodeId == ID)
+    //        {
+    //            index =
+    //        }
+    //    }
+
+
+
+    //    return index;
+    //}
+
     // Run if user clicks first choice
     public void choiceOption01()
     {
@@ -213,6 +236,7 @@ public class DialogueManager : MonoBehaviour
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
+            print("NUM OPTIONS: " + dialogue.nodes[currentNode].options.Count);
             for (int j = 0; j < om.nodes.Count; j++)
             {
                 int nodeCount = 0;
@@ -260,7 +284,7 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
-        
+
 
         DialogueSizer();
         setInitialSelection();
@@ -417,6 +441,11 @@ public class DialogueManager : MonoBehaviour
                             Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                         }
                     }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    }
                     nodeCount++;
                 }
             }
@@ -527,6 +556,12 @@ public class DialogueManager : MonoBehaviour
             b.interactable = false;
             i++;
         }
+    }
+
+    public void setInterableAll()
+    {
+        foreach (Button b in Choices)
+            b.interactable = true;
     }
 
     // Opposite of above, as well as setting the first option back to the initial selection

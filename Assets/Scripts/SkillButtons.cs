@@ -8,6 +8,7 @@ public class SkillButtons : MonoBehaviour
 {
     public Button[] b;
     public GameObject[] cdText;
+    public TextMeshProUGUI tooltip;
 
     public void initSkillButtons()
     {
@@ -15,6 +16,7 @@ public class SkillButtons : MonoBehaviour
         b[1].onClick.AddListener(s2);
         b[2].onClick.AddListener(s3);
         b[3].onClick.AddListener(s4);
+
         string[] temp;
         for (int i = 1; i < 5; i++)
         {
@@ -76,6 +78,27 @@ public class SkillButtons : MonoBehaviour
             cdText[i].GetComponent<TextMeshProUGUI>().text = cds[i].ToString();
 
         }
+    }
+
+    public void writeToolTip1()
+    {
+        tooltip.text = PlayerManager.Instance.pc.skill1desc;
+    }
+    public void writeToolTip2()
+    {
+        tooltip.text = PlayerManager.Instance.pc.skill2desc;
+    }
+    public void writeToolTip3()
+    {
+        tooltip.text = PlayerManager.Instance.pc.skill3desc;
+    }
+    public void writeToolTip4()
+    {
+        tooltip.text = PlayerManager.Instance.pc.skill4desc;
+    }
+    public void clearToolTip()
+    {
+        tooltip.text = "";
     }
 
 

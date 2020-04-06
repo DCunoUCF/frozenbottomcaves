@@ -238,6 +238,8 @@ public class OverworldManager : MonoBehaviour
             else
                 this.player.transform.GetChild(i).gameObject.SetActive(false);
         }
+        this.gm.om.dm.setInterableAll();
+        this.gm.om.dm.setInitialSelection();
     }
 
     private void movePlayer()
@@ -297,7 +299,6 @@ public class OverworldManager : MonoBehaviour
         
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
-        this.rollParchment.SetActive(true);
         //dm.setInitialSelection();
     }
 

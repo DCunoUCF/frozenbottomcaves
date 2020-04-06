@@ -7,14 +7,14 @@ destId: 1
 nodeId: 1
 text: You find yourself on a dirt path. Trees hang over you, casting shadows across the forest.
 options: 1
-text: "Your shadows don't scare me, tall trees!" Move deeper into the forest.
+text : "Your shadows don't scare me, tall trees!" Move deeper into the forest.
 destId: 2
 
-nodeId: 2
+nodeId : 2
 text: You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
-options: 2
+options : 2
 text: "The trees to the left look promising!"
-destId: 3
+destId:3
 text: "Some bushes! What fun! Just like the castle gardens!"
 destId:12
 
@@ -24,11 +24,11 @@ options: 1
 text: "Puddles are the least of my concern. I must continue!"
 destId:4
 
-nodeId: 4
-text: You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance!
-options: 1
-text: Find your balance! (AGI)
-destId: 5
+nodeId : 4
+text : You step into the puddle with confidence and full stride. Your foot finds a slick spot within the water. You begin to lose your heroic balance!
+options : 1
+text : Find your balance! (AGI)
+destId : 5
 
 nodeId: 5
 text : AGILITY EVENT
@@ -38,34 +38,34 @@ destId: 6
 text: FAIL
 destId: 7
 
-nodeId: 7
-text: You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
+nodeId : 6
+text : You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path!
+options: 1
+text: "And he sticks the landing, amazing!" Continue in style.
+destId:8
+
+nodeId : 7
+text : You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
 options: 1
 text: "..." Trudge along. (-2 HP)
 destId:8
 
-nodeId: 6
-text: You use the momentum of the slip to spin and hop to the other side of the puddle, planting your feet firmly onto the dry path!
-options: 1
-text: "And he sticks the landing, amazing!" Continue in style.
-destId: 8
-
-nodeId: 8
-text: As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
+nodeId : 8
+text : As you move forward, you begin hearing more rustling than you have grown accustomed to. You feel a splat on your pauldron. You see that it's some sort of slime... Green slimes descend upon you from the canopy!
 options: 1
 text: "Gross! I shall tear you apart with my gloved hands!" (Battle!)
-destId: 9
+destId:9
 
 nodeId: 9
-text: BATTLE
+text : BATTLE
 options: 2
 text: WIN
 destId: 10
 text: LOSE
 destId: 11
 
-nodeId: 10
-text: Covered in slime and victory, you emerge from the fray!
+nodeId : 10
+text : Covered in slime and victory, you emerge from the fray!
 options: 1
 text: "Huzzah! Though I need a bath now..."
 destId: 106
@@ -74,7 +74,6 @@ nodeId : 11
 text : The slimes overtake you and you drown in their muck!
 options: 1
 text: Gross!
-destId:-1
 destId:-1
 
 nodeId: 106
@@ -117,7 +116,7 @@ nodeId: 163
 text: The broken pack yelps and flees as the alpha wolf falls before you.
 options: 1
 text: "Your king will be my supper!" (Gain Wolf Meat)
-destId: 256
+destId: 176
 
 nodeId: 164
 text: The wolves overtake you in a flash of teeth and claws!
@@ -135,7 +134,7 @@ nodeId: 166
 text: The kind wolf looks up at you expectantly.
 options: 1
 text: "What is it?!"
-destId: 167
+destId: 167 
 
 nodeId: 167
 text: The sad wolf nudges your arm, whining.
@@ -145,7 +144,7 @@ destId: 168
 text: Pat the wolf on its head.
 destId: 171
 text: "Here you go, friend!" (-1 Provision)
-destId: 174
+destId: 174 
 
 nodeId: 168
 text : STR EVENT
@@ -177,13 +176,13 @@ nodeId: 172
 text: The wolf retreats into the woods, but doesn't seem sorry about its choices.
 options: 1
 text: "And don't come back!"
-destId: 256
+destId: 176
 
 nodeId: 173
 text: The now disheartened wolf mopes away, presumably to panhandle elsewhere.
 options: 1
 text: "One more victory under my belt!"
-destId: 256
+destId: 176
 
 nodeId: 174
 text: You pull some food from your pouch. The wolf eats it happily from your hand, content with its reward.
@@ -195,7 +194,7 @@ nodeId: 175
 text: The wolf disappears into the trees with a pep in its step. You notice a collar lying in the dirt. It has a bell and tag on it. It says "Dog." You place it in your pack and move along.
 options: 1
 text: "Enough dilly dallying! Onward!" (Gain Wolf Collar)
-destId: 256
+destId: 251
 
 # STUMP SAVE SPOT
 nodeId: 256
@@ -521,7 +520,7 @@ destId: 220
 text: FAILURE
 destId: 221
 
-nodeId: 220
+nodeId: 221
 text: The boulders rip through the dirt at a terrifying speed, but it's no match for your reflexes. You leap from side to side, dodging them with ease. You manage not to get hit by anything larger than a pebble.
 options: 1
 text: *HUH HUH HUH*
@@ -947,7 +946,7 @@ destId: 140
 nodeId: 140
 text: Walking with full stride, you make your way down the path. You hear some complaining and shouting beyond a few trees.
 options: 1
-text: "Someone to save!"
+text:
 destId:141
 
 nodeId: 141
@@ -1209,7 +1208,7 @@ nodeId: 35
 text: The crow flies off. Leaving you with no option but to cross the stream with what you have.
 options: 1
 text: "No problem! I can float across easily with what I have!"
-destId: 37
+destId: 37 
 
 nodeId: 36
 text: The crow drops the twine to catch the acorn midair. With the twine, you tie all of the driftwood together into a satisfyingly sturdy raft. You keep one piece as a paddle.
@@ -1341,7 +1340,7 @@ destId: 52
 nodeId: 52
 text: One of the bandits locks eyes with you and shouts "Hey you're not supposed to be here!" He whistles to a few of his bandit buddies to take care of you.
 options: 1
-text: "I go where glory takes me!" (Battle!)
+text: combat with 5 bandits (Battle!)
 destId: 54
 
 # 5 Bandits. 2 scouts, 3 thugs
@@ -1448,16 +1447,16 @@ nodeId: 66
 text: You make it to the edge of the encampment. Looking forward, you see a great mountain looming above the canopy of trees. You also spot a dark column of smoke rising from beyond a nearby hill.
 options: 1
 text: "Two quests!"
-destId: 71
+destId: 67
 
 nodeId: 255
 text: You make it to the edge of the encampment. Looking forward, you see a great mountain looming above the canopy of trees. You also spot a dark column of smoke rising from beyond a nearby hill.
 options: 1
 text: "Two quests!"
-destId: 71
+destId: 67
 
 # STUMP SAVE SPOT
-nodeId: 71
+nodeId: 67
 text: Not far from the encampment, you find a comfortable looking stump to rest and ponder your choices.
 options: 3
 text: Rest. (+5 HP and Save Progress)
@@ -1623,7 +1622,7 @@ options: 1
 text: "Well I'll be dammed."
 destId: -1
 
-nodeId: 95
+nodeId: 96
 text: You stroll along the dirt path, the sun warming your helmet.
 options: 1
 text: "A fine day indeed for questing and heroing!"
