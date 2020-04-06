@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     public string characterName;
     public string characterNameClone;
     public GameObject player;
-    public bool characterSelected, characterFoundOW, inOptions, PLAYERDEAD;
+    public bool characterSelected, characterFoundOW, inOptions, PLAYERDEAD, SAVED;
 
     // Inventory stuff
     public Canvas inventoryCanvas;
@@ -145,7 +145,7 @@ public class PlayerManager : MonoBehaviour
         inCombat = true;
         pc.enterCombat();
         pc.setHighlights();
-
+        sb.updateButtons(pc.cooldowns);
         HM = GameObject.Find("Highlights");
         HM.transform.SetParent(this.gm.transform);
         HMScript = (HighlightManager)HM.GetComponent("HighlightManager");
@@ -441,7 +441,11 @@ public class PlayerManager : MonoBehaviour
         pc.takeDamage(i);
         phb.updateHealthBar(pc.health);
         if (pc.health <= 0)
+        {
             PLAYERDEAD = true;
+            //this.gm.sm.playLoseJingle();
+
+        }
     }
 
     public void setHealthEvent(int i)
@@ -449,7 +453,10 @@ public class PlayerManager : MonoBehaviour
         pc.setHealthEvent(i);
         phb.updateHealthBar(pc.health);
         if (pc.health <= 0)
+        { 
             PLAYERDEAD = true;
+            //this.gm.sm.playLoseJingle();
+        }
     }
     public void maxHealthEvent(int i)
     {
@@ -476,6 +483,8 @@ public class PlayerManager : MonoBehaviour
             clone.stats[i] = pc.stats[i];
 
         this.save = clone;
+
+        this.SAVED = true;
 
         print("Save successful?");
     }

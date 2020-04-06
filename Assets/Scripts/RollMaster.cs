@@ -64,14 +64,19 @@ public class RollMaster : MonoBehaviour
 
     public IEnumerator waitForStart(string atribute, int modifier, int difficulty)
     {
+        d1b.interactable = true;
+        d2b.interactable = true;
+        resText.text = "Rolled: ";
         startRoll.interactable = true;
         limText.text = "Need: " + difficulty;
         modText.text = "+ " + atribute + "(" + modifier + ")";
         StartCoroutine(d1r.RollTheDice());
         StartCoroutine(d2r.RollTheDice());
-
+        d1r.final = 0;
+        d2r.final = 0;
         while (d1r.final == 0 || d2r.final == 0)
         {
+            PlayerManager.Instance.gm.om.dm.Panel.SetActive(false);
             resText.text = "Rolled: " + (d1r.final + d2r.final + modifier);
             yield return null;
         }

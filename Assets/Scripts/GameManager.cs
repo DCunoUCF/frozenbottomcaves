@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
 
         this.sm.setAudioChannels(this.gameMusicChannel, this.gameEffectChannel);
 
+        this.sm.updateFromSaveData();
+
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("GM"))
         {
             if (this.myId != g.GetComponent<GameManager>().whatsMyId())
@@ -71,7 +73,7 @@ public class GameManager : MonoBehaviour
             this.gameMusicChannel = this.gameObject.AddComponent<AudioSource>();
             this.sm.setMusicChannel(this.gameMusicChannel);
         }
-        
+
         if (this.gameEffectChannel == null)
         {
             this.gameEffectChannel = this.gameObject.AddComponent<AudioSource>();
@@ -108,7 +110,7 @@ public class GameManager : MonoBehaviour
                         won = true;
                     }
                     else
-                    { 
+                    {
                         splash = "LoseSplash";
                     }
 
@@ -164,6 +166,9 @@ public class GameManager : MonoBehaviour
             splashUp = true;
             this.pm.combatInitialized = false;
             this.pm.inCombat = false;
+
+            this.sm.playLoseJingle();
+
             SceneManager.LoadScene("LoseSplash", LoadSceneMode.Additive);
             StartCoroutine(disableLoad());
         }
@@ -183,7 +188,7 @@ public class GameManager : MonoBehaviour
     IEnumerator disableLoad()
     {
         yield return new WaitForSeconds(.1f);
-        if (this.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null)
+        if (this.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null || !this.pm.SAVED)
         {
             print("NO RES LEFT");
             GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
