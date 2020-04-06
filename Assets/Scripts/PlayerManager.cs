@@ -173,8 +173,11 @@ public class PlayerManager : MonoBehaviour
         pc.inventory.addItem(Item.ItemType.Resurrection, 3);
         pc.inventory.addItem(Item.ItemType.Gold, 25);
         pc.inventory.addItem(Item.ItemType.Provisions, 10);
+        pc.inventory.addItem(Item.ItemType.Sword, 100);
 
         inventoryUI.gameObject.SetActive(false);
+
+        
 
         // Setup battle overlay
         battleCanvas = GameObject.Find("BattleCanvas");
@@ -210,9 +213,9 @@ public class PlayerManager : MonoBehaviour
             invImg.color = UnityEngine.Color.gray;
             gm.om.dm.setUninteractable();
             inventory.updateStats(pc);
-            InventoryPanel.SetActive(true);
-            AttackPanel.SetActive(false);
-            BioPanel.SetActive(false); // This is set active by default already in Inventory.cs
+            inventory.toggleInventoryPanel();
+            inventory.toggleAttackPanel();
+            inventory.toggleBioPanel();  // This is set active by default already in Inventory.cs
             inventoryUI.gameObject.SetActive(true);
             inventory.setInitSelection();
         }
