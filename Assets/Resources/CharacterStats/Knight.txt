@@ -1,7 +1,7 @@
 TheWhiteKnight1
 TheWhiteKnight1(Clone)
 bio
-quest
+You have been sent by the King and Queen of Rockside Castle to find `The Warrior of Frozenbottom Caves.` He is a threat, and must be dealt with.
 20
 14 8 10
 Basic Move

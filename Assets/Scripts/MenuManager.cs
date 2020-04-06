@@ -159,6 +159,7 @@ public class MenuManager : MonoBehaviour
                 OpenOverworld();
                 break;
             case UIType.LoadGame:
+                this.gm.sm.setForestMusic();
                 loadGame();
                 break;
             case UIType.MainMenuButton:

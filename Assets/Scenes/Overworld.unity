@@ -407,6 +407,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6494576737674474465, guid: 4c55b951be4258e4495b9ccfa4df4e1b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.9974976
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494576737308594401, guid: 4c55b951be4258e4495b9ccfa4df4e1b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.9974976
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c55b951be4258e4495b9ccfa4df4e1b, type: 3}
 --- !u!1001 &246940727
@@ -1080,6 +1090,102 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 248976199, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: SaveProvisions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 248976199, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: NodeTypes.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].nodeEnemies.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: NodeTypes.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].grid
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].arena
+      value: goblin_arena
+      objectReference: {fileID: 0}
+    - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].nodeEnemies.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].nodeEnemies.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 777421101, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: SaveProvisions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 777421101, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: NodeTypes.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 777421101, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: SaveProvisions.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: SaveProvisions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: HealthChange.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: MaxHealthChange.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].nodeEnemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: NodeTypes.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: SaveProvisions.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: HealthChange.Array.data[0]
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: MaxHealthChange.Array.data[0]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].grid
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].arena
+      value: goblin_arena
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].nodeEnemies.Array.data[0]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
