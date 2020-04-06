@@ -21,7 +21,7 @@ public class ButtonOverlay : MonoBehaviour
         opt = false;
         inventory.onClick.AddListener(invOpen);
         options.onClick.AddListener(optOpen);
-        quit.onClick.AddListener(quitGame);
+        //quit.onClick.AddListener(quitGame);
     }
 
     private void invOpen()

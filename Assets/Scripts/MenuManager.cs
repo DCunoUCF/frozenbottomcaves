@@ -17,7 +17,7 @@ public enum UIType
 	WizardClass, KnightClass, RogueClass, MonkClass,
     MusicMute, EffectMute,
     BattleButton, OptionsOnTop, OptionBack,
-    LoadGame
+    LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame
 }
 
 public enum SliderType
@@ -161,10 +161,32 @@ public class MenuManager : MonoBehaviour
             case UIType.LoadGame:
                 loadGame();
                 break;
+            case UIType.MainMenuButton:
+                ReturnToMainMenuFromGame();
+                break;
+            case UIType.OpenQuitPrompt:
+                openQuitPrompt();
+                break;
+            case UIType.ResumeGame:
+                closeQuitPrompt();
+                break;
             default:
     			Debug.Log("Clicked a button!"); break;
     	}
     }
+
+    void openQuitPrompt()
+    {
+        this.gm.om.dm.setUninteractable();
+        SceneManager.LoadScene("QuitPopup", LoadSceneMode.Additive);
+    }
+
+    void closeQuitPrompt()
+    {
+        this.gm.om.dm.setInteractable();
+        SceneManager.UnloadSceneAsync("QuitPopup");
+    }
+
 
     public void SliderAction()
     {
@@ -351,8 +373,16 @@ public class MenuManager : MonoBehaviour
 
     void ReturnToMainMenu()
     {
-        DestroyImmediate(this.gm.gameObject);
+        //DestroyImmediate(this.gm.gameObject);
     	SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+
+    void ReturnToMainMenuFromGame()
+    {
+        SaveData.updateSettings(this.gm.sm.musicVolume, this.gm.sm.effectsVolume, this.gm.sm.musicMute, this.gm.sm.effectsMute);
+        DestroyImmediate(this.gm.gameObject);
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 
     void QuitGame()
