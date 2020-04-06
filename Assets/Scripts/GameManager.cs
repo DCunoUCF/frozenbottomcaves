@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private bool panic;
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
-    private bool splashUp;
+    public bool splashUp;
 
     public int whatsMyId()
     {
@@ -127,6 +127,14 @@ public class GameManager : MonoBehaviour
                         SceneManager.LoadScene(splash, LoadSceneMode.Additive);
                         StartCoroutine(setReturnRestartActive(splash, won));
                     }
+
+                    if (splash == "LoseSplash")
+                    {
+                        this.pm.combatInitialized = false;
+                        this.pm.inCombat = false;
+                        StartCoroutine(disableLoad());
+                    }
+
                     this.panic = true;
                     this.battleResolvedCheck = false;
                     this.bm = null;
@@ -154,7 +162,10 @@ public class GameManager : MonoBehaviour
         {
             this.om.dm.setUninteractable();
             splashUp = true;
+            this.pm.combatInitialized = false;
+            this.pm.inCombat = false;
             SceneManager.LoadScene("LoseSplash", LoadSceneMode.Additive);
+            StartCoroutine(disableLoad());
         }
 
         if (Input.GetButtonDown("Cancel"))
@@ -167,6 +178,17 @@ public class GameManager : MonoBehaviour
     public void setBM(BattleManager bm)
     {
         this.bm = bm;
+    }
+
+    IEnumerator disableLoad()
+    {
+        yield return new WaitForSeconds(.1f);
+        if (this.pm.pc.inventory.CheckItem(Item.ItemType.Ressurection) == null)
+        {
+            print("NO RES LEFT");
+            GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
+        }
+        yield break;
     }
 
 

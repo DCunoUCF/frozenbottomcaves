@@ -15,7 +15,7 @@ public class Item
         Shield,
         Provisions,
         Gold,
-        Resurrection,
+        Ressurection,
         BeardedKey,
         WolfMeat,
         RustyHelmet,

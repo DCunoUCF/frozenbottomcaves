@@ -66,7 +66,7 @@ public class PlayerClass
     public int[] skill4info;
     public List<Point> skill4;
     public GameObject skill4Highlight;
-    public GameObject[] skill4Highlights = new GameObject[2];
+    public GameObject[] skill4Highlights = new GameObject[4];
     public int cd4;
 
     public int[] cooldowns = new int[4];
@@ -162,8 +162,13 @@ public class PlayerClass
         skill3Highlights[0] = Resources.Load<GameObject>("Prefabs/TileHighlight3");
         skill3Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight3_5");
 
-        skill4Highlights[0] = Resources.Load<GameObject>("Prefabs/TileHighlight5");
-        skill4Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight5");
+        skill4Highlights[0] = Resources.Load<GameObject>("Prefabs/TileHighlight4");
+        skill4Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight4_2");
+        skill4Highlights[2] = Resources.Load<GameObject>("Prefabs/TileHighlight4_3");
+        skill4Highlights[3] = Resources.Load<GameObject>("Prefabs/TileHighlight4_4");
+
+        //skill4Highlights[0] = Resources.Load<GameObject>("Prefabs/TileHighlight5");
+        //skill4Highlights[1] = Resources.Load<GameObject>("Prefabs/TileHighlight5");
 
     }
     

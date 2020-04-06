@@ -122,6 +122,7 @@ public class DialogueManager : MonoBehaviour
     // Run if user clicks first choice
     public void choiceOption01()
     {
+        setInterableAll();
         currentNode = dialogue.nodes[currentNode].options[0].destId;
 
         if (currentNode == -1)
@@ -187,6 +188,11 @@ public class DialogueManager : MonoBehaviour
                             Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                         }
                     }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    }
                     nodeCount++;
                 }
             }
@@ -202,6 +208,7 @@ public class DialogueManager : MonoBehaviour
     // Run if user clicks second choice
     public void choiceOption02()
     {
+        setInterableAll();
         currentNode = dialogue.nodes[currentNode].options[1].destId;
 
         if (currentNode == -1)
@@ -229,6 +236,7 @@ public class DialogueManager : MonoBehaviour
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
+            print("NUM OPTIONS: " + dialogue.nodes[currentNode].options.Count);
             for (int j = 0; j < om.nodes.Count; j++)
             {
                 int nodeCount = 0;
@@ -267,6 +275,11 @@ public class DialogueManager : MonoBehaviour
                             Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                         }
                     }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    }
                     nodeCount++;
                 }
             }
@@ -280,6 +293,8 @@ public class DialogueManager : MonoBehaviour
     // Run if user clicks third choice
     public void choiceOption03()
     {
+        setInterableAll();
+
         currentNode = dialogue.nodes[currentNode].options[2].destId;
 
         if (currentNode == -1)
@@ -344,6 +359,11 @@ public class DialogueManager : MonoBehaviour
                             Choices[i].gameObject.SetActive(true);
                             Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                         }
+                    }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                     }
                     nodeCount++;
                 }
@@ -415,6 +435,11 @@ public class DialogueManager : MonoBehaviour
                             Choices[i].gameObject.SetActive(true);
                             Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                         }
+                    }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                     }
                     nodeCount++;
                 }
@@ -526,6 +551,12 @@ public class DialogueManager : MonoBehaviour
             b.interactable = false;
             i++;
         }
+    }
+
+    public void setInterableAll()
+    {
+        foreach (Button b in Choices)
+            b.interactable = true;
     }
 
     // Opposite of above, as well as setting the first option back to the initial selection

@@ -20,7 +20,7 @@ public class Database
            new Item(Item.ItemType.Shield,"Shield",false),
            new Item(Item.ItemType.Provisions, "Provisions",true),
            new Item(Item.ItemType.Ressurection,"Ressurections",true),
-           new Item(Item.ItemType.Gold,"Gold",true)
+           new Item(Item.ItemType.Gold,"Gold",true),
            new Item(Item.ItemType.BeardedKey, "Bearded Key", false),
            new Item(Item.ItemType.WolfMeat,"Wolf Meat",false),
            new Item(Item.ItemType.WolfCollar,"Wolf Collar",false),
