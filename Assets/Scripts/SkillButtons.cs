@@ -21,7 +21,7 @@ public class SkillButtons : MonoBehaviour
         for (int i = 1; i < 5; i++)
         {
             temp = PlayerManager.Instance.getSkillInfo(i);
-            b[i - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = temp[0];
+            b[i - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = i + ": " + temp[0];
             // grab desc for when hovering on button
         }
 
