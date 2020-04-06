@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
 
         this.sm.setAudioChannels(this.gameMusicChannel, this.gameEffectChannel);
 
+        this.sm.updateFromSaveData();
+
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("GM"))
         {
             if (this.myId != g.GetComponent<GameManager>().whatsMyId())

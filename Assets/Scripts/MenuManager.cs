@@ -361,6 +361,7 @@ public class MenuManager : MonoBehaviour
 
     void ReturnToMainMenuFromGame()
     {
+        SaveData.updateSettings(this.gm.sm.musicVolume, this.gm.sm.effectsVolume, this.gm.sm.musicMute, this.gm.sm.effectsMute);
         DestroyImmediate(this.gm.gameObject);
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }

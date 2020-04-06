@@ -50,11 +50,12 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         // Default volume options
-        this.musicVolume = 0f; // CHANGED TO 0 TO PRESERVE MY SANITY
-        this.effectsVolume = 0.5f;
-        this.musicMute = false;
-        this.effectsMute = false;
-
+        //this.musicVolume = 0.2f; // CHANGED TO 0 TO PRESERVE MY SANITY
+        //this.effectsVolume = 0.2f;
+        //this.musicMute = false;
+        //this.effectsMute = false;
+        this.updateFromSaveData();
+        SaveData.updateSettings(.2f, .2f, false, false);
         // Create the music queue and effect queue
         this.musicQueue = new Queue<AudioClip>();
         this.effectQueue = new Queue<AudioClip>();
@@ -373,5 +374,13 @@ public class SoundManager : MonoBehaviour
     public void AddEffectToQueue(string effectName)
     {
     	this.effectQueue.Enqueue(Resources.Load<AudioClip>("Sound/Effects/"+effectName));
+    }
+
+    public void updateFromSaveData()
+    {
+        this.musicVolume = SaveData.musicVolume;
+        this.effectsVolume = SaveData.effectsVolume;
+        this.musicMute = SaveData.musicMute;
+        this.effectsMute = SaveData.effectsMute;
     }
 }
