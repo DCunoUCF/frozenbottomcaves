@@ -27,7 +27,8 @@ public class Database
            new Item(Item.ItemType.Acorn,false),
            new Item(Item.ItemType.CherryPit,false),
            new Item(Item.ItemType.HalfChewedChocolate,false),
-           new Item(Item.ItemType.TowerShield,false)
+           new Item(Item.ItemType.TowerShield,false),
+           new Item(Item.ItemType.RustyHelmet,false)
         };
     }
 
