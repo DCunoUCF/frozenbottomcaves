@@ -387,6 +387,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6687635500414003613, guid: 4c55b951be4258e4495b9ccfa4df4e1b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687635500414003613, guid: 4c55b951be4258e4495b9ccfa4df4e1b,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687635500414003613, guid: 4c55b951be4258e4495b9ccfa4df4e1b,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687635500414003613, guid: 4c55b951be4258e4495b9ccfa4df4e1b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c55b951be4258e4495b9ccfa4df4e1b, type: 3}
 --- !u!1001 &246940727
@@ -1139,7 +1159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 248976199, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[0]
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 248976199, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: HealthChange.Array.data[0]
@@ -1147,7 +1167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: battleClassList.list.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: battleClassList.list.Array.data[0].nodeEnemies.Array.size
@@ -1155,7 +1175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[0]
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408600726, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: battleClassList.list.Array.data[0].grid
@@ -1191,7 +1211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: NodeTypes.Array.data[0]
-      value: 9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
       propertyPath: battleClassList.list.Array.data[0].grid

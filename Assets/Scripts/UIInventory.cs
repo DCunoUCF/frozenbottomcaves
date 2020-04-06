@@ -133,23 +133,23 @@ public class UIInventory : MonoBehaviour
         Weapon02 = MainMenu.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
         Weapon02.GetComponent<TextMeshProUGUI>().text = player.weapon02.displayName;
 
-        HP = Content.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        HP = BioContent.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         HP.GetComponent<TextMeshProUGUI>().text = "" + player.health + "/" + player.maxHealth;
 
 
-        STR = Content.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        STR = BioContent.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         STR.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("STR");
 
-        INT = Content.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        INT = BioContent.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         INT.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("INT");
 
-        AGI = Content.transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        AGI = BioContent.transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         AGI.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("AGI");
 
         Quest = QuestMenu.transform.GetChild(1).gameObject;
         Quest.GetComponent<TextMeshProUGUI>().text = player.quest;
 
-        Bio = Content.transform.GetChild(4).gameObject;
+        Bio = BioContent.transform.GetChild(4).gameObject;
         Bio.GetComponent<TextMeshProUGUI>().text = player.bio;
 
         // Here is the Attack Content
@@ -158,6 +158,17 @@ public class UIInventory : MonoBehaviour
         specialAttack2 = AttackContent.transform.GetChild(2).gameObject;
 
         // Attack Updates
+        string[] a1 = PlayerManager.Instance.getSkillInfo(2);
+        normalAttack1.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = a1[0];
+        normalAttack1.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = a1[1] + "\nCooldown: " + PlayerManager.Instance.pc.cd2;
+
+        string[] a2 = PlayerManager.Instance.getSkillInfo(3);
+        specialAttack1.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = a2[0];
+        specialAttack1.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = a2[1] + "\nCooldown: " + (PlayerManager.Instance.pc.cd3-1) + " turns";
+
+        string[] a3 = PlayerManager.Instance.getSkillInfo(4);
+        specialAttack2.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = a3[0];
+        specialAttack2.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = a3[1] + "\nCooldown: " + (PlayerManager.Instance.pc.cd4-1) + " turns";
 
 
 

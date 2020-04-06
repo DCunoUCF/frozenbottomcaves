@@ -11,10 +11,10 @@ Prefabs/TileHighlight2
 0 -1 1
 0 1 1 0 0 -1 -1 0
 Basic Attack
-Attack one adjacent tile for 5 damage
+Attack one adjacent tile for 4 damage
 Prefabs/TileHighlight1
 0
-5 1 0
+4 1 0
 0 1 1 1 1 0 1 -1 0 -1 -1 -1 -1 0 -1 1
 Triple Jab
 Quickly attack 3 tiles for 3 damage each
