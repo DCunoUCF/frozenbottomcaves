@@ -169,9 +169,6 @@ public class UIInventory : MonoBehaviour
         string[] a3 = PlayerManager.Instance.getSkillInfo(4);
         specialAttack2.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = a3[0];
         specialAttack2.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = a3[1] + "\nCooldown: " + (PlayerManager.Instance.pc.cd4-1) + " turns";
-
-
-
     }
 
 

@@ -20,9 +20,9 @@ public class Inventory
         items = new List<Item>();
 
         inventoryUI = (UIInventory)GameObject.Find("Inventory").GetComponent("UIInventory");
-        InventoryPanel = GameObject.Find("InventoryPanel");
-        BioPanel = GameObject.Find("BioPanel");
-        AttackPanel = GameObject.Find("AttackPanel");
+        InventoryPanel = GameObject.Find("InventoryBackground");
+        BioPanel = GameObject.Find("BioBackground");
+        AttackPanel = GameObject.Find("AttackBackground");
         buttons = new Button[6];
 
         // Buttons
