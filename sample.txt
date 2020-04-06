@@ -12,6 +12,12 @@ destId : 2
 text : "Walk away from the stone"
 destId : 3
 
+nodeId : 3
+text : "You walked away from the stone"
+options: 1
+text: "Continue"
+destId:4
+
 nodeId : 1
 text : "You die"
 options : 1
@@ -21,12 +27,6 @@ destId : -1
 nodeId : 2
 text: "You pocketed the stone"
 options : 1
-text: "Continue"
-destId:4
-
-nodeId : 3
-text : "You walked away from the stone"
-options: 1
 text: "Continue"
 destId:4
 

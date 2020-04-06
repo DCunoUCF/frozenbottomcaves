@@ -51,7 +51,6 @@ public class Program
 
             // Dialogue Text
             text = parseText(line);
-
             // Add it to Dialogue Node
             dialogue.addDialogue(text, id);
 
@@ -71,7 +70,7 @@ public class Program
             }
 
             // Add Dialogue Node to our Dialogue List
-            dialogueList.addNode(dialogue);
+            dialogueList.addNode(dialogue.nodeId, dialogue);
         }
 
         return dialogueList;

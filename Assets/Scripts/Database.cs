@@ -16,18 +16,19 @@ public class Database
     {
         items = new List<Item>()
         {
-           new Item(Item.ItemType.Sword,false),
-           new Item(Item.ItemType.Shield,false),
-           new Item(Item.ItemType.Provisions,true),
-           new Item(Item.ItemType.Resurrection,true),
-           new Item(Item.ItemType.Gold,true),
-           new Item(Item.ItemType.BeardedKey,false),
-           new Item(Item.ItemType.WolfMeat,false),
-           new Item(Item.ItemType.WolfCollar,false),
-           new Item(Item.ItemType.Acorn,false),
-           new Item(Item.ItemType.CherryPit,false),
-           new Item(Item.ItemType.HalfChewedChocolate,false),
-           new Item(Item.ItemType.TowerShield,false)
+           new Item(Item.ItemType.Sword,"Sword",false),
+           new Item(Item.ItemType.Shield,"Shield",false),
+           new Item(Item.ItemType.Provisions, "Provisions",true),
+           new Item(Item.ItemType.Resurrection,"Resurrections",true),
+           new Item(Item.ItemType.Gold,"Gold",true),
+           new Item(Item.ItemType.BeardedKey, "Bearded Key", false),
+           new Item(Item.ItemType.WolfMeat,"Wolf Meat",false),
+           new Item(Item.ItemType.WolfCollar,"Wolf Collar",false),
+           new Item(Item.ItemType.Acorn,"Acorn",false),
+           new Item(Item.ItemType.CherryPit,"Cherry Pit",false),
+           new Item(Item.ItemType.HalfChewedChocolate,"Half-Chewed Chocolate",false),
+           new Item(Item.ItemType.TowerShield,"Tower Shield",false),
+           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet",false)
         };
     }
 

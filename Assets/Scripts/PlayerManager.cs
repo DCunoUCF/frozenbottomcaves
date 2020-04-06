@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     public string characterName;
     public string characterNameClone;
     public GameObject player;
-    public bool characterSelected, characterFoundOW, inOptions;
+    public bool characterSelected, characterFoundOW, inOptions, PLAYERDEAD;
 
     // Inventory stuff
     public Canvas inventoryCanvas;
@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     public UIInventory inventoryUI;
     public GameObject InventoryPanel;
     public GameObject BioPanel;
+
     public GameObject uiParent;
 
     // Battle Overlay stuff
@@ -34,6 +35,8 @@ public class PlayerManager : MonoBehaviour
     public SkillButtons sb;
     public Button opt, inv;
     public Image optImg, invImg;
+    public GameObject AttackPanel;
+
 
     // Combat information, clist, bools to guard turn logic
     public Vector3 playerLoc, selectedTile;
@@ -146,7 +149,7 @@ public class PlayerManager : MonoBehaviour
         HM = GameObject.Find("Highlights");
         HM.transform.SetParent(this.gm.transform);
         HMScript = (HighlightManager)HM.GetComponent("HighlightManager");
-        
+
     }
 
     // Fills in a few fields for PM to recognize player, as well as set up player UI
@@ -163,15 +166,12 @@ public class PlayerManager : MonoBehaviour
         inventoryUI = (UIInventory)GameObject.Find("Inventory").GetComponent("UIInventory");
         InventoryPanel = GameObject.Find("InventoryPanel");
         BioPanel = GameObject.Find("BioPanel");
+        AttackPanel = GameObject.Find("AttackPanel");
 
         pc.inventory = inventory;
         pc.inventory.updateStats(pc);
-        pc.inventory.addItem(Item.ItemType.Sword, 5);
         pc.inventory.addItem(Item.ItemType.Resurrection, 3);
-        pc.inventory.addItem(Item.ItemType.Provisions, 5);
-        pc.inventory.addItem(Item.ItemType.Gold, 100);
-        pc.inventory.addItem(Item.ItemType.Sword, 50);
-        pc.inventory.removeItem(Item.ItemType.Sword, 50);
+        pc.inventory.addItem(Item.ItemType.Gold, 25);
         pc.inventory.addItem(Item.ItemType.Provisions, 10);
 
         inventoryUI.gameObject.SetActive(false);
@@ -211,6 +211,7 @@ public class PlayerManager : MonoBehaviour
             gm.om.dm.setUninteractable();
             inventory.updateStats(pc);
             InventoryPanel.SetActive(true);
+            AttackPanel.SetActive(false);
             BioPanel.SetActive(false); // This is set active by default already in Inventory.cs
             inventoryUI.gameObject.SetActive(true);
             inventory.setInitSelection();
@@ -337,33 +338,58 @@ public class PlayerManager : MonoBehaviour
         {
             GameObject[] highlight = pc.getHighlight(key);
 
-            int i = -1;
-            foreach (Point tile in points)
+            if (key == 4)
             {
-                i++;
-                int newX = x + tile.X;
-                int newY = y + tile.Y;
-                if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))
-                    continue;
-
-                if (newY < 0 || newY > BattleManager.Instance.gridCell.GetLength(0))
-                    continue;
-
-                if (i == 1 || i == 3)
+                int j = -1;
+                foreach (Point tile in points)
                 {
+                    j++;
+                    int newX = x + tile.X;
+                    int newY = y + tile.Y;
+                    if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))
+                        continue;
+
+                    if (newY < 0 || newY > BattleManager.Instance.gridCell.GetLength(0))
+                        continue;
+
                     if (BattleManager.Instance.gridCell[newX, newY] != null)
                         if (BattleManager.Instance.gridCell[newX, newY].pass)
-                            highlights.Add(Instantiate(highlight[1],
+                            highlights.Add(Instantiate(highlight[j],
                                   BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
-                }
-                else
-                {
-                    if (BattleManager.Instance.gridCell[newX, newY] != null)
-                            if (BattleManager.Instance.gridCell[newX, newY].pass)
-                                highlights.Add(Instantiate(highlight[0],
-                                      BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+
                 }
             }
+            else
+            {
+                int i = -1;
+                foreach (Point tile in points)
+                {
+                    i++;
+                    int newX = x + tile.X;
+                    int newY = y + tile.Y;
+                    if (newX < 0 || newX > BattleManager.Instance.gridCell.GetLength(1))
+                        continue;
+
+                    if (newY < 0 || newY > BattleManager.Instance.gridCell.GetLength(0))
+                        continue;
+
+                    if (i == 1 || i == 3)
+                    {
+                        if (BattleManager.Instance.gridCell[newX, newY] != null)
+                            if (BattleManager.Instance.gridCell[newX, newY].pass)
+                                highlights.Add(Instantiate(highlight[1],
+                                      BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+                    }
+                    else
+                    {
+                        if (BattleManager.Instance.gridCell[newX, newY] != null)
+                                if (BattleManager.Instance.gridCell[newX, newY].pass)
+                                    highlights.Add(Instantiate(highlight[0],
+                                          BattleManager.Instance.gridCell[newX, newY].center, Quaternion.identity));
+                    }
+                }
+            }
+
             foreach (GameObject hl in highlights)
             {
                 hl.transform.SetParent(HM.transform);
@@ -414,16 +440,23 @@ public class PlayerManager : MonoBehaviour
     {
         pc.takeDamage(i);
         phb.updateHealthBar(pc.health);
+        if (pc.health <= 0)
+            PLAYERDEAD = true;
     }
 
     public void setHealthEvent(int i)
     {
         pc.setHealthEvent(i);
         phb.updateHealthBar(pc.health);
+        if (pc.health <= 0)
+            PLAYERDEAD = true;
     }
     public void maxHealthEvent(int i)
     {
         pc.changeMaxHealth(i);
+        phb.maxHpchange(pc.maxHealth);
+        phb.updateHealthBar(pc.health);
+
     }
 
     public void createSave()
@@ -436,6 +469,7 @@ public class PlayerManager : MonoBehaviour
             saveItems.Add(new Item(i.item, i.stackable, i.count));
             //clone.inventory.addItem(i.item, i.count);
         }
+
         clone.health = pc.health;
         clone.maxHealth = pc.maxHealth;
         for (int i = 0; i < 3; i++)
@@ -462,7 +496,15 @@ public class PlayerManager : MonoBehaviour
 
 
         this.save.inventory = pc.inventory;
-        this.save.inventory.removeRessurection();
+        this.save.inventory.removeResurrection();
         this.pc = this.save;
+        createSave();
+        PLAYERDEAD = false;
+
+        battleCanvas.gameObject.SetActive(false);
+        invImg.color = UnityEngine.Color.white;
+        phb.updateHealthBar(pc.health);
+        combatInitialized = false;
+        inCombat = false;
     }
 }

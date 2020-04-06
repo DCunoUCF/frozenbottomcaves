@@ -16,7 +16,8 @@ public enum UIType
     NewGame, Continue, Options, Exit, Back, Return, Restart,
 	WizardClass, KnightClass, RogueClass, MonkClass,
     MusicMute, EffectMute,
-    BattleButton, OptionsOnTop, OptionBack
+    BattleButton, OptionsOnTop, OptionBack,
+    LoadGame
 }
 
 public enum SliderType
@@ -156,6 +157,9 @@ public class MenuManager : MonoBehaviour
             case UIType.RogueClass:
                 gm.pm.pc = CharacterSelection.writeStats("Ninja");
                 OpenOverworld();
+                break;
+            case UIType.LoadGame:
+                loadGame();
                 break;
             default:
     			Debug.Log("Clicked a button!"); break;
@@ -301,6 +305,32 @@ public class MenuManager : MonoBehaviour
 
     }
 
+    private void loadGame()
+    {
+        GameObject overworldTilemap = GameObject.Find("OverworldGrid").transform.GetChild(0).gameObject;
+
+        if (SceneManager.GetSceneByName("Battleworld").IsValid())
+            SceneManager.UnloadSceneAsync("BattleWorld");
+        
+        if (SceneManager.GetSceneByName("LoseSplash").IsValid())
+            SceneManager.UnloadSceneAsync("LoseSplash");
+
+        overworldTilemap.SetActive(true);
+
+        //this.gm.pm.pc.inventory.printList();
+
+        if (this.gm.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null)
+        {
+            print("NO RES LEFT");
+            GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
+        }
+
+        this.gm.splashUp = false;
+        this.gm.om.loadSave();
+        this.gm.om.dm.setInteractable();
+        this.gm.om.dm.setInitialSelection();
+    }
+
     void ExitBattle()
     {
         GameObject overworldTilemap = GameObject.Find("OverworldGrid").transform.GetChild(0).gameObject;
@@ -315,10 +345,13 @@ public class MenuManager : MonoBehaviour
         overworldTilemap.SetActive(true);
         this.gm.om.dm.setInteractable();
         this.gm.om.dm.setInitialSelection();
+        //this.gm.om.rollParchment.SetActive(true);
+
     }
 
     void ReturnToMainMenu()
     {
+        DestroyImmediate(this.gm.gameObject);
     	SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 

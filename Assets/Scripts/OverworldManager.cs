@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class OverworldManager : MonoBehaviour
 {
-    private GameManager gm;
+    public GameManager gm;
     private GameObject player;
     public DialogueManager dm;
     public bool playerSpawned;
@@ -53,6 +53,7 @@ public class OverworldManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Overworld" && !playerSpawned)
         {
         	this.dm = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
+            this.dm.om = this;
 	        this.playerNodeId = this.dm.currentNode;
 	        Debug.Log("OverworldManager sees the player at " + this.playerNodeId);
 
@@ -78,7 +79,8 @@ public class OverworldManager : MonoBehaviour
         		{
         			if (id == this.dm.currentNode)
         			{
-        				// Move the player along the map
+                        Debug.Log("currentNode OM: " + this.dm.currentNode);
+                        // Move the player along the map
                         this.TurnPlayer(this.player, new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z));
         				//this.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z);
 
@@ -236,6 +238,8 @@ public class OverworldManager : MonoBehaviour
             else
                 this.player.transform.GetChild(i).gameObject.SetActive(false);
         }
+        this.gm.om.dm.setInterableAll();
+        this.gm.om.dm.setInitialSelection();
     }
 
     private void movePlayer()
@@ -266,7 +270,7 @@ public class OverworldManager : MonoBehaviour
         die2 = GameObject.Find("d2");
         dr1 = die1.GetComponent<DiceRoller>();
         dr2 = die2.GetComponent<DiceRoller>();
-        
+        rollParchment.SetActive(false);
     }
 
 
@@ -295,7 +299,6 @@ public class OverworldManager : MonoBehaviour
         
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
-        this.rollParchment.SetActive(true);
         //dm.setInitialSelection();
     }
 
@@ -332,9 +335,9 @@ public class OverworldManager : MonoBehaviour
     public IEnumerator SkillSaveEventCR(string stat, GameObject n, int difficulty)
     {
         this.dm.Panel.SetActive(false);
-
+        this.rollParchment.SetActive(true);
         yield return StartCoroutine(rollScript.waitForStart(stat, this.gm.pm.getStatModifier(stat), difficulty));
-
+        this.rollParchment.SetActive(false);
 
         int modifier = this.gm.pm.getStatModifier(stat);
         if (dr1.final + dr2.final + modifier < difficulty)

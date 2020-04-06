@@ -19,6 +19,12 @@ public class DialogueManager : MonoBehaviour
 
     public GameObject ContinueButton;
 
+    public OverworldManager om;
+    public WorldNode curNode;
+    public bool waiting;
+    public bool[] inactiveButtons; // remember inactive buttons
+    public List<Button> bTemp;
+
     // Keeps track of position in dialogue
     // public static int currentNode = 0;
     public int currentNode = 0;
@@ -48,6 +54,9 @@ public class DialogueManager : MonoBehaviour
         Choices[0].onClick.AddListener(choiceOption01);
         Choices[1].onClick.AddListener(choiceOption02);
         Choices[2].onClick.AddListener(choiceOption03);
+
+        inactiveButtons = new bool[3];
+        bTemp = new List<Button>();
 
         init();
         // Dialogue text
@@ -87,9 +96,33 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(resizerDelayed());
     }
 
+    // return proper index BACKUP WIP IF SOMETHING MAJOR BREAKS AGAIN
+    //private int findNode(int ID)
+    //{
+    //    int index = 0;
+
+    //    for (int i = 0; i < dialogue.nodes.Count; i++)
+    //    {
+
+    //    }
+
+    //    foreach (DialogueNode d in dialogue.nodes)
+    //    {
+    //        if (d.nodeId == ID)
+    //        {
+    //            index =
+    //        }
+    //    }
+
+
+
+    //    return index;
+    //}
+
     // Run if user clicks first choice
     public void choiceOption01()
     {
+        setInteractableAll();
         currentNode = dialogue.nodes[currentNode].options[0].destId;
 
         if (currentNode == -1)
@@ -117,8 +150,55 @@ public class DialogueManager : MonoBehaviour
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
-            Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+
+            for (int j = 0; j < om.nodes.Count; j++)
+            {
+                int nodeCount = 0;
+                curNode = om.nodes[j].GetComponent<WorldNode>();
+                foreach (int id in curNode.NodeIDs)
+                {
+                    if (id == dialogue.nodes[currentNode].options[i].destId)
+                    {
+                        print("Node we're checking for itemloss event" + id);
+                        if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
+                        {
+                            if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
+                            {
+                                print("item not found");
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                                Choices[i].interactable = false;
+                            }
+                            else if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item).count < curNode.NodeItemsLose[nodeCount].count)
+                            {
+                                print("insufficient item count" + id);
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                                Choices[i].interactable = false;
+                            }
+                            else
+                            {
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                            }
+                        }
+                        else
+                        {
+                            Choices[i].gameObject.SetActive(true);
+                            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                        }
+                    }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    }
+                    nodeCount++;
+                }
+            }
+
+            //Choices[i].gameObject.SetActive(true);
+            //Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
         }
 
         DialogueSizer();
@@ -128,6 +208,7 @@ public class DialogueManager : MonoBehaviour
     // Run if user clicks second choice
     public void choiceOption02()
     {
+        setInteractableAll();
         currentNode = dialogue.nodes[currentNode].options[1].destId;
 
         if (currentNode == -1)
@@ -155,9 +236,55 @@ public class DialogueManager : MonoBehaviour
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
-            Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+            print("NUM OPTIONS: " + dialogue.nodes[currentNode].options.Count);
+            for (int j = 0; j < om.nodes.Count; j++)
+            {
+                int nodeCount = 0;
+                curNode = om.nodes[j].GetComponent<WorldNode>();
+                foreach (int id in curNode.NodeIDs)
+                {
+                    if (id == dialogue.nodes[currentNode].options[i].destId)
+                    {
+                        print("Node we're checking for itemloss event" + id);
+
+                        if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
+                        {
+                            if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
+                            {
+                                print("item not found");
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                                Choices[i].interactable = false;
+                            }
+                            else if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item).count <= curNode.NodeItemsLose[nodeCount].count)
+                            {
+                                print("insufficient item count" + id);
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                                Choices[i].interactable = false;
+                            }
+                            else
+                            {
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                            }
+                        }
+                        else
+                        {
+                            Choices[i].gameObject.SetActive(true);
+                            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                        }
+                    }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    }
+                    nodeCount++;
+                }
+            }
         }
+
 
         DialogueSizer();
         setInitialSelection();
@@ -166,6 +293,7 @@ public class DialogueManager : MonoBehaviour
     // Run if user clicks third choice
     public void choiceOption03()
     {
+        setInteractableAll();
         currentNode = dialogue.nodes[currentNode].options[2].destId;
 
         if (currentNode == -1)
@@ -193,12 +321,62 @@ public class DialogueManager : MonoBehaviour
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
-            Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+            for (int j = 0; j < om.nodes.Count; j++)
+            {
+                int nodeCount = 0;
+                curNode = om.nodes[j].GetComponent<WorldNode>();
+                foreach (int id in curNode.NodeIDs)
+                {
+                    if (id == dialogue.nodes[currentNode].options[i].destId)
+                    {
+                        print("Node we're checking for itemloss event" + id);
+
+                        if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
+                        {
+                            if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
+                            {
+                                print("item not found");
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                                Choices[i].interactable = false;
+                            }
+                            else if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item).count <= curNode.NodeItemsLose[nodeCount].count)
+                            {
+                                print("insufficient item count" + id);
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                                Choices[i].interactable = false;
+                            }
+                            else
+                            {
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                            }
+                        }
+                        else
+                        {
+                            Choices[i].gameObject.SetActive(true);
+                            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                        }
+                    }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    }
+                    nodeCount++;
+                }
+            }
         }
 
         DialogueSizer();
         setInitialSelection();
+    }
+
+    public void setInteractableAll()
+    {
+        foreach (Button b in Choices)
+            b.interactable = true;
     }
 
     public void EventComplete()
@@ -225,8 +403,52 @@ public class DialogueManager : MonoBehaviour
 
         for (int i = 0; i < dialogue.nodes[currentNode].options.Count; i++)
         {
-            Choices[i].gameObject.SetActive(true);
-            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+            for (int j = 0; j < om.nodes.Count; j++)
+            {
+                int nodeCount = 0;
+                curNode = om.nodes[j].GetComponent<WorldNode>();
+                foreach (int id in curNode.NodeIDs)
+                {
+                    if (id == dialogue.nodes[currentNode].options[i].destId)
+                    {
+                        print("Node we're checking for itemloss event" + id);
+
+                        if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
+                        {
+                            if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
+                            {
+                                print("item not found");
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                                Choices[i].interactable = false;
+                            }
+                            else if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item).count <= curNode.NodeItemsLose[nodeCount].count)
+                            {
+                                print("insufficient item count");
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                                Choices[i].interactable = false;
+                            }
+                            else
+                            {
+                                Choices[i].gameObject.SetActive(true);
+                                Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                            }
+                        }
+                        else
+                        {
+                            Choices[i].gameObject.SetActive(true);
+                            Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                        }
+                    }
+                    else
+                    {
+                        Choices[i].gameObject.SetActive(true);
+                        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    }
+                    nodeCount++;
+                }
+            }
         }
     }
 
@@ -286,7 +508,7 @@ public class DialogueManager : MonoBehaviour
         // Buffers
         int winHeightBuffer = 20;
         int middleBuffer = winHeightBuffer / 2;
-        int optionBuffer = (int) ((optionRect[0].rect.height) + middleBuffer);
+        int optionBuffer = (int)((optionRect[0].rect.height) + middleBuffer);
 
         // Char Height/Width based on font size. Increase width buffer to increase the number of rows. Increase heightBuffer to increase the height of the rows
         float heightBuffer = 4.0f, widthBuffer = 1.0f;
@@ -301,17 +523,17 @@ public class DialogueManager : MonoBehaviour
         dialogueRect.sizeDelta = new Vector2(dialogueRect.rect.width, Mathf.CeilToInt((float)numLines * charHeight));
 
         // Resize Panel box based on Dialogue box size, and number of options*option size + buffers
-        float newPanelTopY = dialogueRect.rect.height + winHeightBuffer*2;
-        float newPanelBotY = optionBuffer*optionRect.Count;
+        float newPanelTopY = dialogueRect.rect.height + winHeightBuffer * 2;
+        float newPanelBotY = optionBuffer * optionRect.Count;
         panelRect.sizeDelta = new Vector2(panelRect.rect.width, newPanelTopY + newPanelBotY);
 
         // Readjust Dialogue box location to be buffer from top of Panel
-        dialogueRect.anchoredPosition = new Vector2(0,(panelRect.rect.height / 2) - (dialogueRect.rect.height/2) - winHeightBuffer);
-        
+        dialogueRect.anchoredPosition = new Vector2(0, (panelRect.rect.height / 2) - (dialogueRect.rect.height / 2) - winHeightBuffer);
+
         // Readjust each option button to be buffer from bottom of Panel
         for (int i = 0; i < optionRect.Count; i++)
         {
-            optionRect[i].anchoredPosition = new Vector2(0, (-1*((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer * i)));
+            optionRect[i].anchoredPosition = new Vector2(0, (-1 * ((panelRect.rect.height / 2) - (optionRect[i].rect.height / 2) - winHeightBuffer - optionBuffer * i)));
         }
     }
 
@@ -326,16 +548,47 @@ public class DialogueManager : MonoBehaviour
     // Used when the inventory is opened to prevent the dialogue options from being selectable/selected
     public void setUninteractable()
     {
+        int i = 0;
         foreach (Button b in Choices)
+        {
+            if (b.interactable == true)
+                bTemp.Add(b);
             b.interactable = false;
+            i++;
+        }
+    }
+
+    public void setInterableAll()
+    {
+        foreach (Button b in Choices)
+            b.interactable = true;
     }
 
     // Opposite of above, as well as setting the first option back to the initial selection
     public void setInteractable()
     {
-        foreach (Button b in Choices)
-            b.interactable = true;
-        setInitialSelection();
+        //int i = 0;
+        //foreach (Button b in Choices)
+        //{
+        //    if (inactiveButtons[i])
+        //    {
+        //        inactiveButtons[i] = false;
+        //    }
+        //    else
+        //    {
+        //        b.interactable = true;
+        //    }
+        //}
+        if (!this.om.gm.pm.PLAYERDEAD)
+        {
+            foreach (Button b in bTemp)
+            {
+                b.interactable = true;
+            }
+            bTemp.Clear();
+            setInitialSelection();
+        }
+
     }
 
     public void putCanvasBehind()
@@ -347,6 +600,12 @@ public class DialogueManager : MonoBehaviour
     public void putCanvasInFront()
     {
         dialogueCanvas.GetComponent<Canvas>().sortingOrder = 3;
+    }
+
+    private IEnumerator pause()
+    {
+        yield return new WaitForSeconds(.005f);
+        waiting = true;
     }
 
 }

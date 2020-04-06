@@ -105,8 +105,8 @@ public static class CharacterSelection
         pc.skill3 = ability3list;
         pc.skill4 = ability4list;
 
-        pc.weapon01 = new Weapon(Weapon.WeaponType.KnightSword);
-        pc.weapon02 = new Weapon(Weapon.WeaponType.KnightShield);
+        pc.weapon01 = new Weapon(Weapon.WeaponType.KnightSword, "Knight Sword");
+        pc.weapon02 = new Weapon(Weapon.WeaponType.KnightShield, "Knight Shield");
 
         //Debug.Log(path);
         //StreamReader reader = new StreamReader(path);
