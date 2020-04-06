@@ -23,6 +23,7 @@ public class PlayerManager : MonoBehaviour
     public UIInventory inventoryUI;
     public GameObject InventoryPanel;
     public GameObject BioPanel;
+    public GameObject AttackPanel;
 
     // Combat information, clist, bools to guard turn logic
     public Vector3 playerLoc, selectedTile;
@@ -125,6 +126,7 @@ public class PlayerManager : MonoBehaviour
         inventoryUI = (UIInventory)GameObject.Find("Inventory").GetComponent("UIInventory");
         InventoryPanel = GameObject.Find("InventoryPanel");
         BioPanel = GameObject.Find("BioPanel");
+        AttackPanel = GameObject.Find("AttackPanel");
 
         pc.inventory = inventory;
         pc.quest = "This is a test quest to see how the text wraps within the text box";
@@ -160,6 +162,8 @@ public class PlayerManager : MonoBehaviour
                 inventory.updateStats(pc);
                 InventoryPanel.SetActive(true);
                 BioPanel.SetActive(false); // This is set active by default already in Inventory.cs
+                AttackPanel.SetActive(false);
+                
                 inventoryUI.gameObject.SetActive(true);
                 inventory.setInitSelection();
             }

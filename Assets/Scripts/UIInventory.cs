@@ -14,6 +14,7 @@ public class UIInventory : MonoBehaviour
     public GameObject MiscellaneousMenu;
     public GameObject QuestMenu;
     public GameObject BioPanel;
+    public GameObject AttackPanel;
     public RectTransform content;
     public Scrollbar scrollbar;
 
@@ -110,13 +111,21 @@ public class UIInventory : MonoBehaviour
         GameObject Weapon01;
         GameObject Weapon02;
 
+        // Bio Variables
         GameObject Stamina;
         GameObject Skill;
         GameObject Luck;
         GameObject Quest;
         GameObject Bio;
 
-        GameObject Content = BioPanel.transform.GetChild(0).gameObject;
+        // Attack Variables
+        GameObject normalAttack1;
+        GameObject specialAttack1;
+        GameObject specialAttack2;
+
+        // Bio Updates
+        GameObject BioContent = BioPanel.transform.GetChild(0).gameObject;
+        GameObject AttackContent = AttackPanel.transform.GetChild(0).gameObject;
 
         Weapon01 = MainMenu.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject;
         Weapon01.GetComponent<TextMeshProUGUI>().text = player.weapon01.displayName;
@@ -124,22 +133,32 @@ public class UIInventory : MonoBehaviour
         Weapon02 = MainMenu.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
         Weapon02.GetComponent<TextMeshProUGUI>().text = player.weapon02.displayName;
 
-        Stamina = Content.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        Stamina = BioContent.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         Stamina.GetComponent<TextMeshProUGUI>().text = "" + player.health + "/" + player.maxHealth;
 
 
-        Skill = Content.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        Skill = BioContent.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         Skill.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("STR");
         print(player.getStat("STR"));
 
-        Luck = Content.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        Luck = BioContent.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         Luck.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("AGI");
 
         Quest = QuestMenu.transform.GetChild(1).gameObject;
         Quest.GetComponent<TextMeshProUGUI>().text = player.quest;
 
-        Bio = Content.transform.GetChild(3).gameObject;
+        Bio = BioContent.transform.GetChild(3).gameObject;
         Bio.GetComponent<TextMeshProUGUI>().text = player.bio;
+
+        // Here is the Attack Content
+        normalAttack1 = AttackContent.transform.GetChild(0).gameObject;
+        specialAttack1 = AttackContent.transform.GetChild(1).gameObject;
+        specialAttack2 = AttackContent.transform.GetChild(2).gameObject;
+
+        // Attack Updates
+
+
+        
     }
 
 
