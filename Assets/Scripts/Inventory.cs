@@ -10,6 +10,7 @@ public class Inventory
     public Database database;
     public UIInventory inventoryUI;
     public GameObject InventoryPanel;
+    public GameObject AttackPanel;
     public GameObject BioPanel;
     public Button[] buttons;
     public PlayerManager pm;
@@ -21,14 +22,16 @@ public class Inventory
         inventoryUI = (UIInventory)GameObject.Find("Inventory").GetComponent("UIInventory");
         InventoryPanel = GameObject.Find("InventoryPanel");
         BioPanel = GameObject.Find("BioPanel");
-        //BioPanel.SetActive(false);
-        buttons = new Button[5];
+        AttackPanel = GameObject.Find("AttackPanel");
+        buttons = new Button[6];
 
+        // Buttons
         buttons[0] = GameObject.Find("ResButton").GetComponent<Button>();
         buttons[1] = GameObject.Find("ProvButton").GetComponent<Button>();
         buttons[2] = GameObject.Find("BackButton").GetComponent<Button>();
         buttons[3] = GameObject.Find("InventoryButton").GetComponent<Button>();
         buttons[4] = GameObject.Find("BioButton").GetComponent<Button>();
+        buttons[5] = GameObject.Find("AttackButton").GetComponent<Button>();
 
         // Listeners
         buttons[0].onClick.AddListener(removeRessurection);
@@ -36,6 +39,7 @@ public class Inventory
         buttons[2].onClick.AddListener(toggleInventory);
         buttons[3].onClick.AddListener(toggleInventoryPanel);
         buttons[4].onClick.AddListener(toggleBioPanel);
+        buttons[5].onClick.AddListener(toggleAttackPanel);
 
         database = new Database();
         this.pm = pm;
@@ -255,6 +259,7 @@ public class Inventory
     {
         InventoryPanel.SetActive(true);
         BioPanel.SetActive(false);
+        AttackPanel.SetActive(false);
 
     }
 
@@ -262,6 +267,14 @@ public class Inventory
     {
         InventoryPanel.SetActive(false);
         BioPanel.SetActive(true);
+        AttackPanel.SetActive(false);
 
+    }
+
+    public void toggleAttackPanel()
+    {
+        InventoryPanel.SetActive(false);
+        BioPanel.SetActive(false);
+        AttackPanel.SetActive(true);
     }
 }

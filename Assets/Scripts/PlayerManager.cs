@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     public UIInventory inventoryUI;
     public GameObject InventoryPanel;
     public GameObject BioPanel;
+
     public GameObject uiParent;
 
     // Battle Overlay stuff
@@ -34,6 +35,8 @@ public class PlayerManager : MonoBehaviour
     public SkillButtons sb;
     public Button opt, inv;
     public Image optImg, invImg;
+    public GameObject AttackPanel;
+
 
     // Combat information, clist, bools to guard turn logic
     public Vector3 playerLoc, selectedTile;
@@ -146,7 +149,7 @@ public class PlayerManager : MonoBehaviour
         HM = GameObject.Find("Highlights");
         HM.transform.SetParent(this.gm.transform);
         HMScript = (HighlightManager)HM.GetComponent("HighlightManager");
-        
+
     }
 
     // Fills in a few fields for PM to recognize player, as well as set up player UI
@@ -163,6 +166,7 @@ public class PlayerManager : MonoBehaviour
         inventoryUI = (UIInventory)GameObject.Find("Inventory").GetComponent("UIInventory");
         InventoryPanel = GameObject.Find("InventoryPanel");
         BioPanel = GameObject.Find("BioPanel");
+        AttackPanel = GameObject.Find("AttackPanel");
 
         pc.inventory = inventory;
         pc.inventory.updateStats(pc);
@@ -211,6 +215,7 @@ public class PlayerManager : MonoBehaviour
             gm.om.dm.setUninteractable();
             inventory.updateStats(pc);
             InventoryPanel.SetActive(true);
+            AttackPanel.SetActive(false);
             BioPanel.SetActive(false); // This is set active by default already in Inventory.cs
             inventoryUI.gameObject.SetActive(true);
             inventory.setInitSelection();
