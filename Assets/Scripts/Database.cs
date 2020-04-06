@@ -19,7 +19,7 @@ public class Database
            new Item(Item.ItemType.Sword,"Sword",false),
            new Item(Item.ItemType.Shield,"Shield",false),
            new Item(Item.ItemType.Provisions, "Provisions",true),
-           new Item(Item.ItemType.Resurection,"Resurrections",true),
+           new Item(Item.ItemType.Resurrection,"Resurrections",true),
            new Item(Item.ItemType.Gold,"Gold",true),
            new Item(Item.ItemType.BeardedKey, "Bearded Key", false),
            new Item(Item.ItemType.WolfMeat,"Wolf Meat",false),
@@ -28,7 +28,7 @@ public class Database
            new Item(Item.ItemType.CherryPit,"Cherry Pit",false),
            new Item(Item.ItemType.HalfChewedChocolate,"Half-Chewed Chocolate",false),
            new Item(Item.ItemType.TowerShield,"Tower Shield",false),
-           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet,false)
+           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet",false)
         };
     }
 

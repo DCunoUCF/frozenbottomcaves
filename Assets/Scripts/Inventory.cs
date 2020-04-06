@@ -34,7 +34,7 @@ public class Inventory
         buttons[5] = GameObject.Find("AttackButton").GetComponent<Button>();
 
         // Listeners
-        buttons[0].onClick.AddListener(removeRessurection);
+        buttons[0].onClick.AddListener(removeResurrection);
         buttons[1].onClick.AddListener(removeProvision);
         buttons[2].onClick.AddListener(toggleInventory);
         buttons[3].onClick.AddListener(toggleInventoryPanel);
@@ -238,14 +238,14 @@ public class Inventory
         this.pm.pc.setHealthEvent(5);
     }
 
-    public void addRessurection()
+    public void addResurrection()
     {
-        addItem(Item.ItemType.Ressurection, 1);
+        addItem(Item.ItemType.Resurrection, 1);
     }
 
-    public void removeRessurection()
+    public void removeResurrection()
     {
-        removeItem(Item.ItemType.Ressurection, 1);
+        removeItem(Item.ItemType.Resurrection, 1);
     }
 
     public void toggleInventory()

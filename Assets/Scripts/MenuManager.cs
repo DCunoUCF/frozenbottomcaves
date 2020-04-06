@@ -319,7 +319,7 @@ public class MenuManager : MonoBehaviour
 
         //this.gm.pm.pc.inventory.printList();
 
-        if (this.gm.pm.pc.inventory.CheckItem(Item.ItemType.Ressurection) == null)
+        if (this.gm.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null)
         {
             print("NO RES LEFT");
             GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;

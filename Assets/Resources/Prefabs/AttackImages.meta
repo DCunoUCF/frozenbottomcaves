@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Resources/Sprites/Inventory.meta
-guid: 20e0a9a15edf6194b8c41497255e3a4c
-=======
-guid: a11cb6a3da60d7742afa010e676b196f
->>>>>>> chris-naas:Assets/Resources/Prefabs/AttackImages.meta
+guid: 72805809a69768942a0a6f2d7b07bfa2
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
