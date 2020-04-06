@@ -65,7 +65,6 @@ public class OverworldManager : MonoBehaviour
 	        }
 
             spawnPlayer();
-            Debug.Log("Node 6 text:" + this.dm.dialogue.nodes[6].text);
         }
 
         if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)

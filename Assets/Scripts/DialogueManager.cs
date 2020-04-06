@@ -440,17 +440,12 @@ public class DialogueManager : MonoBehaviour
         //int fontSize = (int) TextBox.GetComponent<TextMeshPro>().fontSize; // Hardcoding to a reasonable number because of text mesh pro size 200 font
         int fontSize = 20;
 
-        // Only adding active buttons
+        // Only adding active buttons, but always adding one option
         if (Choices[2].IsActive())
             optionRect.Add(option3Rect);
         if (Choices[1].IsActive())
             optionRect.Add(option2Rect);
-        if (Choices[0].IsActive())
-            optionRect.Add(option1Rect);
-        //for (int i = 0; i < this.Choices.Count; i++)
-        //{
-        //    optionRect.Add(Choices[i].GetComponent<RectTransform>());
-        //}
+        optionRect.Add(option1Rect);
 
         // Buffers
         int winHeightBuffer = 20;
