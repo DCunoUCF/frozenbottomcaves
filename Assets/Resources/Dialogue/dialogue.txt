@@ -351,7 +351,7 @@ destId: 195
 nodeId: 194
 text: You don't like to give up gold, but can respect an honest job.
 options: 1
-text: You hand over the gold and give a swift nod.
+text: You continue on your way.
 destId: 195
 
 nodeId: 195
