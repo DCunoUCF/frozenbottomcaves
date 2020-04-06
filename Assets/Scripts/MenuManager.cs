@@ -17,7 +17,7 @@ public enum UIType
 	WizardClass, KnightClass, RogueClass, MonkClass,
     MusicMute, EffectMute,
     BattleButton, OptionsOnTop, OptionBack,
-    LoadGame
+    LoadGame, MainMenuButton
 }
 
 public enum SliderType
@@ -160,6 +160,9 @@ public class MenuManager : MonoBehaviour
                 break;
             case UIType.LoadGame:
                 loadGame();
+                break;
+            case UIType.MainMenuButton:
+                ReturnToMainMenuFromGame();
                 break;
             default:
     			Debug.Log("Clicked a button!"); break;
@@ -351,8 +354,15 @@ public class MenuManager : MonoBehaviour
 
     void ReturnToMainMenu()
     {
-        DestroyImmediate(this.gm.gameObject);
+        //DestroyImmediate(this.gm.gameObject);
     	SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+
+    void ReturnToMainMenuFromGame()
+    {
+        DestroyImmediate(this.gm.gameObject);
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 
     void QuitGame()

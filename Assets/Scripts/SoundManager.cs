@@ -99,7 +99,7 @@ public class SoundManager : MonoBehaviour
 
         // Find and load every sound effect into soundEffectQueue
         this.winJingle = Resources.Load<AudioClip>("Sound/Effects/WinJelly");
-        this.loseJingle = Resources.Load<AudioClip>("Sound/Effects/LoseJelly");
+        this.loseJingle = Resources.Load<AudioClip>("Sound/Effects/LossJelly");
 
         // Start playing music
         this.musicChannel.loop = false; // Default -> no 

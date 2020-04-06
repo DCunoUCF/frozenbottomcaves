@@ -164,6 +164,9 @@ public class GameManager : MonoBehaviour
             splashUp = true;
             this.pm.combatInitialized = false;
             this.pm.inCombat = false;
+
+            this.sm.playLoseJingle();
+
             SceneManager.LoadScene("LoseSplash", LoadSceneMode.Additive);
             StartCoroutine(disableLoad());
         }
@@ -183,7 +186,7 @@ public class GameManager : MonoBehaviour
     IEnumerator disableLoad()
     {
         yield return new WaitForSeconds(.1f);
-        if (this.pm.pc.inventory.CheckItem(Item.ItemType.Ressurection) == null)
+        if (this.pm.pc.inventory.CheckItem(Item.ItemType.Ressurection) == null || !this.pm.SAVED)
         {
             print("NO RES LEFT");
             GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;

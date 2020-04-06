@@ -357,7 +357,10 @@ public class OverworldManager : MonoBehaviour
         this.dm.EventComplete();
         dm.setInitialSelection();
         if (player.transform.position == n.transform.position)
+        {
             this.dm.Panel.SetActive(true);
+            print("SETTING ACTIVE AGAIN");
+        }
         else
             this.dm.Panel.SetActive(false);
         dr1.final = 0;
