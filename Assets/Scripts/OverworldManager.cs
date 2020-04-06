@@ -67,6 +67,10 @@ public class OverworldManager : MonoBehaviour
             spawnPlayer();
         }
 
+        if (playerSpawned)
+            if (this.dm.currentNode == -1)
+                this.HPEvent(-(this.gm.pm.pc.health));
+
         if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
         {
         	for(int i = startingNode; i < nodes.Count; i++)
@@ -79,6 +83,7 @@ public class OverworldManager : MonoBehaviour
         		{
         			if (id == this.dm.currentNode)
         			{
+
                         Debug.Log("currentNode OM: " + this.dm.currentNode);
                         // Move the player along the map
                         this.TurnPlayer(this.player, new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z));
@@ -224,6 +229,7 @@ public class OverworldManager : MonoBehaviour
         this.startingNode = saveNode;
         this.nodeTypeCount = saveNodeTypeCount;
 
+        this.dm.Panel.SetActive(true);
         this.dm.init();
 
         destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);

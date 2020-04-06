@@ -79,6 +79,7 @@ public class DialogueManager : MonoBehaviour
 
     public void init()
     {
+        TextBox.SetActive(true);
         TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < 3; i++)
@@ -498,8 +499,8 @@ public class DialogueManager : MonoBehaviour
             optionRect.Add(option3Rect);
         if (Choices[1].IsActive())
             optionRect.Add(option2Rect);
-        if (Choices[0].IsActive())
-            optionRect.Add(option1Rect);
+
+        optionRect.Add(option1Rect);
         //for (int i = 0; i < this.Choices.Count; i++)
         //{
         //    optionRect.Add(Choices[i].GetComponent<RectTransform>());
