@@ -460,8 +460,8 @@ public class BattleManager : MonoBehaviour
         Vector3 end = entity2.entity.transform.position;
         Vector3 start2 = entity2.entity.transform.position;
         Vector3 end2 = entity.entity.transform.position;
-        Vector3 halfway = (start + end) / 2;
-        Vector3 halfway2 = (start2 + end2) / 2;
+        Vector3 halfway = (((start + end) / 2) + start) / 2;
+        Vector3 halfway2 = (((start2 + end2) / 2) + start2) / 2;
 
         GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
 
@@ -482,10 +482,13 @@ public class BattleManager : MonoBehaviour
         }
 
         // clash logic
-        int roll = Random.Range(1, 13) + this.gm.pm.pc.getStatModifier2(entity2.entity.GetComponent<Enemy>().getStrength());
-        yield return StartCoroutine(rollScript.waitForStart("STR", this.gm.pm.getStatModifier("STR"), roll));
+        int roll1 = Random.Range(1, 7);
+        int roll2 = Random.Range(1, 7);
+        int totalRoll = roll1 + roll2 + this.gm.pm.pc.getStatModifier2(entity2.entity.GetComponent<Enemy>().getStrength());
 
-        if ((dr1.final + dr2.final + this.gm.pm.getStatModifier("STR") >= roll))
+        yield return StartCoroutine(rollScript.waitForStart("STR", this.gm.pm.getStatModifier("STR"), totalRoll));
+
+        if ((dr1.final + dr2.final + this.gm.pm.getStatModifier("STR") >= totalRoll))
         {
             entity2.hp -= entity.attackDmg;
 
