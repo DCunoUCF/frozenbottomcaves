@@ -97,6 +97,25 @@ public class PlayerClass
             return 3;
         return 0;
     }
+    public int getStatModifier2(int i)
+    {
+        int temp = i;
+        if (temp < 6)
+            return -3;
+        if (temp < 8)
+            return -2;
+        if (temp < 10)
+            return -1;
+        if (temp < 12)
+            return 0;
+        if (temp < 14)
+            return 1;
+        if (temp < 16)
+            return 2;
+        if (temp > 16)
+            return 3;
+        return 0;
+    }
 
     // Whenever the player takes damage
     public void takeDamage(int dmg)

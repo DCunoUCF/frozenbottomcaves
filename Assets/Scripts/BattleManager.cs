@@ -36,6 +36,10 @@ public class BattleManager : MonoBehaviour
     // Parent to all entities spawned. Used for cleanup after battle is resolved
     private GameObject Entities;
 
+    public GameObject rollParchment;
+    public RollMaster rollScript;
+    public DiceRoller dr1, dr2;
+
     void Awake()
     {
         //if (Instance == null)
@@ -87,6 +91,12 @@ public class BattleManager : MonoBehaviour
         PlayerManager.Instance.isTurn = true;
         this.npcm = new NPCManager(this);
         printGrid();
+
+        this.rollParchment = this.gm.om.rollParchment;
+        this.rollScript = this.gm.om.rollScript;
+        this.dr1 = this.gm.om.dr1;
+        this.dr2 = this.gm.om.dr2;
+        this.rollParchment.SetActive(false);
     }
 
     void Update()
@@ -96,11 +106,8 @@ public class BattleManager : MonoBehaviour
             foreach (CList c in combatantList)
                 print(c.gridX);
             resolvingTurn = true;
-            // NPCManager.Instance.Decide();
             StartCoroutine(combatUpdate());  // Added this to have the ability to resolve each step with animations if wanted
-            // ResolveMoves();
-            //ResolveAttacks();
-            //WhoStillHasLimbs();
+
         }
     }
 
@@ -377,9 +384,10 @@ public class BattleManager : MonoBehaviour
             {
                 foreach (Vector3 clashTar in clashCList.atkTar)
                 {
-                    if (clashTar == playerCList.entity.transform.position)
+                    if (clashTar == playerCList.entity.transform.position && tar == clashCList.entity.transform.position)
                     {
                         clash = true;
+                        yield return StartCoroutine(ClashAnim(playerCList, clashCList));
                         break;
                     }
                 }
@@ -389,11 +397,7 @@ public class BattleManager : MonoBehaviour
                 break;
         }
 
-        if (clash)
-        {
-            yield return StartCoroutine(ClashAnim(playerCList, clashCList));
-        }
-        else
+        if (!clash)
         {
             clashCList = null;
         }
@@ -448,6 +452,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator ClashAnim(CList entity, CList entity2)
     {
+        this.rollParchment.SetActive(true);
         Vector3 start = entity.entity.transform.position;
         Vector3 end = entity.movTar;
         Vector3 start2 = entity2.entity.transform.position;
@@ -474,6 +479,35 @@ public class BattleManager : MonoBehaviour
         }
 
         // clash logic
+
+        int roll = Random.Range(1, 13) + this.gm.pm.pc.getStatModifier2(entity2.entity.GetComponent<Enemy>().getStrength());
+        yield return StartCoroutine(rollScript.waitForStart("STR", this.gm.pm.getStatModifier("STR"), roll));
+
+        if ((dr1.final + dr2.final + this.gm.pm.getStatModifier("STR") >= roll))
+        {
+            entity2.hp -= entity.attackDmg;
+
+            if (entity2.hp <= 0)
+            {
+                entity2.entity.SetActive(false);
+            }
+
+        }
+        else
+        {
+            entity.hp -= entity2.attackDmg;
+
+            if (entity.hp <= 0)
+            {
+                entity.entity.SetActive(false);
+            }
+            this.gm.pm.takeDmg(entity2.attackDmg);
+
+        }
+
+        this.rollParchment.SetActive(false);
+        this.dr1.final = 0;
+        this.dr2.final = 0;
 
 
         while (entity.entity.transform.position != start && entity2.entity.transform.position != start2)
