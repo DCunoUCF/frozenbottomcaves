@@ -290,8 +290,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyClass: 1
-  movePercentage: 0.66
-  specialAttackPercentage: 0.25
+  movePercentage: 0.5
+  specialAttackPercentage: 0.4
+  maxHp: 10
+  maxStrength: 12
   strikeDamage: 1
   cleaveDamage: 2
   whammyDamage: 2
@@ -306,7 +308,7 @@ MonoBehaviour:
   shortRainDamage: 2
   mediumRainDamage: 2
   longRainDamage: 2
-  cleaveHeatup: 2
+  cleaveHeatup: 1
   whammyHeatup: 2
   thrustHeatup: 2
   sliceHeatup: 2

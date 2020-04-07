@@ -131,6 +131,8 @@ MonoBehaviour:
   enemyClass: 2
   movePercentage: 0.4
   specialAttackPercentage: 0.6
+  maxHp: 25
+  maxStrength: 14
   strikeDamage: 1
   cleaveDamage: 2
   whammyDamage: 2

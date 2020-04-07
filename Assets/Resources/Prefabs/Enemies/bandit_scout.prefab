@@ -292,6 +292,8 @@ MonoBehaviour:
   enemyClass: 5
   movePercentage: 0.66
   specialAttackPercentage: 0.66
+  maxHp: 8
+  maxStrength: 12
   strikeDamage: 1
   cleaveDamage: 2
   whammyDamage: 2
@@ -303,7 +305,7 @@ MonoBehaviour:
   shortshotDamage: 2
   mediumshotDamage: 1
   longshotDamage: 1
-  shortRainDamage: 1
+  shortRainDamage: 2
   mediumRainDamage: 1
   longRainDamage: 1
   cleaveHeatup: 2
