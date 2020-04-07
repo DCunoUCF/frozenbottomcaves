@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
     // Other stats
     public int maxHp = 2;
     public int maxStrength = 1;
+    public int minRange = 0;
+    public int maxRange = 4;
 
 	// Melee Attack Damage
 	public int strikeDamage = 1;
@@ -149,15 +151,8 @@ public class Enemy : MonoBehaviour
     }
 
     //===========   Thinking methods   ===========//
-    protected void move()
+    protected List<Point> getRestrictions(Point me, Point target)
     {
-        Debug.Log("E#" + this.enemyId + " is moving!");
-
-        // Grab the target and the enemy's location from the BattleManager
-        Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
-        Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
-
-        // Movement Restrictions
         List<Point> offlimits;
 
         switch (this.enemyClass)
@@ -177,8 +172,44 @@ public class Enemy : MonoBehaviour
                 offlimits = this.ArcherRestrictions(me, target); break;
         }
 
+        return offlimits;
+    }
+
+    protected void move()
+    {
+        Debug.Log("E#" + this.enemyId + " is moving!");
+
+        // Grab the target and the enemy's location from the BattleManager
+        Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
+        Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
+
+        // Change our target position to move to if we're within minimum range
+        int targetDist = BFS.bfsDist(BattleManager.Instance.gridCell, me, target);
+        if (targetDist < this.minRange)
+        {
+            if (target.X < me.X)
+                target.X += Mathf.Abs(me.X - target.X);
+            else if (target.X > me.X)
+                target.X -= Mathf.Abs(target.X - me.X);
+
+            while (target.X > BattleManager.Instance.gridCell.GetLength(0))
+                target.X--;
+            while (target.X < 0)
+                target.X++;
+
+            if (target.Y < me.Y)
+                target.Y += Mathf.Abs(me.Y - target.Y);
+            else if (target.Y > me.Y)
+                target.Y -= Mathf.Abs(target.Y - me.Y);
+
+            while (target.Y > BattleManager.Instance.gridCell(GetLength(1)))
+                target.Y--;
+            while (target.Y < 0)
+                target.Y++;
+        }
+
         // Pathfind!
-        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, offlimits);
+        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, getRestrictions(me, target));
 
         Debug.Log("GridCell X-Length: " + BattleManager.Instance.gridCell.GetLength(0));
         Debug.Log("GridCell Y-Length: " + BattleManager.Instance.gridCell.GetLength(1));
@@ -201,7 +232,7 @@ public class Enemy : MonoBehaviour
     {
     	// Initialize our list of potential attacks, and our final decision
     	List<List<Point>> attackTiles = new List<List<Point>>();
-    	List<Point> decidedTile;
+    	List<Point> decidedTile = new List<Point>();
 
     	// Grab information from the BattleManager
     	Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
@@ -296,10 +327,27 @@ public class Enemy : MonoBehaviour
     		this.damage = this.strikeDamage;
     	}
 
-    	// Set our default (random attack) first, then try to be more specific
-    	int choice = (int)(Random.value * attackTiles.Count);
-    	decidedTile = attackTiles[choice];
-    	Debug.Log("E#"+this.enemyId+" picked a random tile to attack!");
+        // Set our default choice to be closest to the target
+        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, getRestrictions(me, target));
+        Debug.Log("Our next spot is ("+nextSpot.X+", "+nextSpot.Y+")");
+        foreach (List<Point> l in attackTiles)
+        {
+            if (l.Contains(nextSpot))
+            {
+                decidedTile = l;
+                Debug.Log("E#"+this.enemyId+" is defaulting to the tile closest to the target!");
+            }
+        }
+
+        // If for some reason we couldn't choose a default tile, pick one at random
+        if (decidedTile.Count < 1)
+        {
+            // Legacy Random choice
+            int choice = (int)(Random.value * attackTiles.Count);
+            decidedTile = attackTiles[choice];
+            Debug.Log("E#"+this.enemyId+" picked a random tile to attack!");
+
+        }
 
     	// Try to pick the attack that will hit the player in their current position
     	foreach (List<Point> l in attackTiles)
@@ -333,7 +381,8 @@ public class Enemy : MonoBehaviour
         Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
         Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
 
-        if (BFS.bfsDist(BattleManager.Instance.gridCell, me, target) >= 4)
+        int targetDist = BFS.bfsDist(BattleManager.Instance.gridCell, me, target);
+        if (targetDist >= this.maxRange || targetDist <= this.minRange)
         {
             this.move();
             this.decision = 1;
