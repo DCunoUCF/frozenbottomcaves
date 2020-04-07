@@ -27,6 +27,10 @@ public class Enemy : MonoBehaviour
 	public float movePercentage = .66f;
 	public float specialAttackPercentage = .5f;
 
+    // Other stats
+    public int maxHp = 2;
+    public int maxStrength = 1;
+
 	// Melee Attack Damage
 	public int strikeDamage = 1;
 	public int cleaveDamage = 2;
@@ -115,9 +119,9 @@ public class Enemy : MonoBehaviour
     	this.initFlag = true;
 
     	// Set default stats
-    	this.health = 2;
+    	this.health = this.maxHp;
     	this.damage = 1;
-    	this.strength = 1;
+    	this.strength = this.maxStrength;
 
     	// Set initial positions
     	this.attackTarget = new List<Vector3>();
