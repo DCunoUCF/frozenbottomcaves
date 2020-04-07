@@ -365,8 +365,38 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator ResolveAttacks()
     {
-        CList curAtkTar;
+        CList curAtkTar, clashCList = null, playerCList = combatantList[0];
+        bool clash = false;
         int atkX, atkY, atkTarIndex;
+
+        foreach (Vector3 tar in playerCList.atkTar)
+        {
+            clashCList = combatantList[GetIndexOfCombatant(GetCombatant(tar))];
+
+            if (clashCList != null)
+            {
+                foreach (Vector3 clashTar in clashCList.atkTar)
+                {
+                    if (clashTar == playerCList.entity.transform.position)
+                    {
+                        clash = true;
+                        break;
+                    }
+                }
+            }
+
+            if (clash)
+                break;
+        }
+
+        if (clash)
+        {
+            yield return StartCoroutine(ClashAnim(playerCList, clashCList));
+        }
+        else
+        {
+            clashCList = null;
+        }
 
         // This is only complicated because attack target right now isn't just a relative position which would be easier to check on the gridCell
         for (int i = 0; i < combatantList.Count; i++)
@@ -375,6 +405,10 @@ public class BattleManager : MonoBehaviour
             if (combatantList[i].attack < 0)
                 continue;
             if (combatantList[i].hp <= 0)
+                continue;
+            if (clash && combatantList[i] == clashCList)
+                continue;
+            if (clash && combatantList[i] == playerCList)
                 continue;
 
             yield return StartCoroutine(attackAnim(combatantList[i]));
@@ -409,6 +443,55 @@ public class BattleManager : MonoBehaviour
                     this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
             }
         }
+        yield break;
+    }
+
+    IEnumerator ClashAnim(CList entity, CList entity2)
+    {
+        Vector3 start = entity.entity.transform.position;
+        Vector3 end = entity.movTar;
+        Vector3 start2 = entity2.entity.transform.position;
+        Vector3 end2 = entity.movTar;
+        Vector3 halfway = (start + end) / 2;
+        Vector3 halfway2 = (start2 + end2) / 2;
+
+        GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
+
+        GameObject tileTemp1 = Instantiate(tile, entity2.entity.transform.position, Quaternion.identity);
+        GameObject tileTemp2 = Instantiate(tile, entity.entity.transform.position, Quaternion.identity);
+
+        turnEntity(entity.entity, entity.atkTar[0]);
+        turnEntity(entity2.entity, entity2.atkTar[0]);
+
+        while (entity.entity.transform.position != halfway && entity2.entity.transform.position != halfway2)
+        {
+            if (entity.entity.transform.position != halfway)
+                entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, halfway, slideSpeed * Time.deltaTime);
+            if (entity2.entity.transform.position != halfway2)
+                entity2.entity.transform.position = Vector3.MoveTowards(entity2.entity.transform.position, halfway2, slideSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        // clash logic
+
+
+        while (entity.entity.transform.position != start && entity2.entity.transform.position != start2)
+        {
+            if (entity.entity.transform.position != start)
+                entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, start, slideSpeed * Time.deltaTime);
+            if (entity2.entity.transform.position != start2)
+                entity2.entity.transform.position = Vector3.MoveTowards(entity2.entity.transform.position, start2, slideSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        Destroy(tileTemp1);
+        Destroy(tileTemp2);
+
+        // In case something happens, framerate dip or something that leads to them being off, force them to be in their appropriate spots
+        entity.entity.transform.position = start;
+        entity2.entity.transform.position = start2;
         yield break;
     }
 
