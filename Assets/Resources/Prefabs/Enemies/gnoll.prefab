@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce0b40de274a2146876b29758c24170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyClass: 3
+  enemyClass: 2
   movePercentage: 0.5
   specialAttackPercentage: 0.75
   maxHp: 10
