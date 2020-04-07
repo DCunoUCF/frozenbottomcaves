@@ -202,7 +202,7 @@ public class Enemy : MonoBehaviour
             else if (target.Y > me.Y)
                 target.Y -= Mathf.Abs(target.Y - me.Y);
 
-            while (target.Y > BattleManager.Instance.gridCell(GetLength(1)))
+            while (target.Y > BattleManager.Instance.gridCell.GetLength(1))
                 target.Y--;
             while (target.Y < 0)
                 target.Y++;
