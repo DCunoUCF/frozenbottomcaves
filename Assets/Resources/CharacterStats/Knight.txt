@@ -1,7 +1,7 @@
 TheWhiteKnight1
 TheWhiteKnight1(Clone)
-bio
-quest
+Sir Rancelot earned his status as knight for being the strongest, smartest, and most courageous in his graduating class! Uhm, well maybe not the strongest. Or smartest, as he did fail the written portion. And technically, he didn't earn his status so much as he was simply born into it. But he definitely was the most courageous, and he proves that every chance he gets.
+You have been sent by the King and Queen of Rockside Castle to find `The Warrior of Frozenbottom Caves.` He is a threat, and must be dealt with.
 20
 14 8 10
 Basic Move

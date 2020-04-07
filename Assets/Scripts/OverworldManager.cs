@@ -10,7 +10,7 @@ public class OverworldManager : MonoBehaviour
     public GameManager gm;
     private GameObject player;
     public DialogueManager dm;
-    public bool playerSpawned;
+    public bool playerSpawned, initialSave;
     public GameObject rollParchment;
     public RollMaster rollScript;
     public GameObject die1, die2;
@@ -67,6 +67,38 @@ public class OverworldManager : MonoBehaviour
             spawnPlayer();
         }
 
+        if (playerSpawned)
+            if (this.dm.currentNode == -1)
+                this.HPEvent(-(this.gm.pm.pc.health));
+
+        if (playerSpawned && !initialSave)
+        {
+            if (this.dm.currentNode == 0)
+            {
+                nodeSavedAt.Add(0);
+
+                // Tell the pm to create a deep copy of the current player and inventory
+                this.gm.pm.createSave();
+
+                // Remember the node information
+                this.saveNode = 0;
+                this.saveNodeTypeCount = 0;
+                this.saveCurrentNode = 0;
+
+                // Save direction they're facing
+                if (player.transform.GetChild(0).gameObject.activeSelf)
+                    facing = 0;
+                else if (player.transform.GetChild(1).gameObject.activeSelf)
+                    facing = 1;
+                else if (player.transform.GetChild(2).gameObject.activeSelf)
+                    facing = 2;
+                else if (player.transform.GetChild(3).gameObject.activeSelf)
+                    facing = 3;
+                initialSave = true;
+            }
+        }
+        
+
         if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
         {
         	for(int i = startingNode; i < nodes.Count; i++)
@@ -79,6 +111,7 @@ public class OverworldManager : MonoBehaviour
         		{
         			if (id == this.dm.currentNode)
         			{
+
                         Debug.Log("currentNode OM: " + this.dm.currentNode);
                         // Move the player along the map
                         this.TurnPlayer(this.player, new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z));
@@ -224,6 +257,7 @@ public class OverworldManager : MonoBehaviour
         this.startingNode = saveNode;
         this.nodeTypeCount = saveNodeTypeCount;
 
+        this.dm.Panel.SetActive(true);
         this.dm.init();
 
         destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);

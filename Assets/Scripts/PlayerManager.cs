@@ -171,10 +171,12 @@ public class PlayerManager : MonoBehaviour
         pc.inventory = inventory;
         pc.inventory.updateStats(pc);
         pc.inventory.addItem(Item.ItemType.Resurrection, 3);
-        pc.inventory.addItem(Item.ItemType.Gold, 25);
-        pc.inventory.addItem(Item.ItemType.Provisions, 10);
+        pc.inventory.addItem(Item.ItemType.Gold, 10);
+        pc.inventory.addItem(Item.ItemType.Provisions, 3);
 
         inventoryUI.gameObject.SetActive(false);
+
+
 
         // Setup battle overlay
         battleCanvas = GameObject.Find("BattleCanvas");
@@ -210,9 +212,9 @@ public class PlayerManager : MonoBehaviour
             invImg.color = UnityEngine.Color.gray;
             gm.om.dm.setUninteractable();
             inventory.updateStats(pc);
-            InventoryPanel.SetActive(true);
-            AttackPanel.SetActive(false);
-            BioPanel.SetActive(false); // This is set active by default already in Inventory.cs
+            inventory.toggleInventoryPanel();
+            inventory.toggleAttackPanel();
+            inventory.toggleBioPanel();  // This is set active by default already in Inventory.cs
             inventoryUI.gameObject.SetActive(true);
             inventory.setInitSelection();
         }
@@ -453,7 +455,7 @@ public class PlayerManager : MonoBehaviour
         pc.setHealthEvent(i);
         phb.updateHealthBar(pc.health);
         if (pc.health <= 0)
-        { 
+        {
             PLAYERDEAD = true;
             //this.gm.sm.playLoseJingle();
         }
