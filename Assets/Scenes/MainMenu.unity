@@ -363,6 +363,7 @@ MonoBehaviour:
   om: {fileID: 0}
   sm: {fileID: 0}
   pm: {fileID: 0}
+  splashUp: 0
 --- !u!4 &1170054359
 Transform:
   m_ObjectHideFlags: 0
@@ -718,20 +719,5 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 540036600}
-    - target: {fileID: 7330855797309313623, guid: 694abc8db1ffdec46b06b09b8893708e,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7330855797436167655, guid: 694abc8db1ffdec46b06b09b8893708e,
-        type: 3}
-      propertyPath: type
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7330855795999900235, guid: 694abc8db1ffdec46b06b09b8893708e,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 694abc8db1ffdec46b06b09b8893708e, type: 3}
