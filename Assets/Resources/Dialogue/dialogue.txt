@@ -496,10 +496,10 @@ destId: 216
 nodeId: 216
 text: You feel tremors beneath your feet and hear a thunderous rumbling build and build. You see rocks begin rolling down the mountain face. They're coming right for you!
 options: 2
-text: "Maybe this shield is magical!" (Use Tower Shield)
-destId: 217
 text: "Time to make like seamstress and WEAVE!" (AGI)
 destId: 219
+text: "Maybe this shield is magical!" (Use Tower Shield)
+destId: 217
 
 nodeId: 217
 text: The boulders rip through the dirt as they descend upon you. Holding your shield high and standing fast, you are struck by a boulder with the force of multiple boulders! You are knocked off your feet.

@@ -251,6 +251,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5629272342806590784}
+  - component: {fileID: 8519133727019126217}
   m_Layer: 0
   m_Name: bandit_thug
   m_TagString: Enemy
@@ -276,6 +277,61 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8519133727019126217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5629272342806590786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ce0b40de274a2146876b29758c24170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyClass: 1
+  movePercentage: 0.66
+  specialAttackPercentage: 0.25
+  strikeDamage: 1
+  cleaveDamage: 2
+  whammyDamage: 2
+  thrustDamage: 1
+  sliceDamage: 2
+  cycloneDamage: 2
+  cycleKickDamage: 2
+  cyclePunchDamage: 2
+  shortshotDamage: 1
+  mediumshotDamage: 1
+  longshotDamage: 1
+  shortRainDamage: 2
+  mediumRainDamage: 2
+  longRainDamage: 2
+  cleaveHeatup: 2
+  whammyHeatup: 2
+  thrustHeatup: 2
+  sliceHeatup: 2
+  cycloneHeatup: 4
+  cycleKickHeatup: 3
+  cyclePunchHeatup: 3
+  shortshotHeatup: 1
+  mediumshotHeatup: 1
+  longshotHeatup: 1
+  shortRainHeatup: 3
+  mediumRainHeatup: 3
+  longRainHeatup: 3
+  Cleave: 1
+  Thrust: 0
+  Whammy: 0
+  Slice: 0
+  Cyclone: 0
+  CycleKick: 0
+  CyclePunch: 0
+  Shortshot: 0
+  Mediumshot: 0
+  Longshot: 0
+  ShortRain: 0
+  MediumRain: 0
+  LongRain: 0
 --- !u!1 &5759754532055250165
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public enum GridType
 public enum EncounterEnemy
 {
 	None,
-	goblin, slime_G, gnoll, lich
+	goblin, slime_G, gnoll, lich, troll, nixie, gnoll_logger, wolf_black, spider_small, spider_queen, bandit_scout, bandit_thug, bandit_leader
 }
 
 
