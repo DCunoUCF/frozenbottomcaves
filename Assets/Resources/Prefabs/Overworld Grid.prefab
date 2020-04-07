@@ -150,9 +150,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 0e0000000f0000001000000011000000120000001300000018000000190000001a0000001b0000001c000000
-  NodeTypes: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  NodeTypes: 0000000000000000000000000100000000000000000000000000000000000000010000000000000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: goblin_arena
+      nodeEnemies: 01000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: goblin_arena
+      nodeEnemies: 010000000100000001000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose: []
   HealthChange: 
@@ -256,9 +289,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 08000000090000000a0000000b000000
-  NodeTypes: 00000000000000000000000000000000
+  NodeTypes: 00000000010000000000000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: main_road1_arena
+      nodeEnemies: 02000000020000000200000002000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose: []
   HealthChange: 
@@ -468,7 +513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 040000000500000007000000
-  NodeTypes: 000000000000000006000000
+  NodeTypes: 000000000400000006000000
   battleClassList:
     list: []
   NodeItems: []
@@ -521,9 +566,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 14000000150000001600000017000000
-  NodeTypes: 00000000000000000000000000000000
+  NodeTypes: 00000000010000000000000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: goblin_arena
+      nodeEnemies: 0100000001000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose: []
   HealthChange: 
@@ -627,15 +684,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 300000003100000032000000330000003400000036000000370000003800000039000000
-  NodeTypes: 000000000000000000000000000000000000000000000000000000000000000000000000
+  NodeTypes: 000000000400000000000000000000000000000001000000000000000000000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: halfdirt_arena
+      nodeEnemies: 0b0000000b0000000c0000000c0000000c000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose: []
   HealthChange: 
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 
+  SkillCheckDifficulty: 000000000700000000000000000000000000000000000000000000000000000000000000
 --- !u!1 &119382757675478273
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,9 +765,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: a0000000a1000000a2000000a3000000a4000000a5000000a6000000a7000000a8000000a9000000aa000000ab000000ac000000ad000000ae000000af000000
-  NodeTypes: 00000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000006000000000000000700000005000000
+  NodeTypes: 00000000000000000100000005000000000000000000000000000000000000000200000000000000000000000000000006000000000000000700000005000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: main_road3_arena
+      nodeEnemies: 08000000080000000800000008000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems:
   - item: 0
     count: 0
@@ -753,7 +885,7 @@ MonoBehaviour:
   HealthChange: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000fbffffff000000000000000000000000
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 
+  SkillCheckDifficulty: 00000000000000000000000000000000000000000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000
 --- !u!1 &140552854810641490
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,7 +983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: d8000000d9000000da000000db000000dc000000dd000000de000000
-  NodeTypes: 00000000070000000000000000000000000000000000000000000000
+  NodeTypes: 00000000070000000000000004000000000000000000000000000000
   battleClassList:
     list: []
   NodeItems: []
@@ -873,7 +1005,7 @@ MonoBehaviour:
   HealthChange: 
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 
+  SkillCheckDifficulty: 00000000000000000000000007000000000000000000000000000000
 --- !u!1 &529555865867414381
 GameObject:
   m_ObjectHideFlags: 0
@@ -19490,8 +19622,8 @@ Tilemap:
       m_ColliderType: 1
   - first: {x: 79, y: 46, z: 0}
     second:
-      m_TileIndex: 8
-      m_TileSpriteIndex: 8
+      m_TileIndex: 46
+      m_TileSpriteIndex: 46
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -19839,10 +19971,10 @@ Tilemap:
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
       m_ColliderType: 1
-  - first: {x: 79, y: 47, z: 0}
+  - first: {x: 78, y: 47, z: 0}
     second:
-      m_TileIndex: 11
-      m_TileSpriteIndex: 11
+      m_TileIndex: 0
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -20552,7 +20684,7 @@ Tilemap:
       m_ColliderType: 1
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 296
+  - m_RefCount: 297
     m_Data: {fileID: 11400000, guid: 1297f8c207d97894f90040b21cdb8817, type: 2}
   - m_RefCount: 181
     m_Data: {fileID: 11400000, guid: 1c307c656eb4b3b4489650da80ecaa7e, type: 2}
@@ -20568,13 +20700,13 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: b8db8229e2f51294eb260bcd24ccace8, type: 2}
   - m_RefCount: 68
     m_Data: {fileID: 11400000, guid: f9fededefe17aeb499f3e07b836584fe, type: 2}
-  - m_RefCount: 227
+  - m_RefCount: 226
     m_Data: {fileID: 11400000, guid: 00ecc4659744b19448619cff3858a806, type: 2}
   - m_RefCount: 23
     m_Data: {fileID: 11400000, guid: 03daa33dfb9402f4aa2a479e95edb624, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 38b90f0b527ecfa42953c1637005f58b, type: 2}
-  - m_RefCount: 38
+  - m_RefCount: 37
     m_Data: {fileID: 11400000, guid: a9f408002b24e4e4abd3f2efb8468026, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 02274f92d258edd4184f45418dd06589, type: 2}
@@ -20644,12 +20776,12 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 6e013ead8e5d26042a0d94bd504c4987, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 0b3968e810ef97844acaa131361ab983, type: 2}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 21da61827eb423d4592e620413641533, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 749df8e5bdfd5484281a6510e75940b2, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 299
+  - m_RefCount: 300
     m_Data: {fileID: 21300000, guid: 0b93209eea88c5e49b1fb5ceb67295f5, type: 3}
   - m_RefCount: 182
     m_Data: {fileID: 21300000, guid: 7d4dd18a3eb934044911554b678e8a7d, type: 3}
@@ -20665,13 +20797,13 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 0b03474f3a4719a45bc89bf6039ab21c, type: 3}
   - m_RefCount: 68
     m_Data: {fileID: 21300000, guid: 2618e312afce95c42af9e92b61db03f4, type: 3}
-  - m_RefCount: 219
+  - m_RefCount: 218
     m_Data: {fileID: 21300000, guid: 8f4109c422f4896428c1bdce7aec58a1, type: 3}
   - m_RefCount: 23
     m_Data: {fileID: 21300000, guid: 57e824a65e624984186262e603420ed5, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300000, guid: 3f21c594ecab5314a99755600a36efc5, type: 3}
-  - m_RefCount: 38
+  - m_RefCount: 37
     m_Data: {fileID: 21300000, guid: 88950ad8a6a33a64088b50fc40b65de3, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: c521164e4bd6db040bc024b9f5635b37, type: 3}
@@ -20741,7 +20873,7 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 2ce69ffe6adbc244e93364d93b9ac7f3, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 3e28c9db4a82d56478da46e331375e13, type: 3}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: 16e67c7954edf11479213791a400ac9e, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 2fa673fa0e907c94b966b78beec2cb74, type: 3}
@@ -20868,39 +21000,39 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 529555866556099370}
-  - {fileID: 501219496397316829}
-  - {fileID: 736707990869836656}
-  - {fileID: 5722539984628517194}
-  - {fileID: 5524015655340985418}
-  - {fileID: 9089331496775405038}
-  - {fileID: 7323528982486701435}
-  - {fileID: 5905159885584071065}
-  - {fileID: 8156766882462382117}
-  - {fileID: 1398527723554750617}
-  - {fileID: 6920409537780060240}
-  - {fileID: 3159983184511965631}
-  - {fileID: 6819239861669851320}
-  - {fileID: 5590183977241627134}
-  - {fileID: 6191594478387053368}
-  - {fileID: 1803985587107367950}
-  - {fileID: 326160455408425643}
-  - {fileID: 4429034999220486693}
-  - {fileID: 3596110961233471781}
-  - {fileID: 8052869440326946499}
-  - {fileID: 3736059971101322929}
+  - {fileID: 5254435395124977543}
+  - {fileID: 4910719497131261481}
+  - {fileID: 105195315764294684}
+  - {fileID: 195360841466458396}
+  - {fileID: 3475929574628110520}
+  - {fileID: 3151771591014033442}
+  - {fileID: 2300326759024100559}
+  - {fileID: 4552463150326072691}
+  - {fileID: 6735028586927799744}
+  - {fileID: 3320571922025147654}
+  - {fileID: 7333464003569640678}
+  - {fileID: 2557511428692979834}
+  - {fileID: 255407666732184744}
+  - {fileID: 2895853874461737979}
+  - {fileID: 7265958538403990733}
+  - {fileID: 8744324350718171752}
+  - {fileID: 4660031834668892902}
+  - {fileID: 9221334105505879158}
+  - {fileID: 2440593974275322768}
+  - {fileID: 2685830876661721971}
   - {fileID: 3842096746972126427}
-  - {fileID: 7267555717934335525}
-  - {fileID: 360477678877763410}
-  - {fileID: 882916412147450575}
-  - {fileID: 5341199008139196840}
-  - {fileID: 3025888986912882593}
-  - {fileID: 3513048080260722904}
-  - {fileID: 2480439770563648812}
-  - {fileID: 988035260770093189}
-  - {fileID: 4038044189654196322}
-  - {fileID: 1561921389830678956}
-  - {fileID: 1906949383631246183}
-  - {fileID: 2349324373252016221}
+  - {fileID: 8358522138534049991}
+  - {fileID: 1307249488799062448}
+  - {fileID: 4782698088760590228}
+  - {fileID: 288495822614873338}
+  - {fileID: 7485316138895639283}
+  - {fileID: 9142284992781749642}
+  - {fileID: 7814725614070947961}
+  - {fileID: 4875434167626233310}
+  - {fileID: 8508762687176564025}
+  - {fileID: 6607412204253467895}
+  - {fileID: 6082648968806231612}
+  - {fileID: 7963854319171695878}
   m_Father: {fileID: 529555865867414379}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -59957,8 +60089,8 @@ Tilemap:
       m_ColliderType: 1
   - first: {x: 27, y: 23, z: 0}
     second:
-      m_TileIndex: 1
-      m_TileSpriteIndex: 1
+      m_TileIndex: 38
+      m_TileSpriteIndex: 38
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -98083,7 +98215,7 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 1141
     m_Data: {fileID: 11400000, guid: 65ba6fce6f3117a4592fab0c2f1b37fb, type: 2}
-  - m_RefCount: 195
+  - m_RefCount: 194
     m_Data: {fileID: 11400000, guid: ae88cb4bf36f909479edeab36e58de9a, type: 2}
   - m_RefCount: 569
     m_Data: {fileID: 11400000, guid: 0b4d43ed9c5dc7e42b38d28454a44f03, type: 2}
@@ -98157,10 +98289,12 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 596b025a4a88849438edfbf251190d30, type: 2}
   - m_RefCount: 5
     m_Data: {fileID: 11400000, guid: 052b6c408b34f3948be3940dbc54db1f, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 72e417569d9ba514797596a877176cfc, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1141
     m_Data: {fileID: 21300000, guid: eae6370efa9917a4aabf3bf3547cb0a7, type: 3}
-  - m_RefCount: 195
+  - m_RefCount: 194
     m_Data: {fileID: 21300000, guid: fd6d4ecf0f6d1a94b8bd01f05366d9ec, type: 3}
   - m_RefCount: 569
     m_Data: {fileID: 21300000, guid: 6669fbdfa41817046afcc05880938d2e, type: 3}
@@ -98234,6 +98368,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 4f889933578f20949a0b07a49843ad9d, type: 3}
   - m_RefCount: 5
     m_Data: {fileID: 21300000, guid: 7797bf123b9bcc74f8daaed39d6c7706, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 312b83ae7b658c4458304d26ad26111b, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 8574
     m_Data:
@@ -98369,9 +98505,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 3c0000003d0000003e0000003f00000040000000410000004b0000004c0000004d000000
-  NodeTypes: 000000000000000000000000000000000000000000000000000000000500000000000000
+  NodeTypes: 000000000000000001000000000000000000000000000000000000000500000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: circulardirt_arena
+      nodeEnemies: 0d000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems:
   - item: 0
     count: 0
@@ -99210,9 +99373,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 8d0000008e0000008f000000900000009100000092000000930000009400000095000000
-  NodeTypes: 000000000000000000000000000000000700000000000000000000000000000000000000
+  NodeTypes: 000000000100000000000000000000000700000001000000000000000000000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: side_road1_arena
+      nodeEnemies: 090000000100000001000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: side_road1_arena
+      nodeEnemies: 09000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose:
   - item: 0
@@ -99776,7 +99966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 2b0000002c0000002d0000002e000000
-  NodeTypes: 00000000000000000600000006000000
+  NodeTypes: 00000000030000000600000006000000
   battleClassList:
     list: []
   NodeItems: []
@@ -99784,7 +99974,7 @@ MonoBehaviour:
   HealthChange: 000000000000000003000000feffffff
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 
+  SkillCheckDifficulty: 00000000080000000000000000000000
 --- !u!1 &5074267862937597714
 GameObject:
   m_ObjectHideFlags: 0
@@ -99935,7 +100125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: b3000000b5000000b9000000bb000000bc000000bd000000be000000bf000000c0000000c1000000
-  NodeTypes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  NodeTypes: 04000000000000000000000000000000000000000000000000000000030000000000000000000000
   battleClassList:
     list: []
   NodeItems: []
@@ -99943,7 +100133,7 @@ MonoBehaviour:
   HealthChange: 
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 07000000000000000000000000000000000000000000000000000000000000000000000000000000
+  SkillCheckDifficulty: 07000000000000000000000000000000000000000000000000000000060000000000000000000000
 --- !u!1 &5613487810917916839
 GameObject:
   m_ObjectHideFlags: 0
@@ -100041,9 +100231,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 6d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000
-  NodeTypes: 000000000000000000000000000000000000000000000000060000000000000000000000000000000000000006000000
+  NodeTypes: 000000000000000001000000000000000000000000000000060000000000000000000000000000000000000006000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: pond_arena
+      nodeEnemies: 060000000600000006000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose: []
   HealthChange: 0000000000000000000000000000000000000000000000003200000000000000000000000000000000000000f6ffffff00000000
@@ -100200,7 +100426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 1e0000001f00000020000000f4000000f5000000f6000000f7000000fe000000
-  NodeTypes: 0000000000000000000000000000000000000000050000000000000006000000
+  NodeTypes: 0000000000000000000000000000000004000000050000000000000006000000
   battleClassList:
     list: []
   NodeItems:
@@ -100220,7 +100446,7 @@ MonoBehaviour:
   HealthChange: 00000000000000000000000000000000000000000000000000000000fcffffff
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 
+  SkillCheckDifficulty: 0000000000000000000000000000000007000000000000000000000000000000
 --- !u!1 &6166576184265171760
 GameObject:
   m_ObjectHideFlags: 0
@@ -100318,7 +100544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 7b0000007c0000007d0000007e0000007f00000080000000810000008200000083000000840000008500000086000000
-  NodeTypes: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  NodeTypes: 000000000000000000000000020000000000000000000000040000000000000000000000030000000000000000000000
   battleClassList:
     list: []
   NodeItems: []
@@ -100326,7 +100552,7 @@ MonoBehaviour:
   HealthChange: 
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 
+  SkillCheckDifficulty: 000000000000000000000000080000000000000000000000080000000000000000000000080000000000000000000000
 --- !u!1 &6383511119249396537
 GameObject:
   m_ObjectHideFlags: 0
@@ -100591,9 +100817,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: c6000000c7000000c8000000c9000000ca000000cb000000cc000000cd000000ce000000cf000000d0000000d1000000d2000000
-  NodeTypes: 00000000000000000000000000000000000000000000000000000000070000000000000000000000000000000000000000000000
+  NodeTypes: 00000000000000000000000001000000000000000000000000000000070000000000000001000000000000000000000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: dirt_arena
+      nodeEnemies: 0300000003000000030000000300000003000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: dirt_arena
+      nodeEnemies: 030000000300000003000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose:
   - item: 0
@@ -100951,9 +101216,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 5b0000005c0000005d0000005e000000
-  NodeTypes: 0000000000000000000000000000000000000000
+  NodeTypes: 0000000001000000000000000000000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: main_road2_arena
+      nodeEnemies: 07000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose: []
   HealthChange: 
@@ -101005,15 +101285,66 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: e1000000e2000000e3000000e4000000e5000000e6000000e7000000e8000000e9000000ea000000eb000000ec000000ed000000ee000000ef000000f0000000f1000000
-  NodeTypes: 0000000000000000000000000000000000000000060000000000000000000000060000000000000000000000060000000000000000000000000000000000000000000000
+  NodeTypes: 0000000000000000000000000200000000000000060000000200000000000000060000000200000000000000060000000000000000000000010000000000000000000000
   battleClassList:
-    list: []
+    list:
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 1
+      arena: spider_queen_arena
+      nodeEnemies: 0a000000090000000900000009000000
+    - grid: 0
+      arena: 
+      nodeEnemies: 
+    - grid: 0
+      arena: 
+      nodeEnemies: 
   NodeItems: []
   NodeItemsLose: []
   HealthChange: 0000000000000000000000000000000000000000ffffffff0000000000000000ffffffff0000000000000000ffffffff00000000000000000000000000000000000000000000000000000000
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 
+  SkillCheckDifficulty: 0000000000000000000000000900000000000000000000000900000000000000000000000900000000000000000000000000000000000000000000000000000000000000
 --- !u!1 &8480979759275300382
 GameObject:
   m_ObjectHideFlags: 0
@@ -101217,7 +101548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIDs: 4f00000050000000510000005200000053000000
-  NodeTypes: 0000000000000000000000000600000006000000
+  NodeTypes: 0000000002000000000000000600000006000000
   battleClassList:
     list: []
   NodeItems: []
@@ -101225,7 +101556,7 @@ MonoBehaviour:
   HealthChange: 000000000000000000000000feffffff05000000
   MaxHealthChange: 
   SaveProvisions: 
-  SkillCheckDifficulty: 
+  SkillCheckDifficulty: 0000000008000000000000000000000000000000
 --- !u!1 &9012686886219357610
 GameObject:
   m_ObjectHideFlags: 0
@@ -101464,7 +101795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 394bbceedb5692a44b36a4c1265672dc, type: 3}
---- !u!4 &5722539984628517194 stripped
+--- !u!4 &105195315764294684 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 394bbceedb5692a44b36a4c1265672dc,
     type: 3}
@@ -101549,7 +101880,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 394bbceedb5692a44b36a4c1265672dc, type: 3}
---- !u!4 &5524015655340985418 stripped
+--- !u!4 &195360841466458396 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 394bbceedb5692a44b36a4c1265672dc,
     type: 3}
@@ -101634,7 +101965,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 394bbceedb5692a44b36a4c1265672dc, type: 3}
---- !u!4 &5590183977241627134 stripped
+--- !u!4 &255407666732184744 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 394bbceedb5692a44b36a4c1265672dc,
     type: 3}
@@ -101719,7 +102050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05f91641af7d9394e8e1f56c5350dc96, type: 3}
---- !u!4 &5341199008139196840 stripped
+--- !u!4 &288495822614873338 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 05f91641af7d9394e8e1f56c5350dc96,
     type: 3}
@@ -101804,7 +102135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f4304eb87b893c4c8a57ee29e19bbf8, type: 3}
---- !u!4 &360477678877763410 stripped
+--- !u!4 &1307249488799062448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1667709490509297672, guid: 7f4304eb87b893c4c8a57ee29e19bbf8,
     type: 3}
@@ -101889,7 +102220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 394bbceedb5692a44b36a4c1265672dc, type: 3}
---- !u!4 &5905159885584071065 stripped
+--- !u!4 &2300326759024100559 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 394bbceedb5692a44b36a4c1265672dc,
     type: 3}
@@ -101974,7 +102305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0783dad798c4c234d843c076296df02a, type: 3}
---- !u!4 &8052869440326946499 stripped
+--- !u!4 &2440593974275322768 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 0783dad798c4c234d843c076296df02a,
     type: 3}
@@ -102059,7 +102390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7187dad7abb717b4b9826e318fdf5cbb, type: 3}
---- !u!4 &6819239861669851320 stripped
+--- !u!4 &2557511428692979834 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069358624756516926, guid: 7187dad7abb717b4b9826e318fdf5cbb,
     type: 3}
@@ -102144,7 +102475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 772b1361bf87d25408b97fcb9e69a80f, type: 3}
---- !u!4 &3736059971101322929 stripped
+--- !u!4 &2685830876661721971 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1629417185409385259, guid: 772b1361bf87d25408b97fcb9e69a80f,
     type: 3}
@@ -102229,7 +102560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5a9eaf0f91f90b41ac056d057b67dc5, type: 3}
---- !u!4 &6191594478387053368 stripped
+--- !u!4 &2895853874461737979 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069358624756516926, guid: a5a9eaf0f91f90b41ac056d057b67dc5,
     type: 3}
@@ -102314,7 +102645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b20e8c3d55adcf6439eb15bc03d862e7, type: 3}
---- !u!4 &7323528982486701435 stripped
+--- !u!4 &3151771591014033442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: b20e8c3d55adcf6439eb15bc03d862e7,
     type: 3}
@@ -102399,7 +102730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 394bbceedb5692a44b36a4c1265672dc, type: 3}
---- !u!4 &6920409537780060240 stripped
+--- !u!4 &3320571922025147654 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 394bbceedb5692a44b36a4c1265672dc,
     type: 3}
@@ -102484,7 +102815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 394bbceedb5692a44b36a4c1265672dc, type: 3}
---- !u!4 &9089331496775405038 stripped
+--- !u!4 &3475929574628110520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 394bbceedb5692a44b36a4c1265672dc,
     type: 3}
@@ -102559,7 +102890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 394bbceedb5692a44b36a4c1265672dc, type: 3}
---- !u!4 &8156766882462382117 stripped
+--- !u!4 &4552463150326072691 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 394bbceedb5692a44b36a4c1265672dc,
     type: 3}
@@ -102644,7 +102975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5a9eaf0f91f90b41ac056d057b67dc5, type: 3}
---- !u!4 &4429034999220486693 stripped
+--- !u!4 &4660031834668892902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069358624756516926, guid: a5a9eaf0f91f90b41ac056d057b67dc5,
     type: 3}
@@ -102729,7 +103060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efb9930c59d53594389a23b2d0cbe0e5, type: 3}
---- !u!4 &882916412147450575 stripped
+--- !u!4 &4782698088760590228 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: efb9930c59d53594389a23b2d0cbe0e5,
     type: 3}
@@ -102814,7 +103145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efb9930c59d53594389a23b2d0cbe0e5, type: 3}
---- !u!4 &988035260770093189 stripped
+--- !u!4 &4875434167626233310 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: efb9930c59d53594389a23b2d0cbe0e5,
     type: 3}
@@ -102889,7 +103220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b20e8c3d55adcf6439eb15bc03d862e7, type: 3}
---- !u!4 &736707990869836656 stripped
+--- !u!4 &4910719497131261481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: b20e8c3d55adcf6439eb15bc03d862e7,
     type: 3}
@@ -102974,7 +103305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd85e14f2b89cb84a9c5ae41c2935d39, type: 3}
---- !u!4 &501219496397316829 stripped
+--- !u!4 &5254435395124977543 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: dd85e14f2b89cb84a9c5ae41c2935d39,
     type: 3}
@@ -103059,7 +103390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efb9930c59d53594389a23b2d0cbe0e5, type: 3}
---- !u!4 &1906949383631246183 stripped
+--- !u!4 &6082648968806231612 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: efb9930c59d53594389a23b2d0cbe0e5,
     type: 3}
@@ -103144,7 +103475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efb9930c59d53594389a23b2d0cbe0e5, type: 3}
---- !u!4 &1561921389830678956 stripped
+--- !u!4 &6607412204253467895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: efb9930c59d53594389a23b2d0cbe0e5,
     type: 3}
@@ -103229,7 +103560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b20e8c3d55adcf6439eb15bc03d862e7, type: 3}
---- !u!4 &1398527723554750617 stripped
+--- !u!4 &6735028586927799744 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: b20e8c3d55adcf6439eb15bc03d862e7,
     type: 3}
@@ -103304,7 +103635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5a9eaf0f91f90b41ac056d057b67dc5, type: 3}
---- !u!4 &1803985587107367950 stripped
+--- !u!4 &7265958538403990733 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069358624756516926, guid: a5a9eaf0f91f90b41ac056d057b67dc5,
     type: 3}
@@ -103379,7 +103710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b20e8c3d55adcf6439eb15bc03d862e7, type: 3}
---- !u!4 &3159983184511965631 stripped
+--- !u!4 &7333464003569640678 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: b20e8c3d55adcf6439eb15bc03d862e7,
     type: 3}
@@ -103464,7 +103795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05f91641af7d9394e8e1f56c5350dc96, type: 3}
---- !u!4 &3025888986912882593 stripped
+--- !u!4 &7485316138895639283 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 05f91641af7d9394e8e1f56c5350dc96,
     type: 3}
@@ -103539,7 +103870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c33f629d4adfe84ea121dbe71bd27f3, type: 3}
---- !u!4 &2480439770563648812 stripped
+--- !u!4 &7814725614070947961 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 2c33f629d4adfe84ea121dbe71bd27f3,
     type: 3}
@@ -103624,7 +103955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efb9930c59d53594389a23b2d0cbe0e5, type: 3}
---- !u!4 &2349324373252016221 stripped
+--- !u!4 &7963854319171695878 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: efb9930c59d53594389a23b2d0cbe0e5,
     type: 3}
@@ -103709,7 +104040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f4304eb87b893c4c8a57ee29e19bbf8, type: 3}
---- !u!4 &7267555717934335525 stripped
+--- !u!4 &8358522138534049991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1667709490509297672, guid: 7f4304eb87b893c4c8a57ee29e19bbf8,
     type: 3}
@@ -103794,7 +104125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efb9930c59d53594389a23b2d0cbe0e5, type: 3}
---- !u!4 &4038044189654196322 stripped
+--- !u!4 &8508762687176564025 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: efb9930c59d53594389a23b2d0cbe0e5,
     type: 3}
@@ -103869,7 +104200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5a9eaf0f91f90b41ac056d057b67dc5, type: 3}
---- !u!4 &326160455408425643 stripped
+--- !u!4 &8744324350718171752 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069358624756516926, guid: a5a9eaf0f91f90b41ac056d057b67dc5,
     type: 3}
@@ -104039,7 +104370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05f91641af7d9394e8e1f56c5350dc96, type: 3}
---- !u!4 &3513048080260722904 stripped
+--- !u!4 &9142284992781749642 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 05f91641af7d9394e8e1f56c5350dc96,
     type: 3}
@@ -104114,7 +104445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0783dad798c4c234d843c076296df02a, type: 3}
---- !u!4 &3596110961233471781 stripped
+--- !u!4 &9221334105505879158 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5629272342806590784, guid: 0783dad798c4c234d843c076296df02a,
     type: 3}
