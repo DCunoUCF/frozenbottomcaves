@@ -1384,7 +1384,7 @@ text: I must kill him to save countless villages.
 destId: 60
 
 nodeId: 60
-text: You strut right up to the muscled figure. "I am Sir Rancelot of Rockside Castle and you are in my way! Prepare yourself for an honorable death, bridgand!" You backhand the bandit leader with your gauntlet.
+text: You strut right up to the muscled figure. "I am Sir Rancelot of Rockside Castle and you are in my way! Prepare yourself for an honorable death, brigand!" You backhand the bandit leader with your gauntlet.
 options: 1
 text: He turns his head slowly back to you, his face flushed red with rage.
 destId: 61
