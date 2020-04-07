@@ -47,7 +47,7 @@ destId:8
 nodeId : 7
 text : You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
 options: 1
-text: "..." Trudge along. (-2 HP)
+text: "..." Trudge along. (Lost 2 HP)
 destId:8
 
 nodeId : 8
@@ -143,7 +143,7 @@ text: Kick the wolf. (STR)
 destId: 168
 text: Pat the wolf on its head.
 destId: 171
-text: "Here you go, friend!" (-1 Provision)
+text: "Here you go, friend!" (Lose 1 Provision)
 destId: 174 
 
 nodeId: 168
@@ -202,7 +202,7 @@ text: With the conflict behind you, you continue your quest.. You spot a comfort
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 257
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 258
 text: Continue without resting.
 destId: 177
@@ -214,7 +214,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 177
 
 nodeId: 258
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 177
@@ -469,7 +469,7 @@ text: You reach the main path, with a comfortable looking stump to rest your wea
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 213
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 214
 text: Continue without resting.
 destId: 215
@@ -481,7 +481,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 215
 
 nodeId: 214
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 215
@@ -885,7 +885,7 @@ text: You briefly take in your surroundings and notice a comfortable looking stu
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 153
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 154
 text: Continue without resting.
 destId: 155
@@ -897,7 +897,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 155
 
 nodeId: 154
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 155
@@ -920,7 +920,7 @@ text: You briefly take in your surroundings and notice a comfortable looking stu
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 137
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 138
 text: Continue without resting.
 destId: 139
@@ -932,7 +932,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 139
 
 nodeId: 138
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 139
@@ -1286,7 +1286,7 @@ text: A short distance from the berries, you spot a comfortable looking stump to
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 68
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 69
 text: Continue without resting.
 destId: 47
@@ -1298,7 +1298,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 47
 
 nodeId: 69
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 47
@@ -1461,7 +1461,7 @@ text: Not far from the encampment, you find a comfortable looking stump to rest 
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 72
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 73
 text: Continue without resting.
 destId: 70
@@ -1473,7 +1473,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 70
 
 nodeId: 73
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 70
@@ -1515,9 +1515,9 @@ text: "Huzzah!"
 destId: 83
 
 nodeId: 82
-text: You reach around the log and heave with all your might. It begins to lift from the ground gradually at first, but then you feel a twist in your back, and you drop the log. "OOF" The gnome's arms stop flailing.
+text: (Lost 2 HP) You reach around the log and heave with all your might. It begins to lift from the ground gradually at first, but then you feel a twist in your back, and you drop the log. "OOF" The gnome's arms stop flailing.
 options: 1
-text: "Out of its misery then! My back though..." (-2 HP)
+text: "Out of its misery then! My back though..." 
 destId: 84
 
 nodeId: 83
@@ -1549,7 +1549,7 @@ text: "Bandits took all my precious goods! My tools, my grain, my gold!"
 options: 3
 text: "Are these your goods?" (Lose Stolen Goods)
 destId: 88
-text: "Maybe this can help you rebuild." (-5 Gold)
+text: "Maybe this can help you rebuild." (Lose 5 Gold)
 destId: 248
 text: "I can't help you with that! Good luck!"
 destId: 89
@@ -1653,9 +1653,9 @@ text: "GAH!"
 destId: 100
 
 nodeId: 100
-text: The spider bites you and scurries away.
+text: (Lost 5 HP) The spider bites you and scurries away.
 options: 1
-text: "OUCH!" (-5 HP)
+text: "OUCH!" 
 destId: 104
 
 nodeId: 101
