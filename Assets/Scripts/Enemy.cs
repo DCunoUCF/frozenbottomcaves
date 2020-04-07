@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
     // Other stats
     public int maxHp = 2;
     public int maxStrength = 1;
+    public int minRange = 0;
+    public int maxRange = 4;
 
 	// Melee Attack Damage
 	public int strikeDamage = 1;
@@ -149,53 +151,88 @@ public class Enemy : MonoBehaviour
     }
 
     //===========   Thinking methods   ===========//
-    protected void move()
+    protected List<Point> getRestrictions(Point me, Point target)
     {
-		Debug.Log("E#"+this.enemyId+" is moving!");
-
-		// Grab the target and the enemy's location from the BattleManager
-        Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
-        Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
-
-        // Movement Restrictions
         List<Point> offlimits;
 
         switch (this.enemyClass)
         {
-        	default:
-        	case EnemyClass.Dunce:
-        		offlimits = this.DunceRestrictions(me, target); break;
-        	case EnemyClass.Brawler:
-        		offlimits = this.BrawlerRestrictions(me, target); break;
-        	case EnemyClass.Flanker:
-        		offlimits = this.FlankerRestrictions(me, target); break;
-        	case EnemyClass.Auxillary:
-        		offlimits = this.AuxillaryRestrictions(me, target); break;
-        	case EnemyClass.Assassin:
-        		offlimits = this.AssassinRestrictions(me, target); break;
-        	case EnemyClass.Archer:
-        		offlimits = this.ArcherRestrictions(me, target); break;
+            default:
+            case EnemyClass.Dunce:
+                offlimits = this.DunceRestrictions(me, target); break;
+            case EnemyClass.Brawler:
+                offlimits = this.BrawlerRestrictions(me, target); break;
+            case EnemyClass.Flanker:
+                offlimits = this.FlankerRestrictions(me, target); break;
+            case EnemyClass.Auxillary:
+                offlimits = this.AuxillaryRestrictions(me, target); break;
+            case EnemyClass.Assassin:
+                offlimits = this.AssassinRestrictions(me, target); break;
+            case EnemyClass.Archer:
+                offlimits = this.ArcherRestrictions(me, target); break;
+        }
+
+        return offlimits;
+    }
+
+    protected void move()
+    {
+        Debug.Log("E#" + this.enemyId + " is moving!");
+
+        // Grab the target and the enemy's location from the BattleManager
+        Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
+        Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
+
+        // Change our target position to move to if we're within minimum range
+        int targetDist = BFS.bfsDist(BattleManager.Instance.gridCell, me, target);
+        if (targetDist < this.minRange)
+        {
+            if (target.X < me.X)
+                target.X += Mathf.Abs(me.X - target.X);
+            else if (target.X > me.X)
+                target.X -= Mathf.Abs(target.X - me.X);
+
+            while (target.X > BattleManager.Instance.gridCell.GetLength(0))
+                target.X--;
+            while (target.X < 0)
+                target.X++;
+
+            if (target.Y < me.Y)
+                target.Y += Mathf.Abs(me.Y - target.Y);
+            else if (target.Y > me.Y)
+                target.Y -= Mathf.Abs(target.Y - me.Y);
+
+            while (target.Y > BattleManager.Instance.gridCell.GetLength(1))
+                target.Y--;
+            while (target.Y < 0)
+                target.Y++;
         }
 
         // Pathfind!
-        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, offlimits);
+        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, getRestrictions(me, target));
 
-        Debug.Log("GridCell X-Length: "+BattleManager.Instance.gridCell.GetLength(0));
-        Debug.Log("GridCell Y-Length: "+BattleManager.Instance.gridCell.GetLength(1));
-        Debug.Log("Chosen Next Point: ("+nextSpot.X+", "+nextSpot.Y+")");
+        Debug.Log("GridCell X-Length: " + BattleManager.Instance.gridCell.GetLength(0));
+        Debug.Log("GridCell Y-Length: " + BattleManager.Instance.gridCell.GetLength(1));
+        Debug.Log("Chosen Next Point: (" + nextSpot.X + ", " + nextSpot.Y + ")");
 
         // Don't move if we accidentally chose a spot out of bounds, otherwise move to our next spot
         if (nextSpot.X < 0 || nextSpot.X >= BattleManager.Instance.gridCell.GetLength(0) || nextSpot.Y < 0 || nextSpot.Y >= BattleManager.Instance.gridCell.GetLength(1))
-        	this.setMove(BattleManager.Instance.gridCell[me.X, me.Y].center);
+        { 
+            print("entered failsafe");
+            this.setMove(BattleManager.Instance.gridCell[me.X, me.Y].center);
+        }
         else
+        {
+            print("NOT FAILSAFE");
 	        this.setMove(BattleManager.Instance.gridCell[nextSpot.X, nextSpot.Y].center);
+        }
     }
 
     protected void attack()
     {
     	// Initialize our list of potential attacks, and our final decision
     	List<List<Point>> attackTiles = new List<List<Point>>();
-    	List<Point> decidedTile;
+    	List<Point> decidedTile = new List<Point>();
 
     	// Grab information from the BattleManager
     	Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
@@ -290,10 +327,27 @@ public class Enemy : MonoBehaviour
     		this.damage = this.strikeDamage;
     	}
 
-    	// Set our default (random attack) first, then try to be more specific
-    	int choice = (int)(Random.value * attackTiles.Count);
-    	decidedTile = attackTiles[choice];
-    	Debug.Log("E#"+this.enemyId+" picked a random tile to attack!");
+        // Set our default choice to be closest to the target
+        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, getRestrictions(me, target));
+        Debug.Log("Our next spot is ("+nextSpot.X+", "+nextSpot.Y+")");
+        foreach (List<Point> l in attackTiles)
+        {
+            if (l.Contains(nextSpot))
+            {
+                decidedTile = l;
+                Debug.Log("E#"+this.enemyId+" is defaulting to the tile closest to the target!");
+            }
+        }
+
+        // If for some reason we couldn't choose a default tile, pick one at random
+        if (decidedTile.Count < 1)
+        {
+            // Legacy Random choice
+            int choice = (int)(Random.value * attackTiles.Count);
+            decidedTile = attackTiles[choice];
+            Debug.Log("E#"+this.enemyId+" picked a random tile to attack!");
+
+        }
 
     	// Try to pick the attack that will hit the player in their current position
     	foreach (List<Point> l in attackTiles)
@@ -324,16 +378,41 @@ public class Enemy : MonoBehaviour
     {
     	Debug.Log("E#"+this.enemyId+" has been called upon to think!");
 
-    	if (Random.value < this.movePercentage)
-    	{
-    		this.move();
-    		this.decision = 1;
-    	}
-    	else
-    	{
-    		this.attack();
-    		this.decision = 2;
-    	}
+        Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
+        Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
+
+        int targetDist = BFS.bfsDist(BattleManager.Instance.gridCell, me, target);
+        if (targetDist >= this.maxRange || targetDist <= this.minRange)
+        {
+            this.move();
+            this.decision = 1;
+        }
+        else if (Mathf.Abs(me.X - target.X) <= 1 && Mathf.Abs(me.Y - target.Y) <= 1)
+        {
+            if (Random.value < 0.75f)
+            {
+                this.attack();
+                this.decision = 2;
+            }
+            else
+            {
+                this.move();
+                this.decision = 1;
+            }
+        }
+        else
+        {
+            if (Random.value < this.movePercentage)
+            {
+                this.move();
+                this.decision = 1;
+            }
+            else
+            {
+                this.attack();
+                this.decision = 2;
+            }
+        }
 
     	this.coolOff();
     }

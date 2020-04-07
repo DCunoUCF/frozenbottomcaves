@@ -417,6 +417,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 1.9974976
       objectReference: {fileID: 0}
+    - target: {fileID: 862128538508178422, guid: 4c55b951be4258e4495b9ccfa4df4e1b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 310.2998
+      objectReference: {fileID: 0}
+    - target: {fileID: 862128538508178422, guid: 4c55b951be4258e4495b9ccfa4df4e1b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -146.90039
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c55b951be4258e4495b9ccfa4df4e1b, type: 3}
 --- !u!1001 &246940727
@@ -1090,6 +1100,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: NodeTypes.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].nodeEnemies.Array.data[0]
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
+      propertyPath: battleClassList.list.Array.data[0].nodeEnemies.Array.data[1]
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}

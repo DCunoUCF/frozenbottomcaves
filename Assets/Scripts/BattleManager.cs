@@ -36,6 +36,10 @@ public class BattleManager : MonoBehaviour
     // Parent to all entities spawned. Used for cleanup after battle is resolved
     private GameObject Entities;
 
+    public GameObject rollParchment;
+    public RollMaster rollScript;
+    public DiceRoller dr1, dr2;
+
     void Awake()
     {
         //if (Instance == null)
@@ -87,6 +91,12 @@ public class BattleManager : MonoBehaviour
         PlayerManager.Instance.isTurn = true;
         this.npcm = new NPCManager(this);
         printGrid();
+
+        this.rollParchment = this.gm.om.rollParchment;
+        this.rollScript = this.gm.om.rollScript;
+        this.dr1 = this.gm.om.dr1;
+        this.dr2 = this.gm.om.dr2;
+        this.rollParchment.SetActive(false);
     }
 
     void Update()
@@ -96,11 +106,8 @@ public class BattleManager : MonoBehaviour
             foreach (CList c in combatantList)
                 print(c.gridX);
             resolvingTurn = true;
-            // NPCManager.Instance.Decide();
             StartCoroutine(combatUpdate());  // Added this to have the ability to resolve each step with animations if wanted
-            // ResolveMoves();
-            //ResolveAttacks();
-            //WhoStillHasLimbs();
+
         }
     }
 
@@ -365,8 +372,37 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator ResolveAttacks()
     {
-        CList curAtkTar;
-        int atkX, atkY, atkTarIndex;
+        CList curAtkTar, clashCList = null, playerCList = combatantList[0];
+        GameObject tempEntity;
+        bool clash = false;
+        int atkX, atkY, atkTarIndex, tempIndex = -1;
+
+        if (playerCList.atkTar != null)
+        {
+            foreach (Vector3 v in playerCList.atkTar)
+            {
+                tempEntity = GetCombatant(v);
+                if (tempEntity != null)
+                {
+                    tempIndex = GetIndexOfCombatant(tempEntity);
+                    clashCList = combatantList[tempIndex];
+                    if (clashCList.atkTar != null)
+                    {
+                        foreach (Vector3 v2 in clashCList.atkTar)
+                        {
+                            if (v2 == playerCList.entity.transform.position)
+                            {
+                                clash = true;
+                                yield return StartCoroutine(ClashAnim(playerCList, clashCList));
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (clash)
+                    break;
+            }
+        }
 
         // This is only complicated because attack target right now isn't just a relative position which would be easier to check on the gridCell
         for (int i = 0; i < combatantList.Count; i++)
@@ -375,6 +411,10 @@ public class BattleManager : MonoBehaviour
             if (combatantList[i].attack < 0)
                 continue;
             if (combatantList[i].hp <= 0)
+                continue;
+            if (clash && i == 0)
+                continue;
+            if (clash && i == tempIndex)
                 continue;
 
             yield return StartCoroutine(attackAnim(combatantList[i]));
@@ -395,8 +435,9 @@ public class BattleManager : MonoBehaviour
 
                 print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
 
-                // Roll Dice / Incorporate entity stats
-                combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+                // If the attacker is the player or if the attacker is the enemy and the target is the player 
+                if (i == 0 || (i != 0 && atkTarIndex == 0))
+                    combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
                 print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
                 
@@ -409,6 +450,87 @@ public class BattleManager : MonoBehaviour
                     this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
             }
         }
+        yield break;
+    }
+
+    IEnumerator ClashAnim(CList entity, CList entity2)
+    {
+        this.rollParchment.SetActive(true);
+        Vector3 start = entity.entity.transform.position;
+        Vector3 end = entity2.entity.transform.position;
+        Vector3 start2 = entity2.entity.transform.position;
+        Vector3 end2 = entity.entity.transform.position;
+        Vector3 halfway = (((start + end) / 2) + start) / 2;
+        Vector3 halfway2 = (((start2 + end2) / 2) + start2) / 2;
+
+        GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
+
+        GameObject tileTemp1 = Instantiate(tile, entity2.entity.transform.position, Quaternion.identity);
+        GameObject tileTemp2 = Instantiate(tile, entity.entity.transform.position, Quaternion.identity);
+
+        turnEntity(entity.entity, entity.atkTar[0]);
+        turnEntity(entity2.entity, entity2.atkTar[0]);
+
+        while (entity.entity.transform.position != halfway && entity2.entity.transform.position != halfway2)
+        {
+            if (entity.entity.transform.position != halfway)
+                entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, halfway, slideSpeed * Time.deltaTime);
+            if (entity2.entity.transform.position != halfway2)
+                entity2.entity.transform.position = Vector3.MoveTowards(entity2.entity.transform.position, halfway2, slideSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        // clash logic
+        int roll1 = Random.Range(1, 7);
+        int roll2 = Random.Range(1, 7);
+        int totalRoll = roll1 + roll2 + this.gm.pm.pc.getStatModifier2(entity2.entity.GetComponent<Enemy>().getStrength());
+
+        yield return StartCoroutine(rollScript.waitForStart("STR", this.gm.pm.getStatModifier("STR"), totalRoll));
+
+        if ((dr1.final + dr2.final + this.gm.pm.getStatModifier("STR") >= totalRoll))
+        {
+            entity2.hp -= entity.attackDmg;
+
+            if (entity2.hp <= 0)
+            {
+                entity2.entity.SetActive(false);
+            }
+
+        }
+        else
+        {
+            entity.hp -= entity2.attackDmg;
+
+            if (entity.hp <= 0)
+            {
+                entity.entity.SetActive(false);
+            }
+            this.gm.pm.takeDmg(entity2.attackDmg);
+
+        }
+
+        this.rollParchment.SetActive(false);
+        this.dr1.final = 0;
+        this.dr2.final = 0;
+
+
+        while (entity.entity.transform.position != start && entity2.entity.transform.position != start2)
+        {
+            if (entity.entity.transform.position != start)
+                entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, start, slideSpeed * Time.deltaTime);
+            if (entity2.entity.transform.position != start2)
+                entity2.entity.transform.position = Vector3.MoveTowards(entity2.entity.transform.position, start2, slideSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        Destroy(tileTemp1);
+        Destroy(tileTemp2);
+
+        // In case something happens, framerate dip or something that leads to them being off, force them to be in their appropriate spots
+        entity.entity.transform.position = start;
+        entity2.entity.transform.position = start2;
         yield break;
     }
 

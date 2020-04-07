@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 // using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.Tilemaps;
 
 public class OverworldManager : MonoBehaviour
 {
@@ -64,6 +65,13 @@ public class OverworldManager : MonoBehaviour
 	        	nodes.Add(n);
 	        }
 
+            GameObject tile = GameObject.Find("OverworldTilemap");
+            Tilemap tilemap = tile.GetComponent<Tilemap>();
+            //Tilemap obstaclesMap = tilemap.transform.GetChild(0).GetComponent<Tilemap>();
+            BoundsInt bounds = tilemap.cellBounds;
+            print("SIZE: " + tilemap.size);
+            print("x: " + (Mathf.Abs(bounds.x) + bounds.xMax) + " y: " + (Mathf.Abs(bounds.y) + bounds.yMax));
+
             spawnPlayer();
         }
 
@@ -101,7 +109,7 @@ public class OverworldManager : MonoBehaviour
 
         if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
         {
-        	for(int i = startingNode; i < nodes.Count; i++)
+        	for(int i = 0; i < nodes.Count; i++)
         	{
                 load = false;
                 GameObject n = nodes[i];
