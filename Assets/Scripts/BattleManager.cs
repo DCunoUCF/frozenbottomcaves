@@ -609,6 +609,8 @@ public class BattleManager : MonoBehaviour
         {
             print(enemies[i].name);
             combatantList.Add(new CList(enemies[i]));
+            combatantList[GetIndexOfCombatant(enemies[i])].hp = enemies[i].GetComponent<Enemy>().maxHp;
+            // combatantList[GetIndexOfCombatant(enemies[i])] = enemies[i].GetComponent<Enemy>().maxHp; THIS SHOULD UPDATE WITH THE ENEMY STRENGTH
         }
         if (combatantList == null)
             print("OH NO");
