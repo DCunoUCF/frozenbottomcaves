@@ -507,7 +507,7 @@ text: "BAH!"
 destId: 218
 
 nodeId: 218
-text: (Lose Tower Shield) The rumbling settles... You stand up, covered in dust, but without a scratch. The same can't be said about your shield. It hangs loosely from your arm, battered beyond recognition.
+text: (Lost Tower Shield) The rumbling settles... You stand up, covered in dust, but without a scratch. The same can't be said about your shield. It hangs loosely from your arm, battered beyond recognition.
 options: 1
 text: "Not magical after all." 
 destId: 222
@@ -978,7 +978,7 @@ text: "Gahhhhhhh!"
 destId: -1
 
 nodeId: 145
-text: You chuck the cherry pit with all your might! It knocks the spider from the goblins back. The spider rears its head and hisses in your direction as the goblins scamper away into the woods.
+text: (Lost Cherry Pit) You chuck the cherry pit with all your might! It knocks the spider from the goblins back. The spider rears its head and hisses in your direction as the goblins scamper away into the woods.
 options: 1
 text: "Ah!" (Battle!)
 destId: 146
