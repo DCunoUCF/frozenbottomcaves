@@ -101,7 +101,7 @@ public class OverworldManager : MonoBehaviour
 
         if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
         {
-        	for(int i = startingNode; i < nodes.Count; i++)
+        	for(int i = 0; i < nodes.Count; i++)
         	{
                 load = false;
                 GameObject n = nodes[i];

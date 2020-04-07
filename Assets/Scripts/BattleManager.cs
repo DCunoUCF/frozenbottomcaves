@@ -366,7 +366,9 @@ public class BattleManager : MonoBehaviour
     IEnumerator ResolveAttacks()
     {
         CList curAtkTar;
-        int atkX, atkY, atkTarIndex;
+        bool clash = false;
+        int atkX, atkY, atkTarIndex, clashSkipIndex;
+
 
         // This is only complicated because attack target right now isn't just a relative position which would be easier to check on the gridCell
         for (int i = 0; i < combatantList.Count; i++)
