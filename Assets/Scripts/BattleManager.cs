@@ -80,6 +80,7 @@ public class BattleManager : MonoBehaviour
         combatantList[0] = this.gm.pm.combatInfo;
         combatantList[0].gridX = playerX;
         combatantList[0].gridY = playerY;
+        combatantList[0].hp = this.gm.pm.pc.getHealth();
         this.gm.pm.x = playerX;
         this.gm.pm.y = playerY;
         this.gm.pm.isTurn = true;
@@ -392,8 +393,13 @@ public class BattleManager : MonoBehaviour
                 if (gridCell[atkX, atkY].entity == null)
                     continue;
 
+                print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
+
                 // Roll Dice / Incorporate entity stats
                 combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+
+                print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
+                
                 if (combatantList[atkTarIndex].hp <= 0)
                 {
                     combatantList[atkTarIndex].entity.SetActive(false);
