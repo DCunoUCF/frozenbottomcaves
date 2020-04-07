@@ -151,9 +151,9 @@ public class Enemy : MonoBehaviour
     //===========   Thinking methods   ===========//
     protected void move()
     {
-		Debug.Log("E#"+this.enemyId+" is moving!");
+        Debug.Log("E#" + this.enemyId + " is moving!");
 
-		// Grab the target and the enemy's location from the BattleManager
+        // Grab the target and the enemy's location from the BattleManager
         Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
         Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
 
@@ -162,33 +162,39 @@ public class Enemy : MonoBehaviour
 
         switch (this.enemyClass)
         {
-        	default:
-        	case EnemyClass.Dunce:
-        		offlimits = this.DunceRestrictions(me, target); break;
-        	case EnemyClass.Brawler:
-        		offlimits = this.BrawlerRestrictions(me, target); break;
-        	case EnemyClass.Flanker:
-        		offlimits = this.FlankerRestrictions(me, target); break;
-        	case EnemyClass.Auxillary:
-        		offlimits = this.AuxillaryRestrictions(me, target); break;
-        	case EnemyClass.Assassin:
-        		offlimits = this.AssassinRestrictions(me, target); break;
-        	case EnemyClass.Archer:
-        		offlimits = this.ArcherRestrictions(me, target); break;
+            default:
+            case EnemyClass.Dunce:
+                offlimits = this.DunceRestrictions(me, target); break;
+            case EnemyClass.Brawler:
+                offlimits = this.BrawlerRestrictions(me, target); break;
+            case EnemyClass.Flanker:
+                offlimits = this.FlankerRestrictions(me, target); break;
+            case EnemyClass.Auxillary:
+                offlimits = this.AuxillaryRestrictions(me, target); break;
+            case EnemyClass.Assassin:
+                offlimits = this.AssassinRestrictions(me, target); break;
+            case EnemyClass.Archer:
+                offlimits = this.ArcherRestrictions(me, target); break;
         }
 
         // Pathfind!
         Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, offlimits);
 
-        Debug.Log("GridCell X-Length: "+BattleManager.Instance.gridCell.GetLength(0));
-        Debug.Log("GridCell Y-Length: "+BattleManager.Instance.gridCell.GetLength(1));
-        Debug.Log("Chosen Next Point: ("+nextSpot.X+", "+nextSpot.Y+")");
+        Debug.Log("GridCell X-Length: " + BattleManager.Instance.gridCell.GetLength(0));
+        Debug.Log("GridCell Y-Length: " + BattleManager.Instance.gridCell.GetLength(1));
+        Debug.Log("Chosen Next Point: (" + nextSpot.X + ", " + nextSpot.Y + ")");
 
         // Don't move if we accidentally chose a spot out of bounds, otherwise move to our next spot
         if (nextSpot.X < 0 || nextSpot.X >= BattleManager.Instance.gridCell.GetLength(0) || nextSpot.Y < 0 || nextSpot.Y >= BattleManager.Instance.gridCell.GetLength(1))
-        	this.setMove(BattleManager.Instance.gridCell[me.X, me.Y].center);
+        { 
+            print("entered failsafe");
+            this.setMove(BattleManager.Instance.gridCell[me.X, me.Y].center);
+        }
         else
+        {
+            print("NOT FAILSAFE");
 	        this.setMove(BattleManager.Instance.gridCell[nextSpot.X, nextSpot.Y].center);
+        }
     }
 
     protected void attack()
@@ -324,16 +330,40 @@ public class Enemy : MonoBehaviour
     {
     	Debug.Log("E#"+this.enemyId+" has been called upon to think!");
 
-    	if (Random.value < this.movePercentage)
-    	{
-    		this.move();
-    		this.decision = 1;
-    	}
-    	else
-    	{
-    		this.attack();
-    		this.decision = 2;
-    	}
+        Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
+        Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
+
+        if (BFS.bfsDist(BattleManager.Instance.gridCell, me, target) >= 4)
+        {
+            this.move();
+            this.decision = 1;
+        }
+        else if (Mathf.Abs(me.X - target.X) <= 1 && Mathf.Abs(me.Y - target.Y) <= 1)
+        {
+            if (Random.value < 0.75f)
+            {
+                this.attack();
+                this.decision = 2;
+            }
+            else
+            {
+                this.move();
+                this.decision = 1;
+            }
+        }
+        else
+        {
+            if (Random.value < this.movePercentage)
+            {
+                this.move();
+                this.decision = 1;
+            }
+            else
+            {
+                this.attack();
+                this.decision = 2;
+            }
+        }
 
     	this.coolOff();
     }

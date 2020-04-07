@@ -102,39 +102,28 @@ public class GameManager : MonoBehaviour
             {
                 if (this.battleResolvedCheck)
                 {
-                    string splash;
+                    string splash = "";
                     bool won = false;
+
                     if (this.bm.didWeWinTheBattle())
                     {
                         splash = "WinSplash";
                         won = true;
-                    }
-                    else
-                    {
-                        splash = "LoseSplash";
                     }
 
                     if (splash == "WinSplash")
                     {
                         this.sm.playWinJingle();
                     }
-                    else
-                    {
-                        this.sm.playLoseJingle();
-                    }
 
                     if (!SceneManager.GetSceneByName(splash).IsValid())
                     {
-                        this.om.dm.setUninteractable();
-                        SceneManager.LoadScene(splash, LoadSceneMode.Additive);
-                        StartCoroutine(setReturnRestartActive(splash, won));
-                    }
-
-                    if (splash == "LoseSplash")
-                    {
-                        this.pm.combatInitialized = false;
-                        this.pm.inCombat = false;
-                        StartCoroutine(disableLoad());
+                        if (splash == "WinSplash")
+                        {
+                            this.om.dm.setUninteractable();
+                            SceneManager.LoadScene(splash, LoadSceneMode.Additive);
+                            StartCoroutine(setReturnRestartActive(splash, won));
+                        }
                     }
 
                     this.panic = true;
