@@ -176,7 +176,7 @@ public class PlayerManager : MonoBehaviour
 
         inventoryUI.gameObject.SetActive(false);
 
-        
+
 
         // Setup battle overlay
         battleCanvas = GameObject.Find("BattleCanvas");
@@ -455,7 +455,7 @@ public class PlayerManager : MonoBehaviour
         pc.setHealthEvent(i);
         phb.updateHealthBar(pc.health);
         if (pc.health <= 0)
-        { 
+        {
             PLAYERDEAD = true;
             //this.gm.sm.playLoseJingle();
         }

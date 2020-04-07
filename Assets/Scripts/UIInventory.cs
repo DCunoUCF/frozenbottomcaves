@@ -138,13 +138,13 @@ public class UIInventory : MonoBehaviour
 
 
         STR = BioContent.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        STR.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("STR");
+        STR.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("STR") + " (" + player.getStatModifier("STR") + ")";
 
         INT = BioContent.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        INT.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("INT");
+        INT.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("INT") + " (" + player.getStatModifier("INT") + ")";
 
         AGI = BioContent.transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-        AGI.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("AGI");
+        AGI.GetComponent<TextMeshProUGUI>().text = "" + player.getStat("AGI") + " (" + player.getStatModifier("AGI") + ")";
 
         Quest = QuestMenu.transform.GetChild(1).gameObject;
         Quest.GetComponent<TextMeshProUGUI>().text = player.quest;
