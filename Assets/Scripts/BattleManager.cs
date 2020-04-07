@@ -373,33 +373,35 @@ public class BattleManager : MonoBehaviour
     IEnumerator ResolveAttacks()
     {
         CList curAtkTar, clashCList = null, playerCList = combatantList[0];
+        GameObject tempEntity;
         bool clash = false;
-        int atkX, atkY, atkTarIndex;
+        int atkX, atkY, atkTarIndex, tempIndex = -1;
 
-        foreach (Vector3 tar in playerCList.atkTar)
+        if (playerCList.atkTar != null)
         {
-            clashCList = combatantList[GetIndexOfCombatant(GetCombatant(tar))];
-
-            if (clashCList != null)
+            foreach (Vector3 v in playerCList.atkTar)
             {
-                foreach (Vector3 clashTar in clashCList.atkTar)
+                tempEntity = GetCombatant(v);
+                if (tempEntity != null)
                 {
-                    if (clashTar == playerCList.entity.transform.position && tar == clashCList.entity.transform.position)
+                    tempIndex = GetIndexOfCombatant(tempEntity);
+                    clashCList = combatantList[tempIndex];
+                    if (clashCList.atkTar != null)
                     {
-                        clash = true;
-                        yield return StartCoroutine(ClashAnim(playerCList, clashCList));
-                        break;
+                        foreach (Vector3 v2 in clashCList.atkTar)
+                        {
+                            if (v2 == playerCList.entity.transform.position)
+                            {
+                                clash = true;
+                                yield return StartCoroutine(ClashAnim(playerCList, clashCList));
+                                break;
+                            }
+                        }
                     }
                 }
+                if (clash)
+                    break;
             }
-
-            if (clash)
-                break;
-        }
-
-        if (!clash)
-        {
-            clashCList = null;
         }
 
         // This is only complicated because attack target right now isn't just a relative position which would be easier to check on the gridCell
@@ -410,9 +412,9 @@ public class BattleManager : MonoBehaviour
                 continue;
             if (combatantList[i].hp <= 0)
                 continue;
-            if (clash && combatantList[i] == clashCList)
+            if (clash && i == 0)
                 continue;
-            if (clash && combatantList[i] == playerCList)
+            if (clash && i == tempIndex)
                 continue;
 
             yield return StartCoroutine(attackAnim(combatantList[i]));
@@ -454,9 +456,9 @@ public class BattleManager : MonoBehaviour
     {
         this.rollParchment.SetActive(true);
         Vector3 start = entity.entity.transform.position;
-        Vector3 end = entity.movTar;
+        Vector3 end = entity2.entity.transform.position;
         Vector3 start2 = entity2.entity.transform.position;
-        Vector3 end2 = entity.movTar;
+        Vector3 end2 = entity.entity.transform.position;
         Vector3 halfway = (start + end) / 2;
         Vector3 halfway2 = (start2 + end2) / 2;
 

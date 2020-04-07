@@ -284,8 +284,18 @@ public class PlayerManager : MonoBehaviour
         if (this.isTurn)
         {
             clearHighlights();
-            this.combatInfo.movTar = pos[0];
-            this.combatInfo.atkTar = pos;
+            // Check if move, movTar is 0 vector if not moving
+            if (this.combatInfo.attack == -1)
+                this.combatInfo.movTar = pos[0];
+            else
+                this.combatInfo.movTar = new Vector3(0,0,0);
+
+            // Check if attack, atkTar is null if not attacking
+            if (this.combatInfo.attack >= 0)
+                this.combatInfo.atkTar = pos;
+            else
+                this.combatInfo.atkTar = null;
+
             this.isTurn = false;
             this.selectingSkill = true;
             pc.setCD(skillNumber, tempCD);
