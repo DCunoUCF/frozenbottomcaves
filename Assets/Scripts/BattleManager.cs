@@ -435,8 +435,9 @@ public class BattleManager : MonoBehaviour
 
                 print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
 
-                // Roll Dice / Incorporate entity stats
-                combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+                // If the attacker is the player or if the attacker is the enemy and the target is the player 
+                if (i == 0 || (i != 0 && atkTarIndex == 0))
+                    combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
                 print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
                 
@@ -459,8 +460,8 @@ public class BattleManager : MonoBehaviour
         Vector3 end = entity2.entity.transform.position;
         Vector3 start2 = entity2.entity.transform.position;
         Vector3 end2 = entity.entity.transform.position;
-        Vector3 halfway = (start + end) / 2;
-        Vector3 halfway2 = (start2 + end2) / 2;
+        Vector3 halfway = (((start + end) / 2) + start) / 2;
+        Vector3 halfway2 = (((start2 + end2) / 2) + start2) / 2;
 
         GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
 
@@ -482,7 +483,7 @@ public class BattleManager : MonoBehaviour
 
         // clash logic
 
-        int roll = Random.Range(1, 13) + this.gm.pm.pc.getStatModifier2(entity2.entity.GetComponent<Enemy>().getStrength());
+        int roll = Random.Range(1, 7) + Random.Range(1, 7) + this.gm.pm.pc.getStatModifier2(entity2.entity.GetComponent<Enemy>().getStrength());
         yield return StartCoroutine(rollScript.waitForStart("STR", this.gm.pm.getStatModifier("STR"), roll));
 
         if ((dr1.final + dr2.final + this.gm.pm.getStatModifier("STR") >= roll))

@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
 
                     this.panic = true;
                     this.battleResolvedCheck = false;
-                    this.bm = null;
+                    //this.bm = null;
                     this.battleLogicComplete = true;
                 }
             }

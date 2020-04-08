@@ -8,14 +8,23 @@ using UnityEngine.Tilemaps;
 
 public class OverworldManager : MonoBehaviour
 {
+    private struct nodeInfo
+    {
+        public int count, physNodeIndex;
+        public WorldNode curNode;
+        public GameObject physNode;
+    }
+
     public GameManager gm;
-    private GameObject player;
+    public GameObject player;
     public DialogueManager dm;
     public bool playerSpawned, initialSave;
     public GameObject rollParchment;
     public RollMaster rollScript;
     public GameObject die1, die2;
     public DiceRoller dr1, dr2;
+    public bool updating;
+    private overworldAnimations oa;
 
     public int startingNode;
     public List<GameObject> nodes;
@@ -40,6 +49,8 @@ public class OverworldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.oa = this.gameObject.AddComponent<overworldAnimations>();
+        this.oa.om = this;
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         destReached = true;
@@ -79,6 +90,7 @@ public class OverworldManager : MonoBehaviour
             if (this.dm.currentNode == -1)
                 this.HPEvent(-(this.gm.pm.pc.health));
 
+        // Creates save at node 0
         if (playerSpawned && !initialSave)
         {
             if (this.dm.currentNode == 0)
@@ -105,157 +117,162 @@ public class OverworldManager : MonoBehaviour
                 initialSave = true;
             }
         }
-        
 
-        if (playerSpawned && this.playerNodeId != this.dm.currentNode && destReached)
+        if (!updating && playerSpawned)
         {
-        	for(int i = 0; i < nodes.Count; i++)
-        	{
-                load = false;
-                GameObject n = nodes[i];
-        		this.nodeTypeCount = 0;
-                curNode = n.GetComponent<WorldNode>();
-        		foreach (int id in curNode.NodeIDs)
-        		{
-        			if (id == this.dm.currentNode)
-        			{
-
-                        Debug.Log("currentNode OM: " + this.dm.currentNode);
-                        // Move the player along the map
-                        this.TurnPlayer(this.player, new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z));
-        				//this.player.transform.position = new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z);
-
-
-                        
-                        destPos = new Vector3(n.transform.position.x, n.transform.position.y, this.player.transform.position.z);
-
-                        if (player.transform.position != destPos)
-                        {
-                            destReached = false;
-                            dm.Panel.SetActive(false);
-                        }
-
-                        startTime = Time.time;
-                        journeyLength = Vector3.Distance(player.transform.position, destPos);
-
-        				// Rudimentary Camera Movement
-        				//GameObject cam = GameObject.Find("MainCamera");
-        				//cam.GetComponent<Camera>().transform.position = new Vector3(this.player.transform.position.x, this.player.transform.position.y, cam.GetComponent<Camera>().transform.position.z);
-
-        				// Update the player node id
-        				this.playerNodeId = id;
-
-        				if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.Battle)
-        				{
-                            print("entered combat");
-                            StartCoroutine(BattleEvent());
-                        }
-
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.STREvent)
-                        {
-                            print("entered str event");
-                            this.dm.putCanvasBehind();
-                            StartCoroutine(SkillSaveEventCR("STR", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
-                            this.dm.putCanvasInFront();
-                        }
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.INTEvent)
-                        {
-                            print("entered int event");
-                            this.dm.putCanvasBehind();
-                            StartCoroutine(SkillSaveEventCR("INT", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
-                            this.dm.putCanvasInFront();
-                        }
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.AGIEvent)
-                        {
-                            print("entered agi event");
-                            this.dm.putCanvasBehind();
-                            StartCoroutine(SkillSaveEventCR("AGI", n, curNode.SkillCheckDifficulty[this.nodeTypeCount]));
-                            this.dm.putCanvasInFront();
-                            //this.SkillSaveEvent("AGI");
-                        }
-
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.HPEvent)
-                        {
-                            print("Hp event");
-                            this.HPEvent(curNode.HealthChange[this.nodeTypeCount]);
-                        }
-
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.Item)
-                        {
-                            print("Getting item(s)");
-                            this.ItemGet(curNode.NodeItems[this.nodeTypeCount].item, curNode.NodeItems[this.nodeTypeCount].count);
-                        }
-
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.ItemLose)
-                        {
-                            print("Losing item(s)");
-                            this.ItemRemove(curNode.NodeItemsLose[this.nodeTypeCount].item, curNode.NodeItemsLose[this.nodeTypeCount].count);
-                        }
-
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.HPMaxEvent)
-                        {
-                            print("HP MAX event");
-                            this.HPMaxEvent(curNode.MaxHealthChange[this.nodeTypeCount]);
-                        }
-
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.SaveEvent)
-                        {
-                            if (!nodeSavedAt.Contains(curNode.NodeIDs[this.nodeTypeCount]))
-                            {
-                                nodeSavedAt.Add(curNode.NodeIDs[this.nodeTypeCount]);
-                                
-                                // If this save event has the provisions checked, eat one 
-                                if (curNode.SaveProvisions[this.nodeTypeCount])
-                                    this.gm.pm.pc.inventory.removeProvision();
-                                // Either way heal 5
-                                this.HPEvent(5);
-
-                                // Tell the pm to create a deep copy of the current player and inventory
-                                this.gm.pm.createSave();
-
-                                // Remember the node information
-                                this.saveNode = i;
-                                this.saveNodeTypeCount = this.nodeTypeCount;
-                                this.saveCurrentNode = this.dm.currentNode;
-
-                                // Save direction they're facing
-                                if (player.transform.GetChild(0).gameObject.activeSelf)
-                                    facing = 0;
-                                else if (player.transform.GetChild(1).gameObject.activeSelf)
-                                    facing = 1;
-                                else if (player.transform.GetChild(2).gameObject.activeSelf)
-                                    facing = 2;
-                                else if (player.transform.GetChild(3).gameObject.activeSelf)
-                                    facing = 3;
-                            }
-                        }
-
-                        if (curNode.NodeTypes[this.nodeTypeCount] == FlagType.LoadEvent)
-                        {
-                            this.loadSave();
-                            load = true;
-                        }
-                    }
-
-                    this.nodeTypeCount++;
-                    if (load)
-                        break;
-        		}
-                if (load)
-                    break;
-        	}
+            updating = true;
+            StartCoroutine(overworldUpdate());
         }
-        else if (playerSpawned && !gm.pm.inCombat && !destReached)
+    }
+
+    private nodeInfo getCurrentNode(int id)
+    {
+        nodeInfo node = new nodeInfo();
+        for (int i = 0; i < nodes.Count; i++)
         {
-            movePlayer();
-            if (player.transform.position == destPos)
+            this.nodeTypeCount = 0;
+            GameObject n = nodes[i];
+            WorldNode tempNode = n.GetComponent<WorldNode>();
+            foreach (int ID in tempNode.NodeIDs)
             {
-                destReached = true;
-                dm.Panel.SetActive(true);
-                dm.setInitialSelection();
+                if (ID == this.dm.currentNode)
+                {
+                    node.count = nodeTypeCount;
+                    node.curNode = tempNode;
+                    node.physNode = n;
+                    node.physNodeIndex = i;
+                }
+                nodeTypeCount++;
             }
-
         }
+        return node;
+    }
+
+    IEnumerator overworldUpdate()
+    {
+        // Wait until the new node has been selected
+        while (this.playerNodeId == this.dm.currentNode)
+        {
+            yield return null;
+        }
+
+        // dm current node has changed, grab it's information
+        nodeInfo n = getCurrentNode(this.dm.currentNode);
+
+        // If there is some sort of animation/sfx to play do it here
+        yield return StartCoroutine(this.oa.events(this.dm.currentNode));
+
+        // If the node position is not where the player is, move to it
+        if (player.transform.position != n.physNode.transform.position)
+        {
+            print("Lets move");
+            yield return StartCoroutine(moveToDest(n.physNode.transform.position));
+        }
+        // Update player's node id after moving there
+        this.playerNodeId = this.dm.currentNode;
+        this.dm.Panel.SetActive(true);
+        this.dm.setInitialSelection();
+
+        if (n.curNode.NodeTypes[n.count] == FlagType.Battle)
+        {
+            print("entered combat");
+            yield return StartCoroutine(BattleEvent());
+        }
+
+        if (n.curNode.NodeTypes[n.count] == FlagType.STREvent)
+        {
+            print("entered str event");
+            this.dm.putCanvasBehind();
+            yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
+            this.dm.putCanvasInFront();
+        }
+        if (n.curNode.NodeTypes[n.count] == FlagType.INTEvent)
+        {
+            print("entered int event");
+            this.dm.putCanvasBehind();
+            yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
+            this.dm.putCanvasInFront();
+        }
+        if (n.curNode.NodeTypes[n.count] == FlagType.AGIEvent)
+        {
+            print("entered agi event");
+            this.dm.putCanvasBehind();
+            yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
+            this.dm.putCanvasInFront();
+        }
+
+        if (n.curNode.NodeTypes[n.count] == FlagType.HPEvent)
+        {
+            print("Hp event");
+            this.HPEvent(n.curNode.HealthChange[n.count]);
+        }
+
+        if (n.curNode.NodeTypes[n.count] == FlagType.Item)
+        {
+            print("Getting item(s)");
+            this.ItemGet(n.curNode.NodeItems[n.count].item, n.curNode.NodeItems[n.count].count);
+        }
+
+        if (n.curNode.NodeTypes[n.count] == FlagType.ItemLose)
+        {
+            print("Losing item(s)");
+            this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
+        }
+
+        if (n.curNode.NodeTypes[n.count] == FlagType.HPMaxEvent)
+        {
+            print("HP MAX event");
+            this.HPMaxEvent(n.curNode.MaxHealthChange[n.count]);
+        }
+
+        if (n.curNode.NodeTypes[n.count] == FlagType.SaveEvent)
+        {
+            if (!nodeSavedAt.Contains(n.curNode.NodeIDs[n.count]))
+            {
+                nodeSavedAt.Add(n.curNode.NodeIDs[n.count]);
+
+                // If this save event has the provisions checked, eat one 
+                if (n.curNode.SaveProvisions[n.count])
+                    this.gm.pm.pc.inventory.removeProvision();
+                // Either way heal 5
+                this.HPEvent(5);
+
+                // Tell the pm to create a deep copy of the current player and inventory
+                this.gm.pm.createSave();
+
+                // Remember the node information
+                this.saveNode = n.physNodeIndex;
+                this.saveNodeTypeCount = n.count;
+                this.saveCurrentNode = this.dm.currentNode;
+
+                // Save direction they're facing
+                if (player.transform.GetChild(0).gameObject.activeSelf)
+                    facing = 0;
+                else if (player.transform.GetChild(1).gameObject.activeSelf)
+                    facing = 1;
+                else if (player.transform.GetChild(2).gameObject.activeSelf)
+                    facing = 2;
+                else if (player.transform.GetChild(3).gameObject.activeSelf)
+                    facing = 3;
+            }
+        }
+
+        updating = false;
+
+        yield break;
+    }
+
+    // Hops on over to the destination node
+    IEnumerator moveToDest(Vector3 dest)
+    {
+        this.dm.Panel.SetActive(false);
+        TurnPlayer(player, dest);
+        while (player.transform.position != dest)
+        {
+            player.transform.position = Vector3.MoveTowards(player.transform.position, dest, 5f * Time.deltaTime);
+            yield return null;
+        }
+        yield break;
     }
 
     public void loadSave()
@@ -344,38 +361,9 @@ public class OverworldManager : MonoBehaviour
         //dm.setInitialSelection();
     }
 
-    public void SkillSaveEvent(string stat)
-    {
-        // Check which skill the event is for from WorldNode struct
-        // Maybe have difficulties in the WorldNode struct to alter how high the roll needs to be
-        // Call getters to the playerClass/Manager to check the player's skill
-        // Do random chance roll
-        // Setter for dm.currentNode += 1(save) or += 2(fail)
-        this.dm.Panel.SetActive(false);
-        int modifier = this.gm.pm.getStatModifier(stat);
-        int r1 = Random.Range(1, 7);
-        int r2 = Random.Range(1, 7);
-        print("roll 1 " + r1 + " roll 2 " + r2 + "modifier " + modifier);
-
-        if (r1+r2+modifier < 3)
-        {
-            print("FAIL");
-            this.dm.currentNode += 2;
-        }
-        else
-        {
-            print("SAVE");
-            this.dm.currentNode += 1;
-        }
-
-
-        this.dm.Panel.SetActive(true);
-        this.dm.EventComplete();
-        dm.setInitialSelection();
-    }
-
     public IEnumerator SkillSaveEventCR(string stat, GameObject n, int difficulty)
     {
+        print("IN SKILL SAVE");
         this.dm.Panel.SetActive(false);
         this.rollParchment.SetActive(true);
         yield return StartCoroutine(rollScript.waitForStart(stat, this.gm.pm.getStatModifier(stat), difficulty));
@@ -393,17 +381,7 @@ public class OverworldManager : MonoBehaviour
             this.dm.currentNode += 1;
         }
 
-        yield return new WaitForSeconds(.05f);
-        this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
-        dm.setInitialSelection();
-        if (player.transform.position == n.transform.position)
-        {
-            this.dm.Panel.SetActive(true);
-            print("SETTING ACTIVE AGAIN");
-        }
-        else
-            this.dm.Panel.SetActive(false);
         dr1.final = 0;
         dr2.final = 0;
         yield break;
