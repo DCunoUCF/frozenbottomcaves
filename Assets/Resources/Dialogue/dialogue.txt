@@ -635,7 +635,7 @@ text: "Did you truly think your flimsy webs could contain ME?!"
 destId: 238
 
 nodeId: 238
-text: You shake of the last of the webbing, preparing to fight.
+text: You shake off the last of the webbing, preparing to fight.
 options: 1
 text: "For QUEEN and country!" (Battle!)
 destId: 239
@@ -1563,7 +1563,7 @@ destId: 249
 nodeId: 248
 text: (Lost 5 Gold) (Gained Rusty Helmet) "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
 options: 1
-text: One more victory under my belt! And under this helmet as well!" 
+text: "One more victory under my belt! And under this helmet as well!" 
 destId: 249
 
 nodeId: 89
