@@ -667,7 +667,7 @@ text: "you're next."
 destId: 243
 
 nodeId: 243
-text: CONGRATULATIONS! Thank you for playing The Warrior of Frozenbottom Caves, Chapter 1: The Forest!
+text: CONGRATULATIONS! Thank you for playing The Warrior of Frozenbottom Caves, Act 1: Spirit Woods!
 options: 1
 text: "Huzzah!"
 destId: -1
