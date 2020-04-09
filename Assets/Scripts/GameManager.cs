@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
                 this.bm = GameObject.Find("BattleManager").GetComponent<BattleManager>();
             }
 
-            if (this.bm != null && this.om.dontKillBMYet)
+            if (this.bm != null)
             {
                 if (this.battleResolvedCheck)
                 {
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
 
                     this.panic = true;
                     this.battleResolvedCheck = false;
-                    this.bm = null;
+                    //this.bm = null;
                     this.battleLogicComplete = true;
                     this.om.dontKillBMYet = false;
                 }

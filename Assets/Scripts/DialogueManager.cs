@@ -160,7 +160,6 @@ public class DialogueManager : MonoBehaviour
                 {
                     if (id == dialogue.nodes[currentNode].options[i].destId)
                     {
-                        print("Node we're checking for itemloss event" + id);
                         if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
@@ -246,8 +245,6 @@ public class DialogueManager : MonoBehaviour
                 {
                     if (id == dialogue.nodes[currentNode].options[i].destId)
                     {
-                        print("Node we're checking for itemloss event" + id);
-
                         if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
@@ -330,8 +327,6 @@ public class DialogueManager : MonoBehaviour
                 {
                     if (id == dialogue.nodes[currentNode].options[i].destId)
                     {
-                        print("Node we're checking for itemloss event" + id);
-
                         if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)

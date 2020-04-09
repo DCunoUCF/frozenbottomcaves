@@ -7,6 +7,8 @@ public class Item
     public int count;
     public string displayName;
     public bool stackable;
+    public int effect;
+    public string stat;
     public ItemType item;
 
     public enum ItemType
@@ -26,12 +28,23 @@ public class Item
         HalfChewedChocolate,
         TowerShield
     }
+    public Item(ItemType item, string displayName, bool stackable, int effect, string stat)
+    {
+        this.item = item;
+        this.displayName = displayName;
+        this.stackable = stackable;
+        this.effect = effect;
+        this.stat = stat;
+        this.count = 0;
+    }
 
     public Item(ItemType item, string displayName, bool stackable)
     {
         this.item = item;
         this.displayName = displayName;
         this.stackable = stackable;
+        this.effect = 0;
+        this.stat = "";
         this.count = 0;
     }
 
