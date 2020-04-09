@@ -114,6 +114,14 @@ public class Inventory
                 updateInventory(databaseItem, count, flag);
             }
         }
+<<<<<<< Updated upstream
+=======
+
+        // Here we determine whether an items effect should be applied
+        // if (databaseItem.effect) can check if stat == "" if we want here
+        pm.pc.applyEffect(databaseItem, 1);
+        // inventoryUI.updateUIStats(pm.pc);
+>>>>>>> Stashed changes
     }
 
     // Refreshes UI Inventory
@@ -179,6 +187,13 @@ public class Inventory
                 Debug.Log("Error. Option not possible. RemoveItem function");
             }
 
+<<<<<<< Updated upstream
+=======
+            // Here we determine whether an item's effect should be removed
+            // if (databaseItem.effect) can check if stat == "" if we want here
+            pm.pc.applyEffect(inventoryItem, 2);
+
+>>>>>>> Stashed changes
         }
     }
 

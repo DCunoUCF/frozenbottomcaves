@@ -7,6 +7,11 @@ public class Item
     public int count;
     public string displayName;
     public bool stackable;
+<<<<<<< Updated upstream
+=======
+    public int effect;
+    public string stat;
+>>>>>>> Stashed changes
     public ItemType item;
 
     public enum ItemType
@@ -27,11 +32,30 @@ public class Item
         TowerShield
     }
 
+<<<<<<< Updated upstream
+    public Item(ItemType item, string displayName, bool stackable)
+=======
+    public Item(ItemType item, string displayName, bool stackable, int effect, string stat)
+>>>>>>> Stashed changes
+    {
+        this.item = item;
+        this.displayName = displayName;
+        this.stackable = stackable;
+<<<<<<< Updated upstream
+=======
+        this.effect = effect;
+        this.stat = stat;
+        this.count = 0;
+    }
+
     public Item(ItemType item, string displayName, bool stackable)
     {
         this.item = item;
         this.displayName = displayName;
         this.stackable = stackable;
+        this.effect = 0;
+        this.stat = "";
+>>>>>>> Stashed changes
         this.count = 0;
     }
 
