@@ -464,8 +464,8 @@ MonoBehaviour:
   battleClassList:
     list:
     - grid: 1
-      arena: main_road1_arena
-      nodeEnemies: 0d0000000d0000000200000002000000
+      arena: goblin_arena
+      nodeEnemies: 010000000100000001000000
   NodeItems: []
   NodeItemsLose: []
   HealthChange: 
@@ -8546,7 +8546,7 @@ Tilemap:
   - first: {x: 61, y: 3, z: 0}
     second:
       m_TileIndex: 45
-      m_TileSpriteIndex: 45
+      m_TileSpriteIndex: 46
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -9248,7 +9248,7 @@ Tilemap:
   - first: {x: 66, y: 8, z: 0}
     second:
       m_TileIndex: 12
-      m_TileSpriteIndex: 33
+      m_TileSpriteIndex: 45
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -13298,7 +13298,7 @@ Tilemap:
   - first: {x: 76, y: 28, z: 0}
     second:
       m_TileIndex: 41
-      m_TileSpriteIndex: 21
+      m_TileSpriteIndex: 33
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -13559,7 +13559,7 @@ Tilemap:
   - first: {x: 74, y: 29, z: 0}
     second:
       m_TileIndex: 41
-      m_TileSpriteIndex: 21
+      m_TileSpriteIndex: 33
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -13838,7 +13838,7 @@ Tilemap:
   - first: {x: 69, y: 30, z: 0}
     second:
       m_TileIndex: 41
-      m_TileSpriteIndex: 21
+      m_TileSpriteIndex: 33
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -14720,7 +14720,7 @@ Tilemap:
   - first: {x: 74, y: 33, z: 0}
     second:
       m_TileIndex: 41
-      m_TileSpriteIndex: 21
+      m_TileSpriteIndex: 33
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -20807,8 +20807,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 9371f3c407dca424ea48161460282e5c, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: 21300000, guid: 65970e26cf087514c81877b300a187f4, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 0670930fd913a5e4aabe360bbbf2bed9, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 26
     m_Data: {fileID: 21300000, guid: 812ad47b40a553241ab0ebf06cc8822f, type: 3}
   - m_RefCount: 78
@@ -20831,8 +20831,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 8f5289c744c2015409df979827abfc2c, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 5aa53127ebcd8ee4da69cdc76e6cafbd, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: c521164e4bd6db040bc024b9f5635b37, type: 3}
+  - m_RefCount: 4
+    m_Data: {fileID: 21300000, guid: 0670930fd913a5e4aabe360bbbf2bed9, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: e4f7f88a8259c9b469b9176feec54a05, type: 3}
   - m_RefCount: 1
@@ -20856,9 +20856,9 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 2ce69ffe6adbc244e93364d93b9ac7f3, type: 3}
   - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: c521164e4bd6db040bc024b9f5635b37, type: 3}
+  - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 3e28c9db4a82d56478da46e331375e13, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 98d6b16d91df6fe409a91ae8e94f7877, type: 3}
   m_TileMatrixArray:
