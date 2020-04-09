@@ -167,7 +167,7 @@ public class OverworldManager : MonoBehaviour
         if (player.transform.position != n.physNode.transform.position)
         {
             print("Lets move");
-            yield return StartCoroutine(moveToDest(n.physNode.transform.position));
+            yield return StartCoroutine(slerpTest(n.physNode.transform.position));
         }
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
@@ -273,6 +273,37 @@ public class OverworldManager : MonoBehaviour
             player.transform.position = Vector3.MoveTowards(player.transform.position, dest, 5f * Time.deltaTime);
             yield return null;
         }
+        yield break;
+    }
+
+    IEnumerator slerpTest(Vector3 dest)
+    {
+        TurnPlayer(player, dest);
+        Vector3 start = player.transform.position;
+        float startTime = Time.time;
+        float journeyTime = 1.0f;
+
+        print(start + " end " + dest);
+
+        while (player.transform.position != dest)
+        {
+            print("Slerping");
+            Vector3 center = (start + dest) * 0.5f;
+
+            center -= new Vector3(0, 0.1f, 0);
+
+            Vector3 playerRelCenter = start - center;
+            Vector3 endRelCenter = dest - center;
+
+            float fracComplete = (Time.time - startTime) / journeyTime;
+
+            player.transform.position = Vector3.Slerp(playerRelCenter, endRelCenter, fracComplete);
+            player.transform.position += center;
+
+            yield return null;
+        }
+
+
         yield break;
     }
 
