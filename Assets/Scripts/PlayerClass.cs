@@ -164,8 +164,6 @@ public class PlayerClass
         this.stats = stats;
     }
 
-<<<<<<< Updated upstream
-=======
     // Function that applies effect to player based on item type
     public void applyEffect(Item item, int flag)
     {
@@ -206,7 +204,6 @@ public class PlayerClass
         }
     }
 
->>>>>>> Stashed changes
     // Need to create prefabs for each unique ability and load them here
     public void setHighlights()
     {
