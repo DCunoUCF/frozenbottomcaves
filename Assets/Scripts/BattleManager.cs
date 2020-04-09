@@ -30,8 +30,8 @@ public class BattleManager : MonoBehaviour
 
     // Pegi added this garbage
     private bool resolvingTurn;
-    public float slideSpeed = 1.5f;
-    public float attackSpeed = 4.0f;
+    public float slideSpeed = 1.25f;
+    public float attackSpeed = 3.5f;
 
     // Parent to all entities spawned. Used for cleanup after battle is resolved
     private GameObject Entities;
@@ -39,6 +39,8 @@ public class BattleManager : MonoBehaviour
     public GameObject rollParchment;
     public RollMaster rollScript;
     public DiceRoller dr1, dr2;
+
+    public GameObject eAtk, eAtkFill, pAtk, pAtkFill, mov, movFill;
 
     void Awake()
     {
@@ -97,6 +99,13 @@ public class BattleManager : MonoBehaviour
         this.dr1 = this.gm.om.dr1;
         this.dr2 = this.gm.om.dr2;
         this.rollParchment.SetActive(false);
+
+        eAtk = Resources.Load("Prefabs/BattleAnimTiles/enemyAttack") as GameObject;
+        eAtkFill = Resources.Load("Prefabs/BattleAnimTiles/enemyAttackFilled") as GameObject;
+        pAtk = Resources.Load("Prefabs/BattleAnimTiles/playerAttack") as GameObject;
+        pAtkFill = Resources.Load("Prefabs/BattleAnimTiles/playerAttackFilled") as GameObject;
+        mov = Resources.Load("Prefabs/BattleAnimTiles/movement") as GameObject;
+        movFill = Resources.Load("Prefabs/BattleAnimTiles/movementFilled") as GameObject;
     }
 
     void Update()
@@ -300,6 +309,8 @@ public class BattleManager : MonoBehaviour
         Vector3 halfway = (start + end) / 2;
         Vector3 halfway2 = (start2 + end2) / 2;
 
+        GameObject temp = Instantiate(movFill, end, Quaternion.identity);
+
         turnEntity(entity.entity, entity.movTar);
         turnEntity(entity2.entity, entity2.movTar);
 
@@ -322,6 +333,7 @@ public class BattleManager : MonoBehaviour
 
             yield return null;
         }
+        Destroy(temp);
         // In case something happens, framerate dip or something that leads to them being off, force them to be in their appropriate spots
         entity.entity.transform.position = start;
         entity2.entity.transform.position = start2;
@@ -353,6 +365,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator slideEntity(CList entity)
     {
+        GameObject temp = Instantiate(movFill, entity.movTar, Quaternion.identity);
         // This while loop is called each frame to slide the entity to it's destination
         while (entity.entity.transform.position != entity.movTar)
         {
@@ -366,6 +379,7 @@ public class BattleManager : MonoBehaviour
             this.gm.pm.playerLoc = entity.movTar;
             this.gm.pm.moved = true;
         }
+        Destroy(temp);
         // Flip the move bool back to it's default state
         entity.move = false;
     }
@@ -453,6 +467,7 @@ public class BattleManager : MonoBehaviour
         yield break;
     }
 
+    // Player is entity, enemy is entity2
     IEnumerator ClashAnim(CList entity, CList entity2)
     {
         this.rollParchment.SetActive(true);
@@ -463,10 +478,11 @@ public class BattleManager : MonoBehaviour
         Vector3 halfway = (((start + end) / 2) + start) / 2;
         Vector3 halfway2 = (((start2 + end2) / 2) + start2) / 2;
 
-        GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
+        GameObject pTile = pAtk, pTileFill = pAtkFill, eTile = eAtk, eTileFill = eAtkFill, pWon = null, eWon = null;
 
-        GameObject tileTemp1 = Instantiate(tile, entity2.entity.transform.position, Quaternion.identity);
-        GameObject tileTemp2 = Instantiate(tile, entity.entity.transform.position, Quaternion.identity);
+
+        GameObject tileTemp1 = Instantiate(pTile, entity2.entity.transform.position, Quaternion.identity);
+        GameObject tileTemp2 = Instantiate(eTile, entity.entity.transform.position, Quaternion.identity);
 
         turnEntity(entity.entity, entity.atkTar[0]);
         turnEntity(entity2.entity, entity2.atkTar[0]);
@@ -496,7 +512,7 @@ public class BattleManager : MonoBehaviour
             {
                 entity2.entity.SetActive(false);
             }
-
+            pWon = Instantiate(pTileFill, entity2.entity.transform.position, Quaternion.identity);
         }
         else
         {
@@ -507,6 +523,7 @@ public class BattleManager : MonoBehaviour
                 entity.entity.SetActive(false);
             }
             this.gm.pm.takeDmg(entity2.attackDmg);
+            eWon = Instantiate(eTileFill, entity.entity.transform.position, Quaternion.identity);
 
         }
 
@@ -527,6 +544,10 @@ public class BattleManager : MonoBehaviour
 
         Destroy(tileTemp1);
         Destroy(tileTemp2);
+        if (pWon != null)
+            Destroy(pWon);
+        else
+            Destroy(eWon);
 
         // In case something happens, framerate dip or something that leads to them being off, force them to be in their appropriate spots
         entity.entity.transform.position = start;
@@ -538,19 +559,33 @@ public class BattleManager : MonoBehaviour
     {
         Vector3 s = c.entity.transform.position; // start pos
         List<Vector3> attacks = new List<Vector3>(); // list of attack spots
-
+        GameObject tile, tileFill;
+        List<GameObject> atkTars = new List<GameObject>();
         turnEntity(c.entity, c.atkTar[0]);
 
-        GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
+        if (c.entity == player)
+        {
+            tile = pAtk;
+            tileFill = pAtkFill;
+        }
+        else
+        {
+            tile = eAtk;
+            tileFill = eAtkFill;
+        }
+
+        //GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
         foreach (Vector3 v in c.atkTar)
         {
+            atkTars.Add(Instantiate(tile, v, Quaternion.identity));
             attacks.Add((((v+s)/2) + s)/2);
         }
+
 
         int i = 0;
         foreach(Vector3 v in attacks)
         {
-            GameObject tileTemp = Instantiate(tile, c.atkTar[i++], Quaternion.identity);
+            GameObject tileTemp = Instantiate(tileFill, c.atkTar[i++], Quaternion.identity);
             while (c.entity.transform.position != v)
             {
                 c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, v, slideSpeed * Time.deltaTime);
@@ -563,6 +598,11 @@ public class BattleManager : MonoBehaviour
             }
             Destroy(tileTemp);
         }
+
+        foreach (GameObject g in atkTars)
+            Destroy(g);
+
+        atkTars.Clear();
 
         c.entity.transform.position = s; // incase something went wrong with the moveTowards
         yield break;

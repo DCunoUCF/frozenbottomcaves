@@ -20,6 +20,7 @@ TagManager:
   - Enemy
   - GM
   - OWNode
+  - enemyHPBars
   layers:
   - Default
   - TransparentFX

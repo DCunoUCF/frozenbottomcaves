@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
                 this.bm = GameObject.Find("BattleManager").GetComponent<BattleManager>();
             }
 
-            if (this.bm != null && this.om.dontKillBMYet)
+            if (this.bm != null)
             {
                 if (this.battleResolvedCheck)
                 {

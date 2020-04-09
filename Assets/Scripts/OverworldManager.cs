@@ -360,7 +360,7 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
         //dm.setInitialSelection();
-        this.dontKillBMYet = true; // GM checks for this before killing BM. We need more coroutines
+        //this.dontKillBMYet = true; // GM checks for this before killing BM. We need more coroutines
     }
 
     public IEnumerator SkillSaveEventCR(string stat, GameObject n, int difficulty)
