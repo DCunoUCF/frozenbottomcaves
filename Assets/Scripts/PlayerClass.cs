@@ -185,16 +185,16 @@ public class PlayerClass
         switch(item.stat)
         {
             case "STR":
-                //this.changeStr(item.effect * toggle);
-                break;
-            case "AGI":
-                //this.changeAgi(item.effect * toggle);
+                this.stats[0] += item.effect * toggle;
                 break;
             case "INT":
-                //this.changeInt(item.effect * toggle);
+                this.stats[1] += item.effect * toggle;
+                break;
+            case "AGI":
+                this.stats[2] += item.effect * toggle;
                 break;
             case "HP":
-                //this.changeCurHealth(item.effect * toggle);
+                this.setHealthEvent(item.effect * toggle);
                 break;
             case "MAXHP":
                 this.changeMaxHealth(item.effect * toggle);
