@@ -16,19 +16,19 @@ public class Database
     {
         items = new List<Item>()
         {
-           new Item(Item.ItemType.Sword,"Sword",false),
-           new Item(Item.ItemType.Shield,"Shield",false),
-           new Item(Item.ItemType.Provisions, "Provisions",true),
-           new Item(Item.ItemType.Resurrection,"Resurrections",true),
-           new Item(Item.ItemType.Gold,"Gold",true),
-           new Item(Item.ItemType.BeardedKey, "Bearded Key", false),
-           new Item(Item.ItemType.WolfMeat,"Wolf Meat",false),
-           new Item(Item.ItemType.WolfCollar,"Wolf Collar",false),
-           new Item(Item.ItemType.Acorn,"Acorn",false),
-           new Item(Item.ItemType.CherryPit,"Cherry Pit",false),
-           new Item(Item.ItemType.HalfChewedChocolate,"Half-Chewed Chocolate",false),
-           new Item(Item.ItemType.TowerShield,"Tower Shield",false),
-           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet",false)
+           new Item(Item.ItemType.Sword,"Sword",false,false),
+           new Item(Item.ItemType.Shield,"Shield",false,false),
+           new Item(Item.ItemType.Provisions, "Provisions",true,false),
+           new Item(Item.ItemType.Resurrection,"Resurrections",true,false),
+           new Item(Item.ItemType.Gold,"Gold",true,false),
+           new Item(Item.ItemType.BeardedKey, "Bearded Key", false,false),
+           new Item(Item.ItemType.WolfMeat,"Wolf Meat",false,false),
+           new Item(Item.ItemType.WolfCollar,"Wolf Collar",false,false),
+           new Item(Item.ItemType.Acorn,"Acorn",false,false),
+           new Item(Item.ItemType.CherryPit,"Cherry Pit",false,false),
+           new Item(Item.ItemType.HalfChewedChocolate,"Half-Chewed Chocolate",false,true),
+           new Item(Item.ItemType.TowerShield,"Tower Shield",false,false),
+           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet",false,false)
         };
     }
 

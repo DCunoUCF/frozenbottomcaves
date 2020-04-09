@@ -7,6 +7,7 @@ public class Item
     public int count;
     public string displayName;
     public bool stackable;
+    public bool effect;
     public ItemType item;
 
     public enum ItemType
@@ -27,11 +28,12 @@ public class Item
         TowerShield
     }
 
-    public Item(ItemType item, string displayName, bool stackable)
+    public Item(ItemType item, string displayName, bool stackable, bool effect)
     {
         this.item = item;
         this.displayName = displayName;
         this.stackable = stackable;
+        this.effect = effect;
         this.count = 0;
     }
 

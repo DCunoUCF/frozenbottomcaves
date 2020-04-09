@@ -114,6 +114,13 @@ public class Inventory
                 updateInventory(databaseItem, count, flag);
             }
         }
+
+        // Here we determine whether an items effect should be applied
+        if (databaseItem.effect)
+        {
+            pm.pc.applyEffect(databaseItem.item, 1);
+            // inventoryUI.updateUIStats(pm.pc);
+        }
     }
 
     // Refreshes UI Inventory
@@ -178,6 +185,10 @@ public class Inventory
             {
                 Debug.Log("Error. Option not possible. RemoveItem function");
             }
+
+            // Here we determine whether an item's effect should be removed
+            if (inventoryItem.effect)
+                pm.pc.applyEffect(inventoryItem.item, 2);
 
         }
     }

@@ -145,6 +145,36 @@ public class PlayerClass
         this.stats = stats;
     }
 
+    // Function that applies effect to player based on item type
+    public void applyEffect(Item.ItemType item, int flag)
+    {
+        // flag 1 for add effect
+        // flag 2 for remove effect
+
+        int toggle = 0;
+
+        if (flag == 1)
+            toggle = 1;
+        else if (flag == 2)
+            toggle = -1;
+        else
+        {
+            Debug.Log("You entered an incorrect flag in apply effect function. Must be 1 or 2");
+            return;
+        }
+
+        // Example
+        // We Could Use a switch statement or if else here
+        // Increases max health by 5
+        if(item == Item.ItemType.HalfChewedChocolate)
+        {
+            this.changeMaxHealth(5 * toggle);
+
+        }
+      
+
+    }
+
     // Need to create prefabs for each unique ability and load them here
     public void setHighlights()
     {

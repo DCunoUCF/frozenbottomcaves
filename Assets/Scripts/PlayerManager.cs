@@ -173,6 +173,9 @@ public class PlayerManager : MonoBehaviour
         pc.inventory.addItem(Item.ItemType.Resurrection, 3);
         pc.inventory.addItem(Item.ItemType.Gold, 25);
         pc.inventory.addItem(Item.ItemType.Provisions, 20);
+       
+        pc.inventory.addItem(Item.ItemType.HalfChewedChocolate, 1);
+        pc.inventory.removeItem(Item.ItemType.HalfChewedChocolate, 1);
 
         inventoryUI.gameObject.SetActive(false);
 
