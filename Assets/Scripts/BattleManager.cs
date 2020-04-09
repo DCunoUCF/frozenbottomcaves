@@ -539,7 +539,10 @@ public class BattleManager : MonoBehaviour
         Vector3 s = c.entity.transform.position; // start pos
         List<Vector3> attacks = new List<Vector3>(); // list of attack spots
 
-        turnEntity(c.entity, c.atkTar[0]);
+        if (c.move)
+            turnEntity(c.entity, c.movTar);
+        else
+            turnEntity(c.entity, c.atkTar[0]);
 
         GameObject tile = Resources.Load<GameObject>("Prefabs/attackAnimHighlight");
         foreach (Vector3 v in c.atkTar)
