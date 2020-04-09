@@ -128,11 +128,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce0b40de274a2146876b29758c24170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyClass: 2
+  enemyClass: 1
   movePercentage: 0.5
+  evadePercentage: 0.5
+  predictPercentage: 0.33
   specialAttackPercentage: 0.75
   maxHp: 10
   maxStrength: 12
+  minRange: 0
+  maxRange: 3
   strikeDamage: 2
   cleaveDamage: 1
   whammyDamage: 2
@@ -147,6 +151,9 @@ MonoBehaviour:
   shortRainDamage: 2
   mediumRainDamage: 2
   longRainDamage: 2
+  shortDiagonalShotDamage: 1
+  mediumDiagonalShotDamage: 1
+  longDiagonalShotDamage: 1
   cleaveHeatup: 1
   whammyHeatup: 2
   thrustHeatup: 2
@@ -160,6 +167,9 @@ MonoBehaviour:
   shortRainHeatup: 3
   mediumRainHeatup: 3
   longRainHeatup: 3
+  shortDiagonalShotHeatup: 2
+  mediumDiagonalShotHeatup: 2
+  longDiagonalShotHeatup: 2
   Cleave: 1
   Thrust: 0
   Whammy: 0
@@ -173,6 +183,9 @@ MonoBehaviour:
   ShortRain: 0
   MediumRain: 0
   LongRain: 0
+  ShortDiagonalShot: 0
+  MediumDiagonalShot: 0
+  LongDiagonalShot: 0
 --- !u!1 &4030519078092214507
 GameObject:
   m_ObjectHideFlags: 0

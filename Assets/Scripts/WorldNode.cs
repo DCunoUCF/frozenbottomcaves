@@ -20,12 +20,6 @@ public enum EncounterEnemy
 }
 
 
-//public enum ItemType
-//{
-//	None,
-//	DwarfKey
-//}
-
 // TODO: Make a struct that contains all the node information, 
 	// and update the list in WorldNode to be a list of those structs
 

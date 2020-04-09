@@ -6,29 +6,24 @@ using TMPro;
 
 public class EnemyHealthBar : MonoBehaviour
 {
+    public Enemy enemyScript;
+    private int maxHP;
+    private float percentFull;
+    public Transform fill;
+    private bool init;
 
-    private float MaxHP = 20f;
-    private float CurrentHP = 20f;
-    public GameObject hpTextObj;
-    private TextMeshProUGUI hpText;
-
-    private void Start()
+    public void initBar(int maxHP)
     {
-        hpText = hpTextObj.GetComponent<TextMeshProUGUI>();
-        hpText.text = "" + CurrentHP + "/" + MaxHP;
+        this.maxHP = maxHP;
+        fill.localScale = new Vector3(1, 1, 1);
     }
 
-    // This bar will be updated to show the value of the current selected enemy
-    void Update()
+    public void updateBar(int hp)
     {
-        if (Input.GetMouseButtonDown(0) == true)
-        {
-            CurrentHP -= 2f;
-            if (CurrentHP <= 0)
-                transform.localScale = new Vector3(0f, 1f, 1f);
-            else
-                transform.localScale = new Vector3(CurrentHP / MaxHP, 1f, 1f);
-        }
-        hpText.text = "" + CurrentHP + "/" + MaxHP;
+        print("HP: " + hp + " MAXHP: " + maxHP);
+        if (hp > 0)
+            fill.localScale = new Vector3((float)(hp / maxHP), 1, 1);
+        else
+            fill.localScale = new Vector3(0, 1, 1);
     }
 }

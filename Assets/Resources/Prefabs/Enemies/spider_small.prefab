@@ -291,9 +291,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyClass: 1
   movePercentage: 0.66
+  evadePercentage: 0.66
+  predictPercentage: 0.15
   specialAttackPercentage: 0.5
   maxHp: 4
   maxStrength: 6
+  minRange: 0
+  maxRange: 1
   strikeDamage: 1
   cleaveDamage: 2
   whammyDamage: 2
@@ -308,6 +312,9 @@ MonoBehaviour:
   shortRainDamage: 2
   mediumRainDamage: 2
   longRainDamage: 2
+  shortDiagonalShotDamage: 1
+  mediumDiagonalShotDamage: 1
+  longDiagonalShotDamage: 1
   cleaveHeatup: 2
   whammyHeatup: 2
   thrustHeatup: 2
@@ -321,6 +328,9 @@ MonoBehaviour:
   shortRainHeatup: 3
   mediumRainHeatup: 3
   longRainHeatup: 3
+  shortDiagonalShotHeatup: 2
+  mediumDiagonalShotHeatup: 2
+  longDiagonalShotHeatup: 2
   Cleave: 0
   Thrust: 0
   Whammy: 0
@@ -334,6 +344,9 @@ MonoBehaviour:
   ShortRain: 0
   MediumRain: 0
   LongRain: 0
+  ShortDiagonalShot: 0
+  MediumDiagonalShot: 0
+  LongDiagonalShot: 0
 --- !u!1 &5759754532055250165
 GameObject:
   m_ObjectHideFlags: 0
