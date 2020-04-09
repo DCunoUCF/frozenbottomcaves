@@ -581,7 +581,7 @@ public class BattleManager : MonoBehaviour
     void WhoStillHasLimbs()
     {
         // Pop all the entities with <= 0 HP
-        for (int i = combatantList.Count; i >= 0; i--)
+        for (int i = combatantList.Count - 1; i >= 0; i--)
         {
             if (combatantList[i].entity == player)
                 // pull player hp
