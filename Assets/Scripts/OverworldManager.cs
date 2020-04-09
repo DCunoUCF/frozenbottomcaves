@@ -32,6 +32,7 @@ public class OverworldManager : MonoBehaviour
     public int nodeTypeCount;
     public bool load;
     public List<int> nodeSavedAt;
+    public bool dontKillBMYet = false;
 
     public int saveNode, saveNodeTypeCount, saveCurrentNode, facing;
 
@@ -359,6 +360,7 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
         //dm.setInitialSelection();
+        this.dontKillBMYet = true; // GM checks for this before killing BM. We need more coroutines
     }
 
     public IEnumerator SkillSaveEventCR(string stat, GameObject n, int difficulty)

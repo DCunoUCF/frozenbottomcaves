@@ -435,12 +435,12 @@ public class BattleManager : MonoBehaviour
 
                 print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
 
-                // If the attacker is the player or if the attacker is the enemy and the target is the player 
+                // If the attacker is the player or if the attacker is the enemy and the target is the player
                 if (i == 0 || (i != 0 && atkTarIndex == 0))
                     combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
                 print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
-                
+
                 if (combatantList[atkTarIndex].hp <= 0)
                 {
                     combatantList[atkTarIndex].entity.SetActive(false);
@@ -482,11 +482,13 @@ public class BattleManager : MonoBehaviour
         }
 
         // clash logic
+        int roll1 = Random.Range(1, 7);
+        int roll2 = Random.Range(1, 7);
+        int totalRoll = roll1 + roll2 + this.gm.pm.pc.getStatModifier2(entity2.entity.GetComponent<Enemy>().getStrength());
 
-        int roll = Random.Range(1, 7) + Random.Range(1, 7) + this.gm.pm.pc.getStatModifier2(entity2.entity.GetComponent<Enemy>().getStrength());
-        yield return StartCoroutine(rollScript.waitForStart("STR", this.gm.pm.getStatModifier("STR"), roll));
+        yield return StartCoroutine(rollScript.waitForStart("STR", this.gm.pm.getStatModifier("STR"), totalRoll));
 
-        if ((dr1.final + dr2.final + this.gm.pm.getStatModifier("STR") >= roll))
+        if ((dr1.final + dr2.final + this.gm.pm.getStatModifier("STR") >= totalRoll))
         {
             entity2.hp -= entity.attackDmg;
 
@@ -833,7 +835,7 @@ public class BattleManager : MonoBehaviour
                     else
                         matrix += string.Format("{0, 3}", "1");
                 }
-                else                   
+                else
                         matrix += string.Format("{0, 3}", "n");
             }
             matrix += System.Environment.NewLine + System.Environment.NewLine;
