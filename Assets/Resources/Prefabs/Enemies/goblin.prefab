@@ -210,12 +210,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyClass: 1
   movePercentage: 0.1
-  evadePercentage: 0.33
+  evadePercentage: 0.5
   predictPercentage: 0.33
   specialAttackPercentage: 0.5
   maxHp: 6
   maxStrength: 8
-  minRange: 2
+  minRange: 1
   maxRange: 3
   strikeDamage: 1
   cleaveDamage: 2
