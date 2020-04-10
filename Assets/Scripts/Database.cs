@@ -34,7 +34,7 @@ public class Database
 
     public Item getItem(Item.ItemType item)
     {
-        foreach(Item tempItem in items)
+        foreach (Item tempItem in items)
         {
             if (tempItem.item == item)
                 return tempItem;
@@ -45,7 +45,7 @@ public class Database
 
     public Weapon getWeapon(Weapon.WeaponType weapon)
     {
-        foreach(Weapon tempWeapon in weapons)
+        foreach (Weapon tempWeapon in weapons)
         {
             if (tempWeapon.weapon == weapon)
                 return tempWeapon;
