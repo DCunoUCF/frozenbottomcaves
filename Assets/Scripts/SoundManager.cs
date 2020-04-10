@@ -30,6 +30,13 @@ public class SoundManager : MonoBehaviour
 
     private AudioClip winJingle;
     private AudioClip loseJingle;
+    public AudioClip hit;
+    public AudioClip miss;
+    public AudioClip clash;
+    public AudioClip pieceLanding1;
+    public AudioClip pieceLanding2;
+    public AudioClip pieceLanding3;
+    public AudioClip pieceLanding4;
 
     //============   Constructors   ============//
 
@@ -51,8 +58,8 @@ public class SoundManager : MonoBehaviour
     {
         // Default volume options
         //this.musicVolume = 0.2f; // CHANGED TO 0 TO PRESERVE MY SANITY
-        //this.effectsVolume = 0.2f;
-        //this.musicMute = false;
+        //this.effectsVolume = 0.5f;
+        //this.musicMute = true;
         //this.effectsMute = false;
         this.updateFromSaveData();
         SaveData.updateSettings(.2f, .2f, false, false);
@@ -101,9 +108,16 @@ public class SoundManager : MonoBehaviour
         // Find and load every sound effect into soundEffectQueue
         this.winJingle = Resources.Load<AudioClip>("Sound/Effects/WinJelly");
         this.loseJingle = Resources.Load<AudioClip>("Sound/Effects/LossJelly");
+        this.hit = Resources.Load<AudioClip>("Sound/Effects/Hit");
+        this.miss = Resources.Load<AudioClip>("Sound/Effects/Miss");
+        this.clash = Resources.Load<AudioClip>("Sound/Effects/Clash");
+        this.pieceLanding1 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing1");
+        this.pieceLanding2 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing2");
+        this.pieceLanding3 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing3");
+        this.pieceLanding4 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing4");
 
         // Start playing music
-        this.musicChannel.loop = false; // Default -> no 
+        this.musicChannel.loop = true; // Default -> yes
         this.musicChannel.clip = musicQueue.Peek();
         this.musicChannel.Play(0);
     }
@@ -142,7 +156,6 @@ public class SoundManager : MonoBehaviour
     }
 
     //=============   Music Track Methods   =============//
-
     public void playWinJingle()
     {
         this.effectChannel.PlayOneShot(this.winJingle, this.effectsVolume);

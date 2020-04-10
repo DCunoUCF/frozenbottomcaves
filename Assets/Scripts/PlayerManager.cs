@@ -123,7 +123,8 @@ public class PlayerManager : MonoBehaviour
                 if (inventoryUI.gameObject.activeSelf)
                     invImg.color = UnityEngine.Color.gray;
                 else
-                    invImg.color = UnityEngine.Color.white;
+                    if (!PLAYERDEAD)
+                        invImg.color = UnityEngine.Color.white;
             }
         }
     }
@@ -454,6 +455,12 @@ public class PlayerManager : MonoBehaviour
         phb.updateHealthBar(pc.health);
         if (pc.health <= 0)
         {
+            if (inventoryUI.gameObject.activeSelf)
+            {
+                inventoryOpen();
+            }
+            invImg.color = UnityEngine.Color.gray;
+            ButtonOverlay.Instance.inventory.interactable = false;
             PLAYERDEAD = true;
             //this.gm.sm.playLoseJingle();
 
@@ -466,6 +473,12 @@ public class PlayerManager : MonoBehaviour
         phb.updateHealthBar(pc.health);
         if (pc.health <= 0)
         {
+            if (inventoryUI.gameObject.activeSelf)
+            {
+                inventoryOpen();
+            }
+            invImg.color = UnityEngine.Color.gray;
+            ButtonOverlay.Instance.inventory.interactable = false;
             PLAYERDEAD = true;
             //this.gm.sm.playLoseJingle();
         }

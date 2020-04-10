@@ -1004,7 +1004,7 @@ text: "I'm sure this poison will wear off in no time. . ."
 destId: -1
 
 nodeId: 149
-text: After the dust settles and your focus returns to the path toward the mountain, you can just make out the source of the smoke. It's a ruined farmstead. To the left of the farmstead, you hear the cackling like hyenas.
+text: After the dust settles and your focus returns to the path toward the mountain, you can just make out the source of the smoke. It's a ruined farmstead. To the left of the farmstead, you hear cackling like hyenas.
 options: 2
 text: Investigate farmstead.
 destId: 150
