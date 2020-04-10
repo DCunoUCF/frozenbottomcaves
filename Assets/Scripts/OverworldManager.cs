@@ -189,6 +189,7 @@ public class OverworldManager : MonoBehaviour
             for (int i = movementPoints.Count - 1; i >= 0; i--)
             {
                 yield return StartCoroutine(slerpTest(pointToVector[movementPoints[i]]));
+
                 playerX = movementPoints[i].X;
                 playerY = movementPoints[i].Y;
             }
@@ -353,6 +354,15 @@ public class OverworldManager : MonoBehaviour
             yield return null;
         }
 
+        float randPieceSound = Random.value;
+        if (randPieceSound < 0.25f)
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.pieceLanding1, this.gm.sm.effectsVolume);
+        else if (randPieceSound < 0.5f)
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.pieceLanding2, this.gm.sm.effectsVolume);
+        else if (randPieceSound < 0.75f)
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.pieceLanding3, this.gm.sm.effectsVolume);
+        else
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.pieceLanding4, this.gm.sm.effectsVolume);
 
         yield break;
     }
