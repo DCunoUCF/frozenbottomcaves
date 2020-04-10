@@ -16,7 +16,7 @@ public class EnemyHealthBar : MonoBehaviour
     public void updateBar(int hp, int damageTaken)
     {
         this.maxHP = enemyScript.maxHp;
-        text.color = Color.red;
+        //text.color = Color.red;
         print("HP: " + hp + " MAXHP: " + maxHP);
         print((hp / maxHP));
         percentFull = (float) hp / maxHP;

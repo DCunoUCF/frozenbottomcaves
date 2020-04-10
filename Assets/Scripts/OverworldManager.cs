@@ -440,6 +440,7 @@ public class OverworldManager : MonoBehaviour
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
         this.gm.pm.combatInitialized = true;
         this.gm.pm.inCombat = true;
+        this.gm.jingle = false;
 
         yield return new WaitUntil(() => this.gm.bm != null);
         yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true);
