@@ -186,6 +186,14 @@ public class Enemy : MonoBehaviour
                 offlimits = this.ArcherRestrictions(me, target); break;
         }
 
+        foreach (CList c in BattleManager.Instance.combatantList)
+        {
+            if (c.gridX != target.X && c.gridY != target.Y)
+            {
+                offlimits.Add(new Point(c.gridX, c.gridY));
+            }
+        }
+
         return offlimits;
     }
 
@@ -364,7 +372,7 @@ public class Enemy : MonoBehaviour
         }
 
 
-        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, getRestrictions(me, target));
+        // Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, getRestrictions(me, target));
 
         // First, go through every available attack, and if we have one that would hit the player we will select that one right away
         if (specialAttack)
@@ -634,7 +642,7 @@ public class Enemy : MonoBehaviour
 
                 foreach (List<Point> l in attackTiles)
                 {
-                    if (l.Contains(nextSpot))
+                    if (l.Contains(target))
                     {
                         decidedTile = l;
                         this.damage = this.strikeDamage;
