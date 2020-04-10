@@ -21,7 +21,7 @@ public class OWCamera : MonoBehaviour
         {
         Vector3 targetPos = target.TransformPoint(new Vector3(0, 0, target.position.z - 10));
 
-        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime, 75f);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime, 500f);
 
         }
     }
