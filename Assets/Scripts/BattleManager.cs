@@ -450,8 +450,11 @@ public class BattleManager : MonoBehaviour
                 print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
 
                 // If the attacker is the player or if the attacker is the enemy and the target is the player
-                if (i == 0 || (i != 0 && atkTarIndex == 0))
-                    combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+                if (i == 0)
+                    combatantList[atkTarIndex].entity.GetComponent<Enemy>().dealDamage(combatantList[i].attackDmg);
+                if (i != 0 && atkTarIndex == 0)
+                    this.gm.pm.takeDmg(combatantList[i].attackDmg);
+                    //combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
 
                 print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
 
@@ -460,8 +463,8 @@ public class BattleManager : MonoBehaviour
                     combatantList[atkTarIndex].entity.SetActive(false);
                 }
 
-                if (combatantList[atkTarIndex].entity == player)
-                    this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
+                //if (combatantList[atkTarIndex].entity == player)
+                    //this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
             }
         }
         yield break;
@@ -506,7 +509,8 @@ public class BattleManager : MonoBehaviour
 
         if ((dr1.final + dr2.final + this.gm.pm.getStatModifier("STR") >= totalRoll))
         {
-            entity2.hp -= entity.attackDmg;
+            entity2.entity.GetComponent<Enemy>().dealDamage(entity.attackDmg);
+            //entity2.hp -= entity.attackDmg;
 
             if (entity2.hp <= 0)
             {
@@ -622,9 +626,9 @@ public class BattleManager : MonoBehaviour
     void WhoStillHasLimbs()
     {
         // Pop all the entities with <= 0 HP
-        for (int i = combatantList.Count - 1; i >= 0; i--)
+        for (int i = combatantList.Count - 1; i > 0; i--)
         {
-            if (combatantList[i].hp <= 0)
+            if (combatantList[i].hp <= 0 || combatantList[i].entity.GetComponent<Enemy>().getHealth() <= 0)
             {
                 print("Removing entity: " + combatantList[i].entity);
                 Destroy(combatantList[i].entity);

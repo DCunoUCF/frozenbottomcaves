@@ -17,7 +17,8 @@ public enum UIType
 	WizardClass, KnightClass, RogueClass, MonkClass,
     MusicMute, EffectMute,
     BattleButton, OptionsOnTop, OptionBack,
-    LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame
+    LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame,
+    HideHPBars
 }
 
 public enum SliderType
@@ -169,6 +170,10 @@ public class MenuManager : MonoBehaviour
             case UIType.ResumeGame:
                 closeQuitPrompt();
                 break;
+            case UIType.HideHPBars:
+                this.gm.showHPbars = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
+                SaveData.hpBar = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
+                break;
             default:
     			Debug.Log("Clicked a button!"); break;
     	}
@@ -256,6 +261,7 @@ public class MenuManager : MonoBehaviour
         GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
         GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
         GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
+        GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn = SaveData.hpBar;
         yield break;
     }
 

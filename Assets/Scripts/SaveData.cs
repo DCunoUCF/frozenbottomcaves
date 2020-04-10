@@ -23,6 +23,7 @@ public static class SaveData
     public static float effectsVolume = .2f;
     public static bool musicMute = false;
     public static bool effectsMute = false;
+    public static bool hpBar = true;
 
     public static void updateSettings(float mV, float eV, bool mM, bool eM)
     {
