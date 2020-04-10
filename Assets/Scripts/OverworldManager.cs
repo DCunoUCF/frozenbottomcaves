@@ -391,8 +391,9 @@ public class OverworldManager : MonoBehaviour
         print("node 0:" + nodes[0].transform.position);
         playerSpawned = true;
         GameObject cam = GameObject.Find("MainCameraOW");
-        cam.transform.SetParent(player.transform);
-        cam.transform.localPosition = new Vector3(0, 0, -10);
+        cam.GetComponent<OWCamera>().target = player.transform;
+        //cam.transform.SetParent(player.transform);
+        //cam.transform.localPosition = new Vector3(0, 0, -10);
         gm.pm.initPM();
 
 

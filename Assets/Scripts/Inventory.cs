@@ -244,6 +244,7 @@ public class Inventory
     {
         removeItem(Item.ItemType.Provisions, 1);
         this.pm.pc.setHealthEvent(5);
+        updateStats(pm.pc);
     }
 
     public void addResurrection()
