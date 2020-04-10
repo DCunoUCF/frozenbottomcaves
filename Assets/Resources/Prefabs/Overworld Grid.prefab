@@ -94338,9 +94338,9 @@ MonoBehaviour:
     - grid: 0
       arena: 
       nodeEnemies: 
-    - grid: 0
-      arena: 
-      nodeEnemies: 
+    - grid: 1
+      arena: side_road1_arena
+      nodeEnemies: 090000000100000001000000
     - grid: 1
       arena: side_road1_arena
       nodeEnemies: 090000000100000001000000
