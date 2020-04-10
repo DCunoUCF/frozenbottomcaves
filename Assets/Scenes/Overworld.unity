@@ -962,6 +962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  smoothTime: 0.5
 --- !u!1 &1492049952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,18 +1115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
-      propertyPath: HealthChange.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
-      propertyPath: NodeTypes.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1027051808, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
-      propertyPath: HealthChange.Array.data[0]
-      value: -20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}

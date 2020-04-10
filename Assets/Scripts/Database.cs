@@ -28,7 +28,8 @@ public class Database
            new Item(Item.ItemType.CherryPit,"Cherry Pit",false),
            new Item(Item.ItemType.HalfChewedChocolate,"Half-Chewed Chocolate",false),
            new Item(Item.ItemType.TowerShield,"Tower Shield",false,3,"MAXHP"),
-           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet",false,-2,"MAXHP")
+           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet",false,-2,"MAXHP"),
+           new Item(Item.ItemType.StolenGoods,"Stolen Goods",false)
         };
     }
 
