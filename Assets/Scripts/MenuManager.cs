@@ -30,7 +30,6 @@ public class MenuManager : MonoBehaviour
 {
 	public UIType type;
     public SliderType sliderType;
-    private bool inQuit;
     private GameManager gm;
     // Start is called before the first frame update
     void Start()
@@ -49,15 +48,6 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
-        {
-            if (this.gm.om.playerSpawned && !inQuit)
-            {
-                inQuit = true;
-                openQuitPrompt();
-            }
-            //Application.Quit();
-        }
     }
 
     public void ButtonAction()
@@ -194,14 +184,17 @@ public class MenuManager : MonoBehaviour
         {
             this.gm.pm.inventoryOpen();
         }
+        this.gm.quitUp = true;
         this.gm.om.dm.setUninteractable();
+        this.gm.pm.uiParent.SetActive(false);
         SceneManager.LoadScene("QuitPopup", LoadSceneMode.Additive);
     }
 
     void closeQuitPrompt()
     {
-        inQuit = false;
+        this.gm.quitUp = false;
         this.gm.om.dm.setInteractable();
+        this.gm.pm.uiParent.SetActive(true);
         SceneManager.UnloadSceneAsync("QuitPopup");
     }
 
@@ -398,7 +391,6 @@ public class MenuManager : MonoBehaviour
 
     void ReturnToMainMenuFromGame()
     {
-        inQuit = false;
         SaveData.updateSettings(this.gm.sm.musicVolume, this.gm.sm.effectsVolume, this.gm.sm.musicMute, this.gm.sm.effectsMute);
         DestroyImmediate(this.gm.gameObject);
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
