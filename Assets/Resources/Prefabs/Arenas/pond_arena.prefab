@@ -909,7 +909,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0.25, z: 0}
   m_MaxChunkCount: 16
@@ -1225,7 +1225,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0.25, z: 0}
   m_MaxChunkCount: 16
@@ -1708,6 +1708,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7822201444802838358}
     m_Modifications:
+    - target: {fileID: 3226410524320978548, guid: cab63e49a4d82ba44905300ffeaf2907,
+        type: 3}
+      propertyPath: m_Name
+      value: enemySpawner1
+      objectReference: {fileID: 0}
     - target: {fileID: 3226410524320978550, guid: cab63e49a4d82ba44905300ffeaf2907,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1763,11 +1768,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3226410524320978548, guid: cab63e49a4d82ba44905300ffeaf2907,
-        type: 3}
-      propertyPath: m_Name
-      value: enemySpawner1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cab63e49a4d82ba44905300ffeaf2907, type: 3}
 --- !u!4 &7224978542228106719 stripped
@@ -1783,6 +1783,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7822201444802838358}
     m_Modifications:
+    - target: {fileID: 6104975819434227408, guid: c67ad75e298e4d3478fa951182cec356,
+        type: 3}
+      propertyPath: m_Name
+      value: enemySpawner3
+      objectReference: {fileID: 0}
     - target: {fileID: 6104975819434227410, guid: c67ad75e298e4d3478fa951182cec356,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1837,11 +1842,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6104975819434227408, guid: c67ad75e298e4d3478fa951182cec356,
-        type: 3}
-      propertyPath: m_Name
-      value: enemySpawner3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c67ad75e298e4d3478fa951182cec356, type: 3}
