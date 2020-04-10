@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 // using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.Tilemaps;
+using System.Drawing;
 
 public class OverworldManager : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class OverworldManager : MonoBehaviour
     public DiceRoller dr1, dr2;
     public bool updating;
     private overworldAnimations oa;
+    public bool[,] pathingGrid;
+    private Dictionary<Vector3, List<int>> nodeMap; // V3 associated with list of nodes there
+    private Dictionary<int, Point> pathMap;  // NodeID associated with x,y coord in pathfinding array
+    private Dictionary<Point, Vector3> pointToVector; // Each point gets a Vector3
+    private int playerX, playerY;
 
     public int startingNode;
     public List<GameObject> nodes;
@@ -57,6 +63,9 @@ public class OverworldManager : MonoBehaviour
         destReached = true;
         startingNode = 0;
         nodeSavedAt = new List<int>();
+        nodeMap = new Dictionary<Vector3, List<int>>();
+        pathMap = new Dictionary<int, Point>();
+        pointToVector = new Dictionary<Point, Vector3>();
     }
 
     // Update is called once per frame
@@ -75,6 +84,7 @@ public class OverworldManager : MonoBehaviour
 	        foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
 	        {
 	        	nodes.Add(n);
+                nodeMap.Add(n.transform.position, n.GetComponent<WorldNode>().NodeIDs);
 	        }
 
             GameObject tile = GameObject.Find("OverworldTilemap");
@@ -85,6 +95,7 @@ public class OverworldManager : MonoBehaviour
             print("x: " + (Mathf.Abs(bounds.x) + bounds.xMax) + " y: " + (Mathf.Abs(bounds.y) + bounds.yMax));
 
             spawnPlayer();
+            generatePathingGrid();
         }
 
         if (playerSpawned)
@@ -166,9 +177,40 @@ public class OverworldManager : MonoBehaviour
         // If the node position is not where the player is, move to it
         if (player.transform.position != n.physNode.transform.position)
         {
-            print("Lets move");
-            yield return StartCoroutine(moveToDest(n.physNode.transform.position));
+
+            List<Point> movementPoints = BFS.bfsPath(this.pathingGrid, new Point(playerX, playerY), pathMap[this.dm.currentNode]);
+            foreach (Point p in movementPoints)
+            {
+                print(p);
+            }
+
+            for (int i = movementPoints.Count - 1; i >= 0; i--)
+            {
+                yield return StartCoroutine(slerpTest(pointToVector[movementPoints[i]]));
+                playerX = movementPoints[i].X;
+                playerY = movementPoints[i].Y;
+            }
         }
+
+        //if (player.transform.position != n.physNode.transform.position)
+        //{
+
+        //    List<Point> movementPoints = BFS.bfsPath(this.pathingGrid, new Point(playerX, playerY), pathMap[this.dm.currentNode]);
+        //    foreach (Point p in movementPoints)
+        //    {
+        //        print(p);
+        //    }
+
+        //    for (int i = movementPoints.Count - 1; i >= 0; i--)
+        //    {
+        //        yield return StartCoroutine(moveToDest(pointToVector[movementPoints[i]]));
+        //        playerX = movementPoints[i].X;
+        //        playerY = movementPoints[i].Y;
+        //    }
+        //}
+
+
+
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
         this.dm.Panel.SetActive(true);
@@ -276,6 +318,36 @@ public class OverworldManager : MonoBehaviour
         yield break;
     }
 
+    IEnumerator slerpTest(Vector3 dest)
+    {
+        TurnPlayer(player, dest);
+        Vector3 start = player.transform.position;
+        float startTime = Time.time;
+        float journeyTime = .3f;
+
+        print(start + " end " + dest);
+
+        while (player.transform.position != dest)
+        {
+            Vector3 center = (start + dest) * 0.5f;
+
+            center -= new Vector3(0, .35f, 0);
+
+            Vector3 playerRelCenter = start - center;
+            Vector3 endRelCenter = dest - center;
+
+            float fracComplete = (Time.time - startTime) / journeyTime;
+
+            player.transform.position = Vector3.Slerp(playerRelCenter, endRelCenter, fracComplete);
+            player.transform.position += center;
+
+            yield return null;
+        }
+
+
+        yield break;
+    }
+
     public void loadSave()
     {
         this.gm.pm.loadSave();
@@ -319,8 +391,9 @@ public class OverworldManager : MonoBehaviour
         print("node 0:" + nodes[0].transform.position);
         playerSpawned = true;
         GameObject cam = GameObject.Find("MainCameraOW");
-        cam.transform.SetParent(player.transform);
-        cam.transform.localPosition = new Vector3(0, 0, -10);
+        cam.GetComponent<OWCamera>().target = player.transform;
+        //cam.transform.SetParent(player.transform);
+        //cam.transform.localPosition = new Vector3(0, 0, -10);
         gm.pm.initPM();
 
 
@@ -494,5 +567,60 @@ public class OverworldManager : MonoBehaviour
                 NE.gameObject.SetActive(false);
             }
         }
+    }
+
+    private void generatePathingGrid()
+    {
+        Tilemap pathTileMap = GameObject.Find("PlayerPathing").GetComponent<Tilemap>();
+        BoundsInt bounds = pathTileMap.cellBounds;
+        Grid pathGrid = pathTileMap.layoutGrid;
+
+        GameObject temp = Resources.Load("Prefabs/AttackAnimHighlight") as GameObject;
+
+        print("x: " + bounds.x + " y: " + bounds.y);
+        print("xM: " + bounds.xMax + " yM: " + bounds.yMax);
+
+        pathingGrid = new bool[Mathf.Abs(bounds.x) + bounds.xMax + 1, Mathf.Abs(bounds.y) + bounds.yMax + 1];
+
+
+        foreach (var position in pathTileMap.cellBounds.allPositionsWithin)
+        {
+            int xDif = position.x - bounds.position.x;
+            int yDif = position.y - bounds.position.y;
+
+            if (pathTileMap.HasTile(position))
+            {
+                Vector3 cv = ConvertVector(position.x, position.y);
+                pathingGrid[xDif, yDif] = true;
+                print(pathGrid.CellToWorld(position));
+
+                if (cv == player.transform.position)
+                {
+                    playerX = xDif;
+                    playerY = yDif;
+                }
+
+                if (nodeMap.ContainsKey(cv))
+                {
+                    foreach(int i in nodeMap[cv])
+                    {
+                        pathMap.Add(i, new Point(xDif, yDif));
+                    }
+                }
+
+                pointToVector.Add(new Point(xDif, yDif), cv);
+            }
+        }
+    }
+
+    private struct pathingNode
+    {
+        public bool passable;
+        public List<int> id;
+    }
+
+    Vector3 ConvertVector(int x, int y)
+    {
+        return new Vector3((x * 0.5f) - (y * 0.5f), ((x + 1) * 0.25f) + (y * 0.25f), 0);
     }
 }

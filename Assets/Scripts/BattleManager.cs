@@ -512,7 +512,7 @@ public class BattleManager : MonoBehaviour
             {
                 entity2.entity.SetActive(false);
             }
-            pWon = Instantiate(pTileFill, entity2.entity.transform.position, Quaternion.identity);
+            pWon = Instantiate(pTileFill, start2, Quaternion.identity);
         }
         else
         {
@@ -523,7 +523,7 @@ public class BattleManager : MonoBehaviour
                 entity.entity.SetActive(false);
             }
             this.gm.pm.takeDmg(entity2.attackDmg);
-            eWon = Instantiate(eTileFill, entity.entity.transform.position, Quaternion.identity);
+            eWon = Instantiate(eTileFill, start, Quaternion.identity);
 
         }
 

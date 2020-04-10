@@ -178,6 +178,14 @@ public class MenuManager : MonoBehaviour
 
     void openQuitPrompt()
     {
+        if (this.gm.pm.inOptions)
+        {
+            ExitOptions();
+        }
+        if (this.gm.pm.inventoryUI.gameObject.activeSelf)
+        {
+            this.gm.pm.inventoryOpen();
+        }
         this.gm.om.dm.setUninteractable();
         SceneManager.LoadScene("QuitPopup", LoadSceneMode.Additive);
     }

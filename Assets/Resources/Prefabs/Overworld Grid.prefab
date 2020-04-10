@@ -94338,9 +94338,9 @@ MonoBehaviour:
     - grid: 0
       arena: 
       nodeEnemies: 
-    - grid: 0
-      arena: 
-      nodeEnemies: 
+    - grid: 1
+      arena: side_road1_arena
+      nodeEnemies: 090000000100000001000000
     - grid: 1
       arena: side_road1_arena
       nodeEnemies: 090000000100000001000000
@@ -96235,8 +96235,8 @@ Tilemap:
       m_ColliderType: 1
   - first: {x: 16, y: 10, z: 0}
     second:
-      m_TileIndex: 47
-      m_TileSpriteIndex: 47
+      m_TileIndex: 19
+      m_TileSpriteIndex: 19
       m_TileMatrixIndex: 0
       m_TileColorIndex: 1
       m_ObjectToInstantiate: {fileID: 0}
@@ -100458,8 +100458,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 79ae1ab43ba3cf142b9fc0ceb027a913, type: 2}
   - m_RefCount: 20
     m_Data: {fileID: 11400000, guid: d41fe0d9eb566ca4b8ea34046ae35833, type: 2}
   - m_RefCount: 9
@@ -100514,7 +100514,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 8173c183d84e4f7449338aafa066fa31, type: 2}
   - m_RefCount: 28
     m_Data: {fileID: 11400000, guid: 44656c001fb91e146ab7a093ab5fe849, type: 2}
-  - m_RefCount: 125
+  - m_RefCount: 124
     m_Data: {fileID: 11400000, guid: 0b4d43ed9c5dc7e42b38d28454a44f03, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 3
@@ -100555,8 +100555,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: c25df6d6b08834947b5894479ade0de7, type: 3}
   - m_RefCount: 20
     m_Data: {fileID: 21300000, guid: d1e59e467bb8a874d8a02520d61ca832, type: 3}
   - m_RefCount: 9
@@ -100611,7 +100611,7 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 989adc808d1187a42b0ca1de01b9955e, type: 3}
   - m_RefCount: 28
     m_Data: {fileID: 21300000, guid: f44671c38b31b3c40b5fc8cba0f6b527, type: 3}
-  - m_RefCount: 125
+  - m_RefCount: 124
     m_Data: {fileID: 21300000, guid: 6669fbdfa41817046afcc05880938d2e, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 608

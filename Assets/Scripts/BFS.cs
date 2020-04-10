@@ -153,4 +153,79 @@ public static class BFS
 
         return -999;
     }
+
+    public static List<Point> bfsPath(bool[,] grid, Point start, Point target)
+    {
+        // Set the limits of the grid
+        ROW = grid.GetLength(0);
+        COL = grid.GetLength(1);
+
+        bool[,] visited = new bool[ROW, COL];
+
+        visited[start.X, start.Y] = true;
+
+        Debug.Log("starting at (x,y): " + start.X + ", " + start.Y);
+
+        Queue<qNode> q = new Queue<qNode>();
+        qNode s = new qNode(start, 0, null);
+
+        // kick off the bfs
+        q.Enqueue(s);
+        while (q.Count != 0)
+        {
+            qNode current = q.Peek();
+            Point p = current.p;
+
+            // found target
+            if (p.X == target.X && p.Y == target.Y)
+            {
+                Debug.Log("Distance to target: " + current.dist);
+                return returnPathToTarget(current);
+            }
+
+            q.Dequeue();
+
+            for (int i = 0; i < 4; i++)
+            {
+                int row = p.X + rowNum[i];
+                int col = p.Y + colNum[i];
+
+                if (isValid(row, col) && grid[row, col] && !visited[row, col])
+                {
+                    visited[row, col] = true;
+                    qNode adj = new qNode(new Point(row, col), current.dist + 1, current);
+                    q.Enqueue(adj);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    static List<Point> returnPathToTarget(qNode finalPoint)
+    {
+        List<Point> points = new List<Point>();
+        string path = "";
+        //path += "(" + finalPoint.p.X + ", " + finalPoint.p.Y + ") ";
+        qNode curr = finalPoint; // was finalPoint.prev
+
+        if (curr.prev == null)
+            return points;
+
+        while (curr.prev != null)
+        {
+            points.Add(curr.p);
+            path += ("(" + curr.p.X + ", " + curr.p.Y + ") ");
+            if (curr.prev.prev == null)
+            {
+                Debug.Log(path);
+                return points;
+            }
+            curr = curr.prev;
+        }
+
+        Debug.Log(path);
+
+        return points;
+    }
 }
