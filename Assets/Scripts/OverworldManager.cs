@@ -31,6 +31,7 @@ public class OverworldManager : MonoBehaviour
     private Dictionary<int, Point> pathMap;  // NodeID associated with x,y coord in pathfinding array
     private Dictionary<Point, Vector3> pointToVector; // Each point gets a Vector3
     private int playerX, playerY;
+    GameObject cam;
 
     public int startingNode;
     public List<GameObject> nodes;
@@ -40,7 +41,7 @@ public class OverworldManager : MonoBehaviour
     public List<int> nodeSavedAt;
     public bool dontKillBMYet = false;
 
-    public int saveNode, saveNodeTypeCount, saveCurrentNode, facing;
+    public int saveNode, saveNodeTypeCount, saveCurrentNode, facing, saveX, saveY;
 
     private Vector3 destPos;
     private float speed = .20f, startTime, journeyLength;
@@ -117,6 +118,7 @@ public class OverworldManager : MonoBehaviour
                 this.saveNodeTypeCount = 0;
                 this.saveCurrentNode = 0;
 
+
                 // Save direction they're facing
                 if (player.transform.GetChild(0).gameObject.activeSelf)
                     facing = 0;
@@ -177,7 +179,7 @@ public class OverworldManager : MonoBehaviour
         // If the node position is not where the player is, move to it
         if (player.transform.position != n.physNode.transform.position)
         {
-
+            print(playerX + " " + playerY);
             List<Point> movementPoints = BFS.bfsPath(this.pathingGrid, new Point(playerX, playerY), pathMap[this.dm.currentNode]);
             foreach (Point p in movementPoints)
             {
@@ -287,6 +289,8 @@ public class OverworldManager : MonoBehaviour
                 this.saveNode = n.physNodeIndex;
                 this.saveNodeTypeCount = n.count;
                 this.saveCurrentNode = this.dm.currentNode;
+                this.saveX = playerX;
+                this.saveY = playerY;
 
                 // Save direction they're facing
                 if (player.transform.GetChild(0).gameObject.activeSelf)
@@ -354,6 +358,8 @@ public class OverworldManager : MonoBehaviour
         this.dm.currentNode = this.saveCurrentNode;
         this.startingNode = saveNode;
         this.nodeTypeCount = saveNodeTypeCount;
+        this.playerX = saveX;
+        this.playerY = saveY;
 
         this.dm.Panel.SetActive(true);
         this.dm.init();
@@ -363,6 +369,8 @@ public class OverworldManager : MonoBehaviour
                                                      nodes[startingNode].transform.position.y,
                                                      nodes[startingNode].transform.position.z);
         movePlayer();
+        cam.transform.position = this.player.transform.position + new Vector3(0,0,-10);
+        
         for (int i = 0; i < 4; i++)
         {
             if (i == facing)
@@ -372,6 +380,7 @@ public class OverworldManager : MonoBehaviour
         }
         this.gm.om.dm.setInterableAll();
         this.gm.om.dm.setInitialSelection();
+        ButtonOverlay.Instance.inventory.interactable = true;
     }
 
     private void movePlayer()
@@ -390,7 +399,7 @@ public class OverworldManager : MonoBehaviour
         player.transform.position = GameObject.Find("0").transform.position; // hard coding node 0
         print("node 0:" + nodes[0].transform.position);
         playerSpawned = true;
-        GameObject cam = GameObject.Find("MainCameraOW");
+        cam = GameObject.Find("MainCameraOW");
         cam.GetComponent<OWCamera>().target = player.transform;
         //cam.transform.SetParent(player.transform);
         //cam.transform.localPosition = new Vector3(0, 0, -10);
@@ -598,6 +607,8 @@ public class OverworldManager : MonoBehaviour
                 {
                     playerX = xDif;
                     playerY = yDif;
+                    this.saveX = playerX;
+                    this.saveY = playerY;
                 }
 
                 if (nodeMap.ContainsKey(cv))

@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 1;
+        //Application.targetFrameRate = 60;
         // Can't create this from the start because it relies on objects in the Arena Scene
         // this.bm = this.gameObject.AddComponent<BattleManager>();
         this.bm = null;
@@ -158,16 +158,17 @@ public class GameManager : MonoBehaviour
             this.pm.inCombat = false;
 
             this.sm.playLoseJingle();
-
             SceneManager.LoadScene("LoseSplash", LoadSceneMode.Additive);
             StartCoroutine(disableLoad());
         }
 
-        if (Input.GetButtonDown("Cancel"))
-        {
-            // SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-            Application.Quit();
-        }
+
+        //if (Input.GetButtonDown("Cancel"))
+        //{
+        //    // SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            
+        //    Application.Quit();
+        //}
     }
 
     public void setBM(BattleManager bm)
