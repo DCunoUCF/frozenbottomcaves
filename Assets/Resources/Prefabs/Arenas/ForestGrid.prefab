@@ -225,6 +225,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: spider_queen_arena
       objectReference: {fileID: 0}
+    - target: {fileID: 1301495371843391038, guid: 87fbb7132d53c5548b115dc3ebf0288a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1301495371843391037, guid: 87fbb7132d53c5548b115dc3ebf0288a,
         type: 3}
       propertyPath: m_LocalPosition.x
