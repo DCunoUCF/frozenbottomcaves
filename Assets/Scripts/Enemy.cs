@@ -10,6 +10,8 @@ public enum EnemyClass
 
 public class Enemy : MonoBehaviour
 {
+    public EnemyHealthBar ehb;
+
 	protected BattleManager bm;
 	protected int enemyId;
 	protected int health;
@@ -874,9 +876,11 @@ public class Enemy : MonoBehaviour
     public void dealDamage(int dam)
     {
     	this.health -= dam;
-
-    	if (this.health <= 0)
-    		kill();
+        this.combatantEntry.hp = this.health;
+        this.ehb.updateBar(this.health, dam);
+        if (this.health <= 0)
+            print("I ded @" + this.combatantEntry.entity.transform.position);
+    		//kill();
     }
 
     //===========   Exporting Functions   ===========//

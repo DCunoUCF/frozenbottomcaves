@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
     public bool splashUp, quitUp;
+    public bool showHPbars;
+    public HashSet<GameObject> inactiveObjects;
 
     public int whatsMyId()
     {
@@ -38,7 +40,8 @@ public class GameManager : MonoBehaviour
         this.battleResolvedCheck = false;
         this.battleLogicComplete = false;
         this.currentScene = SceneManager.GetActiveScene().name;
-
+        this.showHPbars = true;
+        inactiveObjects = new HashSet<GameObject>();
         this.sm = this.gameObject.AddComponent<SoundManager>();
         this.om = this.gameObject.AddComponent<OverworldManager>();
         this.pm = this.gameObject.AddComponent<PlayerManager>();
@@ -68,6 +71,27 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!this.showHPbars)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("enemyHPBars"))
+            {
+                inactiveObjects.Add(g);
+                g.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("enemyHPBars"))
+            {
+                g.SetActive(true);
+            }
+            foreach (GameObject g in inactiveObjects)
+            {
+                if (g != null)
+                    g.SetActive(true);
+            }
+        }
+
         if (this.om.playerSpawned)
         {
             if (Input.GetKeyDown(KeyCode.Escape))

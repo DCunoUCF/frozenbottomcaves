@@ -44,8 +44,8 @@ public class OverworldManager : MonoBehaviour
     public int saveNode, saveNodeTypeCount, saveCurrentNode, facing, saveX, saveY;
 
     private Vector3 destPos;
-    private float speed = .20f, startTime, journeyLength;
-    private bool destReached;
+    //private float speed = .20f, startTime, journeyLength;
+    //private bool destReached;
 
     WorldNode curNode;
 
@@ -61,7 +61,7 @@ public class OverworldManager : MonoBehaviour
         this.oa.om = this;
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        destReached = true;
+        //destReached = true;
         startingNode = 0;
         nodeSavedAt = new List<int>();
         nodeMap = new Dictionary<Vector3, List<int>>();
@@ -192,6 +192,7 @@ public class OverworldManager : MonoBehaviour
                 playerX = movementPoints[i].X;
                 playerY = movementPoints[i].Y;
             }
+            yield return new WaitForSeconds(.7f);
         }
 
         //if (player.transform.position != n.physNode.transform.position)
@@ -211,7 +212,10 @@ public class OverworldManager : MonoBehaviour
         //    }
         //}
 
-
+        //while (cam.transform.position.x != player.transform.position.x && cam.transform.position.y != player.transform.position.y)
+        //{
+        //    yield return null;
+        //}
 
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
@@ -309,7 +313,7 @@ public class OverworldManager : MonoBehaviour
         yield break;
     }
 
-    // Hops on over to the destination node
+    // Slides to destination node at constant speed
     IEnumerator moveToDest(Vector3 dest)
     {
         this.dm.Panel.SetActive(false);
@@ -322,12 +326,13 @@ public class OverworldManager : MonoBehaviour
         yield break;
     }
 
+    // Hops on over to the destination node
     IEnumerator slerpTest(Vector3 dest)
     {
         TurnPlayer(player, dest);
         Vector3 start = player.transform.position;
         float startTime = Time.time;
-        float journeyTime = .3f;
+        float journeyTime = .275f;
 
         print(start + " end " + dest);
 
@@ -368,7 +373,7 @@ public class OverworldManager : MonoBehaviour
         this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
                                                      nodes[startingNode].transform.position.y,
                                                      nodes[startingNode].transform.position.z);
-        movePlayer();
+        //movePlayer();
         cam.transform.position = this.player.transform.position + new Vector3(0,0,-10);
         
         for (int i = 0; i < 4; i++)
@@ -383,12 +388,12 @@ public class OverworldManager : MonoBehaviour
         ButtonOverlay.Instance.inventory.interactable = true;
     }
 
-    private void movePlayer()
-    {
-        float distCovered = (Time.time - startTime) * speed;
-        float fractionOfJourney = distCovered / journeyLength;
-        player.transform.position = Vector3.Lerp(player.transform.position, destPos, fractionOfJourney);
-    }
+    //private void movePlayer()
+    //{
+    //    float distCovered = (Time.time - startTime) * speed;
+    //    float fractionOfJourney = distCovered / journeyLength;
+    //    player.transform.position = Vector3.Lerp(player.transform.position, destPos, fractionOfJourney);
+    //}
 
     private void spawnPlayer()
     {
@@ -622,12 +627,6 @@ public class OverworldManager : MonoBehaviour
                 pointToVector.Add(new Point(xDif, yDif), cv);
             }
         }
-    }
-
-    private struct pathingNode
-    {
-        public bool passable;
-        public List<int> id;
     }
 
     Vector3 ConvertVector(int x, int y)
