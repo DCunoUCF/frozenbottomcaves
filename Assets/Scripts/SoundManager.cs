@@ -58,8 +58,8 @@ public class SoundManager : MonoBehaviour
     {
         // Default volume options
         //this.musicVolume = 0.2f; // CHANGED TO 0 TO PRESERVE MY SANITY
-        //this.effectsVolume = 0.2f;
-        //this.musicMute = false;
+        //this.effectsVolume = 0.5f;
+        //this.musicMute = true;
         //this.effectsMute = false;
         this.updateFromSaveData();
         SaveData.updateSettings(.2f, .2f, false, false);
