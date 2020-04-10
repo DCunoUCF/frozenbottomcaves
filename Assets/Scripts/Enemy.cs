@@ -217,20 +217,50 @@ public class Enemy : MonoBehaviour
                 Debug.Log("Attempting to move away");
                 Debug.Log("Original Target: ("+target.X+", "+target.Y+")");
 
-                // Try either side of me
-                int northDist = BFS.bfsDist(BattleManager.Instance.gridCell, new Point(me.X + 1, me.Y), target);
-                int southDist = BFS.bfsDist(BattleManager.Instance.gridCell, new Point(me.X - 1, me.Y), target);
-                int eastDist = BFS.bfsDist(BattleManager.Instance.gridCell, new Point(me.X, me.Y - 1), target);
-                int westDist = BFS.bfsDist(BattleManager.Instance.gridCell, new Point(me.X, me.Y + 1), target);
+                // Try all sides around
+                int northDist, southDist, eastDist, westDist;
 
-                if (BattleManager.Instance.gridCell[me.X + 1, me.Y].entity != null || !BattleManager.Instance.gridCell[me.X + 1, me.Y].pass)
+                if (me.X + 1 < 0 || me.X + 1 > BattleManager.Instance.gridCell.GetLength(0))
                     northDist = -999;
-                if (BattleManager.Instance.gridCell[me.X - 1, me.Y].entity != null || !BattleManager.Instance.gridCell[me.X - 1, me.Y].pass)
+                else
+                    northDist = BFS.bfsDist(BattleManager.Instance.gridCell, new Point(me.X + 1, me.Y), target);
+
+                if (me.X - 1 < 0 || me.X - 1 > BattleManager.Instance.gridCell.GetLength(0))
                     southDist = -999;
-                if (BattleManager.Instance.gridCell[me.X, me.Y + 1].entity != null || !BattleManager.Instance.gridCell[me.X, me.Y + 1].pass)
-                    westDist = -999;
-                if (BattleManager.Instance.gridCell[me.X, me.Y - 1].entity != null || !BattleManager.Instance.gridCell[me.X, me.Y - 1].pass)
+                else
+                    southDist = BFS.bfsDist(BattleManager.Instance.gridCell, new Point(me.X - 1, me.Y), target);
+
+                if (me.Y - 1 < 0 || me.Y - 1 > BattleManager.Instance.gridCell.GetLength(1))
                     eastDist = -999;
+                else
+                    eastDist = BFS.bfsDist(BattleManager.Instance.gridCell, new Point(me.X, me.Y - 1), target);
+
+                if (me.Y + 1 < 0 || me.Y + 1 > BattleManager.Instance.gridCell.GetLength(1))
+                    westDist = -999;
+                else
+                    westDist = BFS.bfsDist(BattleManager.Instance.gridCell, new Point(me.X, me.Y + 1), target);
+
+                // Exclude any positions that already have an entity or are impassable
+                if (northDist > 0)
+                {
+                    if (BattleManager.Instance.gridCell[me.X + 1, me.Y].entity != null || !BattleManager.Instance.gridCell[me.X + 1, me.Y].pass)
+                        northDist = -999;
+                }
+                if (southDist > 0)
+                {
+                    if (BattleManager.Instance.gridCell[me.X - 1, me.Y].entity != null || !BattleManager.Instance.gridCell[me.X - 1, me.Y].pass)
+                    southDist = -999;
+                }
+                if (westDist > 0)
+                {
+                    if (BattleManager.Instance.gridCell[me.X, me.Y + 1].entity != null || !BattleManager.Instance.gridCell[me.X, me.Y + 1].pass)
+                        westDist = -999;
+                }
+                if (eastDist > 0)
+                {
+                    if (BattleManager.Instance.gridCell[me.X, me.Y - 1].entity != null || !BattleManager.Instance.gridCell[me.X, me.Y - 1].pass)
+                        eastDist = -999;
+                }
 
                 Debug.Log("NDist: "+northDist);
                 Debug.Log("SDist: "+southDist);
