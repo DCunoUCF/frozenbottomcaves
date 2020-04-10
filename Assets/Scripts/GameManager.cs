@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private bool panic;
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
-    public bool splashUp;
+    public bool splashUp, quitUp;
 
     public int whatsMyId()
     {
@@ -68,6 +68,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.om.playerSpawned)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (!quitUp)
+                    ButtonOverlay.Instance.quit.onClick.Invoke();
+                else
+                    GameObject.Find("ReturnToGame").GetComponent<Button>().onClick.Invoke();
+            }
+        }
+
         if (this.gameMusicChannel == null)
         {
             this.gameMusicChannel = this.gameObject.AddComponent<AudioSource>();
