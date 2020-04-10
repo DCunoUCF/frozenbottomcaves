@@ -97,6 +97,25 @@ public class PlayerClass
             return 3;
         return 0;
     }
+    public int getStatModifier2(int i)
+    {
+        int temp = i;
+        if (temp < 6)
+            return -3;
+        if (temp < 8)
+            return -2;
+        if (temp < 10)
+            return -1;
+        if (temp < 12)
+            return 0;
+        if (temp < 14)
+            return 1;
+        if (temp < 16)
+            return 2;
+        if (temp > 16)
+            return 3;
+        return 0;
+    }
 
     // Whenever the player takes damage
     public void takeDamage(int dmg)
@@ -145,8 +164,8 @@ public class PlayerClass
         this.stats = stats;
     }
 
-    // Function that applies effect to player based on item type
-    public void applyEffect(Item.ItemType item, int flag)
+
+    public void applyEffect(Item item, int flag)
     {
         // flag 1 for add effect
         // flag 2 for remove effect
@@ -163,15 +182,26 @@ public class PlayerClass
             return;
         }
 
-        // Example
-        // We Could Use a switch statement or if else here
-        // Increases max health by 5
-        if(item == Item.ItemType.HalfChewedChocolate)
+        switch(item.stat)
         {
-            this.changeMaxHealth(5 * toggle);
-
+            case "STR":
+                this.stats[0] += item.effect * toggle;
+                break;
+            case "INT":
+                this.stats[1] += item.effect * toggle;
+                break;
+            case "AGI":
+                this.stats[2] += item.effect * toggle;
+                break;
+            case "HP":
+                this.setHealthEvent(item.effect * toggle);
+                break;
+            case "MAXHP":
+                this.changeMaxHealth(item.effect * toggle);
+                break;
+            default:
+                break;
         }
-      
 
     }
 

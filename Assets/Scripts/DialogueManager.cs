@@ -79,6 +79,7 @@ public class DialogueManager : MonoBehaviour
 
     public void init()
     {
+        TextBox.SetActive(true);
         TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
         for (int i = 0; i < 3; i++)
@@ -159,7 +160,6 @@ public class DialogueManager : MonoBehaviour
                 {
                     if (id == dialogue.nodes[currentNode].options[i].destId)
                     {
-                        print("Node we're checking for itemloss event" + id);
                         if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
@@ -245,8 +245,6 @@ public class DialogueManager : MonoBehaviour
                 {
                     if (id == dialogue.nodes[currentNode].options[i].destId)
                     {
-                        print("Node we're checking for itemloss event" + id);
-
                         if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
@@ -329,8 +327,6 @@ public class DialogueManager : MonoBehaviour
                 {
                     if (id == dialogue.nodes[currentNode].options[i].destId)
                     {
-                        print("Node we're checking for itemloss event" + id);
-
                         if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
@@ -498,8 +494,8 @@ public class DialogueManager : MonoBehaviour
             optionRect.Add(option3Rect);
         if (Choices[1].IsActive())
             optionRect.Add(option2Rect);
-        if (Choices[0].IsActive())
-            optionRect.Add(option1Rect);
+
+        optionRect.Add(option1Rect);
         //for (int i = 0; i < this.Choices.Count; i++)
         //{
         //    optionRect.Add(Choices[i].GetComponent<RectTransform>());
@@ -609,65 +605,3 @@ public class DialogueManager : MonoBehaviour
     }
 
 }
-
-//// David's Start Method
-//void Start()
-//{
-//    // Will change this to a static load so that we don't have to initialize
-//    Program p = new Program();
-
-//    // Loads the file
-//    dialogue = p.LoadFile("./Assets/Resources/Dialogue/tutorial.txt");
-//    currentOptionsCount = this.dialogue.nodes[currentNode].options.Count;
-//    optionParent = GameObject.Find("Option01");
-
-//    Choices = new List<Button>(currentOptionsCount);
-
-//    // Adds Listeners to the options
-//    for (int i = 0; i < Choices.Count; i++)
-//    {
-//        Choices.Add(GameObject.Instantiate(optionParent.GetComponent<Button>(), Panel.transform));
-//    }
-
-//    choiceCounter = 0;
-//    foreach (Button button in Choices)
-//    {
-//        int i = choiceCounter++;
-//        button.onClick.AddListener(() => this.ChoiceOption(i));
-//    }
-
-//    // Dialogue text
-//    TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
-
-//    for(int i = 0; i < Choices.Count; i++)
-//    {
-//        Choices[i].gameObject.SetActive(false);
-//    }
-
-//    // Dialogue Choices
-//    for (int i = 0; i < currentOptionsCount; i++)
-//    {
-//        Choices[i].gameObject.SetActive(true);
-//        Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
-//    }
-
-//    optionParent.SetActive(false);
-//    DialogueSizer();
-//}
-
-//private void ChoiceOption(int choice)
-//{
-//    this.currentNode = this.dialogue.nodes[currentNode].options[choice].destId;
-
-//    if (currentNode == -1)
-//    {
-//        this.SetPanelAndChildrenFalse();
-//        return;
-//    }
-
-//    this.SetChildrenFalse();
-
-//    this.SetChildrenTrue();
-
-//    this.DialogueSizer();
-//}

@@ -16,15 +16,9 @@ public enum GridType
 public enum EncounterEnemy
 {
 	None,
-	goblin, slime_G, gnoll, lich
+	goblin, slime_G, gnoll, lich, troll, nixie, gnoll_logger, wolf_black, spider_small, spider_queen, bandit_scout, bandit_thug, bandit_leader
 }
 
-
-//public enum ItemType
-//{
-//	None,
-//	DwarfKey
-//}
 
 // TODO: Make a struct that contains all the node information, 
 	// and update the list in WorldNode to be a list of those structs

@@ -39,9 +39,9 @@ text: FAIL
 destId: 7
 
 nodeId: 7
-text: You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
+text: (Lost 2 HP) You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
 options: 1
-text: "..." Trudge along. (-2 HP)
+text: "..." Trudge along. 
 destId:8
 
 nodeId: 6
@@ -74,7 +74,6 @@ nodeId : 11
 text : The slimes overtake you and you drown in their muck!
 options: 1
 text: Gross!
-destId:-1
 destId:-1
 
 nodeId: 106
@@ -114,9 +113,9 @@ text: DEFEATED
 destId: 164
 
 nodeId: 163
-text: The broken pack yelps and flees as the alpha wolf falls before you.
+text: (Gained Wolf Meat) The broken pack yelps and flees as the alpha wolf falls before you.
 options: 1
-text: "Your king will be my supper!" (Gain Wolf Meat)
+text: "Your king will be my supper!" 
 destId: 256
 
 nodeId: 164
@@ -144,7 +143,7 @@ text: Kick the wolf. (STR)
 destId: 168
 text: Pat the wolf on its head.
 destId: 171
-text: "Here you go, friend!" (-1 Provision)
+text: "Here you go, friend!" (Lose 1 Provision)
 destId: 174
 
 nodeId: 168
@@ -162,15 +161,15 @@ text: "Be you friend or merely a beggar? Off with you!"
 destId: 173
 
 nodeId: 170
-text: You muster up what strength you can, but your foot lands like a feather on the wolf's side. The wolf reciprocates to your act of aggression in kind. It snaps at your leg!
+text: (Lost 5 HP) You muster up what strength you can, but your foot lands like a feather on the wolf's side. The wolf reciprocates to your act of aggression in kind. It snaps at your leg!
 options: 1
-text: "OW!" (-5 HP)
+text: "OW!" 
 destId: 172
 
 nodeId: 171
-text: You go to pat the wolf gently upon its scruffy scruff, but it recoils quickly and snaps at your hand!
+text: (Lost 5 HP) You go to pat the wolf gently upon its scruffy scruff, but it recoils quickly and snaps at your hand!
 options: 1
-text: "OW!" (-5 HP)
+text: "OW!" 
 destId: 172
 
 nodeId: 172
@@ -186,15 +185,15 @@ text: "One more victory under my belt!"
 destId: 256
 
 nodeId: 174
-text: You pull some food from your pouch. The wolf eats it happily from your hand, content with its reward.
+text: (Lost 1 Provision) You pull some food from your pouch. The wolf eats it happily from your hand, content with its reward.
 options: 1
 text: "The slobber on my glove is a trophy!"
 destId: 175
 
 nodeId: 175
-text: The wolf disappears into the trees with a pep in its step. You notice a collar lying in the dirt. It has a bell and tag on it. It says "Dog." You place it in your pack and move along.
+text: (Gained Wolf Collar) The wolf disappears into the trees with a pep in its step. You notice a collar lying in the dirt. It has a bell and tag on it. It says "Dog." You place it in your pack and move along.
 options: 1
-text: "Enough dilly dallying! Onward!" (Gain Wolf Collar)
+text: "Enough dilly dallying! Onward!" 
 destId: 256
 
 # STUMP SAVE SPOT
@@ -203,7 +202,7 @@ text: With the conflict behind you, you continue your quest.. You spot a comfort
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 257
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 258
 text: Continue without resting.
 destId: 177
@@ -215,7 +214,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 177
 
 nodeId: 258
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 177
@@ -249,9 +248,9 @@ text: *Gulp!*
 destId: 185
 
 nodeId: 185
-text: "You try be smart! You pay DOUBLE! 10 GOLD!"
+text: (Lost 10 Gold) "You try be smart! You pay DOUBLE! 10 GOLD!"
 options: 1
-text: "Fine!" Forfeit your coins. (-10 Gold)
+text: "Fine!" Forfeit your coins. 
 destId: 186
 
 nodeId: 187
@@ -275,9 +274,9 @@ text: *Lie* "No, you really got me!" (INT)
 destId: 191
 
 nodeId: 190
-text: "Thank for true tell. You pay 5 gold!"
+text: (Lost 5 Gold) "Thank for true tell. You pay 5 gold!"
 options: 1
-text: "Thanks, I guess." (-5 Gold)
+text: "Thanks, I guess." 
 destId: 194
 
 nodeId: 191
@@ -289,15 +288,15 @@ text: FAILURE
 destId: 193
 
 nodeId: 192
-text: "I good toll gitter. You pay 3 gold for so dumb no see me!"
+text: (Lost 3 Gold) "I good toll gitter. You pay 3 gold for so dumb no see me!"
 options: 1
-text: "That's me!" (-3 Gold)
+text: "That's me!" 
 destId: 184
 
 nodeId: 193
-text: The troll raises its eyebrow. "You no true tell. You see me. You pay 10 gold!"
+text: (Lost 10 Gold) The troll raises its eyebrow. "You no true tell. You see me. You pay 10 gold!"
 options: 1
-text: *Gulp* (-10 Gold)
+text: *Gulp* 
 destId: 186
 
 nodeId: 180
@@ -337,9 +336,9 @@ text: "I didn't know it belonged to you."
 destId: 158
 
 nodeId: 158
-text: "It my stump. You pay toll! 5 GOLD!" Drool flies from its mouth as it barks at you.
+text: (Lost 5 Gold) "It my stump. You pay toll! 5 GOLD!" Drool flies from its mouth as it barks at you.
 options: 1
-text: "A stump toll? All right then..." (-5 Gold)
+text: "A stump toll? All right then..." 
 destId: 194
 
 nodeId: 186
@@ -351,7 +350,7 @@ destId: 195
 nodeId: 194
 text: You don't like to give up gold, but can respect an honest job.
 options: 1
-text: You hand over the gold and give a swift nod.
+text: You continue on your way.
 destId: 195
 
 nodeId: 195
@@ -470,7 +469,7 @@ text: You reach the main path, with a comfortable looking stump to rest your wea
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 213
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 214
 text: Continue without resting.
 destId: 215
@@ -482,7 +481,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 215
 
 nodeId: 214
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 215
@@ -496,10 +495,10 @@ destId: 216
 nodeId: 216
 text: You feel tremors beneath your feet and hear a thunderous rumbling build and build. You see rocks begin rolling down the mountain face. They're coming right for you!
 options: 2
-text: "Maybe this shield is magical!" (Use Tower Shield)
-destId: 217
 text: "Time to make like seamstress and WEAVE!" (AGI)
 destId: 219
+text: "Maybe this shield is magical!" (Use Tower Shield)
+destId: 217
 
 nodeId: 217
 text: The boulders rip through the dirt as they descend upon you. Holding your shield high and standing fast, you are struck by a boulder with the force of multiple boulders! You are knocked off your feet.
@@ -508,9 +507,9 @@ text: "BAH!"
 destId: 218
 
 nodeId: 218
-text: The rumbling settles... You stand up, covered in dust, but without a scratch. The same can't be said about your shield. It hangs loosely from your arm, battered beyond recognition.
+text: (Lost Tower Shield) The rumbling settles... You stand up, covered in dust, but without a scratch. The same can't be said about your shield. It hangs loosely from your arm, battered beyond recognition.
 options: 1
-text: "Not magical after all." (Lose Tower Shield)
+text: "Not magical after all." 
 destId: 222
 
 nodeId: 219
@@ -584,7 +583,7 @@ text: "Did you truly think your flimsy webs could contain ME?!"
 destId: 238
 
 nodeId: 230
-text: You struggle against the webs, but they hold strong. "My children are numerous and can easily subdue any knight in your weak disgusting kingdom." She steps closer. You feel small bites upon your flesh as the spiders race about! (-1 HP)
+text: (Lost 1 HP) You struggle against the webs, but they hold strong. "My children are numerous and can easily subdue any knight in your weak disgusting kingdom." She steps closer. You feel small bites upon your flesh as the spiders race about!
 options: 1
 text: *Try to break free!* (STR)
 destId: 231
@@ -604,7 +603,7 @@ text: "Did you truly think your flimsy webs could contain ME?!"
 destId: 238
 
 nodeId: 233
-text: You try again, but the webs stay taut. "My webs will cover your fields, your castle walls will become my playground, a wonderland of sticky silk." You feel more bites, your vision begins to darken. The Queen stares into your eyes, her face inches from your own. (-1 HP)
+text: (Lost 1 HP) You try again, but the webs stay taut. "My webs will cover your fields, your castle walls will become my playground, a wonderland of sticky silk." You feel more bites, your vision begins to darken. The Queen stares into your eyes, her face inches from your own.
 options: 1
 text: *Try to break free!* (STR)
 destId: 234
@@ -624,7 +623,7 @@ text: "Did you truly think your flimsy webs could contain ME?!"
 destId: 238
 
 nodeId: 236
-text: "Why do you struggle? Would you not rather have the honor of being the first victim of my crusade? This will be over soon enough. Best you relax and savor these final moments." She unhinges her jaw. (-1 HP)
+text: (Lost 1 HP) "Why do you struggle? Would you not rather have the honor of being the first victim of my crusade? This will be over soon enough. Best you relax and savor these final moments." She unhinges her jaw. 
 options: 1
 text: "This is it..."
 destId: 237
@@ -636,7 +635,7 @@ text: "Did you truly think your flimsy webs could contain ME?!"
 destId: 238
 
 nodeId: 238
-text: You shake of the last of the webbing, preparing to fight.
+text: You shake off the last of the webbing, preparing to fight.
 options: 1
 text: "For QUEEN and country!" (Battle!)
 destId: 239
@@ -668,7 +667,7 @@ text: "you're next."
 destId: 243
 
 nodeId: 243
-text: CONGRATULATIONS! Thank you for playing The Warrior of Frozenbottom Caves, Chapter 1: The Forest!
+text: CONGRATULATIONS! Thank you for playing The Warrior of Frozenbottom Caves, Act 1: Spirit Woods!
 options: 1
 text: "Huzzah!"
 destId: -1
@@ -706,15 +705,15 @@ text: The creature on the right holds a biscuit with a piece of toffee in the ce
 destId: 117
 
 nodeId: 115
-text: You take the cherry biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The cherry tastes sweet and refreshing!
+text: (FULL HEAL) You take the cherry biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The cherry tastes sweet and refreshing!
 options: 1
-text: "Thank you, little ones!" (FULL HEAL)
+text: "Thank you, little ones!" 
 destId: 119
 
 nodeId: 116
-text: You take the chocolate biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The chocolate tastes bitter and and leaves a putrid after taste!
+text: (Lost 10 HP) You take the chocolate biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The chocolate tastes bitter and and leaves a putrid after taste!
 options: 1
-text: "YUCK!" You spit out what you can. (-10 HP)
+text: "YUCK!" You spit out what you can. 
 destId: 120
 
 nodeId: 117
@@ -730,15 +729,15 @@ text: Onward to dreamless and eternal slumber.
 destId: -1
 
 nodeId: 119
-text: The creatures scatter into the trees, leaving only their giggles behind.
+text: (Gained Cherry Pit) The creatures scatter into the trees, leaving only their giggles behind.
 options: 1
-text: "Onward to the river. With luck, I'll meet these tiny creatures again!" (Gained a Cherry Pit)
+text: "Onward to the river. With luck, I'll meet these tiny creatures again!" 
 destId: 252
 
 nodeId: 120
-text: The creatures scatter into the trees, leaving only their giggles behind.
+text: (Gained Half Chewed Chocolate) The creatures scatter into the trees, leaving only their giggles behind.
 options: 1
-text: "Onward to the river... Hopefully that's the last I'll see of those nasty tricksters!" (Gained Half Chewed Chocolate)
+text: "Onward to the river... Hopefully that's the last I'll see of those nasty tricksters!" 
 destId: 253
 
 nodeId: 110
@@ -829,9 +828,9 @@ text: Move to the far side of the river.
 destId: 135
 
 nodeId: 128
-text: You sure your footing and brace yourself for impact. The wave breaks against your armor, crashing around you. Your stance wavers and you're swept away like a fish in a fast moving river!
+text: (Lost 2 HP) You sure your footing and brace yourself for impact. The wave breaks against your armor, crashing around you. Your stance wavers and you're swept away like a fish in a fast moving river!
 options: 1
-text: *Gurgle!* (-2 HP)
+text: *Gurgle!* 
 destId: 151
 
 nodeId: 129
@@ -849,9 +848,9 @@ text: Catch your breath.
 destId: 135
 
 nodeId: 131
-text: You trudge through the water heavily despite your efforts. The wall of water closes quickly and sweeps you away!
+text: (Lost 2 HP) You trudge through the water heavily despite your efforts. The wall of water closes quickly and sweeps you away!
 options: 1
-text: *Gurgle!* (-2 HP)
+text: *Gurgle!* 
 destId: 151
 
 nodeId: 132
@@ -869,9 +868,9 @@ text: You surface for air and move to the far side of the river.
 destId: 135
 
 nodeId: 134
-text: You dive underwater, but you hadn't planned further than this! You are swept away beneath the wave like a kite in a storm!
+text: (Lost 2 HP) You dive underwater, but you hadn't planned further than this! You are swept away beneath the wave like a kite in a storm!
 options: 1
-text: *Gurgle!* (-2 HP)
+text: *Gurgle!* 
 destId: 151
 
 nodeId: 151
@@ -886,7 +885,7 @@ text: You briefly take in your surroundings and notice a comfortable looking stu
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 153
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 154
 text: Continue without resting.
 destId: 155
@@ -898,7 +897,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 155
 
 nodeId: 154
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 155
@@ -921,7 +920,7 @@ text: You briefly take in your surroundings and notice a comfortable looking stu
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 137
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 138
 text: Continue without resting.
 destId: 139
@@ -933,7 +932,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 139
 
 nodeId: 138
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 139
@@ -979,7 +978,7 @@ text: "Gahhhhhhh!"
 destId: -1
 
 nodeId: 145
-text: You chuck the cherry pit with all your might! It knocks the spider from the goblins back. The spider rears its head and hisses in your direction as the goblins scamper away into the woods.
+text: (Lost Cherry Pit) You chuck the cherry pit with all your might! It knocks the spider from the goblins back. The spider rears its head and hisses in your direction as the goblins scamper away into the woods.
 options: 1
 text: "Ah!" (Battle!)
 destId: 146
@@ -1168,15 +1167,15 @@ text: FAILURE
 destId: 247
 
 nodeId: 246
-text: You duck just in time before the crow strikes you. As it flies overhead, an acorn falls to your feet. The crow must have dropped this. You pocket the acorn.
+text: (Gained Acorn) You duck just in time before the crow strikes you. As it flies overhead, an acorn falls to your feet. The crow must have dropped this. You pocket the acorn.
 options: 1
-text: "Thank you!"  You move forward feeling very wise. (Gain Acorn)
+text: "Thank you!"  You move forward feeling very wise. 
 destId: 33
 
 nodeId: 247
-text: You are caught off guard by this quarrelsome crow! It pecks and claws at you before taking its leave.
+text: (Lost 4 HP) You are caught off guard by this quarrelsome crow! It pecks and claws at you before taking its leave.
 options: 1
-text: "And don't come back!" (-4 HP)
+text: "And don't come back!" 
 destId: 254
 
 nodeId: 32
@@ -1212,9 +1211,9 @@ text: "No problem! I can float across easily with what I have!"
 destId: 37
 
 nodeId: 36
-text: The crow drops the twine to catch the acorn midair. With the twine, you tie all of the driftwood together into a satisfyingly sturdy raft. You keep one piece as a paddle.
+text: (Lost Acorn) The crow drops the twine to catch the acorn midair. With the twine, you tie all of the driftwood together into a satisfyingly sturdy raft. You keep one piece as a paddle.
 options: 1
-text: "Away I go! "
+text: "Away I go!"
 destId: 38
 
 nodeId: 37
@@ -1230,9 +1229,9 @@ text: "For King and country!"
 destId: 40
 
 nodeId: 39
-text: You hang onto the loose driftwood as best you can, losing a few branches and a little honor when colliding with rocks sticking out of the water.
+text: (Lost 2 HP) You hang onto the loose driftwood as best you can, losing a few branches and a little honor when colliding with rocks sticking out of the water.
 options: 1
-text: "'Gah!" (-2 HP)
+text: "'Gah!" 
 destId: 41
 
 nodeId : 40
@@ -1276,9 +1275,9 @@ text: "With berries and blades, the shinier, the deadlier! Best to pick from thi
 destId: 67
 
 nodeId: 46
-text: Searching through the bushes, you pick a handful of bright red berries. The taste is surprisingly sour.
+text: (Lost 2 HP) Searching through the bushes, you pick a handful of bright red berries. The taste is surprisingly sour.
 options: 1
-text: "I don't feel so good." (-2 HP)
+text: "I don't feel so good." 
 destId: 67
 
 # STUMP SAVE SPOT
@@ -1287,7 +1286,7 @@ text: A short distance from the berries, you spot a comfortable looking stump to
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 68
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 69
 text: Continue without resting.
 destId: 47
@@ -1299,7 +1298,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 47
 
 nodeId: 69
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 47
@@ -1384,9 +1383,9 @@ text: I must kill him to save countless villages.
 destId: 60
 
 nodeId: 60
-text: You strut right up to the muscled figure. "I am Sir Rancelot of Rockside Castle and you are in my way! Prepare yourself for an honorable death, bridgand!" You backhand the bandit leader with your gauntlet.
+text: You strut right up to the muscled figure. "I am Sir Rancelot of Rockside Castle and you are in my way! Prepare yourself for an honorable death, brigand!" You backhand the bandit leader with your gauntlet.
 options: 1
-text: He turns his head slowly back to you his face flushed red with rage.
+text: He turns his head slowly back to you, his face flushed red with rage.
 destId: 61
 
 nodeId: 61
@@ -1433,9 +1432,9 @@ text: "Uh oh..."
 destId: -1
 
 nodeId: 76
-text: You shout at the top of your lungs "Shame on you! A life of banditry? You're better than that!" The bandits look guilty. One approaches you and hands you a bundle of goods. "Sorry..." he mutters as he sulks away.
+text: (Gained Stolen Goods) You shout at the top of your lungs "Shame on you! A life of banditry? You're better than that!" The bandits look guilty. One approaches you and hands you a bundle of goods. "Sorry..." he mutters as he sulks away.
 options: 1
-text: "Think long and hard about what you've done." (Gain Stolen Goods)
+text: "Think long and hard about what you've done." 
 destId: 66
 
 nodeId: 77
@@ -1462,7 +1461,7 @@ text: Not far from the encampment, you find a comfortable looking stump to rest 
 options: 3
 text: Rest. (+5 HP and Save Progress)
 destId: 72
-text: Rest and eat provisions. (+10 HP and Save Progress) (-1 Provision)
+text: Rest and eat provisions. (Lose 1 Provision) (+10 HP and Save Progress)
 destId: 73
 text: Continue without resting.
 destId: 70
@@ -1474,7 +1473,7 @@ text: "Ah, sitting. The standing of laying."
 destId: 70
 
 nodeId: 73
-text: You finish your meal and get up.
+text: (Lost 1 Provision) You finish your meal and get up.
 options: 1
 text: "That hit the spot!"
 destId: 70
@@ -1516,15 +1515,15 @@ text: "Huzzah!"
 destId: 83
 
 nodeId: 82
-text: You reach around the log and heave with all your might. It begins to lift from the ground gradually at first, but then you feel a twist in your back, and you drop the log. "OOF" The gnome's arms stop flailing.
+text: (Lost 2 HP) You reach around the log and heave with all your might. It begins to lift from the ground gradually at first, but then you feel a twist in your back, and you drop the log. "OOF" The gnome's arms stop flailing.
 options: 1
-text: "Out of its misery then! My back though..." (-2 HP)
+text: "Out of its misery then! My back though..." 
 destId: 84
 
 nodeId: 83
-text: The gnome pipes up in a tiny voice. "Thank you thank you, human! If you hadn't have come along, who knows how long I would be stuck under that log. Thanks to that damn gnoll! Take this magic mushroom as my thanks!"
+text: (+5 HP) The gnome pipes up in a tiny voice. "Thank you thank you, human! If you hadn't have come along, who knows how long I would be stuck under that log. Thanks to that damn gnoll! Take this magic mushroom as my thanks!"
 options: 1
-text: "Of course, I am a hero after all! Me, Sir Rancelot of Rockside Castle!" You eat the mushroom. (+5 HP)
+text: "Of course, I am a hero after all! Me, Sir Rancelot of Rockside Castle!" You eat the mushroom. 
 destId: 84
 
 nodeId: 84
@@ -1550,21 +1549,21 @@ text: "Bandits took all my precious goods! My tools, my grain, my gold!"
 options: 3
 text: "Are these your goods?" (Lose Stolen Goods)
 destId: 88
-text: "Maybe this can help you rebuild." (-5 Gold)
+text: "Maybe this can help you rebuild." (Lose 5 Gold)
 destId: 248
 text: "I can't help you with that! Good luck!"
 destId: 89
 
 nodeId: 88
-text: "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
+text: (Lost Stolen Goods) (Gained Rusty Helmet) "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
 options: 1
-text: One more victory under my belt! And under this helmet as well!" (Gain Rusty Helmet)
+text: One more victory under my belt! And under this helmet as well!" 
 destId: 249
 
 nodeId: 248
-text: "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
+text: (Lost 5 Gold) (Gained Rusty Helmet) "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
 options: 1
-text: One more victory under my belt! And under this helmet as well!" (Gain Rusty Helmet)
+text: "One more victory under my belt! And under this helmet as well!" 
 destId: 249
 
 nodeId: 89
@@ -1654,9 +1653,9 @@ text: "GAH!"
 destId: 100
 
 nodeId: 100
-text: The spider bites you and scurries away.
+text: (Lost 5 HP) The spider bites you and scurries away.
 options: 1
-text: "OUCH!" (-5 HP)
+text: "OUCH!" 
 destId: 104
 
 nodeId: 101
@@ -1672,9 +1671,9 @@ text: "What do we have here?"
 destId: 103
 
 nodeId: 103
-text: Dropping the log to the side, you unearth a shiny and sturdy shield with a tower emblazoned upon its face.
+text: (Gained Tower Shield) Dropping the log to the side, you unearth a shiny and sturdy shield with a tower emblazoned upon its face.
 options: 1
-text: "This shall aid me in my quest!" (Gain Tower Shield)
+text: "This shall aid me in my quest!" 
 destId: 104
 
 nodeId: 104

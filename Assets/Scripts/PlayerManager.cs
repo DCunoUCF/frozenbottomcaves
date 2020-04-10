@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     public string characterName;
     public string characterNameClone;
     public GameObject player;
-    public bool characterSelected, characterFoundOW, inOptions, PLAYERDEAD;
+    public bool characterSelected, characterFoundOW, inOptions, PLAYERDEAD, SAVED;
 
     // Inventory stuff
     public Canvas inventoryCanvas;
@@ -145,7 +145,7 @@ public class PlayerManager : MonoBehaviour
         inCombat = true;
         pc.enterCombat();
         pc.setHighlights();
-
+        sb.updateButtons(pc.cooldowns);
         HM = GameObject.Find("Highlights");
         HM.transform.SetParent(this.gm.transform);
         HMScript = (HighlightManager)HM.GetComponent("HighlightManager");
@@ -171,15 +171,12 @@ public class PlayerManager : MonoBehaviour
         pc.inventory = inventory;
         pc.inventory.updateStats(pc);
         pc.inventory.addItem(Item.ItemType.Resurrection, 3);
-        pc.inventory.addItem(Item.ItemType.Gold, 25);
-        pc.inventory.addItem(Item.ItemType.Provisions, 20);
-       
-        pc.inventory.addItem(Item.ItemType.HalfChewedChocolate, 1);
-        pc.inventory.removeItem(Item.ItemType.HalfChewedChocolate, 1);
+        pc.inventory.addItem(Item.ItemType.Gold, 10);
+        pc.inventory.addItem(Item.ItemType.Provisions, 3);
 
         inventoryUI.gameObject.SetActive(false);
 
-        
+
 
         // Setup battle overlay
         battleCanvas = GameObject.Find("BattleCanvas");
@@ -287,8 +284,18 @@ public class PlayerManager : MonoBehaviour
         if (this.isTurn)
         {
             clearHighlights();
-            this.combatInfo.movTar = pos[0];
-            this.combatInfo.atkTar = pos;
+            // Check if move, movTar is 0 vector if not moving
+            if (this.combatInfo.attack == -1)
+                this.combatInfo.movTar = pos[0];
+            else
+                this.combatInfo.movTar = new Vector3(0,0,0);
+
+            // Check if attack, atkTar is null if not attacking
+            if (this.combatInfo.attack >= 0)
+                this.combatInfo.atkTar = pos;
+            else
+                this.combatInfo.atkTar = null;
+
             this.isTurn = false;
             this.selectingSkill = true;
             pc.setCD(skillNumber, tempCD);
@@ -446,7 +453,11 @@ public class PlayerManager : MonoBehaviour
         pc.takeDamage(i);
         phb.updateHealthBar(pc.health);
         if (pc.health <= 0)
+        {
             PLAYERDEAD = true;
+            //this.gm.sm.playLoseJingle();
+
+        }
     }
 
     public void setHealthEvent(int i)
@@ -454,7 +465,10 @@ public class PlayerManager : MonoBehaviour
         pc.setHealthEvent(i);
         phb.updateHealthBar(pc.health);
         if (pc.health <= 0)
+        {
             PLAYERDEAD = true;
+            //this.gm.sm.playLoseJingle();
+        }
     }
     public void maxHealthEvent(int i)
     {
@@ -481,6 +495,8 @@ public class PlayerManager : MonoBehaviour
             clone.stats[i] = pc.stats[i];
 
         this.save = clone;
+
+        this.SAVED = true;
 
         print("Save successful?");
     }

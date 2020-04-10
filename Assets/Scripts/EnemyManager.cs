@@ -89,6 +89,7 @@ public class EnemyManager// : MonoBehaviour
             if (decision == 1)
             {
                 e.movTar = comp.getMoveVector();
+                e.atkTar = null;
                 e.move = true;
                 e.attack = -999;
             }
@@ -98,6 +99,7 @@ public class EnemyManager// : MonoBehaviour
                 e.attack = 1;
                 e.attackDmg = comp.getDamage();
                 e.atkTar = comp.getAttackVector();
+                e.movTar = new Vector3();
             }
         }
 

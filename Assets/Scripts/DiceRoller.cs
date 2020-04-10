@@ -86,6 +86,7 @@ public class DiceRoller : MonoBehaviour
         Debug.Log(finalSide);
         final = finalSide;
         b.interactable = false;
+        this.clicked = false;
         yield break;
     }
 }

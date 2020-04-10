@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
 
         this.sm.setAudioChannels(this.gameMusicChannel, this.gameEffectChannel);
 
+        this.sm.updateFromSaveData();
+
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("GM"))
         {
             if (this.myId != g.GetComponent<GameManager>().whatsMyId())
@@ -71,7 +73,7 @@ public class GameManager : MonoBehaviour
             this.gameMusicChannel = this.gameObject.AddComponent<AudioSource>();
             this.sm.setMusicChannel(this.gameMusicChannel);
         }
-        
+
         if (this.gameEffectChannel == null)
         {
             this.gameEffectChannel = this.gameObject.AddComponent<AudioSource>();
@@ -100,45 +102,35 @@ public class GameManager : MonoBehaviour
             {
                 if (this.battleResolvedCheck)
                 {
-                    string splash;
+                    string splash = "";
                     bool won = false;
+
                     if (this.bm.didWeWinTheBattle())
                     {
                         splash = "WinSplash";
                         won = true;
-                    }
-                    else
-                    { 
-                        splash = "LoseSplash";
                     }
 
                     if (splash == "WinSplash")
                     {
                         this.sm.playWinJingle();
                     }
-                    else
-                    {
-                        this.sm.playLoseJingle();
-                    }
 
                     if (!SceneManager.GetSceneByName(splash).IsValid())
                     {
-                        this.om.dm.setUninteractable();
-                        SceneManager.LoadScene(splash, LoadSceneMode.Additive);
-                        StartCoroutine(setReturnRestartActive(splash, won));
-                    }
-
-                    if (splash == "LoseSplash")
-                    {
-                        this.pm.combatInitialized = false;
-                        this.pm.inCombat = false;
-                        StartCoroutine(disableLoad());
+                        if (splash == "WinSplash")
+                        {
+                            this.om.dm.setUninteractable();
+                            SceneManager.LoadScene(splash, LoadSceneMode.Additive);
+                            StartCoroutine(setReturnRestartActive(splash, won));
+                        }
                     }
 
                     this.panic = true;
                     this.battleResolvedCheck = false;
-                    this.bm = null;
+                    //this.bm = null;
                     this.battleLogicComplete = true;
+                    this.om.dontKillBMYet = false;
                 }
             }
         }
@@ -164,6 +156,9 @@ public class GameManager : MonoBehaviour
             splashUp = true;
             this.pm.combatInitialized = false;
             this.pm.inCombat = false;
+
+            this.sm.playLoseJingle();
+
             SceneManager.LoadScene("LoseSplash", LoadSceneMode.Additive);
             StartCoroutine(disableLoad());
         }
@@ -183,7 +178,7 @@ public class GameManager : MonoBehaviour
     IEnumerator disableLoad()
     {
         yield return new WaitForSeconds(.1f);
-        if (this.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null)
+        if (this.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null || !this.pm.SAVED)
         {
             print("NO RES LEFT");
             GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
