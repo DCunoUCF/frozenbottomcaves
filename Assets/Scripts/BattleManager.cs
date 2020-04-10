@@ -562,10 +562,6 @@ public class BattleManager : MonoBehaviour
 
         GameObject tile, tileFill;
         List<GameObject> atkTars = new List<GameObject>();
-        if (c.move)
-            turnEntity(c.entity, c.movTar);
-        else
-            turnEntity(c.entity, c.atkTar[0]);
 
         if (c.entity == player)
         {
@@ -589,6 +585,7 @@ public class BattleManager : MonoBehaviour
         int i = 0;
         foreach(Vector3 v in attacks)
         {
+            turnEntity(c.entity, c.atkTar[i]);
             GameObject tileTemp = Instantiate(tileFill, c.atkTar[i++], Quaternion.identity);
             while (c.entity.transform.position != v)
             {
@@ -627,12 +624,10 @@ public class BattleManager : MonoBehaviour
         // Pop all the entities with <= 0 HP
         for (int i = combatantList.Count - 1; i >= 0; i--)
         {
-            if (combatantList[i].entity == player)
-                // pull player hp
-
             if (combatantList[i].hp <= 0)
             {
-                combatantList[i].entity.SetActive(false);
+                print("Removing entity: " + combatantList[i].entity);
+                Destroy(combatantList[i].entity);
                 combatantList.RemoveAt(i);
             }
         }
