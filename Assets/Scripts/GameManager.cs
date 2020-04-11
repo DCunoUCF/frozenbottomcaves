@@ -19,7 +19,9 @@ public class GameManager : MonoBehaviour
     private bool panic;
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
-    public bool splashUp;
+    public bool splashUp, quitUp, jingle;
+    public bool showHPbars;
+    public HashSet<GameObject> inactiveObjects;
 
     public int whatsMyId()
     {
@@ -29,8 +31,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 1;
+        //Application.targetFrameRate = 60;
         // Can't create this from the start because it relies on objects in the Arena Scene
         // this.bm = this.gameObject.AddComponent<BattleManager>();
         this.bm = null;
@@ -38,7 +40,8 @@ public class GameManager : MonoBehaviour
         this.battleResolvedCheck = false;
         this.battleLogicComplete = false;
         this.currentScene = SceneManager.GetActiveScene().name;
-
+        this.showHPbars = true;
+        inactiveObjects = new HashSet<GameObject>();
         this.sm = this.gameObject.AddComponent<SoundManager>();
         this.om = this.gameObject.AddComponent<OverworldManager>();
         this.pm = this.gameObject.AddComponent<PlayerManager>();
@@ -68,6 +71,38 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!this.showHPbars)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("enemyHPBars"))
+            {
+                inactiveObjects.Add(g);
+                g.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("enemyHPBars"))
+            {
+                g.SetActive(true);
+            }
+            foreach (GameObject g in inactiveObjects)
+            {
+                if (g != null)
+                    g.SetActive(true);
+            }
+        }
+
+        if (this.om.playerSpawned)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (!quitUp)
+                    ButtonOverlay.Instance.quit.onClick.Invoke();
+                else
+                    GameObject.Find("ReturnToGame").GetComponent<Button>().onClick.Invoke();
+            }
+        }
+
         if (this.gameMusicChannel == null)
         {
             this.gameMusicChannel = this.gameObject.AddComponent<AudioSource>();
@@ -95,6 +130,7 @@ public class GameManager : MonoBehaviour
             if (this.bm == null && !this.battleLogicComplete && GameObject.Find("BattleManager") != null)
             {
                 print(GameObject.Find("BattleManager"));
+                this.jingle = false;
                 this.bm = GameObject.Find("BattleManager").GetComponent<BattleManager>();
             }
 
@@ -111,16 +147,18 @@ public class GameManager : MonoBehaviour
                         won = true;
                     }
 
-                    if (splash == "WinSplash")
-                    {
-                        this.sm.playWinJingle();
-                    }
+                    //if (splash == "WinSplash")
+                    //{
+                    //    this.sm.playWinJingle();
+                    //}
 
                     if (!SceneManager.GetSceneByName(splash).IsValid())
                     {
-                        if (splash == "WinSplash")
+                        if (splash == "WinSplash" && !jingle)
                         {
+                            jingle = true;
                             this.om.dm.setUninteractable();
+                            this.sm.playWinJingle();
                             SceneManager.LoadScene(splash, LoadSceneMode.Additive);
                             StartCoroutine(setReturnRestartActive(splash, won));
                         }
@@ -158,16 +196,17 @@ public class GameManager : MonoBehaviour
             this.pm.inCombat = false;
 
             this.sm.playLoseJingle();
-
             SceneManager.LoadScene("LoseSplash", LoadSceneMode.Additive);
             StartCoroutine(disableLoad());
         }
 
-        if (Input.GetButtonDown("Cancel"))
-        {
-            // SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-            Application.Quit();
-        }
+
+        //if (Input.GetButtonDown("Cancel"))
+        //{
+        //    // SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            
+        //    Application.Quit();
+        //}
     }
 
     public void setBM(BattleManager bm)

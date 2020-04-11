@@ -28,13 +28,14 @@ public class Database
            new Item(Item.ItemType.CherryPit,"Cherry Pit",false),
            new Item(Item.ItemType.HalfChewedChocolate,"Half-Chewed Chocolate",false),
            new Item(Item.ItemType.TowerShield,"Tower Shield",false,3,"MAXHP"),
-           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet",false,-2,"MAXHP")
+           new Item(Item.ItemType.RustyHelmet,"Rusty Helmet",false,-2,"MAXHP"),
+           new Item(Item.ItemType.StolenGoods,"Stolen Goods",false)
         };
     }
 
     public Item getItem(Item.ItemType item)
     {
-        foreach(Item tempItem in items)
+        foreach (Item tempItem in items)
         {
             if (tempItem.item == item)
                 return tempItem;
@@ -45,7 +46,7 @@ public class Database
 
     public Weapon getWeapon(Weapon.WeaponType weapon)
     {
-        foreach(Weapon tempWeapon in weapons)
+        foreach (Weapon tempWeapon in weapons)
         {
             if (tempWeapon.weapon == weapon)
                 return tempWeapon;

@@ -3,17 +3,27 @@
 # destId of -1 will trigger the program to end when user presses 1 to Exit
 
 nodeId : 0 
-text : "You come across a glowing stone"
+text : "You come across a glowing stone man"
+event:HP
+effect:5
 options : 3
 text : "Smash the stone"
+itemReq: Acorn
+itemReqAmount:1
 destId : 1
 text : "You pocket the stone"
+itemReq: Sword
+itemReqAmount:5
 destId : 2
 text : "Walk away from the stone"
 destId : 3
 
 nodeId : 1
 text : "You die"
+numEnemies:3
+enemyType: Goblin
+enemyType: Jelly
+enemyType: BlueJelly
 options : 1
 text : "Exit"
 destId : -1 

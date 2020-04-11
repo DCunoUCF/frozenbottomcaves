@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 // using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.Tilemaps;
+using System.Drawing;
 
 public class OverworldManager : MonoBehaviour
 {
@@ -25,20 +26,34 @@ public class OverworldManager : MonoBehaviour
     public DiceRoller dr1, dr2;
     public bool updating;
     private overworldAnimations oa;
+    public bool[,] pathingGrid;
+    private Dictionary<Vector3, List<int>> nodeMap; // V3 associated with list of nodes there
+    private Dictionary<int, Point> pathMap;  // NodeID associated with x,y coord in pathfinding array
+    private Dictionary<Point, Vector3> pointToVector; // Each point gets a Vector3
+    private int playerX, playerY;
+    GameObject cam;
 
     public int startingNode;
     public List<GameObject> nodes;
     public int playerNodeId;
+    public DialogueNode curDialogueNode;
+    public List<FlagType> overworldEvent;
+    public List<int> overworldEventEffect;
+    public List<Item.ItemType> overworldEventItemGained;
+    public List<int> overworldEventItemGainedAmount;
+    public List<Item.ItemType> overworldEventItemLost;
+    public List<int> overworldEventItemLostAmount;
+    public int overworldEventSkillCheckDifficulty;
     public int nodeTypeCount;
     public bool load;
     public List<int> nodeSavedAt;
     public bool dontKillBMYet = false;
 
-    public int saveNode, saveNodeTypeCount, saveCurrentNode, facing;
+    public int saveNode, saveNodeTypeCount, saveCurrentNode, facing, saveX, saveY;
 
     private Vector3 destPos;
-    private float speed = .20f, startTime, journeyLength;
-    private bool destReached;
+    //private float speed = .20f, startTime, journeyLength;
+    //private bool destReached;
 
     WorldNode curNode;
 
@@ -54,9 +69,18 @@ public class OverworldManager : MonoBehaviour
         this.oa.om = this;
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        destReached = true;
+        //destReached = true;
         startingNode = 0;
         nodeSavedAt = new List<int>();
+        nodeMap = new Dictionary<Vector3, List<int>>();
+        pathMap = new Dictionary<int, Point>();
+        pointToVector = new Dictionary<Point, Vector3>();
+        this.overworldEvent = new List<FlagType>();
+        this.overworldEventEffect = new List<int>();
+        this.overworldEventItemGained = new List<Item.ItemType>();
+        this.overworldEventItemGainedAmount = new List<int>();
+        this.overworldEventItemLost = new List<Item.ItemType>();
+        this.overworldEventItemLostAmount = new List<int>();
     }
 
     // Update is called once per frame
@@ -75,6 +99,7 @@ public class OverworldManager : MonoBehaviour
 	        foreach (GameObject n in GameObject.FindGameObjectsWithTag("OWNode"))
 	        {
 	        	nodes.Add(n);
+                nodeMap.Add(n.transform.position, n.GetComponent<WorldNode>().NodeIDs);
 	        }
 
             GameObject tile = GameObject.Find("OverworldTilemap");
@@ -85,11 +110,12 @@ public class OverworldManager : MonoBehaviour
             print("x: " + (Mathf.Abs(bounds.x) + bounds.xMax) + " y: " + (Mathf.Abs(bounds.y) + bounds.yMax));
 
             spawnPlayer();
+            generatePathingGrid();
         }
 
-        if (playerSpawned)
-            if (this.dm.currentNode == -1)
-                this.HPEvent(-(this.gm.pm.pc.health));
+        //if (playerSpawned)
+        //    if (this.dm.currentNode == -1)
+        //        this.HPEvent(-(this.gm.pm.pc.health));
 
         // Creates save at node 0
         if (playerSpawned && !initialSave)
@@ -106,6 +132,7 @@ public class OverworldManager : MonoBehaviour
                 this.saveNodeTypeCount = 0;
                 this.saveCurrentNode = 0;
 
+
                 // Save direction they're facing
                 if (player.transform.GetChild(0).gameObject.activeSelf)
                     facing = 0;
@@ -119,7 +146,7 @@ public class OverworldManager : MonoBehaviour
             }
         }
 
-        if (!updating && playerSpawned)
+        if (!updating && playerSpawned && !this.gm.pm.PLAYERDEAD)
         {
             updating = true;
             StartCoroutine(overworldUpdate());
@@ -163,107 +190,236 @@ public class OverworldManager : MonoBehaviour
         // If there is some sort of animation/sfx to play do it here
         yield return StartCoroutine(this.oa.events(this.dm.currentNode));
 
+        if (this.dm.currentNode == -1)
+        { 
+            this.HPEvent(-(this.gm.pm.pc.health));
+            yield break;
+        }
+
         // If the node position is not where the player is, move to it
         if (player.transform.position != n.physNode.transform.position)
         {
-            print("Lets move");
-            yield return StartCoroutine(moveToDest(n.physNode.transform.position));
+            print(playerX + " " + playerY);
+            List<Point> movementPoints = BFS.bfsPath(this.pathingGrid, new Point(playerX, playerY), pathMap[this.dm.currentNode]);
+            foreach (Point p in movementPoints)
+            {
+                print(p);
+            }
+
+            for (int i = movementPoints.Count - 1; i >= 0; i--)
+            {
+                yield return StartCoroutine(slerpTest(pointToVector[movementPoints[i]]));
+
+                playerX = movementPoints[i].X;
+                playerY = movementPoints[i].Y;
+            }
+            yield return new WaitForSeconds(.7f);
         }
+
+        //if (player.transform.position != n.physNode.transform.position)
+        //{
+
+        //    List<Point> movementPoints = BFS.bfsPath(this.pathingGrid, new Point(playerX, playerY), pathMap[this.dm.currentNode]);
+        //    foreach (Point p in movementPoints)
+        //    {
+        //        print(p);
+        //    }
+
+        //    for (int i = movementPoints.Count - 1; i >= 0; i--)
+        //    {
+        //        yield return StartCoroutine(moveToDest(pointToVector[movementPoints[i]]));
+        //        playerX = movementPoints[i].X;
+        //        playerY = movementPoints[i].Y;
+        //    }
+        //}
+
+        //while (cam.transform.position.x != player.transform.position.x && cam.transform.position.y != player.transform.position.y)
+        //{
+        //    yield return null;
+        //}
+
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
+        this.curDialogueNode = this.dm.dialogue.nodes[this.playerNodeId];
+
+        // Event conversion from string to FlagType
+        print("This event list: " + this.curDialogueNode.overworldEvent);
+
+        if (this.curDialogueNode.overworldEvent.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.overworldEvent.Count; i++)
+                if (this.curDialogueNode.overworldEvent[i] != "")
+                {
+                    print("This event: " + this.curDialogueNode.overworldEvent[i]);
+                    this.overworldEvent.Add((FlagType)FlagType.Parse(typeof(FlagType), this.curDialogueNode.overworldEvent[i], true));
+                }
+                else
+                    this.overworldEvent.Add(FlagType.NONE);
+
+        // Items Gained conversion from string to Item.ItemType Enum
+        if (this.curDialogueNode.itemGained.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
+                if (this.curDialogueNode.itemGained[i] != "")
+                {
+                    print("This Item Gained: " + this.curDialogueNode.itemGained[i]);
+                    this.overworldEventItemGained.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemGained[i], true));
+                }
+                else
+                    this.overworldEventItemGained.Add(Item.ItemType.NONE);
+
+        // Item Gained Amount
+        if (this.curDialogueNode.itemGained.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
+            {
+                    print("This Item Gained Amount: " + this.curDialogueNode.itemGainedAmount[i]);
+                    this.overworldEventItemGainedAmount.Add(this.curDialogueNode.itemGainedAmount[i]);
+            }
+
+        // Items Lost conversion from string to Item.ItemType Enum
+        if (this.curDialogueNode.itemLost.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemLost.Count; i++)
+                if (this.curDialogueNode.itemLost[i] != "")
+                {
+                    print("This Item Lost: " + this.curDialogueNode.itemLost[i]);
+                    this.overworldEventItemLost.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemLost[i], true));
+                }
+                else
+                    this.overworldEventItemLost.Add(Item.ItemType.NONE);
+
+        // Item Lost Amount
+        if (this.curDialogueNode.itemLostAmount.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemLostAmount.Count; i++)
+            {
+                print("This Item Gained Amount: " + this.curDialogueNode.itemLostAmount[i]);
+                this.overworldEventItemLostAmount.Add(this.curDialogueNode.itemLostAmount[i]);
+            }
+
+        this.overworldEventEffect = this.curDialogueNode.effect;
+        this.overworldEventSkillCheckDifficulty = this.curDialogueNode.skillCheckDifficulty;
+
+
         this.dm.Panel.SetActive(true);
         this.dm.setInitialSelection();
 
-        if (n.curNode.NodeTypes[n.count] == FlagType.Battle)
+        // If no events
+        if (this.overworldEvent.Count == 0)
         {
-            print("entered combat");
-            yield return StartCoroutine(BattleEvent());
+            this.overworldEvent.Clear();
+            this.overworldEventEffect.Clear();
+            this.overworldEventItemGained.Clear();
+            this.overworldEventItemGainedAmount.Clear();
+            this.overworldEventItemLost.Clear();
+            this.overworldEventItemLostAmount.Clear();
+            updating = false;
+            yield break;
         }
 
-        if (n.curNode.NodeTypes[n.count] == FlagType.STREvent)
+        for (int i = 0; i < this.overworldEvent.Count; i++)
         {
-            print("entered str event");
-            this.dm.putCanvasBehind();
-            yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
-            this.dm.putCanvasInFront();
-        }
-        if (n.curNode.NodeTypes[n.count] == FlagType.INTEvent)
-        {
-            print("entered int event");
-            this.dm.putCanvasBehind();
-            yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
-            this.dm.putCanvasInFront();
-        }
-        if (n.curNode.NodeTypes[n.count] == FlagType.AGIEvent)
-        {
-            print("entered agi event");
-            this.dm.putCanvasBehind();
-            yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
-            this.dm.putCanvasInFront();
-        }
+            print("Current event: " + this.overworldEvent[i]);
 
-        if (n.curNode.NodeTypes[n.count] == FlagType.HPEvent)
-        {
-            print("Hp event");
-            this.HPEvent(n.curNode.HealthChange[n.count]);
-        }
+            if (this.overworldEvent[i] == FlagType.NONE)
+                continue;
 
-        if (n.curNode.NodeTypes[n.count] == FlagType.Item)
-        {
-            print("Getting item(s)");
-            this.ItemGet(n.curNode.NodeItems[n.count].item, n.curNode.NodeItems[n.count].count);
-        }
-
-        if (n.curNode.NodeTypes[n.count] == FlagType.ItemLose)
-        {
-            print("Losing item(s)");
-            this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
-        }
-
-        if (n.curNode.NodeTypes[n.count] == FlagType.HPMaxEvent)
-        {
-            print("HP MAX event");
-            this.HPMaxEvent(n.curNode.MaxHealthChange[n.count]);
-        }
-
-        if (n.curNode.NodeTypes[n.count] == FlagType.SaveEvent)
-        {
-            if (!nodeSavedAt.Contains(n.curNode.NodeIDs[n.count]))
+            if (this.overworldEvent[i] == FlagType.BATTLE)
             {
-                nodeSavedAt.Add(n.curNode.NodeIDs[n.count]);
+                print("entered combat");
+                yield return StartCoroutine(BattleEvent());
+            }
 
-                // If this save event has the provisions checked, eat one 
-                if (n.curNode.SaveProvisions[n.count])
-                    this.gm.pm.pc.inventory.removeProvision();
-                // Either way heal 5
-                this.HPEvent(5);
+            if (this.overworldEvent[i] == FlagType.STRSKILL)
+            {
+                print("entered str event");
+                this.dm.putCanvasBehind();
+                yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, this.overworldEventSkillCheckDifficulty));
+                this.dm.putCanvasInFront();
+            }
+            if (this.overworldEvent[i] == FlagType.INTSKILL)
+            {
+                print("entered int event");
+                this.dm.putCanvasBehind();
+                yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, this.overworldEventSkillCheckDifficulty));
+                this.dm.putCanvasInFront();
+            }
+            if (this.overworldEvent[i] == FlagType.AGISKILL)
+            {
+                print("entered agi event");
+                this.dm.putCanvasBehind();
+                yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, this.overworldEventSkillCheckDifficulty));
+                this.dm.putCanvasInFront();
+            }
 
-                // Tell the pm to create a deep copy of the current player and inventory
-                this.gm.pm.createSave();
+            if (this.overworldEvent[i] == FlagType.HPCHANGE)
+            {
+                print("Hp event");
+                this.HPEvent(this.overworldEventEffect[i]);
+            }
 
-                // Remember the node information
-                this.saveNode = n.physNodeIndex;
-                this.saveNodeTypeCount = n.count;
-                this.saveCurrentNode = this.dm.currentNode;
+            if (this.overworldEvent[i] == FlagType.ITEMGAINED)
+            {
+                print("Getting item(s)");
+                this.ItemGet(this.overworldEventItemGained[i], this.overworldEventItemGainedAmount[i]);
+            }
 
-                // Save direction they're facing
-                if (player.transform.GetChild(0).gameObject.activeSelf)
-                    facing = 0;
-                else if (player.transform.GetChild(1).gameObject.activeSelf)
-                    facing = 1;
-                else if (player.transform.GetChild(2).gameObject.activeSelf)
-                    facing = 2;
-                else if (player.transform.GetChild(3).gameObject.activeSelf)
-                    facing = 3;
+            if (this.overworldEvent[i] == FlagType.ITEMLOST)
+            {
+                print("Losing item(s)");
+                this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
+            }
+
+            if (this.overworldEvent[i] == FlagType.HPMAXCHANGE)
+            {
+                print("HP MAX event");
+                this.HPMaxEvent(this.overworldEventEffect[i]);
+            }
+
+            if (this.overworldEvent[i] == FlagType.SAVE)
+            {
+                if (!nodeSavedAt.Contains(n.curNode.NodeIDs[n.count]))
+                {
+                    nodeSavedAt.Add(n.curNode.NodeIDs[n.count]);
+
+                    // If this save event has the provisions checked, eat one 
+                    if (this.curDialogueNode.itemLost[i].CompareTo("Provisions") == 0)
+                        this.gm.pm.pc.inventory.removeProvision();
+                    // Either way heal 5
+                    this.HPEvent(5);
+
+                    // Tell the pm to create a deep copy of the current player and inventory
+                    this.gm.pm.createSave();
+
+                    // Remember the node information
+                    this.saveNode = n.physNodeIndex;
+                    this.saveNodeTypeCount = n.count;
+                    this.saveCurrentNode = this.dm.currentNode;
+                    this.saveX = playerX;
+                    this.saveY = playerY;
+
+                    // Save direction they're facing
+                    if (player.transform.GetChild(0).gameObject.activeSelf)
+                        facing = 0;
+                    else if (player.transform.GetChild(1).gameObject.activeSelf)
+                        facing = 1;
+                    else if (player.transform.GetChild(2).gameObject.activeSelf)
+                        facing = 2;
+                    else if (player.transform.GetChild(3).gameObject.activeSelf)
+                        facing = 3;
+                }
             }
         }
+
+        this.overworldEvent.Clear();
+        this.overworldEventEffect.Clear();
+        this.overworldEventItemGained.Clear();
+        this.overworldEventItemGainedAmount.Clear();
+        this.overworldEventItemLost.Clear();
+        this.overworldEventItemLostAmount.Clear();
 
         updating = false;
 
         yield break;
     }
 
-    // Hops on over to the destination node
+    // Slides to destination node at constant speed
     IEnumerator moveToDest(Vector3 dest)
     {
         this.dm.Panel.SetActive(false);
@@ -276,13 +432,55 @@ public class OverworldManager : MonoBehaviour
         yield break;
     }
 
+    // Hops on over to the destination node
+    IEnumerator slerpTest(Vector3 dest)
+    {
+        TurnPlayer(player, dest);
+        Vector3 start = player.transform.position;
+        float startTime = Time.time;
+        float journeyTime = .275f;
+
+        print(start + " end " + dest);
+
+        while (player.transform.position != dest)
+        {
+            Vector3 center = (start + dest) * 0.5f;
+
+            center -= new Vector3(0, .35f, 0);
+
+            Vector3 playerRelCenter = start - center;
+            Vector3 endRelCenter = dest - center;
+
+            float fracComplete = (Time.time - startTime) / journeyTime;
+
+            player.transform.position = Vector3.Slerp(playerRelCenter, endRelCenter, fracComplete);
+            player.transform.position += center;
+
+            yield return null;
+        }
+
+        float randPieceSound = Random.value;
+        if (randPieceSound < 0.25f)
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.pieceLanding1, this.gm.sm.effectsVolume);
+        else if (randPieceSound < 0.5f)
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.pieceLanding2, this.gm.sm.effectsVolume);
+        else if (randPieceSound < 0.75f)
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.pieceLanding3, this.gm.sm.effectsVolume);
+        else
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.pieceLanding4, this.gm.sm.effectsVolume);
+
+        yield break;
+    }
+
     public void loadSave()
     {
         this.gm.pm.loadSave();
         this.dm.currentNode = this.saveCurrentNode;
         this.startingNode = saveNode;
         this.nodeTypeCount = saveNodeTypeCount;
-
+        this.playerX = saveX;
+        this.playerY = saveY;
+        this.playerNodeId = saveCurrentNode;
         this.dm.Panel.SetActive(true);
         this.dm.init();
 
@@ -290,7 +488,9 @@ public class OverworldManager : MonoBehaviour
         this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
                                                      nodes[startingNode].transform.position.y,
                                                      nodes[startingNode].transform.position.z);
-        movePlayer();
+        //movePlayer();
+        cam.transform.position = this.player.transform.position + new Vector3(0,0,-10);
+        
         for (int i = 0; i < 4; i++)
         {
             if (i == facing)
@@ -300,14 +500,16 @@ public class OverworldManager : MonoBehaviour
         }
         this.gm.om.dm.setInterableAll();
         this.gm.om.dm.setInitialSelection();
+        ButtonOverlay.Instance.inventory.interactable = true;
+        updating = false;
     }
 
-    private void movePlayer()
-    {
-        float distCovered = (Time.time - startTime) * speed;
-        float fractionOfJourney = distCovered / journeyLength;
-        player.transform.position = Vector3.Lerp(player.transform.position, destPos, fractionOfJourney);
-    }
+    //private void movePlayer()
+    //{
+    //    float distCovered = (Time.time - startTime) * speed;
+    //    float fractionOfJourney = distCovered / journeyLength;
+    //    player.transform.position = Vector3.Lerp(player.transform.position, destPos, fractionOfJourney);
+    //}
 
     private void spawnPlayer()
     {
@@ -318,9 +520,10 @@ public class OverworldManager : MonoBehaviour
         player.transform.position = GameObject.Find("0").transform.position; // hard coding node 0
         print("node 0:" + nodes[0].transform.position);
         playerSpawned = true;
-        GameObject cam = GameObject.Find("MainCameraOW");
-        cam.transform.SetParent(player.transform);
-        cam.transform.localPosition = new Vector3(0, 0, -10);
+        cam = GameObject.Find("MainCameraOW");
+        cam.GetComponent<OWCamera>().target = player.transform;
+        //cam.transform.SetParent(player.transform);
+        //cam.transform.localPosition = new Vector3(0, 0, -10);
         gm.pm.initPM();
 
 
@@ -338,11 +541,11 @@ public class OverworldManager : MonoBehaviour
     {
         this.dm.Panel.SetActive(false);
         this.rollParchment.SetActive(false);
-        //this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
         this.gm.sm.setBattleMusic();
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
         this.gm.pm.combatInitialized = true;
         this.gm.pm.inCombat = true;
+        this.gm.jingle = false;
 
         yield return new WaitUntil(() => this.gm.bm != null);
         yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true);
@@ -437,16 +640,12 @@ public class OverworldManager : MonoBehaviour
 
     public BattleClass GetBattleClass()
     {
-        WorldNode curWorldNode = this.GetCurrentNode().GetComponent<WorldNode>();
+        BattleClass curBattleClass = new BattleClass();
+        DialogueNode curNode = this.dm.dialogue.nodes[this.dm.currentNode];
 
-        for (int i = 0; i < curWorldNode.NodeIDs.Count; i++)
-        {
-            if (curWorldNode.NodeIDs[i] == this.dm.currentNode)
-                return curWorldNode.battleClassList.list[i];
-        }
+        curBattleClass = curBattleClass.DialogueNodeToBattleClass(curNode);
 
-        Debug.AssertFormat(false, "Couldn't find BattleClass in BattleClassList at currentNode " + this.dm.currentNode);
-        return null;
+        return curBattleClass;
     }
 
     void TurnPlayer(GameObject entity, Vector3 movTar)
@@ -494,5 +693,56 @@ public class OverworldManager : MonoBehaviour
                 NE.gameObject.SetActive(false);
             }
         }
+    }
+
+    private void generatePathingGrid()
+    {
+        Tilemap pathTileMap = GameObject.Find("PlayerPathing").GetComponent<Tilemap>();
+        BoundsInt bounds = pathTileMap.cellBounds;
+        Grid pathGrid = pathTileMap.layoutGrid;
+
+        GameObject temp = Resources.Load("Prefabs/AttackAnimHighlight") as GameObject;
+
+        print("x: " + bounds.x + " y: " + bounds.y);
+        print("xM: " + bounds.xMax + " yM: " + bounds.yMax);
+
+        pathingGrid = new bool[Mathf.Abs(bounds.x) + bounds.xMax + 1, Mathf.Abs(bounds.y) + bounds.yMax + 1];
+
+
+        foreach (var position in pathTileMap.cellBounds.allPositionsWithin)
+        {
+            int xDif = position.x - bounds.position.x;
+            int yDif = position.y - bounds.position.y;
+
+            if (pathTileMap.HasTile(position))
+            {
+                Vector3 cv = ConvertVector(position.x, position.y);
+                pathingGrid[xDif, yDif] = true;
+                print(pathGrid.CellToWorld(position));
+
+                if (cv == player.transform.position)
+                {
+                    playerX = xDif;
+                    playerY = yDif;
+                    this.saveX = playerX;
+                    this.saveY = playerY;
+                }
+
+                if (nodeMap.ContainsKey(cv))
+                {
+                    foreach(int i in nodeMap[cv])
+                    {
+                        pathMap.Add(i, new Point(xDif, yDif));
+                    }
+                }
+
+                pointToVector.Add(new Point(xDif, yDif), cv);
+            }
+        }
+    }
+
+    Vector3 ConvertVector(int x, int y)
+    {
+        return new Vector3((x * 0.5f) - (y * 0.5f), ((x + 1) * 0.25f) + (y * 0.25f), 0);
     }
 }
