@@ -174,14 +174,13 @@ public class MenuManager : MonoBehaviour
                 this.gm.showHPbars = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
                 SaveData.hpBar = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
                 break;
-            case UIType.VsyncEnable:
-                this.gm.vsyncEnabled = GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn;
             case UIType.HideDMGNum:
                 this.gm.showDMGnums = GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn;
                 SaveData.dmgNum = GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn;
                 break;
             default:
-    			Debug.Log("Clicked a button!"); break;
+    			Debug.Log("Clicked a button!"); 
+                break;
     	}
     }
 
