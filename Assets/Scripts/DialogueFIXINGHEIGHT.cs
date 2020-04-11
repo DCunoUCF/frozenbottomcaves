@@ -137,7 +137,7 @@ public class DialogueManagerFIXINGHEIGHT : MonoBehaviour
                     if (id == dialogue.nodes[currentNode].options[i].destId)
                     {
                         print("Node we're checking for itemloss event" + id);
-                        if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
+                        if (curNode.NodeTypes[nodeCount] == FlagType.ITEMLOST)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
                             {
@@ -223,7 +223,7 @@ public class DialogueManagerFIXINGHEIGHT : MonoBehaviour
                     {
                         print("Node we're checking for itemloss event" + id);
 
-                        if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
+                        if (curNode.NodeTypes[nodeCount] == FlagType.ITEMLOST)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
                             {
@@ -307,7 +307,7 @@ public class DialogueManagerFIXINGHEIGHT : MonoBehaviour
                     {
                         print("Node we're checking for itemloss event" + id);
 
-                        if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
+                        if (curNode.NodeTypes[nodeCount] == FlagType.ITEMLOST)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
                             {
@@ -389,7 +389,7 @@ public class DialogueManagerFIXINGHEIGHT : MonoBehaviour
                     {
                         print("Node we're checking for itemloss event" + id);
 
-                        if (curNode.NodeTypes[nodeCount] == FlagType.ItemLose)
+                        if (curNode.NodeTypes[nodeCount] == FlagType.ITEMLOST)
                         {
                             if (this.om.gm.pm.pc.inventory.CheckItem(curNode.NodeItemsLose[nodeCount].item) == null)
                             {

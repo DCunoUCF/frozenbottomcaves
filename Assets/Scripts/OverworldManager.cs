@@ -36,6 +36,14 @@ public class OverworldManager : MonoBehaviour
     public int startingNode;
     public List<GameObject> nodes;
     public int playerNodeId;
+    public DialogueNode curDialogueNode;
+    public List<FlagType> overworldEvent;
+    public List<int> overworldEventEffect;
+    public List<Item.ItemType> overworldEventItemGained;
+    public List<int> overworldEventItemGainedAmount;
+    public List<Item.ItemType> overworldEventItemLost;
+    public List<int> overworldEventItemLostAmount;
+    public int overworldEventSkillCheckDifficulty;
     public int nodeTypeCount;
     public bool load;
     public List<int> nodeSavedAt;
@@ -67,6 +75,12 @@ public class OverworldManager : MonoBehaviour
         nodeMap = new Dictionary<Vector3, List<int>>();
         pathMap = new Dictionary<int, Point>();
         pointToVector = new Dictionary<Point, Vector3>();
+        this.overworldEvent = new List<FlagType>();
+        this.overworldEventEffect = new List<int>();
+        this.overworldEventItemGained = new List<Item.ItemType>();
+        this.overworldEventItemGainedAmount = new List<int>();
+        this.overworldEventItemLost = new List<Item.ItemType>();
+        this.overworldEventItemLostAmount = new List<int>();
     }
 
     // Update is called once per frame
@@ -226,94 +240,179 @@ public class OverworldManager : MonoBehaviour
 
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
+        this.curDialogueNode = this.dm.dialogue.nodes[this.playerNodeId];
+
+        // Event conversion from string to FlagType
+        print("This event list: " + this.curDialogueNode.overworldEvent);
+
+        if (this.curDialogueNode.overworldEvent.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.overworldEvent.Count; i++)
+                if (this.curDialogueNode.overworldEvent[i] != "")
+                {
+                    print("This event: " + this.curDialogueNode.overworldEvent[i]);
+                    this.overworldEvent.Add((FlagType)FlagType.Parse(typeof(FlagType), this.curDialogueNode.overworldEvent[i], true));
+                }
+                else
+                    this.overworldEvent.Add(FlagType.NONE);
+
+        // Items Gained conversion from string to Item.ItemType Enum
+        if (this.curDialogueNode.itemGained.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
+                if (this.curDialogueNode.itemGained[i] != "")
+                {
+                    print("This Item Gained: " + this.curDialogueNode.itemGained[i]);
+                    this.overworldEventItemGained.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemGained[i], true));
+                }
+                else
+                    this.overworldEventItemGained.Add(Item.ItemType.NONE);
+
+        // Item Gained Amount
+        if (this.curDialogueNode.itemGained.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
+            {
+                    print("This Item Gained Amount: " + this.curDialogueNode.itemGainedAmount[i]);
+                    this.overworldEventItemGainedAmount.Add(this.curDialogueNode.itemGainedAmount[i]);
+            }
+
+        // Items Lost conversion from string to Item.ItemType Enum
+        if (this.curDialogueNode.itemLost.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemLost.Count; i++)
+                if (this.curDialogueNode.itemLost[i] != "")
+                {
+                    print("This Item Lost: " + this.curDialogueNode.itemLost[i]);
+                    this.overworldEventItemLost.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemLost[i], true));
+                }
+                else
+                    this.overworldEventItemLost.Add(Item.ItemType.NONE);
+
+        // Item Lost Amount
+        if (this.curDialogueNode.itemLostAmount.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemLostAmount.Count; i++)
+            {
+                print("This Item Gained Amount: " + this.curDialogueNode.itemLostAmount[i]);
+                this.overworldEventItemLostAmount.Add(this.curDialogueNode.itemLostAmount[i]);
+            }
+
+        this.overworldEventEffect = this.curDialogueNode.effect;
+        this.overworldEventSkillCheckDifficulty = this.curDialogueNode.skillCheckDifficulty;
+
+
         this.dm.Panel.SetActive(true);
         this.dm.setInitialSelection();
 
-        if (n.curNode.NodeTypes[n.count] == FlagType.Battle)
+        // If no events
+        if (this.overworldEvent.Count == 0)
         {
-            print("entered combat");
-            yield return StartCoroutine(BattleEvent());
+            this.overworldEvent.Clear();
+            this.overworldEventEffect.Clear();
+            this.overworldEventItemGained.Clear();
+            this.overworldEventItemGainedAmount.Clear();
+            this.overworldEventItemLost.Clear();
+            this.overworldEventItemLostAmount.Clear();
+            updating = false;
+            yield break;
         }
 
-        if (n.curNode.NodeTypes[n.count] == FlagType.STREvent)
+        for (int i = 0; i < this.overworldEvent.Count; i++)
         {
-            print("entered str event");
-            this.dm.putCanvasBehind();
-            yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
-            this.dm.putCanvasInFront();
-        }
-        if (n.curNode.NodeTypes[n.count] == FlagType.INTEvent)
-        {
-            print("entered int event");
-            this.dm.putCanvasBehind();
-            yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
-            this.dm.putCanvasInFront();
-        }
-        if (n.curNode.NodeTypes[n.count] == FlagType.AGIEvent)
-        {
-            print("entered agi event");
-            this.dm.putCanvasBehind();
-            yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, n.curNode.SkillCheckDifficulty[n.count]));
-            this.dm.putCanvasInFront();
-        }
+            print("Current event: " + this.overworldEvent[i]);
 
-        if (n.curNode.NodeTypes[n.count] == FlagType.HPEvent)
-        {
-            print("Hp event");
-            this.HPEvent(n.curNode.HealthChange[n.count]);
-        }
+            if (this.overworldEvent[i] == FlagType.NONE)
+                continue;
 
-        if (n.curNode.NodeTypes[n.count] == FlagType.Item)
-        {
-            print("Getting item(s)");
-            this.ItemGet(n.curNode.NodeItems[n.count].item, n.curNode.NodeItems[n.count].count);
-        }
-
-        if (n.curNode.NodeTypes[n.count] == FlagType.ItemLose)
-        {
-            print("Losing item(s)");
-            this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
-        }
-
-        if (n.curNode.NodeTypes[n.count] == FlagType.HPMaxEvent)
-        {
-            print("HP MAX event");
-            this.HPMaxEvent(n.curNode.MaxHealthChange[n.count]);
-        }
-
-        if (n.curNode.NodeTypes[n.count] == FlagType.SaveEvent)
-        {
-            if (!nodeSavedAt.Contains(n.curNode.NodeIDs[n.count]))
+            if (this.overworldEvent[i] == FlagType.BATTLE)
             {
-                nodeSavedAt.Add(n.curNode.NodeIDs[n.count]);
+                print("entered combat");
+                yield return StartCoroutine(BattleEvent());
+            }
 
-                // If this save event has the provisions checked, eat one 
-                if (n.curNode.SaveProvisions[n.count])
-                    this.gm.pm.pc.inventory.removeProvision();
-                // Either way heal 5
-                this.HPEvent(5);
+            if (this.overworldEvent[i] == FlagType.STRSKILL)
+            {
+                print("entered str event");
+                this.dm.putCanvasBehind();
+                yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, this.overworldEventSkillCheckDifficulty));
+                this.dm.putCanvasInFront();
+            }
+            if (this.overworldEvent[i] == FlagType.INTSKILL)
+            {
+                print("entered int event");
+                this.dm.putCanvasBehind();
+                yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, this.overworldEventSkillCheckDifficulty));
+                this.dm.putCanvasInFront();
+            }
+            if (this.overworldEvent[i] == FlagType.AGISKILL)
+            {
+                print("entered agi event");
+                this.dm.putCanvasBehind();
+                yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, this.overworldEventSkillCheckDifficulty));
+                this.dm.putCanvasInFront();
+            }
 
-                // Tell the pm to create a deep copy of the current player and inventory
-                this.gm.pm.createSave();
+            if (this.overworldEvent[i] == FlagType.HPCHANGE)
+            {
+                print("Hp event");
+                this.HPEvent(this.overworldEventEffect[i]);
+            }
 
-                // Remember the node information
-                this.saveNode = n.physNodeIndex;
-                this.saveNodeTypeCount = n.count;
-                this.saveCurrentNode = this.dm.currentNode;
-                this.saveX = playerX;
-                this.saveY = playerY;
+            if (this.overworldEvent[i] == FlagType.ITEMGAINED)
+            {
+                print("Getting item(s)");
+                this.ItemGet(this.overworldEventItemGained[i], this.overworldEventItemGainedAmount[i]);
+            }
 
-                // Save direction they're facing
-                if (player.transform.GetChild(0).gameObject.activeSelf)
-                    facing = 0;
-                else if (player.transform.GetChild(1).gameObject.activeSelf)
-                    facing = 1;
-                else if (player.transform.GetChild(2).gameObject.activeSelf)
-                    facing = 2;
-                else if (player.transform.GetChild(3).gameObject.activeSelf)
-                    facing = 3;
+            if (this.overworldEvent[i] == FlagType.ITEMLOST)
+            {
+                print("Losing item(s)");
+                this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
+            }
+
+            if (this.overworldEvent[i] == FlagType.HPMAXCHANGE)
+            {
+                print("HP MAX event");
+                this.HPMaxEvent(this.overworldEventEffect[i]);
+            }
+
+            if (this.overworldEvent[i] == FlagType.SAVE)
+            {
+                if (!nodeSavedAt.Contains(n.curNode.NodeIDs[n.count]))
+                {
+                    nodeSavedAt.Add(n.curNode.NodeIDs[n.count]);
+
+                    // If this save event has the provisions checked, eat one 
+                    if (this.curDialogueNode.itemLost[i].CompareTo("Provisions") == 0)
+                        this.gm.pm.pc.inventory.removeProvision();
+                    // Either way heal 5
+                    this.HPEvent(5);
+
+                    // Tell the pm to create a deep copy of the current player and inventory
+                    this.gm.pm.createSave();
+
+                    // Remember the node information
+                    this.saveNode = n.physNodeIndex;
+                    this.saveNodeTypeCount = n.count;
+                    this.saveCurrentNode = this.dm.currentNode;
+                    this.saveX = playerX;
+                    this.saveY = playerY;
+
+                    // Save direction they're facing
+                    if (player.transform.GetChild(0).gameObject.activeSelf)
+                        facing = 0;
+                    else if (player.transform.GetChild(1).gameObject.activeSelf)
+                        facing = 1;
+                    else if (player.transform.GetChild(2).gameObject.activeSelf)
+                        facing = 2;
+                    else if (player.transform.GetChild(3).gameObject.activeSelf)
+                        facing = 3;
+                }
             }
         }
+
+        this.overworldEvent.Clear();
+        this.overworldEventEffect.Clear();
+        this.overworldEventItemGained.Clear();
+        this.overworldEventItemGainedAmount.Clear();
+        this.overworldEventItemLost.Clear();
+        this.overworldEventItemLostAmount.Clear();
 
         updating = false;
 
@@ -442,7 +541,6 @@ public class OverworldManager : MonoBehaviour
     {
         this.dm.Panel.SetActive(false);
         this.rollParchment.SetActive(false);
-        //this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
         this.gm.sm.setBattleMusic();
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
         this.gm.pm.combatInitialized = true;
@@ -542,16 +640,12 @@ public class OverworldManager : MonoBehaviour
 
     public BattleClass GetBattleClass()
     {
-        WorldNode curWorldNode = this.GetCurrentNode().GetComponent<WorldNode>();
+        BattleClass curBattleClass = new BattleClass();
+        DialogueNode curNode = this.dm.dialogue.nodes[this.dm.currentNode];
 
-        for (int i = 0; i < curWorldNode.NodeIDs.Count; i++)
-        {
-            if (curWorldNode.NodeIDs[i] == this.dm.currentNode)
-                return curWorldNode.battleClassList.list[i];
-        }
+        curBattleClass = curBattleClass.DialogueNodeToBattleClass(curNode);
 
-        Debug.AssertFormat(false, "Couldn't find BattleClass in BattleClassList at currentNode " + this.dm.currentNode);
-        return null;
+        return curBattleClass;
     }
 
     void TurnPlayer(GameObject entity, Vector3 movTar)

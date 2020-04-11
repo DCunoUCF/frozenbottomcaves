@@ -22,7 +22,7 @@ public class DialogueManager2 : MonoBehaviour
     {
         Program p = new Program();
 
-        dialogue = p.LoadFile("Dialogue/dialogue");
+        dialogue = p.LoadFile("Dialogue/sample");
 
         // Add Listeners
         Choices[0].onClick.AddListener(choiceOption01);

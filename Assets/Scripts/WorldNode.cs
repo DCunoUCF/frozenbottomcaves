@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum FlagType
 {
-	None,
-	Battle, STREvent, INTEvent, AGIEvent, Item, HPEvent, ItemLose, HPMaxEvent, SaveEvent, LoadEvent
+	NONE,
+	BATTLE, STRSKILL, INTSKILL, AGISKILL, HPCHANGE, ITEMLOST, ITEMGAINED, HPMAXCHANGE, SAVE, LOAD
 }
 
 public enum GridType
@@ -42,6 +42,27 @@ public class BattleClass
     public GridType grid;
     public string arena;
     public List<EncounterEnemy> nodeEnemies;
+
+    public BattleClass DialogueNodeToBattleClass(DialogueNode curNode)
+    {
+        BattleClass curBattleClass = new BattleClass();
+        string gridString = curNode.grid;
+        curBattleClass.nodeEnemies = new List<EncounterEnemy>();
+
+        curBattleClass.grid = (GridType) GridType.Parse(typeof(GridType), curNode.grid, true);
+
+        curBattleClass.arena = curNode.arena;
+
+        for (int i = 0; i < curNode.enemyType.Count; i++)
+        {
+            curBattleClass.nodeEnemies.Add((EncounterEnemy)EncounterEnemy.Parse(typeof(EncounterEnemy), curNode.enemyType[i], true));
+
+            /*if (curBattleClass.nodeEnemies[i] == null)
+                curBattleClass.nodeEnemies[i] = EncounterEnemy.None;*/
+        }
+
+        return curBattleClass;
+    }
 }
 
 [System.Serializable]

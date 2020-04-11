@@ -288,8 +288,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ce0b40de274a2146876b29758c24170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   ehb: {fileID: 6421328402060771907}
   edn: {fileID: 6780050136204722413}
   enemyClass: 1
@@ -822,17 +822,17 @@ PrefabInstance:
     - target: {fileID: 3518077473614665436, guid: 0429dacd8179f9d4095ed4e2318d5e31,
         type: 3}
       propertyPath: enemyScript
-      value: 
+      value:
       objectReference: {fileID: 6518760726847869340}
     - target: {fileID: 8642747584292806811, guid: 0429dacd8179f9d4095ed4e2318d5e31,
         type: 3}
       propertyPath: m_Mesh
-      value: 
+      value:
       objectReference: {fileID: 0}
     - target: {fileID: 6200905176935312558, guid: 0429dacd8179f9d4095ed4e2318d5e31,
         type: 3}
       propertyPath: m_Mesh
-      value: 
+      value:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0429dacd8179f9d4095ed4e2318d5e31, type: 3}
@@ -852,8 +852,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c80928fe70ab7c4196be6744c6da651, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!114 &6780050136204722413 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4023983134906045554, guid: 0429dacd8179f9d4095ed4e2318d5e31,
@@ -864,5 +864,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6414dcc53827c941a5de5581ae54f37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:

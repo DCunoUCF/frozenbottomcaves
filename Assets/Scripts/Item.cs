@@ -26,7 +26,8 @@ public class Item
         WolfCollar,
         CherryPit,
         HalfChewedChocolate,
-        TowerShield
+        TowerShield,
+        NONE
     }
     public Item(ItemType item, string displayName, bool stackable, int effect, string stat)
     {

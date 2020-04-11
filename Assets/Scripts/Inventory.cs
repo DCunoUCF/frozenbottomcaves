@@ -115,10 +115,10 @@ public class Inventory
             }
         }
 
-        // Here we determine whether an items effect should be applied
         // if (databaseItem.effect) can check if stat == "" if we want here
         pm.pc.applyEffect(databaseItem, 1);
         // inventoryUI.updateUIStats(pm.pc);
+
     }
 
     // Refreshes UI Inventory
@@ -184,9 +184,9 @@ public class Inventory
                 Debug.Log("Error. Option not possible. RemoveItem function");
             }
 
-            // Here we determine whether an item's effect should be removed
             // if (databaseItem.effect) can check if stat == "" if we want here
             pm.pc.applyEffect(inventoryItem, 2);
+
         }
     }
 
