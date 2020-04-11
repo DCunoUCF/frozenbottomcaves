@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private bool panic;
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
-    public bool splashUp, quitUp;
+    public bool splashUp, quitUp, jingle;
     public bool showHPbars;
     public HashSet<GameObject> inactiveObjects;
 
@@ -130,6 +130,7 @@ public class GameManager : MonoBehaviour
             if (this.bm == null && !this.battleLogicComplete && GameObject.Find("BattleManager") != null)
             {
                 print(GameObject.Find("BattleManager"));
+                this.jingle = false;
                 this.bm = GameObject.Find("BattleManager").GetComponent<BattleManager>();
             }
 
@@ -146,16 +147,18 @@ public class GameManager : MonoBehaviour
                         won = true;
                     }
 
-                    if (splash == "WinSplash")
-                    {
-                        this.sm.playWinJingle();
-                    }
+                    //if (splash == "WinSplash")
+                    //{
+                    //    this.sm.playWinJingle();
+                    //}
 
                     if (!SceneManager.GetSceneByName(splash).IsValid())
                     {
-                        if (splash == "WinSplash")
+                        if (splash == "WinSplash" && !jingle)
                         {
+                            jingle = true;
                             this.om.dm.setUninteractable();
+                            this.sm.playWinJingle();
                             SceneManager.LoadScene(splash, LoadSceneMode.Additive);
                             StartCoroutine(setReturnRestartActive(splash, won));
                         }
