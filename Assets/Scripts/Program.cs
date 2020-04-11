@@ -104,7 +104,6 @@ public class Program
                 // Gain Event
                 else if (prefix.ToLower() == "itemgained")
                 {
-                    // Event (gain / loss)
                     tempEvent = parseText(data, ':');
                     node.overworldEvent.Add(tempEvent);
 
@@ -120,7 +119,6 @@ public class Program
                 // Loss Event
                 else
                 {
-                    // Event (gain / loss)
                     tempEvent = parseText(data, ':');
                     node.overworldEvent.Add(tempEvent);
 
@@ -151,8 +149,6 @@ public class Program
                 // Amount Gained / Lost
                 int amount;
 
-                
-
                 for (int i = 0; i < numEvents; i++)
                 {
                     data = lines[lineNumber++];
@@ -174,7 +170,7 @@ public class Program
                     // Gain Event
                     else if(prefix.ToLower() == "itemgained")
                     {
-                        // Event (gain / loss)
+                        
                         tempEvent = parseText(data, ':');
                         node.overworldEvent.Add(tempEvent);
 
@@ -190,7 +186,6 @@ public class Program
                     // Loss Event
                     else
                     {
-                        // Event (gain / loss)
                         tempEvent = parseText(data, ':');
                         node.overworldEvent.Add(tempEvent);
 
