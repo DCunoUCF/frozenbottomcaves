@@ -32,7 +32,7 @@ destId: 5
 
 nodeId: 5
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 7
 options: 2
 text: SAVE
@@ -42,7 +42,7 @@ destId: 7
 
 nodeId: 7
 text: (Lost 2 HP) You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: "..." Trudge along. 
@@ -63,6 +63,7 @@ destId: 9
 nodeId: 9
 text: BATTLE
 event: BATTLE
+grid: Forest
 arena: main_road1_arena
 numEnemies: 4
 enemyType: slime_G
@@ -119,6 +120,7 @@ destId:165
 nodeId: 162
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: main_road3_arena
 numEnemies: 4
 enemyType: wolf_black
@@ -133,6 +135,7 @@ destId: 164
 
 nodeId: 163
 text: (Gained Wolf Meat) The broken pack yelps and flees as the alpha wolf falls before you.
+event: ITEMGAINED
 itemGained: WolfMeat
 itemGainedAmount: 1
 options: 1
@@ -171,7 +174,7 @@ destId: 174
 
 nodeId: 168
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 9
 options: 2
 text: SUCCESS
@@ -187,7 +190,7 @@ destId: 173
 
 nodeId: 170
 text: (Lost 5 HP) You muster up what strength you can, but your foot lands like a feather on the wolf's side. The wolf reciprocates to your act of aggression in kind. It snaps at your leg!
-event: HP
+event: HPCHANGE
 effect: -5
 options: 1
 text: "OW!" 
@@ -195,7 +198,7 @@ destId: 172
 
 nodeId: 171
 text: (Lost 5 HP) You go to pat the wolf gently upon its scruffy scruff, but it recoils quickly and snaps at your hand!
-event: HP
+event: HPCHANGE
 effect: -5
 options: 1
 text: "OW!" 
@@ -215,6 +218,7 @@ destId: 256
 
 nodeId: 174
 text: (Lost 1 Provision) You pull some food from your pouch. The wolf eats it happily from your hand, content with its reward.
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -223,6 +227,7 @@ destId: 175
 
 nodeId: 175
 text: (Gained Wolf Collar) The wolf disappears into the trees with a pep in its step. You notice a collar lying in the dirt. It has a bell and tag on it. It says "Dog." You place it in your pack and move along.
+event: ITEMGAINED
 itemGained: WolfCollar
 itemGainedAmount: 1
 options: 1
@@ -244,12 +249,16 @@ destId: 177
 
 nodeId: 257
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 177
 
 nodeId: 258
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -272,7 +281,7 @@ destId: 187
 
 nodeId: 179
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -288,6 +297,7 @@ destId: 185
 
 nodeId: 185
 text: (Lost 10 Gold) "You try be smart! You pay DOUBLE! 10 GOLD!"
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 10
 options: 1
@@ -316,6 +326,7 @@ destId: 191
 
 nodeId: 190
 text: (Lost 5 Gold) "Thank for true tell. You pay 5 gold!"
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 5
 options: 1
@@ -324,7 +335,7 @@ destId: 194
 
 nodeId: 191
 text: INT EVENT
-event: INT
+event: INTSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -334,6 +345,7 @@ destId: 193
 
 nodeId: 192
 text: (Lost 3 Gold) "I good toll gitter. You pay 3 gold for so dumb no see me!"
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 3
 options: 1
@@ -342,6 +354,7 @@ destId: 184
 
 nodeId: 193
 text: (Lost 10 Gold) The troll raises its eyebrow. "You no true tell. You see me. You pay 10 gold!"
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 10
 options: 1
@@ -386,6 +399,7 @@ destId: 158
 
 nodeId: 158
 text: (Lost 5 Gold) "It my stump. You pay toll! 5 GOLD!" Drool flies from its mouth as it barks at you.
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 5
 options: 1
@@ -448,6 +462,7 @@ destId: 201
 nodeId: 201
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: dirt_arena
 numEnemies: 5
 enemyType: gnoll
@@ -495,6 +510,7 @@ destId: 207
 nodeId: 207
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: dirt_arena
 numEnemies: 3
 enemyType: gnoll
@@ -545,12 +561,16 @@ destId: 215
 
 nodeId: 213
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 215
 
 nodeId: 214
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -581,6 +601,7 @@ destId: 218
 
 nodeId: 218
 text: (Lost Tower Shield) The rumbling settles... You stand up, covered in dust, but without a scratch. The same can't be said about your shield. It hangs loosely from your arm, battered beyond recognition.
+event: ITEMLOST
 itemLost: TowerShield
 itemLostAmount: 1
 options: 1
@@ -589,7 +610,7 @@ destId: 222
 
 nodeId: 219
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 6
 options: 2
 text: SUCCESS
@@ -647,7 +668,7 @@ destId: 228
 
 nodeId: 228
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -663,7 +684,7 @@ destId: 238
 
 nodeId: 230
 text: (Lost 1 HP) You struggle against the webs, but they hold strong. "My children are numerous and can easily subdue any knight in your weak disgusting kingdom." She steps closer. You feel small bites upon your flesh as the spiders race about!
-event: HP
+event: HPCHANGE
 effect: -1
 options: 1
 text: *Try to break free!* (STR)
@@ -671,7 +692,7 @@ destId: 231
 
 nodeId: 231
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -687,7 +708,7 @@ destId: 238
 
 nodeId: 233
 text: (Lost 1 HP) You try again, but the webs stay taut. "My webs will cover your fields, your castle walls will become my playground, a wonderland of sticky silk." You feel more bites, your vision begins to darken. The Queen stares into your eyes, her face inches from your own.
-event: HP
+event: HPCHANGE
 effect: -1
 options: 1
 text: *Try to break free!* (STR)
@@ -695,7 +716,7 @@ destId: 234
 
 nodeId: 234
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -711,7 +732,7 @@ destId: 238
 
 nodeId: 236
 text: (Lost 1 HP) "Why do you struggle? Would you not rather have the honor of being the first victim of my crusade? This will be over soon enough. Best you relax and savor these final moments." She unhinges her jaw. 
-event: HP
+event: HPCHANGE
 effect: -1
 options: 1
 text: "This is it..."
@@ -733,6 +754,7 @@ destId: 239
 nodeId: 239
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: spider_queen_arena
 numEnemies: 5
 enemyType: spider_queen
@@ -810,7 +832,7 @@ destId: 119
 
 nodeId: 116
 text: (Lost 10 HP) You take the chocolate biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The chocolate tastes bitter and and leaves a putrid after taste!
-event: HP
+event: HPCHANGE
 effect: -10
 options: 1
 text: "YUCK!" You spit out what you can. 
@@ -830,6 +852,7 @@ destId: -1
 
 nodeId: 119
 text: (Gained Cherry Pit) The creatures scatter into the trees, leaving only their giggles behind.
+event: ITEMGAINED
 itemGained: CherryPit
 itemGainedAmount: 1
 options: 1
@@ -838,6 +861,7 @@ destId: 252
 
 nodeId: 120
 text: (Gained Half Chewed Chocolate) The creatures scatter into the trees, leaving only their giggles behind.
+event: ITEMGAINED
 itemGained: HalfChewedChocolate
 itemGainedAmount: 1
 options: 1
@@ -854,6 +878,7 @@ destId: 111
 nodeId: 111
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: pond_arena
 numEnemies: 3
 enemyType: nixie
@@ -925,7 +950,7 @@ destId:132
 
 nodeId: 126
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 8
 options: 2
 text: SUCCESS
@@ -941,7 +966,7 @@ destId: 135
 
 nodeId: 128
 text: (Lost 2 HP) You sure your footing and brace yourself for impact. The wave breaks against your armor, crashing around you. Your stance wavers and you're swept away like a fish in a fast moving river!
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: *Gurgle!* 
@@ -949,7 +974,7 @@ destId: 151
 
 nodeId: 129
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 8
 options: 2
 text: SUCCESS
@@ -965,7 +990,7 @@ destId: 135
 
 nodeId: 131
 text: (Lost 2 HP) You trudge through the water heavily despite your efforts. The wall of water closes quickly and sweeps you away!
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: *Gurgle!* 
@@ -973,7 +998,7 @@ destId: 151
 
 nodeId: 132
 text: INT EVENT
-event: INT
+event: INTSKILL
 skillCheckDifficulty: 8
 options: 2
 text: SUCCESS
@@ -989,7 +1014,7 @@ destId: 135
 
 nodeId: 134
 text: (Lost 2 HP) You dive underwater, but you hadn't planned further than this! You are swept away beneath the wave like a kite in a storm!
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: *Gurgle!* 
@@ -1016,12 +1041,16 @@ destId: 155
 
 nodeId: 153
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 155
 
 nodeId: 154
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -1055,12 +1084,16 @@ destId: 139
 
 nodeId: 137
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 139
 
 nodeId: 138
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -1093,6 +1126,7 @@ destId: 145
 nodeId: 142
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: side_road1_arena
 numEnemies: 3
 enemyType: spider_small
@@ -1118,6 +1152,7 @@ destId: -1
 
 nodeId: 145
 text: (Lost Cherry Pit) You chuck the cherry pit with all your might! It knocks the spider from the goblins back. The spider rears its head and hisses in your direction as the goblins scamper away into the woods.
+event: ITEMLOST
 itemLost: CherryPit
 itemLostAmount: 1
 options: 1
@@ -1128,6 +1163,7 @@ destId: 146
 nodeId: 146
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: side_road1_arena
 numEnemies: 1
 enemyType: spider_small
@@ -1199,7 +1235,12 @@ destId: 17
 
 # 1 goblin battle
 nodeId: 17
-text : BATTLE
+text : BATTLE EVENT
+event: BATTLE
+grid: Forest
+arena: goblin_arena
+numEnemies: 1
+enemyType: goblin
 options: 2
 text: WIN
 destId: 18
@@ -1233,6 +1274,13 @@ destId: 26
 # 3 goblin battle
 nodeId: 26
 text : BATTLE
+event: BATTLE
+grid: Forest
+arena: goblin_arena
+numEnemies: 3
+enemyType: goblin
+enemyType: goblin
+enemyType: goblin
 options: 2
 text: WIN
 destId: 27
@@ -1260,6 +1308,12 @@ destId: 21
 # 2 goblin battle
 nodeId: 21
 text : BATTLE
+event: BATTLE
+grid: Forest
+arena: goblin_arena
+numEnemies: 2
+enemyType: goblin
+enemyType: goblin
 options: 2
 text: WIN
 destId: 22
@@ -1306,7 +1360,7 @@ destId: 245
 
 nodeId: 245
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -1316,6 +1370,7 @@ destId: 247
 
 nodeId: 246
 text: (Gained Acorn) You duck just in time before the crow strikes you. As it flies overhead, an acorn falls to your feet. The crow must have dropped this. You pocket the acorn.
+event: ITEMGAINED
 itemGained: Acorn
 itemGainedAmount: 1
 options: 1
@@ -1324,7 +1379,7 @@ destId: 33
 
 nodeId: 247
 text: (Lost 4 HP) You are caught off guard by this quarrelsome crow! It pecks and claws at you before taking its leave.
-event: HP
+event: HPCHANGE
 effect: -4
 options: 1
 text: "And don't come back!" 
@@ -1366,6 +1421,7 @@ destId: 37
 
 nodeId: 36
 text: (Lost Acorn) The crow drops the twine to catch the acorn midair. With the twine, you tie all of the driftwood together into a satisfyingly sturdy raft. You keep one piece as a paddle.
+event: ITEMLOST
 itemLost: Acorn
 itemLostAmount: 1
 options: 1
@@ -1386,7 +1442,7 @@ destId: 40
 
 nodeId: 39
 text: (Lost 2 HP) You hang onto the loose driftwood as best you can, losing a few branches and a little honor when colliding with rocks sticking out of the water.
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: "'Gah!" 
@@ -1420,7 +1476,7 @@ destId: 67
 
 nodeId: 44
 text: INT EVENT
-event: INT
+event: INTSKILL
 skillCheckDifficulty: 8
 options: 2
 text: SUCCESS
@@ -1436,7 +1492,7 @@ destId: 67
 
 nodeId: 46
 text: (Lost 2 HP) Searching through the bushes, you pick a handful of bright red berries. The taste is surprisingly sour.
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: "I don't feel so good." 
@@ -1457,12 +1513,16 @@ destId: 47
 
 nodeId: 68
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 47
 
 nodeId: 69
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -1485,7 +1545,7 @@ destId: 52
 
 nodeId: 49
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -1515,6 +1575,7 @@ destId: 54
 nodeId: 54
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: halfdirt_arena
 numEnemies: 5
 enemyType: bandit_scout
@@ -1574,6 +1635,7 @@ destId: 62
 nodeId: 62
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: halfdirt_arena
 numEnemies: 1
 enemyType: bandit_leader
@@ -1613,6 +1675,7 @@ destId: -1
 
 nodeId: 76
 text: (Gained Stolen Goods) You shout at the top of your lungs "Shame on you! A life of banditry? You're better than that!" The bandits look guilty. One approaches you and hands you a bundle of goods. "Sorry..." he mutters as he sulks away.
+event: ITEMGAINED
 itemGained: StolenGoods
 itemGainedAmount: 1
 options: 1
@@ -1652,12 +1715,16 @@ destId: 70
 
 nodeId: 72
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 70
 
 nodeId: 73
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -1688,7 +1755,7 @@ destId: 84
 
 nodeId: 80
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -1704,7 +1771,7 @@ destId: 83
 
 nodeId: 82
 text: (Lost 2 HP) You reach around the log and heave with all your might. It begins to lift from the ground gradually at first, but then you feel a twist in your back, and you drop the log. "OOF" The gnome's arms stop flailing.
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: "Out of its misery then! My back though..." 
@@ -1750,8 +1817,11 @@ destId: 89
 
 nodeId: 88
 text: (Lost Stolen Goods) (Gained Rusty Helmet) "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
+numEvents: 2
+event: ITEMLOST
 itemLost: StolenGoods
 itemLostAmount: 1
+event: ITEMGAINED
 itemGained: RustyHelmet
 itemGainedAmount: 1
 options: 1
@@ -1760,8 +1830,11 @@ destId: 249
 
 nodeId: 248
 text: (Lost 5 Gold) (Gained Rusty Helmet) "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
-itemLost: StolenGoods
-itemLostAmount: 1
+numEvents: 2
+event: ITEMLOST
+itemLost: Gold
+itemLostAmount: 5
+event: ITEMGAINED
 itemGained: RustyHelmet
 itemGainedAmount: 1
 options: 1
@@ -1808,6 +1881,7 @@ destId: 92
 nodeId: 92
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: main_road2_arena
 numEnemies: 1
 enemyType: gnoll_logger
@@ -1861,7 +1935,7 @@ destId: 100
 
 nodeId: 100
 text: (Lost 5 HP) The spider bites you and scurries away.
-event: HP
+event: HPCHANGE
 effect: -5
 options: 1
 text: "OUCH!" 
@@ -1881,6 +1955,7 @@ destId: 103
 
 nodeId: 103
 text: (Gained Tower Shield) Dropping the log to the side, you unearth a shiny and sturdy shield with a tower emblazoned upon its face.
+event: ITEMGAINED
 itemGained: TowerShield
 itemGainedAmount: 1
 options: 1
