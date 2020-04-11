@@ -252,7 +252,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5629272342806590784}
   - component: {fileID: 6518760726847869340}
-  - component: {fileID: 7101062672552399603}
   m_Layer: 0
   m_Name: wolf_black
   m_TagString: Enemy
@@ -291,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce0b40de274a2146876b29758c24170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ehb: {fileID: 7101062672552399603}
+  ehb: {fileID: 6188442606289763844}
   enemyClass: 1
   movePercentage: 0.2
   evadePercentage: 0.66
@@ -350,21 +349,6 @@ MonoBehaviour:
   ShortDiagonalShot: 0
   MediumDiagonalShot: 0
   LongDiagonalShot: 0
---- !u!114 &7101062672552399603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5629272342806590786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c80928fe70ab7c4196be6744c6da651, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyScript: {fileID: 6518760726847869340}
-  fill: {fileID: 0}
-  text: {fileID: 0}
 --- !u!1 &5759754532055250165
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,3 +886,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5609878947621131524}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6188442606289763844 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1746139832245906176, guid: 64ed40f4c809e974d9c4921329ffabe0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5609878947621131524}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c80928fe70ab7c4196be6744c6da651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
