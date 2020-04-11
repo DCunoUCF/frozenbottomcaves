@@ -72,6 +72,68 @@ public class Program
             {
                 node.text = parseText(data, ':');
             }
+            else if(prefix.ToLower() == "event")
+            {
+                // Event
+                string tempEvent;
+
+                // Effect
+                int tempEffect;
+
+                // Item Gained / Lost
+                string item;
+
+                // Amount Gained / Lost
+                int amount;
+
+                prefix = parseText(data, ':');
+
+                // Effect Events
+                if (prefix.ToLower() == "hp" || prefix.ToLower() == "str" || prefix.ToLower() == "int" || prefix.ToLower() == "agi")
+                {
+                    // Event
+                    tempEvent = parseText(data, ':');
+                    node.overworldEvent.Add(tempEvent);
+
+                    // Effect
+                    data = lines[lineNumber++];
+                    tempEffect = parseId(data, ':');
+                    node.effect.Add(tempEffect);
+
+                }
+                // Gain Event
+                else if (prefix.ToLower() == "itemgained")
+                {
+                    // Event (gain / loss)
+                    tempEvent = parseText(data, ':');
+                    node.overworldEvent.Add(tempEvent);
+
+                    data = lines[lineNumber++];
+                    item = parseText(data, ':');
+                    node.itemGained.Add(item);
+
+
+                    data = lines[lineNumber++];
+                    amount = parseId(data, ':');
+                    node.itemGainedAmount.Add(amount);
+                }
+                // Loss Event
+                else
+                {
+                    // Event (gain / loss)
+                    tempEvent = parseText(data, ':');
+                    node.overworldEvent.Add(tempEvent);
+
+                    data = lines[lineNumber++];
+                    item = parseText(data, ':');
+                    node.itemLost.Add(item);
+
+
+                    data = lines[lineNumber++];
+                    amount = parseId(data, ':');
+                    node.itemLostAmount.Add(amount);
+                }
+            }
             // Parse numevents
             else if (prefix.ToLower() == "numevents")
             {
