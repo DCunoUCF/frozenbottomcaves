@@ -438,7 +438,10 @@ public class BattleManager : MonoBehaviour
                 atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar[j]));
 
                 if (atkTarIndex < 0)
+                {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
                     continue;
+                }
 
                 curAtkTar = combatantList[atkTarIndex];
                 atkX = curAtkTar.gridX;
@@ -475,9 +478,6 @@ public class BattleManager : MonoBehaviour
                 {
                     combatantList[atkTarIndex].entity.SetActive(false);
                 }
-
-                //if (combatantList[atkTarIndex].entity == player)
-                    //this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
             }
         }
         yield break;
