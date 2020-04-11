@@ -75,6 +75,12 @@ public class OverworldManager : MonoBehaviour
         nodeMap = new Dictionary<Vector3, List<int>>();
         pathMap = new Dictionary<int, Point>();
         pointToVector = new Dictionary<Point, Vector3>();
+        this.overworldEvent = new List<FlagType>();
+        this.overworldEventEffect = new List<int>();
+        this.overworldEventItemGained = new List<Item.ItemType>();
+        this.overworldEventItemGainedAmount = new List<int>();
+        this.overworldEventItemLost = new List<Item.ItemType>();
+        this.overworldEventItemLostAmount = new List<int>();
     }
 
     // Update is called once per frame
@@ -239,29 +245,54 @@ public class OverworldManager : MonoBehaviour
         // Event conversion from string to FlagType
         print("This event list: " + this.curDialogueNode.overworldEvent);
 
-        if (this.curDialogueNode.overworldEvent != null)
+        if (this.curDialogueNode.overworldEvent.Count > 0)
             for (int i = 0; i < this.curDialogueNode.overworldEvent.Count; i++)
-                if (this.curDialogueNode.overworldEvent[i] != null)
+                if (this.curDialogueNode.overworldEvent[i] != "")
                 {
                     print("This event: " + this.curDialogueNode.overworldEvent[i]);
                     this.overworldEvent.Add((FlagType)FlagType.Parse(typeof(FlagType), this.curDialogueNode.overworldEvent[i], true));
                 }
                 else
                     this.overworldEvent.Add(FlagType.NONE);
-        else
-            this.overworldEvent = null;
 
-        // Items Gained and Lost conversion from string to Item.ItemType Enum
-        for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
-            this.overworldEventItemGained.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemGained[i], true));
+        // Items Gained conversion from string to Item.ItemType Enum
+        if (this.curDialogueNode.itemGained.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
+                if (this.curDialogueNode.itemGained[i] != "")
+                {
+                    print("This Item Gained: " + this.curDialogueNode.itemGained[i]);
+                    this.overworldEventItemGained.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemGained[i], true));
+                }
+                else
+                    this.overworldEventItemGained.Add(Item.ItemType.NONE);
 
-        this.overworldEventItemGainedAmount = this.curDialogueNode.itemGainedAmount;
+        // Item Gained Amount
+        if (this.curDialogueNode.itemGained.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
+            {
+                    print("This Item Gained Amount: " + this.curDialogueNode.itemGainedAmount[i]);
+                    this.overworldEventItemGainedAmount.Add(this.curDialogueNode.itemGainedAmount[i]);
+            }
 
-        for (int i = 0; i < this.curDialogueNode.itemLost.Count; i++)
-            this.overworldEventItemLost.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemLost[i], true));
-        
-        this.overworldEventItemLostAmount = this.curDialogueNode.itemLostAmount;
-        
+        // Items Lost conversion from string to Item.ItemType Enum
+        if (this.curDialogueNode.itemLost.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemLost.Count; i++)
+                if (this.curDialogueNode.itemLost[i] != "")
+                {
+                    print("This Item Lost: " + this.curDialogueNode.itemLost[i]);
+                    this.overworldEventItemLost.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemLost[i], true));
+                }
+                else
+                    this.overworldEventItemLost.Add(Item.ItemType.NONE);
+
+        // Item Lost Amount
+        if (this.curDialogueNode.itemLostAmount.Count > 0)
+            for (int i = 0; i < this.curDialogueNode.itemLostAmount.Count; i++)
+            {
+                print("This Item Gained Amount: " + this.curDialogueNode.itemLostAmount[i]);
+                this.overworldEventItemLostAmount.Add(this.curDialogueNode.itemLostAmount[i]);
+            }
+
         this.overworldEventEffect = this.curDialogueNode.effect;
         this.overworldEventSkillCheckDifficulty = this.curDialogueNode.skillCheckDifficulty;
 
@@ -270,8 +301,14 @@ public class OverworldManager : MonoBehaviour
         this.dm.setInitialSelection();
 
         // If no events
-        if (this.overworldEvent == null)
+        if (this.overworldEvent.Count == 0)
         {
+            this.overworldEvent.Clear();
+            this.overworldEventEffect.Clear();
+            this.overworldEventItemGained.Clear();
+            this.overworldEventItemGainedAmount.Clear();
+            this.overworldEventItemLost.Clear();
+            this.overworldEventItemLostAmount.Clear();
             updating = false;
             yield break;
         }
@@ -369,6 +406,13 @@ public class OverworldManager : MonoBehaviour
                 }
             }
         }
+
+        this.overworldEvent.Clear();
+        this.overworldEventEffect.Clear();
+        this.overworldEventItemGained.Clear();
+        this.overworldEventItemGainedAmount.Clear();
+        this.overworldEventItemLost.Clear();
+        this.overworldEventItemLostAmount.Clear();
 
         updating = false;
 

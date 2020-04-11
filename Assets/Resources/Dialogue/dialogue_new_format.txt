@@ -42,7 +42,7 @@ destId: 7
 
 nodeId: 7
 text: (Lost 2 HP) You land face first into the puddle with a kerplunk! As you push yourself up from the water, you wipe the sludge from your face. You definitely won't be telling the bards about this part.
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: "..." Trudge along. 
@@ -190,7 +190,7 @@ destId: 173
 
 nodeId: 170
 text: (Lost 5 HP) You muster up what strength you can, but your foot lands like a feather on the wolf's side. The wolf reciprocates to your act of aggression in kind. It snaps at your leg!
-event: HP
+event: HPCHANGE
 effect: -5
 options: 1
 text: "OW!" 
@@ -198,7 +198,7 @@ destId: 172
 
 nodeId: 171
 text: (Lost 5 HP) You go to pat the wolf gently upon its scruffy scruff, but it recoils quickly and snaps at your hand!
-event: HP
+event: HPCHANGE
 effect: -5
 options: 1
 text: "OW!" 
@@ -684,7 +684,7 @@ destId: 238
 
 nodeId: 230
 text: (Lost 1 HP) You struggle against the webs, but they hold strong. "My children are numerous and can easily subdue any knight in your weak disgusting kingdom." She steps closer. You feel small bites upon your flesh as the spiders race about!
-event: HP
+event: HPCHANGE
 effect: -1
 options: 1
 text: *Try to break free!* (STR)
@@ -708,7 +708,7 @@ destId: 238
 
 nodeId: 233
 text: (Lost 1 HP) You try again, but the webs stay taut. "My webs will cover your fields, your castle walls will become my playground, a wonderland of sticky silk." You feel more bites, your vision begins to darken. The Queen stares into your eyes, her face inches from your own.
-event: HP
+event: HPCHANGE
 effect: -1
 options: 1
 text: *Try to break free!* (STR)
@@ -732,7 +732,7 @@ destId: 238
 
 nodeId: 236
 text: (Lost 1 HP) "Why do you struggle? Would you not rather have the honor of being the first victim of my crusade? This will be over soon enough. Best you relax and savor these final moments." She unhinges her jaw. 
-event: HP
+event: HPCHANGE
 effect: -1
 options: 1
 text: "This is it..."
@@ -832,7 +832,7 @@ destId: 119
 
 nodeId: 116
 text: (Lost 10 HP) You take the chocolate biscuit. As it reaches your mouth, their grins grow wider revealing tiny fangs. You chew hesitantly on the biscuit. The chocolate tastes bitter and and leaves a putrid after taste!
-event: HP
+event: HPCHANGE
 effect: -10
 options: 1
 text: "YUCK!" You spit out what you can. 
@@ -966,7 +966,7 @@ destId: 135
 
 nodeId: 128
 text: (Lost 2 HP) You sure your footing and brace yourself for impact. The wave breaks against your armor, crashing around you. Your stance wavers and you're swept away like a fish in a fast moving river!
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: *Gurgle!* 
@@ -990,7 +990,7 @@ destId: 135
 
 nodeId: 131
 text: (Lost 2 HP) You trudge through the water heavily despite your efforts. The wall of water closes quickly and sweeps you away!
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: *Gurgle!* 
@@ -1014,7 +1014,7 @@ destId: 135
 
 nodeId: 134
 text: (Lost 2 HP) You dive underwater, but you hadn't planned further than this! You are swept away beneath the wave like a kite in a storm!
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: *Gurgle!* 
@@ -1235,7 +1235,12 @@ destId: 17
 
 # 1 goblin battle
 nodeId: 17
-text : BATTLE
+text : BATTLE EVENT
+event: BATTLE
+grid: Forest
+arena: goblin_arena
+numEnemies: 1
+enemyType: goblin
 options: 2
 text: WIN
 destId: 18
@@ -1269,6 +1274,13 @@ destId: 26
 # 3 goblin battle
 nodeId: 26
 text : BATTLE
+event: BATTLE
+grid: Forest
+arena: goblin_arena
+numEnemies: 3
+enemyType: goblin
+enemyType: goblin
+enemyType: goblin
 options: 2
 text: WIN
 destId: 27
@@ -1296,6 +1308,12 @@ destId: 21
 # 2 goblin battle
 nodeId: 21
 text : BATTLE
+event: BATTLE
+grid: Forest
+arena: goblin_arena
+numEnemies: 2
+enemyType: goblin
+enemyType: goblin
 options: 2
 text: WIN
 destId: 22
@@ -1361,7 +1379,7 @@ destId: 33
 
 nodeId: 247
 text: (Lost 4 HP) You are caught off guard by this quarrelsome crow! It pecks and claws at you before taking its leave.
-event: HP
+event: HPCHANGE
 effect: -4
 options: 1
 text: "And don't come back!" 
@@ -1424,7 +1442,7 @@ destId: 40
 
 nodeId: 39
 text: (Lost 2 HP) You hang onto the loose driftwood as best you can, losing a few branches and a little honor when colliding with rocks sticking out of the water.
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: "'Gah!" 
@@ -1474,7 +1492,7 @@ destId: 67
 
 nodeId: 46
 text: (Lost 2 HP) Searching through the bushes, you pick a handful of bright red berries. The taste is surprisingly sour.
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: "I don't feel so good." 
@@ -1753,7 +1771,7 @@ destId: 83
 
 nodeId: 82
 text: (Lost 2 HP) You reach around the log and heave with all your might. It begins to lift from the ground gradually at first, but then you feel a twist in your back, and you drop the log. "OOF" The gnome's arms stop flailing.
-event: HP
+event: HPCHANGE
 effect: -2
 options: 1
 text: "Out of its misery then! My back though..." 
@@ -1917,7 +1935,7 @@ destId: 100
 
 nodeId: 100
 text: (Lost 5 HP) The spider bites you and scurries away.
-event: HP
+event: HPCHANGE
 effect: -5
 options: 1
 text: "OUCH!" 

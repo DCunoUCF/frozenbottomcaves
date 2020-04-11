@@ -90,6 +90,8 @@ public class Program
 
                 prefix = parseText(data, ':');
 
+                Debug.Log("Event prefix: " + prefix.ToLower());
+
                 // Effect Events
                 if (prefix.ToLower() == "hpchange" || prefix.ToLower() == "hpmaxchange" || prefix.ToLower() == "strchange" || prefix.ToLower() == "intchange" || prefix.ToLower() == "agichange")
                 {
@@ -154,13 +156,18 @@ public class Program
                 }
                 else if (prefix.ToLower() == "strskill" || prefix.ToLower() == "intskill" || prefix.ToLower() == "agiskill")
                 {
+                    Debug.Log("Skill Event");
                     // Event
                     tempEvent = parseText(data, ':');
                     node.overworldEvent.Add(tempEvent);
 
+                    Debug.Log("Type of Skill Event: " + tempEvent);
+
                     // Skill Check Difficulty
                     data = lines[lineNumber++];
                     node.skillCheckDifficulty = parseId(data, ':');
+
+                    Debug.Log("Skill Check Difficulty: " + node.skillCheckDifficulty);
 
                     // Buffering the List to the correct indices
                     node.itemGained.Add("");
@@ -308,13 +315,18 @@ public class Program
                     }
                     else if (prefix.ToLower() == "strskill" || prefix.ToLower() == "intskill" || prefix.ToLower() == "agiskill")
                     {
+                        Debug.Log("Skill Event");
                         // Event
                         tempEvent = parseText(data, ':');
                         node.overworldEvent.Add(tempEvent);
 
+                        Debug.Log("Type of Skill Event: " + tempEvent);
+
                         // Skill Check Difficulty
                         data = lines[lineNumber++];
                         node.skillCheckDifficulty = parseId(data, ':');
+
+                        Debug.Log("Skill Check Difficulty: " + node.skillCheckDifficulty);
 
                         // Buffering the List to the correct indices
                         node.itemGained.Add("");
@@ -326,17 +338,21 @@ public class Program
                     // BATTLE
                     else if (prefix.ToLower() == "battle")
                     {
+                        Debug.Log("Battle Event at node: " + node.nodeId);
                         // Event
                         tempEvent = parseText(data, ':');
                         node.overworldEvent.Add(tempEvent);
 
+                        Debug.Log("Event: " + tempEvent);
                         // Grid
                         data = lines[lineNumber++];
                         node.grid = parseText(data, ':');
 
+                        Debug.Log("Grid: " + node.grid);
                         // Arena
                         data = lines[lineNumber++];
                         node.arena = parseText(data, ':');
+                        Debug.Log("Arena: " + node.arena);
 
                         // Enemy
                         data = lines[lineNumber++];
@@ -348,7 +364,15 @@ public class Program
                             data = lines[lineNumber++];
                             enemy = parseText(data, ':');
                             node.enemyType.Add(enemy);
+                            Debug.Log("Enemy: " + node.enemyType[i]);
                         }
+
+                        // Buffering the List to the correct indices
+                        node.itemGained.Add("");
+                        node.itemGainedAmount.Add(0);
+                        node.itemLost.Add("");
+                        node.itemLostAmount.Add(0);
+                        node.effect.Add(0);
                     }
                     // Save Event
                     else

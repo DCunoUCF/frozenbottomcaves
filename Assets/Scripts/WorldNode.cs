@@ -47,6 +47,7 @@ public class BattleClass
     {
         BattleClass curBattleClass = new BattleClass();
         string gridString = curNode.grid;
+        curBattleClass.nodeEnemies = new List<EncounterEnemy>();
 
         curBattleClass.grid = (GridType) GridType.Parse(typeof(GridType), curNode.grid, true);
 
