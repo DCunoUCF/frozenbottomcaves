@@ -19,62 +19,296 @@ public class Program
     static String line;
     static int lineNumber;
 
-    // Function that loads up Dialogue text files
     public Dialogue LoadFile(string filename)
     {
         TextAsset textAsset = (TextAsset)Resources.Load(filename);
 
         lines = textAsset.text.Split('\n');
         line = null;
+        lineNumber = 0;
 
         Dialogue dialogueList = new Dialogue();
 
-        // Key data to be obtained from file
-        int id;
-        String text;
-        int options;
-
-        lineNumber = 0;
-
-        while(lineNumber < lines.Length)
-        { 
-            line = lines[lineNumber++];
+        while (lineNumber < lines.Length)
+        {
+            line = lines[lineNumber];
 
             // Continue if line begins with any of these characters
             if (line == null || line == "" || line[0] == '\r' || line[0] == '\n' || line[0] == '#')
-                continue;
-
-            DialogueNode dialogue = new DialogueNode();
-
-            // Dialogue Id
-            id = parseId(line);
-
-            // Dialogue Text
-            text = parseText(line);
-            // Add it to Dialogue Node
-            dialogue.addDialogue(text, id);
-
-            // Number of Options
-            options = parseId(line);
-
-            for (int j = 0; j < options; j++)
             {
-                // Option Text
-                text = parseText(line);
-
-                // Option Id
-                id = parseId(line);
-
-                // Add Option to Dialogue Node
-                dialogue.addOption(text, id);
+                lineNumber++;
+                continue;
             }
 
-            // Add Dialogue Node to our Dialogue List
+            DialogueNode dialogue = parseDialogueNode();
+
             dialogueList.addNode(dialogue.nodeId, dialogue);
         }
 
         return dialogueList;
     }
+
+
+    // Function used to Build your DialogueNode
+    public DialogueNode parseDialogueNode()
+    {
+        bool hasStatements = true;
+
+        DialogueNode node = new DialogueNode();
+
+        while (hasStatements)
+        {
+            string data = lines[lineNumber++];
+
+            string prefix = ExtractUpToDelimeter(data, ':');
+
+            // Parse Dialogue Node data
+            if (prefix.ToLower() == "nodeid")
+            {
+                node.nodeId = parseId(data, ':');
+            }
+            // Dialogue Text
+            else if (prefix.ToLower() == "text")
+            {
+                node.text = parseText(data, ':');
+            }
+            // Parse numevents
+            else if (prefix.ToLower() == "numevents")
+            {
+                int numEvents = parseId(data, ':');
+                string tempEvent;
+                int effect;
+
+                for (int i = 0; i < numEvents; i++)
+                {
+                    data = lines[lineNumber++];
+                    tempEvent = parseText(data, ':');
+
+                    data = lines[lineNumber++];
+                    effect = parseId(data, ':');
+
+                    node.overworldEvent.Add(tempEvent);
+                    node.effect.Add(effect);
+                }
+            }
+            // Item Gained
+            else if (prefix.ToLower() == "itemgained")
+            {
+                node.itemGained = parseText(data, ':');
+            }
+            // Item Gained Amount
+            else if (prefix.ToLower() == "itemgainedamount")
+            {
+                node.itemGainedAmount = parseId(data, ':');
+            }
+            // Item Lost
+            else if (prefix.ToLower() == "itemlost")
+            {
+                node.itemLost = parseText(data, ':');
+            }
+            // Item Lost Amount
+            else if (prefix.ToLower() == "itemlostamount")
+            {
+                node.itemLostAmount = parseId(data, ':');
+            }
+            // Skill Check
+            else if (prefix.ToLower() == "skillcheckdifficulty")
+            {
+                node.skillCheckDifficulty = parseId(data, ':');
+            }
+            // Arena
+            else if (prefix.ToLower() == "arena")
+            {
+                node.arena = parseText(data, ':');
+            }
+            // Enemy
+            else if (prefix.ToLower() == "numenemies")
+            {
+                int numEnemies = parseId(data, ':');
+                string enemy;
+
+                for (int i = 0; i < numEnemies; i++)
+                {
+                    data = lines[lineNumber++];
+                    enemy = parseText(data, ':');
+                    node.enemyType.Add(enemy);
+                }
+
+            }
+            // Parse Option Data
+            else if (prefix.ToLower() == "options")
+            {
+                OptionNode op;
+
+                // Number of options
+                int optionCount = parseId(data, ':');
+
+                for (int i = 0; i < optionCount; i++)
+                {
+                    op = new OptionNode();
+                    data = lines[lineNumber++];
+                    prefix = ExtractUpToDelimeter(data, ':');
+
+                    // Keep looping until you come across destId field
+                    while (prefix.ToLower() != "destid")
+                    {
+                        // Text
+                        if (prefix.ToLower() == "text")
+                        {
+                            op.text = parseText(data, ':');
+                        }
+                        // Item Required
+                        else if (prefix.ToLower() == "itemreq")
+                        {
+                            op.itemReq = parseText(data, ':');
+                        }
+                        // Item Required Amount
+                        else if (prefix.ToLower() == "itemreqamount")
+                        {
+                            op.itemReqAmount = parseId(data, ':');
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error in options");
+                        }
+
+                        data = lines[lineNumber++];
+                        prefix = ExtractUpToDelimeter(data, ':');
+                    }
+
+                    // Dest Id
+                    op.destId = parseId(data, ':');
+
+                    // Add Option Node into our Dialogue Node
+                    node.addOption(op);
+
+                }
+
+                // End of Dialogue Node block
+                hasStatements = false;
+            }
+            else
+            {
+                Console.WriteLine("Not a field");
+            }
+        }
+
+        return node;
+    }
+
+    // Function to extract text from file (uses statement)
+    public static string parseText(string statement, char delimeter)
+    {
+        // String to hold the data we actually want.
+        StringBuilder buffer = new StringBuilder();
+
+        // String that holds the modified raw text
+        StringBuilder temp = new StringBuilder();
+
+        // Holds the actual raw text
+        String data;
+
+        // We use this to jump to to the delimeter in our .Substring function
+        int index;
+
+        // Grab line from text file
+        data = statement;
+
+        // Jump to relevant delimeter
+        index = data.IndexOf(delimeter);
+
+        // Store the modified raw text in data
+        data = data.Substring(index+1);
+
+        // Append it to string builder so that we can manipulate it
+        temp.Append(data);
+
+        // Only append to relevant characters to our buffer
+        for (int i = (temp[0] == ' ') ? 1 : 0; i < temp.Length; i++)
+        {
+            if (temp[i] == '\n' || temp[i] == '\r' || temp[i] == ':')
+                continue;
+
+            buffer.Append(temp[i]);
+        }
+
+        return buffer.ToString();
+    }
+
+
+    // Function to extract ids from text file (uses statement)
+    public static int parseId(string statement, char delimeter)
+    {
+        // String to hold the data we actually want.
+        StringBuilder buffer = new StringBuilder();
+
+        // String that holds the modified raw text
+        StringBuilder temp = new StringBuilder();
+
+        // Holds the actual raw text
+        string data;
+
+        // We use this to jump to to the delimeter in our .Substring function
+        int index;
+
+        // Grab line from text file
+        data = statement;
+
+        // Jump to relevant delimeter
+        index = data.IndexOf(delimeter);
+
+        // Store the modified raw to text in data
+        data = data.Substring(index);
+
+        // Append it to string builder so that we can manipulate it
+        temp.Append(data);
+
+        // Only append to our buffer if it is a number
+        for (int i = 0; i < temp.Length; i++)
+        {
+            if (Char.IsDigit(temp[i]) || temp[i] == '-')
+                buffer.Append(temp[i]);
+        }
+
+        return Int32.Parse(buffer.ToString());
+    }
+
+    // Function that extracts text up to a specified delimeter
+    public string ExtractUpToDelimeter(string statement, char delimeter)
+    {
+        // String to hold the data we actually want.
+        StringBuilder buffer = new StringBuilder();
+
+        // String that holds the modified raw text
+        StringBuilder temp = new StringBuilder();
+
+        // Holds the actual raw text
+        String data = statement;
+
+        // We use this to jump to to the delimeter in our .Substring function
+        int index;
+
+        // Jump to relevant delimeter
+        index = data.IndexOf(delimeter);
+
+        // Store the modified raw text in data
+        data = data.Substring(0, index);
+
+        // Append it to string builder so that we can manipulate it
+        temp.Append(data);
+
+        // Only append to relevant characters to our buffer
+        for (int i = 0; i < temp.Length; i++)
+        {
+            if (temp[i] == '\n' || temp[i] == '\r' || temp[i] == ':' || temp[i] == ' ')
+                continue;
+
+            buffer.Append(temp[i]);
+        }
+
+        return buffer.ToString();
+    }
+
 
     // Function to extract ids from text file
     public static int parseId(String str)

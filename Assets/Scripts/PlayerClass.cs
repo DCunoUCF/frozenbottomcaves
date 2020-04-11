@@ -164,7 +164,7 @@ public class PlayerClass
         this.stats = stats;
     }
 
-    // Function that applies effect to player based on item type
+
     public void applyEffect(Item item, int flag)
     {
         // flag 1 for add effect
@@ -202,6 +202,7 @@ public class PlayerClass
             default:
                 break;
         }
+
     }
 
     // Need to create prefabs for each unique ability and load them here
