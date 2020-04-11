@@ -4,15 +4,8 @@
 
 nodeId : 0 
 text : "You come across a glowing stone man"
-itemLost: StolenGoods
-itemLostAmount: 1
-numEvents:3
-event: HP
-effect: -2
-event: Str
-effect: 5
-event: Agi
-effect: -2
+event:HP
+effect:5
 options : 3
 text : "Smash the stone"
 itemReq: Acorn
