@@ -133,6 +133,7 @@ destId: 164
 
 nodeId: 163
 text: (Gained Wolf Meat) The broken pack yelps and flees as the alpha wolf falls before you.
+event: ITEMGAINED
 itemGained: WolfMeat
 itemGainedAmount: 1
 options: 1
@@ -215,6 +216,7 @@ destId: 256
 
 nodeId: 174
 text: (Lost 1 Provision) You pull some food from your pouch. The wolf eats it happily from your hand, content with its reward.
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -223,6 +225,7 @@ destId: 175
 
 nodeId: 175
 text: (Gained Wolf Collar) The wolf disappears into the trees with a pep in its step. You notice a collar lying in the dirt. It has a bell and tag on it. It says "Dog." You place it in your pack and move along.
+event: ITEMGAINED
 itemGained: WolfCollar
 itemGainedAmount: 1
 options: 1
@@ -250,6 +253,7 @@ destId: 177
 
 nodeId: 258
 text: (Lost 1 Provision) You finish your meal and get up.
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -288,6 +292,7 @@ destId: 185
 
 nodeId: 185
 text: (Lost 10 Gold) "You try be smart! You pay DOUBLE! 10 GOLD!"
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 10
 options: 1
@@ -316,6 +321,7 @@ destId: 191
 
 nodeId: 190
 text: (Lost 5 Gold) "Thank for true tell. You pay 5 gold!"
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 5
 options: 1
@@ -334,6 +340,7 @@ destId: 193
 
 nodeId: 192
 text: (Lost 3 Gold) "I good toll gitter. You pay 3 gold for so dumb no see me!"
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 3
 options: 1
@@ -342,6 +349,7 @@ destId: 184
 
 nodeId: 193
 text: (Lost 10 Gold) The troll raises its eyebrow. "You no true tell. You see me. You pay 10 gold!"
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 10
 options: 1
@@ -386,6 +394,7 @@ destId: 158
 
 nodeId: 158
 text: (Lost 5 Gold) "It my stump. You pay toll! 5 GOLD!" Drool flies from its mouth as it barks at you.
+event: ITEMLOST
 itemLost: Gold
 itemLostAmount: 5
 options: 1
@@ -551,6 +560,7 @@ destId: 215
 
 nodeId: 214
 text: (Lost 1 Provision) You finish your meal and get up.
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -581,6 +591,7 @@ destId: 218
 
 nodeId: 218
 text: (Lost Tower Shield) The rumbling settles... You stand up, covered in dust, but without a scratch. The same can't be said about your shield. It hangs loosely from your arm, battered beyond recognition.
+event: ITEMLOST
 itemLost: TowerShield
 itemLostAmount: 1
 options: 1
@@ -830,6 +841,7 @@ destId: -1
 
 nodeId: 119
 text: (Gained Cherry Pit) The creatures scatter into the trees, leaving only their giggles behind.
+event: ITEMGAINED
 itemGained: CherryPit
 itemGainedAmount: 1
 options: 1
@@ -838,6 +850,7 @@ destId: 252
 
 nodeId: 120
 text: (Gained Half Chewed Chocolate) The creatures scatter into the trees, leaving only their giggles behind.
+event: ITEMGAINED
 itemGained: HalfChewedChocolate
 itemGainedAmount: 1
 options: 1
@@ -1022,6 +1035,7 @@ destId: 155
 
 nodeId: 154
 text: (Lost 1 Provision) You finish your meal and get up.
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -1061,6 +1075,7 @@ destId: 139
 
 nodeId: 138
 text: (Lost 1 Provision) You finish your meal and get up.
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -1118,6 +1133,7 @@ destId: -1
 
 nodeId: 145
 text: (Lost Cherry Pit) You chuck the cherry pit with all your might! It knocks the spider from the goblins back. The spider rears its head and hisses in your direction as the goblins scamper away into the woods.
+event: ITEMLOST
 itemLost: CherryPit
 itemLostAmount: 1
 options: 1
@@ -1316,6 +1332,7 @@ destId: 247
 
 nodeId: 246
 text: (Gained Acorn) You duck just in time before the crow strikes you. As it flies overhead, an acorn falls to your feet. The crow must have dropped this. You pocket the acorn.
+event: ITEMGAINED
 itemGained: Acorn
 itemGainedAmount: 1
 options: 1
@@ -1366,6 +1383,7 @@ destId: 37
 
 nodeId: 36
 text: (Lost Acorn) The crow drops the twine to catch the acorn midair. With the twine, you tie all of the driftwood together into a satisfyingly sturdy raft. You keep one piece as a paddle.
+event: ITEMLOST
 itemLost: Acorn
 itemLostAmount: 1
 options: 1
@@ -1463,6 +1481,7 @@ destId: 47
 
 nodeId: 69
 text: (Lost 1 Provision) You finish your meal and get up.
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -1613,6 +1632,7 @@ destId: -1
 
 nodeId: 76
 text: (Gained Stolen Goods) You shout at the top of your lungs "Shame on you! A life of banditry? You're better than that!" The bandits look guilty. One approaches you and hands you a bundle of goods. "Sorry..." he mutters as he sulks away.
+event: ITEMGAINED
 itemGained: StolenGoods
 itemGainedAmount: 1
 options: 1
@@ -1658,6 +1678,7 @@ destId: 70
 
 nodeId: 73
 text: (Lost 1 Provision) You finish your meal and get up.
+event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 options: 1
@@ -1750,8 +1771,11 @@ destId: 89
 
 nodeId: 88
 text: (Lost Stolen Goods) (Gained Rusty Helmet) "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
+numEvents: 2
+event: ITEMLOST
 itemLost: StolenGoods
 itemLostAmount: 1
+event: ITEMGAINED
 itemGained: RustyHelmet
 itemGainedAmount: 1
 options: 1
@@ -1760,8 +1784,11 @@ destId: 249
 
 nodeId: 248
 text: (Lost 5 Gold) (Gained Rusty Helmet) "Oh my! Thank you! Thank you! Take this rusty helmet, it's all I have to show for my thanks."
-itemLost: StolenGoods
-itemLostAmount: 1
+numEvents: 2
+event: ITEMLOST
+itemLost: Gold
+itemLostAmount: 5
+event: ITEMGAINED
 itemGained: RustyHelmet
 itemGainedAmount: 1
 options: 1
@@ -1881,6 +1908,7 @@ destId: 103
 
 nodeId: 103
 text: (Gained Tower Shield) Dropping the log to the side, you unearth a shiny and sturdy shield with a tower emblazoned upon its face.
+event: ITEMGAINED
 itemGained: TowerShield
 itemGainedAmount: 1
 options: 1
