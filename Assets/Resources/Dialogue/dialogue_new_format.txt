@@ -32,7 +32,7 @@ destId: 5
 
 nodeId: 5
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 7
 options: 2
 text: SAVE
@@ -63,6 +63,7 @@ destId: 9
 nodeId: 9
 text: BATTLE
 event: BATTLE
+grid: Forest
 arena: main_road1_arena
 numEnemies: 4
 enemyType: slime_G
@@ -119,6 +120,7 @@ destId:165
 nodeId: 162
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: main_road3_arena
 numEnemies: 4
 enemyType: wolf_black
@@ -172,7 +174,7 @@ destId: 174
 
 nodeId: 168
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 9
 options: 2
 text: SUCCESS
@@ -247,12 +249,15 @@ destId: 177
 
 nodeId: 257
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 177
 
 nodeId: 258
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
@@ -276,7 +281,7 @@ destId: 187
 
 nodeId: 179
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -330,7 +335,7 @@ destId: 194
 
 nodeId: 191
 text: INT EVENT
-event: INT
+event: INTSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -457,6 +462,7 @@ destId: 201
 nodeId: 201
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: dirt_arena
 numEnemies: 5
 enemyType: gnoll
@@ -504,6 +510,7 @@ destId: 207
 nodeId: 207
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: dirt_arena
 numEnemies: 3
 enemyType: gnoll
@@ -554,12 +561,15 @@ destId: 215
 
 nodeId: 213
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 215
 
 nodeId: 214
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
@@ -600,7 +610,7 @@ destId: 222
 
 nodeId: 219
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 6
 options: 2
 text: SUCCESS
@@ -658,7 +668,7 @@ destId: 228
 
 nodeId: 228
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -682,7 +692,7 @@ destId: 231
 
 nodeId: 231
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -706,7 +716,7 @@ destId: 234
 
 nodeId: 234
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -744,6 +754,7 @@ destId: 239
 nodeId: 239
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: spider_queen_arena
 numEnemies: 5
 enemyType: spider_queen
@@ -867,6 +878,7 @@ destId: 111
 nodeId: 111
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: pond_arena
 numEnemies: 3
 enemyType: nixie
@@ -938,7 +950,7 @@ destId:132
 
 nodeId: 126
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 8
 options: 2
 text: SUCCESS
@@ -962,7 +974,7 @@ destId: 151
 
 nodeId: 129
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 8
 options: 2
 text: SUCCESS
@@ -986,7 +998,7 @@ destId: 151
 
 nodeId: 132
 text: INT EVENT
-event: INT
+event: INTSKILL
 skillCheckDifficulty: 8
 options: 2
 text: SUCCESS
@@ -1029,12 +1041,15 @@ destId: 155
 
 nodeId: 153
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 155
 
 nodeId: 154
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
@@ -1069,12 +1084,15 @@ destId: 139
 
 nodeId: 137
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 139
 
 nodeId: 138
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
@@ -1108,6 +1126,7 @@ destId: 145
 nodeId: 142
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: side_road1_arena
 numEnemies: 3
 enemyType: spider_small
@@ -1144,6 +1163,7 @@ destId: 146
 nodeId: 146
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: side_road1_arena
 numEnemies: 1
 enemyType: spider_small
@@ -1322,7 +1342,7 @@ destId: 245
 
 nodeId: 245
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -1438,7 +1458,7 @@ destId: 67
 
 nodeId: 44
 text: INT EVENT
-event: INT
+event: INTSKILL
 skillCheckDifficulty: 8
 options: 2
 text: SUCCESS
@@ -1475,12 +1495,15 @@ destId: 47
 
 nodeId: 68
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 47
 
 nodeId: 69
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
@@ -1504,7 +1527,7 @@ destId: 52
 
 nodeId: 49
 text : AGI EVENT
-event: AGI
+event: AGISKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -1534,6 +1557,7 @@ destId: 54
 nodeId: 54
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: halfdirt_arena
 numEnemies: 5
 enemyType: bandit_scout
@@ -1593,6 +1617,7 @@ destId: 62
 nodeId: 62
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: halfdirt_arena
 numEnemies: 1
 enemyType: bandit_leader
@@ -1672,12 +1697,15 @@ destId: 70
 
 nodeId: 72
 text: You get up after a good sit.
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 70
 
 nodeId: 73
 text: (Lost 1 Provision) You finish your meal and get up.
+numEvents: 2
+event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
@@ -1709,7 +1737,7 @@ destId: 84
 
 nodeId: 80
 text : STR EVENT
-event: STR
+event: STRSKILL
 skillCheckDifficulty: 7
 options: 2
 text: SUCCESS
@@ -1835,6 +1863,7 @@ destId: 92
 nodeId: 92
 text: BATTLE EVENT
 event: BATTLE
+grid: Forest
 arena: main_road2_arena
 numEnemies: 1
 enemyType: gnoll_logger

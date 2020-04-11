@@ -26,6 +26,7 @@ public class DialogueNode
     public int nodeId;
     public string text;
     public int skillCheckDifficulty;
+    public string grid;
     public string arena;
 
     // Items

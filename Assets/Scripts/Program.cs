@@ -66,6 +66,8 @@ public class Program
             if (prefix.ToLower() == "nodeid")
             {
                 node.nodeId = parseId(data, ':');
+
+                Debug.Log("Node: " + node.nodeId);
             }
             // Dialogue Text
             else if (prefix.ToLower() == "text")
@@ -89,7 +91,7 @@ public class Program
                 prefix = parseText(data, ':');
 
                 // Effect Events
-                if (prefix.ToLower() == "hp" || prefix.ToLower() == "str" || prefix.ToLower() == "int" || prefix.ToLower() == "agi")
+                if (prefix.ToLower() == "hpchange" || prefix.ToLower() == "hpmaxchange" || prefix.ToLower() == "strchange" || prefix.ToLower() == "intchange" || prefix.ToLower() == "agichange")
                 {
                     // Event
                     tempEvent = parseText(data, ':');
@@ -100,36 +102,124 @@ public class Program
                     tempEffect = parseId(data, ':');
                     node.effect.Add(tempEffect);
 
+                    // Buffering the List to the correct indices
+                    node.itemGained.Add("");
+                    node.itemGainedAmount.Add(0);
+                    node.itemLost.Add("");
+                    node.itemLostAmount.Add(0);
                 }
                 // Gain Event
                 else if (prefix.ToLower() == "itemgained")
                 {
+                    // Event
                     tempEvent = parseText(data, ':');
                     node.overworldEvent.Add(tempEvent);
 
+                    // Item Gained
                     data = lines[lineNumber++];
                     item = parseText(data, ':');
                     node.itemGained.Add(item);
 
-
+                    // Item Gained Amount
                     data = lines[lineNumber++];
                     amount = parseId(data, ':');
                     node.itemGainedAmount.Add(amount);
+
+                    // Buffering the List to the correct indices
+                    node.itemLost.Add("");
+                    node.itemLostAmount.Add(0);
+                    node.effect.Add(0);
                 }
                 // Loss Event
+                else if (prefix.ToLower() == "itemlost")
+                {
+                    // Event
+                    tempEvent = parseText(data, ':');
+                    node.overworldEvent.Add(tempEvent);
+
+                    // Item Lost
+                    data = lines[lineNumber++];
+                    item = parseText(data, ':');
+                    node.itemLost.Add(item);
+
+                    // Item Lost Amount
+                    data = lines[lineNumber++];
+                    amount = parseId(data, ':');
+                    node.itemLostAmount.Add(amount);
+
+                    // Buffering the List to the correct indices
+                    node.itemGained.Add("");
+                    node.itemGainedAmount.Add(0);
+                    node.effect.Add(0);
+                }
+                else if (prefix.ToLower() == "strskill" || prefix.ToLower() == "intskill" || prefix.ToLower() == "agiskill")
+                {
+                    // Event
+                    tempEvent = parseText(data, ':');
+                    node.overworldEvent.Add(tempEvent);
+
+                    // Skill Check Difficulty
+                    data = lines[lineNumber++];
+                    node.skillCheckDifficulty = parseId(data, ':');
+
+                    // Buffering the List to the correct indices
+                    node.itemGained.Add("");
+                    node.itemGainedAmount.Add(0);
+                    node.itemLost.Add("");
+                    node.itemLostAmount.Add(0);
+                    node.effect.Add(0);
+                }
+                // BATTLE
+                else if (prefix.ToLower() == "battle")
+                {
+                    Debug.Log("Battle Event at node: " + node.nodeId);
+                    // Event
+                    tempEvent = parseText(data, ':');
+                    node.overworldEvent.Add(tempEvent);
+
+                    Debug.Log("Event: " + tempEvent);
+                    // Grid
+                    data = lines[lineNumber++];
+                    node.grid = parseText(data, ':');
+                    
+                    Debug.Log("Grid: " + node.grid);
+                    // Arena
+                    data = lines[lineNumber++];
+                    node.arena = parseText(data, ':');
+                    Debug.Log("Arena: " + node.arena);
+
+                    // Enemy
+                    data = lines[lineNumber++];
+                    int numEnemies = parseId(data, ':');
+                    string enemy;
+
+                    for (int i = 0; i < numEnemies; i++)
+                    {
+                        data = lines[lineNumber++];
+                        enemy = parseText(data, ':');
+                        node.enemyType.Add(enemy);
+                        Debug.Log("Enemy: " + node.enemyType[i]);
+                    }
+
+                    // Buffering the List to the correct indices
+                    node.itemGained.Add("");
+                    node.itemGainedAmount.Add(0);
+                    node.itemLost.Add("");
+                    node.itemLostAmount.Add(0);
+                    node.effect.Add(0);
+                }
+                // Save Event
                 else
                 {
                     tempEvent = parseText(data, ':');
                     node.overworldEvent.Add(tempEvent);
 
-                    data = lines[lineNumber++];
-                    item = parseText(data, ':');
-                    node.itemLost.Add(item);
-
-
-                    data = lines[lineNumber++];
-                    amount = parseId(data, ':');
-                    node.itemLostAmount.Add(amount);
+                    // Buffering the List to the correct indices
+                    node.itemGained.Add("");
+                    node.itemGainedAmount.Add(0);
+                    node.itemLost.Add("");
+                    node.itemLostAmount.Add(0);
+                    node.effect.Add(0);
                 }
             }
             // Parse numevents
@@ -155,7 +245,7 @@ public class Program
                     prefix = parseText(data, ':');
 
                     // Effect Events
-                    if (prefix.ToLower() == "hp" || prefix.ToLower() == "str" || prefix.ToLower() == "int" || prefix.ToLower() == "agi")
+                    if (prefix.ToLower() == "hpchange" || prefix.ToLower() == "hpmaxchange" || prefix.ToLower() == "strchange" || prefix.ToLower() == "intchange" || prefix.ToLower() == "agichange")
                     {
                         // Event
                         tempEvent = parseText(data, ':');
@@ -166,63 +256,114 @@ public class Program
                         tempEffect = parseId(data, ':');
                         node.effect.Add(tempEffect);
 
+                        // Buffering the List to the correct indices
+                        node.itemGained.Add("");
+                        node.itemGainedAmount.Add(0);
+                        node.itemLost.Add("");
+                        node.itemLostAmount.Add(0);
                     }
                     // Gain Event
-                    else if(prefix.ToLower() == "itemgained")
+                    else if (prefix.ToLower() == "itemgained")
                     {
-                        
+                        // Event
                         tempEvent = parseText(data, ':');
                         node.overworldEvent.Add(tempEvent);
 
+                        // Item Gained
                         data = lines[lineNumber++];
                         item = parseText(data, ':');
                         node.itemGained.Add(item);
 
-
+                        // Item Gained Amount
                         data = lines[lineNumber++];
                         amount = parseId(data, ':');
                         node.itemGainedAmount.Add(amount);
+
+                        // Buffering the List to the correct indices
+                        node.itemLost.Add("");
+                        node.itemLostAmount.Add(0);
+                        node.effect.Add(0);
                     }
                     // Loss Event
+                    else if (prefix.ToLower() == "itemlost")
+                    {
+                        // Event
+                        tempEvent = parseText(data, ':');
+                        node.overworldEvent.Add(tempEvent);
+
+                        // Item Lost
+                        data = lines[lineNumber++];
+                        item = parseText(data, ':');
+                        node.itemLost.Add(item);
+
+                        // Item Lost Amount
+                        data = lines[lineNumber++];
+                        amount = parseId(data, ':');
+                        node.itemLostAmount.Add(amount);
+
+                        // Buffering the List to the correct indices
+                        node.itemGained.Add("");
+                        node.itemGainedAmount.Add(0);
+                        node.effect.Add(0);
+                    }
+                    else if (prefix.ToLower() == "strskill" || prefix.ToLower() == "intskill" || prefix.ToLower() == "agiskill")
+                    {
+                        // Event
+                        tempEvent = parseText(data, ':');
+                        node.overworldEvent.Add(tempEvent);
+
+                        // Skill Check Difficulty
+                        data = lines[lineNumber++];
+                        node.skillCheckDifficulty = parseId(data, ':');
+
+                        // Buffering the List to the correct indices
+                        node.itemGained.Add("");
+                        node.itemGainedAmount.Add(0);
+                        node.itemLost.Add("");
+                        node.itemLostAmount.Add(0);
+                        node.effect.Add(0);
+                    }
+                    // BATTLE
+                    else if (prefix.ToLower() == "battle")
+                    {
+                        // Event
+                        tempEvent = parseText(data, ':');
+                        node.overworldEvent.Add(tempEvent);
+
+                        // Grid
+                        data = lines[lineNumber++];
+                        node.grid = parseText(data, ':');
+
+                        // Arena
+                        data = lines[lineNumber++];
+                        node.arena = parseText(data, ':');
+
+                        // Enemy
+                        data = lines[lineNumber++];
+                        int numEnemies = parseId(data, ':');
+                        string enemy;
+
+                        for (int j = 0; j < numEnemies; j++)
+                        {
+                            data = lines[lineNumber++];
+                            enemy = parseText(data, ':');
+                            node.enemyType.Add(enemy);
+                        }
+                    }
+                    // Save Event
                     else
                     {
                         tempEvent = parseText(data, ':');
                         node.overworldEvent.Add(tempEvent);
 
-                        data = lines[lineNumber++];
-                        item = parseText(data, ':');
-                        node.itemLost.Add(item);
-
-
-                        data = lines[lineNumber++];
-                        amount = parseId(data, ':');
-                        node.itemLostAmount.Add(amount);
+                        // Buffering the List to the correct indices
+                        node.itemGained.Add("");
+                        node.itemGainedAmount.Add(0);
+                        node.itemLost.Add("");
+                        node.itemLostAmount.Add(0);
+                        node.effect.Add(0);
                     }
                 }
-            }
-            // Skill Check
-            else if (prefix.ToLower() == "skillcheckdifficulty")
-            {
-                node.skillCheckDifficulty = parseId(data, ':');
-            }
-            // Arena
-            else if (prefix.ToLower() == "arena")
-            {
-                node.arena = parseText(data, ':');
-            }
-            // Enemy
-            else if (prefix.ToLower() == "numenemies")
-            {
-                int numEnemies = parseId(data, ':');
-                string enemy;
-
-                for (int i = 0; i < numEnemies; i++)
-                {
-                    data = lines[lineNumber++];
-                    enemy = parseText(data, ':');
-                    node.enemyType.Add(enemy);
-                }
-
             }
             // Parse Option Data
             else if (prefix.ToLower() == "options")
@@ -232,13 +373,20 @@ public class Program
                 // Number of options
                 int optionCount = parseId(data, ':');
 
+                Debug.Log("Number of Options: " + optionCount);
+
                 for (int i = 0; i < optionCount; i++)
                 {
+
                     op = new OptionNode();
                     data = lines[lineNumber++];
                     prefix = ExtractUpToDelimeter(data, ':');
 
-                    // Keep looping until you come across destId field
+                    Debug.Log("Parsing option: " + i);
+                    Debug.Log("Next prefix: " + prefix);
+
+                    // Richard's Code
+                    /*// Keep looping until you come across destId field
                     while (prefix.ToLower() != "destid")
                     {
                         // Text
@@ -263,11 +411,57 @@ public class Program
 
                         data = lines[lineNumber++];
                         prefix = ExtractUpToDelimeter(data, ':');
+                    }*/
+
+                    // David's Modification
+                    if (prefix.ToLower() == "text")
+                    {
+                        // Text
+                        op.text = parseText(data, ':');
+                        data = lines[lineNumber++];
+                        prefix = ExtractUpToDelimeter(data, ':');
+
+                        Debug.Log("Parsed text: " + op.text);
+                        Debug.Log("Item Required or not?: " + prefix.ToLower());
+                        
+                        // Item Required
+                        if (prefix.ToLower() == "itemreq")
+                        {
+                            Debug.Log("Item Required.");
+
+                            op.itemReq = parseText(data, ':');
+                            data = lines[lineNumber++];
+
+                            op.itemReqAmount = parseId(data, ':');
+                            data = lines[lineNumber++];
+
+                            op.destId = parseId(data, ':');
+
+                            Debug.Log("Item Required: " + op.itemReq + " Item Required Amount: " + op.itemReqAmount);
+                            Debug.Log("DestID: " + op.destId);
+                        }
+                        // Dest ID
+                        else
+                        {
+                            Debug.Log("Item Not Required.");
+
+                            op.destId = parseId(data, ':');
+
+                            op.itemReq = "";
+                            op.itemReqAmount = 0;
+
+                            Debug.Log("Item Required: " + op.itemReq + " Item Required Amount: " + op.itemReqAmount);
+                            Debug.Log("DestID: " + op.destId);
+                        }
+
+                    }
+                    else
+                    {
+                        Debug.Log("Error in option node: " + i);
+                        Console.WriteLine("Error in options");
                     }
 
-                    // Dest Id
-                    op.destId = parseId(data, ':');
-
+                    Debug.Log("Adding option: " + i);
                     // Add Option Node into our Dialogue Node
                     node.addOption(op);
 
@@ -352,14 +546,26 @@ public class Program
         // Append it to string builder so that we can manipulate it
         temp.Append(data);
 
+        Debug.Log("Parsing ID, line: " + temp.ToString());
+
         // Only append to our buffer if it is a number
         for (int i = 0; i < temp.Length; i++)
         {
             if (Char.IsDigit(temp[i]) || temp[i] == '-')
+            {
                 buffer.Append(temp[i]);
+            }
         }
 
-        return Int32.Parse(buffer.ToString());
+        // If it can't be parsed, it sends a -1 node so the game will end. 
+        int outOut = 0;
+        if (Int32.TryParse(buffer.ToString(), out outOut))
+            return Int32.Parse(buffer.ToString());
+        else
+        {
+            Debug.Log("Can't parse string");
+            return -1;
+        }
     }
 
     // Function that extracts text up to a specified delimeter

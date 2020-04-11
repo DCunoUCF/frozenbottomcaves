@@ -36,14 +36,14 @@ public class OverworldManager : MonoBehaviour
     public int startingNode;
     public List<GameObject> nodes;
     public int playerNodeId;
-    public List<string> overworldEventString;
-    public List<string> overworldEventEffect;
-    public List<string> overworldEventItemGained;
+    public DialogueNode curDialogueNode;
+    public List<FlagType> overworldEvent;
+    public List<int> overworldEventEffect;
+    public List<Item.ItemType> overworldEventItemGained;
     public List<int> overworldEventItemGainedAmount;
-    public List<string> overworldEventItemLost;
+    public List<Item.ItemType> overworldEventItemLost;
     public List<int> overworldEventItemLostAmount;
     public int overworldEventSkillCheckDifficulty;
-    public FlagType overworldEventEnum;
     public int nodeTypeCount;
     public bool load;
     public List<int> nodeSavedAt;
@@ -234,73 +234,76 @@ public class OverworldManager : MonoBehaviour
 
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
+        this.curDialogueNode = this.dm.dialogue.nodes[this.playerNodeId];
 
-        this.overworldEventString = this.dm.dialogue.nodes[this.playerNodeId].overworldEvent;
-        this.overworldEventEffect = this.dm.dialogue.nodes[this.playerNodeId].overworldEvent;
-        this.overworldEventItemGained = this.dm.dialogue.nodes[this.playerNodeId].itemGained;
-        this.overworldEventItemGainedAmount = this.dm.dialogue.nodes[this.playerNodeId].itemGainedAmount;
-        this.overworldEventItemLost = this.dm.dialogue.nodes[this.playerNodeId].itemLost;
-        this.overworldEventItemLostAmount = this.dm.dialogue.nodes[this.playerNodeId].itemLostAmount;
-        this.overworldEventSkillCheckDifficulty = this.dm.dialogue.nodes[this.playerNodeId].skillCheckDifficulty;
+        // Event conversion from string to FlagType
+        print("This event list: " + this.curDialogueNode.overworldEvent);
+
+        if (this.curDialogueNode.overworldEvent != null)
+            for (int i = 0; i < this.curDialogueNode.overworldEvent.Count; i++)
+                if (this.curDialogueNode.overworldEvent[i] != null)
+                {
+                    print("This event: " + this.curDialogueNode.overworldEvent[i]);
+                    this.overworldEvent.Add((FlagType)FlagType.Parse(typeof(FlagType), this.curDialogueNode.overworldEvent[i], true));
+                }
+                else
+                    this.overworldEvent.Add(FlagType.NONE);
+        else
+            this.overworldEvent = null;
+
+        // Items Gained and Lost conversion from string to Item.ItemType Enum
+        for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
+            this.overworldEventItemGained.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemGained[i], true));
+
+        this.overworldEventItemGainedAmount = this.curDialogueNode.itemGainedAmount;
+
+        for (int i = 0; i < this.curDialogueNode.itemLost.Count; i++)
+            this.overworldEventItemLost.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemLost[i], true));
+        
+        this.overworldEventItemLostAmount = this.curDialogueNode.itemLostAmount;
+        
+        this.overworldEventEffect = this.curDialogueNode.effect;
+        this.overworldEventSkillCheckDifficulty = this.curDialogueNode.skillCheckDifficulty;
 
 
         this.dm.Panel.SetActive(true);
         this.dm.setInitialSelection();
 
-        for (int i = 0; i < this.overworldEventString.Count; i++)
+        // If no events
+        if (this.overworldEvent == null)
         {
-            switch (this.overworldEventString[i])
-            {
-                case "BATTLE":
-                    this.overworldEventEnum = FlagType.Battle;
-                    break;
-                case "STR":
-                    this.overworldEventEnum = FlagType.Battle;
-                    break;
-                case "AGI":
-                    this.overworldEventEnum = FlagType.Battle;
-                    break;
-                case "INT":
-                    this.overworldEventEnum = FlagType.Battle;
-                    break;
-                case "HP":
-                    this.overworldEventEnum = FlagType.Battle;
-                    break;
-                case "HPMAX":
-                    this.overworldEventEnum = FlagType.Battle;
-                    break;
-                case "ITEMGAINED":
-                    this.overworldEventEnum = FlagType.Battle;
-                    break;
-                case "ITEMLOST":
-                    this.overworldEventEnum = FlagType.Battle;
-                    break;
-                default:
-                    this.overworldEventEnum = FlagType.None;
-                    break;
-            }
+            updating = false;
+            yield break;
+        }
 
-            if (this.overworldEventEnum == FlagType.Battle)
+        for (int i = 0; i < this.overworldEvent.Count; i++)
+        {
+            print("Current event: " + this.overworldEvent[i]);
+
+            if (this.overworldEvent[i] == FlagType.NONE)
+                continue;
+
+            if (this.overworldEvent[i] == FlagType.BATTLE)
             {
                 print("entered combat");
                 yield return StartCoroutine(BattleEvent());
             }
 
-            if (this.overworldEventEnum == FlagType.STREvent)
+            if (this.overworldEvent[i] == FlagType.STRSKILL)
             {
                 print("entered str event");
                 this.dm.putCanvasBehind();
                 yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, this.overworldEventSkillCheckDifficulty));
                 this.dm.putCanvasInFront();
             }
-            if (this.overworldEventEnum == FlagType.INTEvent)
+            if (this.overworldEvent[i] == FlagType.INTSKILL)
             {
                 print("entered int event");
                 this.dm.putCanvasBehind();
                 yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, this.overworldEventSkillCheckDifficulty));
                 this.dm.putCanvasInFront();
             }
-            if (this.overworldEventEnum == FlagType.AGIEvent)
+            if (this.overworldEvent[i] == FlagType.AGISKILL)
             {
                 print("entered agi event");
                 this.dm.putCanvasBehind();
@@ -308,38 +311,38 @@ public class OverworldManager : MonoBehaviour
                 this.dm.putCanvasInFront();
             }
 
-            if (this.overworldEventEnum == FlagType.HPEvent)
+            if (this.overworldEvent[i] == FlagType.HPCHANGE)
             {
                 print("Hp event");
-                this.HPEvent(n.curNode.HealthChange[n.count]);
+                this.HPEvent(this.overworldEventEffect[i]);
             }
 
-            if (this.overworldEventEnum == FlagType.Item)
+            if (this.overworldEvent[i] == FlagType.ITEMGAINED)
             {
                 print("Getting item(s)");
-                this.ItemGet(n.curNode.NodeItems[n.count].item, n.curNode.NodeItems[n.count].count);
+                this.ItemGet(this.overworldEventItemGained[i], this.overworldEventItemGainedAmount[i]);
             }
 
-            if (this.overworldEventEnum == FlagType.ItemLose)
+            if (this.overworldEvent[i] == FlagType.ITEMLOST)
             {
                 print("Losing item(s)");
                 this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
             }
 
-            if (this.overworldEventEnum == FlagType.HPMaxEvent)
+            if (this.overworldEvent[i] == FlagType.HPMAXCHANGE)
             {
                 print("HP MAX event");
                 this.HPMaxEvent(this.overworldEventEffect[i]);
             }
 
-            if (this.overworldEventEnum == FlagType.SaveEvent)
+            if (this.overworldEvent[i] == FlagType.SAVE)
             {
                 if (!nodeSavedAt.Contains(n.curNode.NodeIDs[n.count]))
                 {
                     nodeSavedAt.Add(n.curNode.NodeIDs[n.count]);
 
                     // If this save event has the provisions checked, eat one 
-                    if (this.dm.dialogue.nodes[this.playerNodeId].itemLost[i].CompareTo("Provisions") == 0)
+                    if (this.curDialogueNode.itemLost[i].CompareTo("Provisions") == 0)
                         this.gm.pm.pc.inventory.removeProvision();
                     // Either way heal 5
                     this.HPEvent(5);
@@ -494,7 +497,6 @@ public class OverworldManager : MonoBehaviour
     {
         this.dm.Panel.SetActive(false);
         this.rollParchment.SetActive(false);
-        //this.gm.sm.setMusicFromDirectory("ForestBattleMusic");
         this.gm.sm.setBattleMusic();
         SceneManager.LoadScene("Battleworld", LoadSceneMode.Additive);
         this.gm.pm.combatInitialized = true;
@@ -594,16 +596,12 @@ public class OverworldManager : MonoBehaviour
 
     public BattleClass GetBattleClass()
     {
-        WorldNode curWorldNode = this.GetCurrentNode().GetComponent<WorldNode>();
+        BattleClass curBattleClass = new BattleClass();
+        DialogueNode curNode = this.dm.dialogue.nodes[this.dm.currentNode];
 
-        for (int i = 0; i < curWorldNode.NodeIDs.Count; i++)
-        {
-            if (curWorldNode.NodeIDs[i] == this.dm.currentNode)
-                return curWorldNode.battleClassList.list[i];
-        }
+        curBattleClass = curBattleClass.DialogueNodeToBattleClass(curNode);
 
-        Debug.AssertFormat(false, "Couldn't find BattleClass in BattleClassList at currentNode " + this.dm.currentNode);
-        return null;
+        return curBattleClass;
     }
 
     void TurnPlayer(GameObject entity, Vector3 movTar)
