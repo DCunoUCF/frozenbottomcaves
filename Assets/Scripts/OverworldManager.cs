@@ -99,9 +99,9 @@ public class OverworldManager : MonoBehaviour
             generatePathingGrid();
         }
 
-        if (playerSpawned)
-            if (this.dm.currentNode == -1)
-                this.HPEvent(-(this.gm.pm.pc.health));
+        //if (playerSpawned)
+        //    if (this.dm.currentNode == -1)
+        //        this.HPEvent(-(this.gm.pm.pc.health));
 
         // Creates save at node 0
         if (playerSpawned && !initialSave)
@@ -132,7 +132,7 @@ public class OverworldManager : MonoBehaviour
             }
         }
 
-        if (!updating && playerSpawned)
+        if (!updating && playerSpawned && !this.gm.pm.PLAYERDEAD)
         {
             updating = true;
             StartCoroutine(overworldUpdate());
@@ -175,6 +175,12 @@ public class OverworldManager : MonoBehaviour
 
         // If there is some sort of animation/sfx to play do it here
         yield return StartCoroutine(this.oa.events(this.dm.currentNode));
+
+        if (this.dm.currentNode == -1)
+        { 
+            this.HPEvent(-(this.gm.pm.pc.health));
+            yield break;
+        }
 
         // If the node position is not where the player is, move to it
         if (player.transform.position != n.physNode.transform.position)
@@ -375,7 +381,7 @@ public class OverworldManager : MonoBehaviour
         this.nodeTypeCount = saveNodeTypeCount;
         this.playerX = saveX;
         this.playerY = saveY;
-
+        this.playerNodeId = saveCurrentNode;
         this.dm.Panel.SetActive(true);
         this.dm.init();
 
@@ -396,6 +402,7 @@ public class OverworldManager : MonoBehaviour
         this.gm.om.dm.setInterableAll();
         this.gm.om.dm.setInitialSelection();
         ButtonOverlay.Instance.inventory.interactable = true;
+        updating = false;
     }
 
     //private void movePlayer()
