@@ -445,16 +445,29 @@ public class BattleManager : MonoBehaviour
                 atkY = curAtkTar.gridY;
 
                 if (gridCell[atkX, atkY].entity == null)
+                {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
                     continue;
+                }
 
                 print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
 
                 // If the attacker is the player or if the attacker is the enemy and the target is the player
                 if (i == 0)
+                {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                     combatantList[atkTarIndex].entity.GetComponent<Enemy>().dealDamage(combatantList[i].attackDmg);
-                if (i != 0 && atkTarIndex == 0)
+                }
+                else if (i != 0 && atkTarIndex == 0)
+                {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                     this.gm.pm.takeDmg(combatantList[i].attackDmg);
-                    //combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+                }
+                else
+                {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
+                }
+
 
                 print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
 
@@ -474,6 +487,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator ClashAnim(CList entity, CList entity2)
     {
         this.rollParchment.SetActive(true);
+        this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.clash, this.gm.sm.effectsVolume);
         Vector3 start = entity.entity.transform.position;
         Vector3 end = entity2.entity.transform.position;
         Vector3 start2 = entity2.entity.transform.position;
@@ -511,7 +525,7 @@ public class BattleManager : MonoBehaviour
         {
             entity2.entity.GetComponent<Enemy>().dealDamage(entity.attackDmg);
             //entity2.hp -= entity.attackDmg;
-
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
             if (entity2.hp <= 0)
             {
                 entity2.entity.SetActive(false);
@@ -521,6 +535,7 @@ public class BattleManager : MonoBehaviour
         else
         {
             entity.hp -= entity2.attackDmg;
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
 
             if (entity.hp <= 0)
             {
