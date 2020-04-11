@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
     public bool splashUp, quitUp, jingle;
-    public bool showHPbars;
-    public HashSet<GameObject> inactiveObjects;
+    public bool showHPbars, showDMGnums;
+    public HashSet<GameObject> inactiveObjects, inactiveObjects2; // One for hp bars, one for dmg numbers
 
     public int whatsMyId()
     {
@@ -41,7 +41,9 @@ public class GameManager : MonoBehaviour
         this.battleLogicComplete = false;
         this.currentScene = SceneManager.GetActiveScene().name;
         this.showHPbars = true;
+        this.showDMGnums = true;
         inactiveObjects = new HashSet<GameObject>();
+        inactiveObjects2 = new HashSet<GameObject>();
         this.sm = this.gameObject.AddComponent<SoundManager>();
         this.om = this.gameObject.AddComponent<OverworldManager>();
         this.pm = this.gameObject.AddComponent<PlayerManager>();
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // HPBar toggle logic
         if (!this.showHPbars)
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("enemyHPBars"))
@@ -91,6 +94,30 @@ public class GameManager : MonoBehaviour
                     g.SetActive(true);
             }
         }
+
+        // DMG number toggle logic
+        if (!this.showDMGnums)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("enemyDMGText"))
+            {
+                inactiveObjects2.Add(g);
+                g.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("enemyDMGText"))
+            {
+                g.SetActive(true);
+            }
+            foreach (GameObject g in inactiveObjects2)
+            {
+                if (g != null)
+                    g.SetActive(true);
+            }
+        }
+
+
 
         if (this.om.playerSpawned)
         {

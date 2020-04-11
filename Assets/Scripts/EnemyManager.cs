@@ -84,7 +84,7 @@ public class EnemyManager// : MonoBehaviour
 
             // e.entity.GetComponent<EnemyDunce>().moveRandomly();
             comp.decide();
-            comp.ehb.updateBar(comp.getHealth(), 0);
+            comp.ehb.updateBar(comp.getHealth());
             e.hp = comp.getHealth();
 
             int decision = comp.getDecision();

@@ -18,7 +18,7 @@ public enum UIType
     MusicMute, EffectMute,
     BattleButton, OptionsOnTop, OptionBack,
     LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame,
-    HideHPBars
+    HideHPBars, HideDMGNum
 }
 
 public enum SliderType
@@ -174,6 +174,10 @@ public class MenuManager : MonoBehaviour
                 this.gm.showHPbars = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
                 SaveData.hpBar = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
                 break;
+            case UIType.HideDMGNum:
+                this.gm.showDMGnums = GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn;
+                SaveData.dmgNum = GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn;
+                break;
             default:
     			Debug.Log("Clicked a button!"); break;
     	}
@@ -262,6 +266,7 @@ public class MenuManager : MonoBehaviour
         GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
         GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
         GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn = SaveData.hpBar;
+        GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn = SaveData.dmgNum;
         yield break;
     }
 

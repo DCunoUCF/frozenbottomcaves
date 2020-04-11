@@ -10,10 +10,10 @@ public class EnemyHealthBar : MonoBehaviour
     private int maxHP;
     private float percentFull;
     public Transform fill;
-    private bool init;
     public TextMeshPro text;
+    public EnemyDMGNumbers edn;
 
-    public void updateBar(int hp, int damageTaken)
+    public void updateBar(int hp)
     {
         this.maxHP = enemyScript.maxHp;
         //text.color = Color.red;
@@ -25,18 +25,24 @@ public class EnemyHealthBar : MonoBehaviour
         else
             fill.localScale = new Vector3(0, 1, 1);
 
-        if (this.gameObject.activeSelf)
-        {
-            if (damageTaken > 0)
-                StartCoroutine(damageNumber(damageTaken));
-        }
+        //if (edn.gameObject.activeSelf)
+        //{
+        //    if (damageTaken > 0)
+        //        StartCoroutine(edn.displayNum(damageTaken));
+        //}
+
+        //if (this.gameObject.activeSelf)
+        //{
+        //    if (damageTaken > 0)
+        //        StartCoroutine(damageNumber(damageTaken));
+        //}
         
     }
 
-    IEnumerator damageNumber(int damageTaken)
-    {
-        text.SetText("" + damageTaken);
-        yield return new WaitForSeconds(1.5f);
-        text.SetText("");
-    }
+    //IEnumerator damageNumber(int damageTaken)
+    //{
+    //    text.SetText("" + damageTaken);
+    //    yield return new WaitForSeconds(1.5f);
+    //    text.SetText("");
+    //}
 }

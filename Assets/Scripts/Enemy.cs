@@ -11,6 +11,7 @@ public enum EnemyClass
 public class Enemy : MonoBehaviour
 {
     public EnemyHealthBar ehb;
+    public EnemyDMGNumbers edn;
 
 	protected BattleManager bm;
 	protected int enemyId;
@@ -877,7 +878,9 @@ public class Enemy : MonoBehaviour
     {
     	this.health -= dam;
         this.combatantEntry.hp = this.health;
-        this.ehb.updateBar(this.health, dam);
+        this.ehb.updateBar(this.health);
+        if (this.health > 0)
+            this.edn.gimmeDemNumbers(dam);
         if (this.health <= 0)
             print("I ded @" + this.combatantEntry.entity.transform.position);
     		//kill();
