@@ -19,8 +19,8 @@ public static class SaveData
 
     // Inventory stuff
 
-    public static float musicVolume = .2f;
-    public static float effectsVolume = .2f;
+    public static float musicVolume = .5f;
+    public static float effectsVolume = .5f;
     public static bool musicMute = false;
     public static bool effectsMute = false;
     public static bool hpBar = true;
