@@ -49,7 +49,7 @@ public class DialogueManager : MonoBehaviour
 
         // Loads the file
         // dialogue = p.LoadFile(Application.streamingAssetsPath + "/tutorial.txt");
-        dialogue = p.LoadFile("Dialogue/dialogue_new_format");
+        dialogue = p.LoadFile("Dialogue/dialogue");
 
         // Adds Listeners to the options
         Choices[0].onClick.AddListener(choiceOption01);
