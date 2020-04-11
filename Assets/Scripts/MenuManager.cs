@@ -18,7 +18,7 @@ public enum UIType
     MusicMute, EffectMute,
     BattleButton, OptionsOnTop, OptionBack,
     LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame,
-    HideHPBars, VsyncEnable
+    HideHPBars, VsyncEnable, HideDMGNum
 }
 
 public enum SliderType
@@ -176,6 +176,9 @@ public class MenuManager : MonoBehaviour
                 break;
             case UIType.VsyncEnable:
                 this.gm.vsyncEnabled = GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn;
+            case UIType.HideDMGNum:
+                this.gm.showDMGnums = GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn;
+                SaveData.dmgNum = GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn;
                 break;
             default:
     			Debug.Log("Clicked a button!"); break;
@@ -266,6 +269,7 @@ public class MenuManager : MonoBehaviour
         GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
         GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn = SaveData.hpBar;
         GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = this.gm.vsyncEnabled;
+        GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn = SaveData.dmgNum;
         yield break;
     }
 

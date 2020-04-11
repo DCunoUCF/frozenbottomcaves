@@ -24,6 +24,7 @@ public static class SaveData
     public static bool musicMute = false;
     public static bool effectsMute = false;
     public static bool hpBar = true;
+    public static bool dmgNum = true;
 
     public static void updateSettings(float mV, float eV, bool mM, bool eM)
     {

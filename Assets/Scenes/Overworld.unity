@@ -1266,5 +1266,20 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4095053306716047660, guid: d7c0a6415d6faf143b986b15e237f359,
+        type: 3}
+      propertyPath: HealthChange.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4095053306716047660, guid: d7c0a6415d6faf143b986b15e237f359,
+        type: 3}
+      propertyPath: NodeTypes.Array.data[5]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4095053306716047660, guid: d7c0a6415d6faf143b986b15e237f359,
+        type: 3}
+      propertyPath: HealthChange.Array.data[5]
+      value: -5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7c0a6415d6faf143b986b15e237f359, type: 3}
