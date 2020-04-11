@@ -26,7 +26,7 @@ public class BattleManager : MonoBehaviour
     private List<Vector3> chosenEnemyLocList;
 
     // Battle Conclusion Booleans
-    private bool isResolved, didWeWin;
+    [SerializeField] private bool isResolved, didWeWin;
 
     // Pegi added this garbage
     private bool resolvingTurn;

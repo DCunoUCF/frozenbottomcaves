@@ -843,6 +843,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.404
       objectReference: {fileID: 0}
+    - target: {fileID: 5185536338357498515, guid: 64ed40f4c809e974d9c4921329ffabe0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6852232456952945991, guid: 64ed40f4c809e974d9c4921329ffabe0,
         type: 3}
       propertyPath: m_Mesh

@@ -763,6 +763,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: hpbar
       objectReference: {fileID: 0}
+    - target: {fileID: 1746139832245906176, guid: 64ed40f4c809e974d9c4921329ffabe0,
+        type: 3}
+      propertyPath: enemyScript
+      value: 
+      objectReference: {fileID: 8519133727019126217}
     - target: {fileID: 5185536338357498515, guid: 64ed40f4c809e974d9c4921329ffabe0,
         type: 3}
       propertyPath: m_LocalPosition.x
