@@ -10,6 +10,7 @@ public class EnemyDMGNumbers : MonoBehaviour
 
     public void gimmeDemNumbers(int dam)
     {
+        print("WAAAAAAAAAAAAAAAAAAAAAA");
         if (this.gameObject.activeSelf)
         {
             if (dam > 0)
