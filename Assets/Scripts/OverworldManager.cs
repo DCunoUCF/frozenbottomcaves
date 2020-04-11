@@ -329,7 +329,7 @@ public class OverworldManager : MonoBehaviour
             if (this.overworldEventEnum == FlagType.HPMaxEvent)
             {
                 print("HP MAX event");
-                this.HPMaxEvent(this.over);
+                this.HPMaxEvent(this.overworldEventEffect[i]);
             }
 
             if (this.overworldEventEnum == FlagType.SaveEvent)
