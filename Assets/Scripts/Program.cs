@@ -76,40 +76,72 @@ public class Program
             else if (prefix.ToLower() == "numevents")
             {
                 int numEvents = parseId(data, ':');
+
+                // Event
                 string tempEvent;
-                int effect;
+
+                // Effect
+                int tempEffect;
+
+                // Item Gained / Lost
+                string item;
+
+                // Amount Gained / Lost
+                int amount;
+
+                
 
                 for (int i = 0; i < numEvents; i++)
                 {
                     data = lines[lineNumber++];
-                    tempEvent = parseText(data, ':');
+                    prefix = parseText(data, ':');
 
-                    data = lines[lineNumber++];
-                    effect = parseId(data, ':');
+                    // Effect Events
+                    if (prefix.ToLower() == "hp" || prefix.ToLower() == "str" || prefix.ToLower() == "int" || prefix.ToLower() == "agi")
+                    {
+                        // Event
+                        tempEvent = parseText(data, ':');
+                        node.overworldEvent.Add(tempEvent);
 
-                    node.overworldEvent.Add(tempEvent);
-                    node.effect.Add(effect);
+                        // Effect
+                        data = lines[lineNumber++];
+                        tempEffect = parseId(data, ':');
+                        node.effect.Add(tempEffect);
+
+                    }
+                    // Gain Event
+                    else if(prefix.ToLower() == "itemgained")
+                    {
+                        // Event (gain / loss)
+                        tempEvent = parseText(data, ':');
+                        node.overworldEvent.Add(tempEvent);
+
+                        data = lines[lineNumber++];
+                        item = parseText(data, ':');
+                        node.itemGained.Add(item);
+
+
+                        data = lines[lineNumber++];
+                        amount = parseId(data, ':');
+                        node.itemGainedAmount.Add(amount);
+                    }
+                    // Loss Event
+                    else
+                    {
+                        // Event (gain / loss)
+                        tempEvent = parseText(data, ':');
+                        node.overworldEvent.Add(tempEvent);
+
+                        data = lines[lineNumber++];
+                        item = parseText(data, ':');
+                        node.itemLost.Add(item);
+
+
+                        data = lines[lineNumber++];
+                        amount = parseId(data, ':');
+                        node.itemLostAmount.Add(amount);
+                    }
                 }
-            }
-            // Item Gained
-            else if (prefix.ToLower() == "itemgained")
-            {
-                node.itemGained = parseText(data, ':');
-            }
-            // Item Gained Amount
-            else if (prefix.ToLower() == "itemgainedamount")
-            {
-                node.itemGainedAmount = parseId(data, ':');
-            }
-            // Item Lost
-            else if (prefix.ToLower() == "itemlost")
-            {
-                node.itemLost = parseText(data, ':');
-            }
-            // Item Lost Amount
-            else if (prefix.ToLower() == "itemlostamount")
-            {
-                node.itemLostAmount = parseId(data, ':');
             }
             // Skill Check
             else if (prefix.ToLower() == "skillcheckdifficulty")

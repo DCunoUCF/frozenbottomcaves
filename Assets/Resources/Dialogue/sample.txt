@@ -9,9 +9,10 @@ itemLostAmount: 1
 numEvents:3
 event: HP
 effect: -2
-event: Str
-effect: 5
-event: Agi
+event: ITEMGAINED
+ItemGained: Acorn
+ItemGainedAmount: 1
+event: AGI
 effect: -2
 options : 3
 text : "Smash the stone"

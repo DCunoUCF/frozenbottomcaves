@@ -22,25 +22,46 @@ public class Dialogue
 
 public class DialogueNode
 {
+    // Common Data
     public int nodeId;
     public string text;
     public int skillCheckDifficulty;
-    public string itemGained;
-    public int itemGainedAmount;
-    public string itemLost;
-    public int itemLostAmount;
+    public string arena;
+
+    // Items
+    public List<string> itemGained;
+    public List<int> itemGainedAmount;
+    public List<string> itemLost;
+    public List<int> itemLostAmount;
+
+    // Enemies
     public List<string> enemyType;
+
+    // Events
     public List<string> overworldEvent;
     public List<int> effect;
-    public string arena;
+    
 
     public List<OptionNode> options;
 
     public DialogueNode()
     {
+        // Options
         options = new List<OptionNode>();
+
+        // Enemies
         enemyType = new List<string>();
+
+        // Items
+        itemGained = new List<string>();
+        itemGainedAmount = new List<int>();
+        itemLost = new List<string>();
+        itemLostAmount = new List<int>();
+
+        // Events
         overworldEvent = new List<string>();
+
+        // Effect
         effect = new List<int>();
     }
 
