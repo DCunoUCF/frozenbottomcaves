@@ -37,6 +37,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip pieceLanding2;
     public AudioClip pieceLanding3;
     public AudioClip pieceLanding4;
+    public AudioClip collide;
 
     //============   Constructors   ============//
 
@@ -62,7 +63,7 @@ public class SoundManager : MonoBehaviour
         //this.musicMute = true;
         //this.effectsMute = false;
         this.updateFromSaveData();
-        SaveData.updateSettings(.2f, .2f, false, false);
+        SaveData.updateSettings(.2f, .5f, false, false);
         // Create the music queue and effect queue
         this.musicQueue = new Queue<AudioClip>();
         this.effectQueue = new Queue<AudioClip>();
@@ -115,6 +116,7 @@ public class SoundManager : MonoBehaviour
         this.pieceLanding2 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing2");
         this.pieceLanding3 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing3");
         this.pieceLanding4 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing4");
+        this.collide = Resources.Load<AudioClip>("Sound/Effects/Collide");
 
         // Start playing music
         this.musicChannel.loop = true; // Default -> yes

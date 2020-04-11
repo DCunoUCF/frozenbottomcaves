@@ -324,6 +324,9 @@ public class BattleManager : MonoBehaviour
             yield return null;
         }
 
+        // Collide sound
+        this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.collide, this.gm.sm.effectsVolume);
+
         while (entity.entity.transform.position != start && entity2.entity.transform.position != start2)
         {
             if (entity.entity.transform.position != start)
@@ -333,6 +336,8 @@ public class BattleManager : MonoBehaviour
 
             yield return null;
         }
+
+
         Destroy(temp);
         // In case something happens, framerate dip or something that leads to them being off, force them to be in their appropriate spots
         entity.entity.transform.position = start;
@@ -353,6 +358,10 @@ public class BattleManager : MonoBehaviour
             entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, halfway, slideSpeed * Time.deltaTime);
             yield return null;
         }
+
+        // Collide sound
+        this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.collide, this.gm.sm.effectsVolume);
+
         while (entity.entity.transform.position != start)
         {
             entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, start, slideSpeed * Time.deltaTime);
@@ -438,23 +447,32 @@ public class BattleManager : MonoBehaviour
                 atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar[j]));
 
                 if (atkTarIndex < 0)
+                {
                     continue;
+                }
 
                 curAtkTar = combatantList[atkTarIndex];
                 atkX = curAtkTar.gridX;
                 atkY = curAtkTar.gridY;
 
                 if (gridCell[atkX, atkY].entity == null)
+                {
                     continue;
+                }
 
                 print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
 
                 // If the attacker is the player or if the attacker is the enemy and the target is the player
                 if (i == 0)
+                {
                     combatantList[atkTarIndex].entity.GetComponent<Enemy>().dealDamage(combatantList[i].attackDmg);
+                }
+                
                 if (i != 0 && atkTarIndex == 0)
+                {
                     this.gm.pm.takeDmg(combatantList[i].attackDmg);
-                    //combatantList[atkTarIndex].hp -= combatantList[i].attackDmg;
+                }
+
 
                 print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
 
@@ -462,9 +480,6 @@ public class BattleManager : MonoBehaviour
                 {
                     combatantList[atkTarIndex].entity.SetActive(false);
                 }
-
-                //if (combatantList[atkTarIndex].entity == player)
-                    //this.gm.pm.takeDmg(combatantList[i].attackDmg); // changed to use new dmg method
             }
         }
         yield break;
@@ -474,6 +489,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator ClashAnim(CList entity, CList entity2)
     {
         this.rollParchment.SetActive(true);
+        this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.clash, this.gm.sm.effectsVolume);
         Vector3 start = entity.entity.transform.position;
         Vector3 end = entity2.entity.transform.position;
         Vector3 start2 = entity2.entity.transform.position;
@@ -511,7 +527,7 @@ public class BattleManager : MonoBehaviour
         {
             entity2.entity.GetComponent<Enemy>().dealDamage(entity.attackDmg);
             //entity2.hp -= entity.attackDmg;
-
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
             if (entity2.hp <= 0)
             {
                 entity2.entity.SetActive(false);
@@ -521,6 +537,7 @@ public class BattleManager : MonoBehaviour
         else
         {
             entity.hp -= entity2.attackDmg;
+            this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
 
             if (entity.hp <= 0)
             {
@@ -590,17 +607,25 @@ public class BattleManager : MonoBehaviour
         foreach(Vector3 v in attacks)
         {
             turnEntity(c.entity, c.atkTar[i]);
-            GameObject tileTemp = Instantiate(tileFill, c.atkTar[i++], Quaternion.identity);
+            GameObject tileTemp = Instantiate(tileFill, c.atkTar[i], Quaternion.identity);
             while (c.entity.transform.position != v)
             {
                 c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, v, slideSpeed * Time.deltaTime);
                 yield return null;
             }
+
+            if (GetCombatant(c.atkTar[i++]) != null) // i increments here now, Pegi
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
+            else
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
+
             while (c.entity.transform.position != s)
             {
                 c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, s, slideSpeed * Time.deltaTime);
                 yield return null;
             }
+
+
             Destroy(tileTemp);
         }
 
@@ -827,14 +852,40 @@ public class BattleManager : MonoBehaviour
         // Instantiate Player
         this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), playerSpawnerLoc, Quaternion.identity);
         this.player.transform.SetParent(Entities.transform);
+
+        // Choose spawners in order of enemy list
+        this.InOrderEnemyPos();
+
         // Chooses random spawners for the enemy entities to spawn at
-        RandomEnemyPos();
+        //this.RandomEnemyPos();
 
         // Instantiate Enemies
         for (int i = 0; i < this.numEnemies; i++)
         {
             this.enemies.Add(GameObject.Instantiate(GameObject.Find(this.battleClass.nodeEnemies[i].ToString()), chosenEnemyLocList[i], Quaternion.identity)); // Overworld will set the enemy types
             this.enemies[i].transform.SetParent(Entities.transform);
+        }
+    }
+
+    void InOrderEnemyPos()
+    {
+        List<Vector3> availEnemySpawnerLocs = new List<Vector3>();
+        GameObject[] sorting = GameObject.FindGameObjectsWithTag("eSpawn");
+        List<GameObject> enemiesSpawnerLocs = new List<GameObject>();
+        this.enemies = new List<GameObject>();
+        this.chosenEnemyLocList = new List<Vector3>(this.numEnemies);
+
+        for (int i = 0; i < sorting.Length; i++)
+        {
+            enemiesSpawnerLocs.Add(sorting[i]);
+        }
+
+        enemiesSpawnerLocs.Sort((x, y) => x.name.CompareTo(y.name));
+
+
+        for (int i = 0; i < this.numEnemies; i++)
+        {
+            chosenEnemyLocList.Add(enemiesSpawnerLocs[i].transform.position);
         }
     }
 

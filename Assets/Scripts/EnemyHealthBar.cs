@@ -30,7 +30,6 @@ public class EnemyHealthBar : MonoBehaviour
             if (damageTaken > 0)
                 StartCoroutine(damageNumber(damageTaken));
         }
-        
     }
 
     IEnumerator damageNumber(int damageTaken)

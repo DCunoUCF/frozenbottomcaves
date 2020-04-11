@@ -769,7 +769,7 @@ text: DEFEATED
 destId: 241
 
 nodeId: 240
-text: As the would-be queen falls and her subjects retreat. You feel a surge of vigor rush through you. The monster's legs twist and crumple as you look onward to the great looming mountain.
+text: As the would-be queen falls and her subjects retreat, you feel a surge of vigor rush through you. The monster's legs twist and crumple as you look onward to the great looming mountain.
 options: 1
 text: "Warrior of Frozenbottom Caves..."
 destId: 242
@@ -1139,7 +1139,7 @@ text: DEFEATED
 destId: 144
 
 nodeId: 143
-text: You stand over bodies with a renewed sense of pride. Goblins and spiders across the land will fear your might.
+text: You stand over the bodies with a renewed sense of pride. Goblins and spiders across the land will fear your might.
 options: 1
 text: "Ah HAH!"
 destId: 149
