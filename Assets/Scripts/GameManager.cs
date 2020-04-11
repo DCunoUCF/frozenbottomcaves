@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     private AudioSource gameEffectChannel;
     private int myId;
 
+    public bool vsyncEnabled = true;
+
     private string currentScene;
     private bool panic;
     private bool battleResolvedCheck;
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        QualitySettings.vSyncCount = 1;
+        this.vsyncEnabled = true;
         //Application.targetFrameRate = 60;
         // Can't create this from the start because it relies on objects in the Arena Scene
         // this.bm = this.gameObject.AddComponent<BattleManager>();
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Healthbar Toggle
         if (!this.showHPbars)
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("enemyHPBars"))
@@ -90,6 +93,16 @@ public class GameManager : MonoBehaviour
                 if (g != null)
                     g.SetActive(true);
             }
+        }
+
+        // VSync Toggle
+        if (this.vsyncEnabled)
+        {
+            QualitySettings.vSyncCount = 1;
+        }
+        else
+        {
+            QualitySettings.vSyncCount = 0;
         }
 
         if (this.om.playerSpawned)
