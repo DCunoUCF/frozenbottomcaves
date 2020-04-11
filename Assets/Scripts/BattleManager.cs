@@ -324,9 +324,6 @@ public class BattleManager : MonoBehaviour
             yield return null;
         }
 
-        // Collide sound
-        this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.collide, this.gm.sm.effectsVolume);
-
         while (entity.entity.transform.position != start && entity2.entity.transform.position != start2)
         {
             if (entity.entity.transform.position != start)
@@ -336,8 +333,6 @@ public class BattleManager : MonoBehaviour
 
             yield return null;
         }
-
-
         Destroy(temp);
         // In case something happens, framerate dip or something that leads to them being off, force them to be in their appropriate spots
         entity.entity.transform.position = start;
@@ -358,10 +353,6 @@ public class BattleManager : MonoBehaviour
             entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, halfway, slideSpeed * Time.deltaTime);
             yield return null;
         }
-
-        // Collide sound
-        this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.collide, this.gm.sm.effectsVolume);
-
         while (entity.entity.transform.position != start)
         {
             entity.entity.transform.position = Vector3.MoveTowards(entity.entity.transform.position, start, slideSpeed * Time.deltaTime);
@@ -448,6 +439,7 @@ public class BattleManager : MonoBehaviour
 
                 if (atkTarIndex < 0)
                 {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
                     continue;
                 }
 
@@ -457,6 +449,7 @@ public class BattleManager : MonoBehaviour
 
                 if (gridCell[atkX, atkY].entity == null)
                 {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
                     continue;
                 }
 
@@ -465,12 +458,17 @@ public class BattleManager : MonoBehaviour
                 // If the attacker is the player or if the attacker is the enemy and the target is the player
                 if (i == 0)
                 {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                     combatantList[atkTarIndex].entity.GetComponent<Enemy>().dealDamage(combatantList[i].attackDmg);
                 }
-                
-                if (i != 0 && atkTarIndex == 0)
+                else if (i != 0 && atkTarIndex == 0)
                 {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                     this.gm.pm.takeDmg(combatantList[i].attackDmg);
+                }
+                else
+                {
+                    this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
                 }
 
 
@@ -607,25 +605,17 @@ public class BattleManager : MonoBehaviour
         foreach(Vector3 v in attacks)
         {
             turnEntity(c.entity, c.atkTar[i]);
-            GameObject tileTemp = Instantiate(tileFill, c.atkTar[i], Quaternion.identity);
+            GameObject tileTemp = Instantiate(tileFill, c.atkTar[i++], Quaternion.identity);
             while (c.entity.transform.position != v)
             {
                 c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, v, slideSpeed * Time.deltaTime);
                 yield return null;
             }
-
-            if (GetCombatant(c.atkTar[i++]) != null) // i increments here now, Pegi
-                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
-            else
-                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
-
             while (c.entity.transform.position != s)
             {
                 c.entity.transform.position = Vector3.MoveTowards(c.entity.transform.position, s, slideSpeed * Time.deltaTime);
                 yield return null;
             }
-
-
             Destroy(tileTemp);
         }
 
@@ -852,40 +842,14 @@ public class BattleManager : MonoBehaviour
         // Instantiate Player
         this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), playerSpawnerLoc, Quaternion.identity);
         this.player.transform.SetParent(Entities.transform);
-
-        // Choose spawners in order of enemy list
-        this.InOrderEnemyPos();
-
         // Chooses random spawners for the enemy entities to spawn at
-        //this.RandomEnemyPos();
+        RandomEnemyPos();
 
         // Instantiate Enemies
         for (int i = 0; i < this.numEnemies; i++)
         {
             this.enemies.Add(GameObject.Instantiate(GameObject.Find(this.battleClass.nodeEnemies[i].ToString()), chosenEnemyLocList[i], Quaternion.identity)); // Overworld will set the enemy types
             this.enemies[i].transform.SetParent(Entities.transform);
-        }
-    }
-
-    void InOrderEnemyPos()
-    {
-        List<Vector3> availEnemySpawnerLocs = new List<Vector3>();
-        GameObject[] sorting = GameObject.FindGameObjectsWithTag("eSpawn");
-        List<GameObject> enemiesSpawnerLocs = new List<GameObject>();
-        this.enemies = new List<GameObject>();
-        this.chosenEnemyLocList = new List<Vector3>(this.numEnemies);
-
-        for (int i = 0; i < sorting.Length; i++)
-        {
-            enemiesSpawnerLocs.Add(sorting[i]);
-        }
-
-        enemiesSpawnerLocs.Sort((x, y) => x.name.CompareTo(y.name));
-
-
-        for (int i = 0; i < this.numEnemies; i++)
-        {
-            chosenEnemyLocList.Add(enemiesSpawnerLocs[i].transform.position);
         }
     }
 
