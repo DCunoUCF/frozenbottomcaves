@@ -581,15 +581,7 @@ public class Program
             }
         }
 
-        // If it can't be parsed, it sends a -1 node so the game will end. 
-        int outOut = 0;
-        if (Int32.TryParse(buffer.ToString(), out outOut))
-            return Int32.Parse(buffer.ToString());
-        else
-        {
-            Debug.Log("Can't parse string");
-            return -1;
-        }
+        return Int32.Parse(buffer.ToString());
     }
 
     // Function that extracts text up to a specified delimeter
