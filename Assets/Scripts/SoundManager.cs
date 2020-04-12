@@ -62,7 +62,7 @@ public class SoundManager : MonoBehaviour
         //this.musicMute = true;
         //this.effectsMute = false;
         this.updateFromSaveData();
-        SaveData.updateSettings(.2f, .2f, false, false);
+        SaveData.updateSettings(.2f, .5f, false, false);
         // Create the music queue and effect queue
         this.musicQueue = new Queue<AudioClip>();
         this.effectQueue = new Queue<AudioClip>();
