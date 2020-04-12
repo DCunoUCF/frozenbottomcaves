@@ -15,7 +15,15 @@ public class GameManager : MonoBehaviour
     private AudioSource gameEffectChannel;
     private int myId;
 
-    public bool vsyncEnabled = true;
+    private bool init = false;
+
+    public bool vsyncEnabled;
+    public int framerateCap;
+    public int refreshRate;
+
+    public int resolutionWidth;
+    public int resolutionHeight;
+    public bool fullscreen;
 
     private string currentScene;
     private bool panic;
@@ -30,13 +38,28 @@ public class GameManager : MonoBehaviour
         return this.myId;
     }
 
+    public void updateMyScreen()
+    {
+        Debug.Log("Changing my screen resolution");
+        if (Screen.width != this.resolutionWidth || Screen.height != this.resolutionHeight || Screen.fullScreen != this.fullscreen)
+        {
+            Screen.SetResolution(this.resolutionWidth, this.resolutionHeight, this.fullscreen, this.refreshRate);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
+        this.myId = (int)(Random.value * 999999);
+
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("GM"))
+        {
+            if (this.myId != g.GetComponent<GameManager>().whatsMyId())
+                Destroy(this.gameObject);
+        }
+
         this.vsyncEnabled = true;
-        //Application.targetFrameRate = 60;
-        // Can't create this from the start because it relies on objects in the Arena Scene
-        // this.bm = this.gameObject.AddComponent<BattleManager>();
         this.bm = null;
         this.panic = false;
         this.battleResolvedCheck = false;
@@ -48,6 +71,20 @@ public class GameManager : MonoBehaviour
         this.om = this.gameObject.AddComponent<OverworldManager>();
         this.pm = this.gameObject.AddComponent<PlayerManager>();
 
+        if (!init)
+        {
+            this.vsyncEnabled = true;
+            this.framerateCap = 60;
+            this.refreshRate = 60;
+
+            this.resolutionWidth = 1920;
+            this.resolutionHeight = 1080;
+            this.fullscreen = true;
+            this.init = true;
+        }
+
+        this.updateMyScreen();
+
         // this.sm.setAudioChannels(GameObject.Find("MusicChannel").GetComponent<AudioSource>(),
                                  // GameObject.Find("EffectChannel").GetComponent<AudioSource>());
 
@@ -57,15 +94,6 @@ public class GameManager : MonoBehaviour
         this.sm.setAudioChannels(this.gameMusicChannel, this.gameEffectChannel);
 
         this.sm.updateFromSaveData();
-
-        foreach (GameObject g in GameObject.FindGameObjectsWithTag("GM"))
-        {
-            if (this.myId != g.GetComponent<GameManager>().whatsMyId())
-                Destroy(this.gameObject);
-        }
-
-        DontDestroyOnLoad(this.gameObject);
-        this.myId = (int)(Random.value * 999999);
 
         Debug.Log("This is my GameManager id!\n" + this.myId);
     }
@@ -103,7 +131,20 @@ public class GameManager : MonoBehaviour
         else
         {
             QualitySettings.vSyncCount = 0;
+
         }
+
+        // Framerate Cap
+        if (Application.targetFrameRate != this.framerateCap)
+        {
+            Application.targetFrameRate = this.framerateCap;
+        }
+
+        // // Resolution Changes
+        // if (Screen.width != this.resolutionWidth || Screen.height != this.resolutionHeight || Screen.fullScreen != this.fullscreen)
+        // {
+        //     Screen.SetResolution(this.resolutionWidth, this.resolutionHeight, this.fullscreen, this.refreshRate);
+        // }
 
         if (this.om.playerSpawned)
         {
