@@ -636,6 +636,7 @@ public class BattleManager : MonoBehaviour
             Destroy(g);
 
         atkTars.Clear();
+        attacks.Clear();
 
         c.entity.transform.position = s; // incase something went wrong with the moveTowards
         yield break;
