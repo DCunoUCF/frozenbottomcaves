@@ -617,8 +617,8 @@ public class BattleManager : MonoBehaviour
                 yield return null;
             }
 
-            if (atkTarEntity != null && (c.entity == player || (c.entity != player && atkTarEntity == player)))
-                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
+            if (atkTarEntity != null && (c.entity == this.player || (c.entity != this.player && atkTarEntity == this.player)))
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
             else
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
 
