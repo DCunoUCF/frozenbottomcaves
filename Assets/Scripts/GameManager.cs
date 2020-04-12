@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // HPBar toggle logic
         if (!this.showHPbars)
         {
@@ -97,6 +98,16 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // VSync Toggle
+        if (this.vsyncEnabled)
+        {
+            QualitySettings.vSyncCount = 1;
+        }
+        else
+        {
+            QualitySettings.vSyncCount = 0;
+        }
+
         // DMG number toggle logic
         if (!this.showDMGnums)
         {
@@ -117,16 +128,6 @@ public class GameManager : MonoBehaviour
                 if (g != null)
                     g.SetActive(true);
             }
-        }
-
-        // VSync Toggle
-        if (this.vsyncEnabled)
-        {
-            QualitySettings.vSyncCount = 1;
-        }
-        else
-        {
-            QualitySettings.vSyncCount = 0;
         }
 
         if (this.om.playerSpawned)
@@ -241,7 +242,7 @@ public class GameManager : MonoBehaviour
         //if (Input.GetButtonDown("Cancel"))
         //{
         //    // SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-
+            
         //    Application.Quit();
         //}
     }

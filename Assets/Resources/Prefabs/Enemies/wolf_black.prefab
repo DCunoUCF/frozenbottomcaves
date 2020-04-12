@@ -822,17 +822,17 @@ PrefabInstance:
     - target: {fileID: 3518077473614665436, guid: 0429dacd8179f9d4095ed4e2318d5e31,
         type: 3}
       propertyPath: enemyScript
-      value:
+      value: 
       objectReference: {fileID: 6518760726847869340}
     - target: {fileID: 8642747584292806811, guid: 0429dacd8179f9d4095ed4e2318d5e31,
         type: 3}
       propertyPath: m_Mesh
-      value:
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6200905176935312558, guid: 0429dacd8179f9d4095ed4e2318d5e31,
         type: 3}
       propertyPath: m_Mesh
-      value:
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0429dacd8179f9d4095ed4e2318d5e31, type: 3}
