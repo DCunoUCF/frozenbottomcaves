@@ -363,7 +363,8 @@ public class OverworldManager : MonoBehaviour
             if (this.overworldEvent[i] == FlagType.ITEMLOST)
             {
                 print("Losing item(s)");
-                this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
+                this.ItemRemove(this.overworldEventItemLost[i], this.overworldEventItemLostAmount[i]);
+                //this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
             }
 
             if (this.overworldEvent[i] == FlagType.HPMAXCHANGE)

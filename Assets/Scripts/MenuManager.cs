@@ -18,7 +18,7 @@ public enum UIType
     MusicMute, EffectMute,
     BattleButton, OptionsOnTop, OptionBack,
     LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame,
-    HideHPBars, VsyncEnable, FullscreenToggle,
+    HideHPBars, HideDMGNum, VsyncEnable, FullscreenToggle,
     RefreshRate, FramerateCap, Resolution
 }
 
@@ -240,8 +240,14 @@ public class MenuManager : MonoBehaviour
                 this.gm.showHPbars = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
                 SaveData.hpBar = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
                 break;
+
+            case UIType.HideDMGNum:
+                this.gm.showDMGnums = GameObject.Find("DMGNumToggle").GetComponent<Toggle>().isOn;
+                SaveData.dmgNum = GameObject.Find("DMGNumToggle").GetComponent<Toggle>().isOn;
+				break;
             case UIType.VsyncEnable:
                 this.gm.vsyncEnabled = GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn;
+                SaveData.vSync = GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn;
                 break;
             case UIType.FullscreenToggle:
                 this.gm.fullscreen = GameObject.Find("FullscreenToggle").GetComponent<Toggle>().isOn;
@@ -417,7 +423,9 @@ public class MenuManager : MonoBehaviour
         GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
         GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
         GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn = SaveData.hpBar;
-        GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = this.gm.vsyncEnabled;
+
+        GameObject.Find("DMGNumToggle").GetComponent<Toggle>().isOn = SaveData.dmgNum;
+        GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = SaveData.vSync;
         yield break;
     }
 
@@ -485,6 +493,10 @@ public class MenuManager : MonoBehaviour
             {
                 enableCombatButtons();
             }
+            else
+            {
+                this.gm.om.dm.updateOptions();
+            }
         }
         else
         {
@@ -506,7 +518,7 @@ public class MenuManager : MonoBehaviour
 
         if (SceneManager.GetSceneByName("Battleworld").IsValid())
             SceneManager.UnloadSceneAsync("BattleWorld");
-        
+
         if (SceneManager.GetSceneByName("LoseSplash").IsValid())
             SceneManager.UnloadSceneAsync("LoseSplash");
 

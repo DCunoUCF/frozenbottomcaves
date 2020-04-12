@@ -116,9 +116,14 @@ public class Inventory
         }
 
         // if (databaseItem.effect) can check if stat == "" if we want here
-        pm.pc.applyEffect(databaseItem, 1);
+        if (item != Item.ItemType.Provisions)
+            pm.pc.applyEffect(databaseItem, 1);
         // inventoryUI.updateUIStats(pm.pc);
-
+        if (pm.pc != null)
+        {
+            updateStats(pm.pc);
+            pm.phb.updateHealthBar(pm.pc.health);
+        }
     }
 
     // Refreshes UI Inventory
@@ -186,7 +191,11 @@ public class Inventory
 
             // if (databaseItem.effect) can check if stat == "" if we want here
             pm.pc.applyEffect(inventoryItem, 2);
-
+            if (pm.pc != null)
+            {
+                updateStats(pm.pc);
+                pm.phb.updateHealthBar(pm.pc.health);
+            }
         }
     }
 
@@ -243,8 +252,8 @@ public class Inventory
     public void removeProvision()
     {
         removeItem(Item.ItemType.Provisions, 1);
-        this.pm.pc.setHealthEvent(5);
-        updateStats(pm.pc);
+        //this.pm.pc.setHealthEvent(5);
+        //updateStats(pm.pc);
     }
 
     public void addResurrection()
@@ -261,6 +270,7 @@ public class Inventory
     {
         pm.invImg.color = Color.white;
         inventoryUI.gameObject.SetActive(false);
+        pm.gm.om.dm.updateOptions();
         pm.gm.om.dm.setInteractable();
     }
 

@@ -136,6 +136,7 @@ public class PlayerClass
         this.health += hp;
         if (health > maxHealth)
             this.health = this.maxHealth;
+        PlayerManager.Instance.phb.updateHealthBar(health);
     }
 
     public int getHealth()
