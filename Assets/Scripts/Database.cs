@@ -18,7 +18,7 @@ public class Database
         {
            new Item(Item.ItemType.Sword,"Sword",false),
            new Item(Item.ItemType.Shield,"Shield",false),
-           new Item(Item.ItemType.Provisions, "Provisions",true),
+           new Item(Item.ItemType.Provisions, "Provisions",true, -5, "HP"),
            new Item(Item.ItemType.Resurrection,"Resurrections",true),
            new Item(Item.ItemType.Gold,"Gold",true),
            new Item(Item.ItemType.BeardedKey, "Bearded Key", false),

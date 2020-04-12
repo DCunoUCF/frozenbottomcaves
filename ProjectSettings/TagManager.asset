@@ -21,6 +21,10 @@ TagManager:
   - GM
   - OWNode
   - enemyHPBars
+  - enemyDMGText
+  - Resolution
+  - FramerateCap
+  - RefreshRate
   layers:
   - Default
   - TransparentFX

@@ -55,6 +55,8 @@ public class OverworldManager : MonoBehaviour
     //private float speed = .20f, startTime, journeyLength;
     //private bool destReached;
 
+    WorldNode curNode;
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -362,6 +364,7 @@ public class OverworldManager : MonoBehaviour
             {
                 print("Losing item(s)");
                 this.ItemRemove(this.overworldEventItemLost[i], this.overworldEventItemLostAmount[i]);
+                //this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
             }
 
             if (this.overworldEvent[i] == FlagType.HPMAXCHANGE)

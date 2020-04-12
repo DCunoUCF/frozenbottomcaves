@@ -161,6 +161,14 @@ public class PlayerManager : MonoBehaviour
         characterSelected = true;
         uiParent = GameObject.Find("UIParent");
 
+        // Setup battle overlay
+        battleCanvas = GameObject.Find("BattleCanvas");
+        phb = GameObject.Find("HealthFill").GetComponent<PlayerHealthBar>();
+        phb.initHealthBar(pc.maxHealth);
+        sb = battleCanvas.GetComponent<SkillButtons>();
+        sb.initSkillButtons();
+        battleCanvas.gameObject.SetActive(false);
+
         // Inventory setup
         inventory = new Inventory(this);
         inventoryCanvas = GameObject.Find("InventoryCanvas").GetComponent<Canvas>();
@@ -179,13 +187,6 @@ public class PlayerManager : MonoBehaviour
 
 
 
-        // Setup battle overlay
-        battleCanvas = GameObject.Find("BattleCanvas");
-        phb = GameObject.Find("HealthFill").GetComponent<PlayerHealthBar>();
-        phb.initHealthBar(pc.maxHealth);
-        sb = battleCanvas.GetComponent<SkillButtons>();
-        sb.initSkillButtons();
-        battleCanvas.gameObject.SetActive(false);
 
         inv = GameObject.Find("InventoryButtonOW").GetComponent<Button>();
         opt = GameObject.Find("OptionsButtonOW").GetComponent<Button>();
@@ -205,6 +206,7 @@ public class PlayerManager : MonoBehaviour
         {
             invImg.color = UnityEngine.Color.white;
             inventoryUI.gameObject.SetActive(false);
+            gm.om.dm.updateOptions();
             gm.om.dm.setInteractable();
         }
         else
