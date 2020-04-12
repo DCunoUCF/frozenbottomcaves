@@ -6,21 +6,9 @@ destId: 1
 
 nodeId: 1
 text: You find yourself on a dirt path. Trees hang over you, casting shadows across the forest.
-text: BATTLE EVENT
-event: BATTLE
-grid: Forest
-arena: spider_queen_arena
-numEnemies: 5
-enemyType: spider_queen
-enemyType: spider_small
-enemyType: spider_small
-enemyType: spider_small
-enemyType: spider_small
-options: 2
+options: 1
 text: "Your shadows don't scare me, tall trees!" Move deeper into the forest.
 destId: 2
-text: "fart"
-destId: 3
 
 nodeId: 2
 text: You reach a fork in the path. On the left path, the trees are closing in, making it more of a tunnel. On the right path, the shrubbery grows dense, obscuring the way.
