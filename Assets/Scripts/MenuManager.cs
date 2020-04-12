@@ -178,6 +178,12 @@ public class MenuManager : MonoBehaviour
                 this.gm.showDMGnums = GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn;
                 SaveData.dmgNum = GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+								break;
+            case UIType.VsyncEnable:
+                this.gm.vsyncEnabled = GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn;
+>>>>>>> parent of 84c93a2... Options merged
 =======
 								break;
             case UIType.VsyncEnable:
@@ -274,8 +280,14 @@ public class MenuManager : MonoBehaviour
         GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
         GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn = SaveData.hpBar;
 <<<<<<< HEAD
+<<<<<<< HEAD
         //GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = this.gm.vsyncEnabled;
         GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn = SaveData.dmgNum;
+=======
+
+        GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn = SaveData.dmgNum;
+        GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = this.gm.vsyncEnabled;
+>>>>>>> parent of 84c93a2... Options merged
 =======
 
         GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn = SaveData.dmgNum;

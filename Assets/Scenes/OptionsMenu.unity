@@ -542,8 +542,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Name:
+  m_EditorClassIdentifier:
+>>>>>>> parent of 84c93a2... Options merged
 =======
   m_Name:
   m_EditorClassIdentifier:
@@ -621,8 +626,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Name:
+  m_EditorClassIdentifier:
+>>>>>>> parent of 84c93a2... Options merged
 =======
   m_Name:
   m_EditorClassIdentifier:
@@ -703,8 +713,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19772ea9220172b4b9939183d51d4bdb, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Name:
+  m_EditorClassIdentifier:
+>>>>>>> parent of 84c93a2... Options merged
 =======
   m_Name:
   m_EditorClassIdentifier:
@@ -720,8 +735,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53555d74f109c694ab9720eef6ca6437, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Name:
+  m_EditorClassIdentifier:
+>>>>>>> parent of 84c93a2... Options merged
 =======
   m_Name:
   m_EditorClassIdentifier:
@@ -739,8 +759,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Name:
+  m_EditorClassIdentifier:
+>>>>>>> parent of 84c93a2... Options merged
 =======
   m_Name:
   m_EditorClassIdentifier:
@@ -788,7 +813,11 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
           m_StringArgument: 
+=======
+          m_StringArgument:
+>>>>>>> parent of 84c93a2... Options merged
 =======
           m_StringArgument:
 >>>>>>> parent of 84c93a2... Options merged
@@ -1838,6 +1867,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 781701740}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -1863,13 +1893,32 @@ MonoBehaviour:
   m_Text: Mute Music
 --- !u!222 &781701743
 CanvasRenderer:
+=======
+  m_Script: {fileID: 11500000, guid: 53555d74f109c694ab9720eef6ca6437, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  type: -1
+  sliderType: 0
+--- !u!114 &770237062
+MonoBehaviour:
+>>>>>>> parent of 84c93a2... Options merged
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 781701740}
   m_CullTransparentMesh: 0
 --- !u!1 &863141353
+=======
+  m_GameObject: {fileID: 770237058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19772ea9220172b4b9939183d51d4bdb, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!1 &781701740
+>>>>>>> parent of 84c93a2... Options merged
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1877,36 +1926,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 863141354}
+  - component: {fileID: 781701741}
+  - component: {fileID: 781701743}
+  - component: {fileID: 781701742}
   m_Layer: 5
-  m_Name: Handle Slide Area
+  m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &863141354
+  m_IsActive: 0
+--- !u!224 &781701741
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863141353}
+  m_GameObject: {fileID: 781701740}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1218321193}
-  m_Father: {fileID: 770237059}
-  m_RootOrder: 2
+  m_Children: []
+  m_Father: {fileID: 407135544}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 9, y: -0.5}
+  m_SizeDelta: {x: -28, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
+<<<<<<< HEAD
 =======
   m_Pivot: {x: 0.5, y: 0.5}
+=======
+>>>>>>> parent of 84c93a2... Options merged
 --- !u!114 &781701742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1983,6 +2036,9 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+<<<<<<< HEAD
+>>>>>>> parent of 84c93a2... Options merged
+=======
 >>>>>>> parent of 84c93a2... Options merged
 --- !u!1 &918846712
 GameObject:
@@ -2047,8 +2103,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53555d74f109c694ab9720eef6ca6437, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Name:
+  m_EditorClassIdentifier:
+>>>>>>> parent of 84c93a2... Options merged
 =======
   m_Name:
   m_EditorClassIdentifier:
@@ -2645,8 +2706,13 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19772ea9220172b4b9939183d51d4bdb, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Name:
+  m_EditorClassIdentifier:
+>>>>>>> parent of 84c93a2... Options merged
 =======
   m_Name:
   m_EditorClassIdentifier:
@@ -3186,6 +3252,7 @@ CanvasRenderer:
   m_GameObject: {fileID: 1323908912}
   m_CullTransparentMesh: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1326188138
 GameObject:
   m_ObjectHideFlags: 0
@@ -3262,6 +3329,8 @@ CanvasRenderer:
   m_CullTransparentMesh: 0
 --- !u!1 &1374018558
 =======
+=======
+>>>>>>> parent of 84c93a2... Options merged
 --- !u!1 &1397555611
 >>>>>>> parent of 84c93a2... Options merged
 GameObject:
@@ -3310,9 +3379,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+>>>>>>> parent of 84c93a2... Options merged
 =======
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name:
@@ -4215,7 +4290,10 @@ RectTransform:
   - {fileID: 1015453552}
   - {fileID: 991640960}
 <<<<<<< HEAD
+<<<<<<< HEAD
   - {fileID: 407135544}
+=======
+>>>>>>> parent of 84c93a2... Options merged
 =======
 >>>>>>> parent of 84c93a2... Options merged
   - {fileID: 918846713}
