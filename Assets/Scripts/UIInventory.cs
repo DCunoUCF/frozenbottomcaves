@@ -193,10 +193,10 @@ public class UIInventory : MonoBehaviour
             temp = MainMenu.transform.GetChild(3).gameObject.transform.GetChild(0).gameObject;
             temp.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;
 
-            if(item.count == 0)
+            /*if(item.count == 0) // Want to keep provisions up even if at 0
             {
                 MainMenu.transform.GetChild(3).gameObject.SetActive(false);
-            }
+            }*/
         }
 
         // Resurrection
