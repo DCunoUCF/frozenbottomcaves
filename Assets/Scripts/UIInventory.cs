@@ -17,6 +17,17 @@ public class UIInventory : MonoBehaviour
     public GameObject AttackPanel;
     public RectTransform content;
     public Scrollbar scrollbar;
+    private GameManager gm;
+
+    public void Start()
+    {
+        this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        if (this.gm.pm.pc.health >= this.gm.pm.pc.maxHealth)
+            MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = false;
+        else
+            MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = true;
+    }
 
     // Adds an Item into Inventory
     public void addItem(Item item)
@@ -169,6 +180,11 @@ public class UIInventory : MonoBehaviour
         string[] a3 = PlayerManager.Instance.getSkillInfo(4);
         specialAttack2.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = a3[0];
         specialAttack2.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = a3[1] + "\nCooldown: " + (PlayerManager.Instance.pc.cd4-1) + " turns";
+
+        if (this.gm.pm.pc.health >= this.gm.pm.pc.maxHealth)
+            MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = false;
+        else
+            MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = true;
     }
 
 
@@ -200,7 +216,10 @@ public class UIInventory : MonoBehaviour
             }
             else
             {
-                MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = true;
+                if (this.gm.pm.pc.health >= this.gm.pm.pc.maxHealth)
+                    MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = false;
+                else
+                    MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = true;
             }
         }
 

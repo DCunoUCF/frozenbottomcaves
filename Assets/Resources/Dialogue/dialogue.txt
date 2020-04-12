@@ -250,9 +250,9 @@ destId: 177
 nodeId: 257
 text: You get up after a good sit.
 numEvents: 2
-event: SAVE
 event: HPCHANGE
 effect: 5
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 177
@@ -260,12 +260,12 @@ destId: 177
 nodeId: 258
 text: (Lost 1 Provision) You finish your meal and get up.
 numEvents: 3
-event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 event: HPCHANGE
 effect: 10
+event: SAVE
 options: 1
 text: "That hit the spot!"
 destId: 177
@@ -567,9 +567,9 @@ destId: 215
 nodeId: 213
 text: You get up after a good sit.
 numEvents: 2
-event: SAVE
 event: HPCHANGE
 effect: 5
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 215
@@ -577,12 +577,12 @@ destId: 215
 nodeId: 214
 text: (Lost 1 Provision) You finish your meal and get up.
 numEvents: 3
-event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 event: HPCHANGE
 effect: 10
+event: SAVE
 options: 1
 text: "That hit the spot!"
 destId: 215
@@ -1052,9 +1052,9 @@ destId: 155
 nodeId: 153
 text: You get up after a good sit.
 numEvents: 2
-event: SAVE
 event: HPCHANGE
 effect: 5
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 155
@@ -1062,12 +1062,12 @@ destId: 155
 nodeId: 154
 text: (Lost 1 Provision) You finish your meal and get up.
 numEvents: 3
-event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 event: HPCHANGE
 effect: 10
+event: SAVE
 options: 1
 text: "That hit the spot!"
 destId: 155
@@ -1100,9 +1100,9 @@ destId: 139
 nodeId: 137
 text: You get up after a good sit.
 numEvents: 2
-event: SAVE
 event: HPCHANGE
 effect: 5
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 139
@@ -1110,12 +1110,12 @@ destId: 139
 nodeId: 138
 text: (Lost 1 Provision) You finish your meal and get up.
 numEvents: 3
-event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 event: HPCHANGE
 effect: 10
+event: SAVE
 options: 1
 text: "That hit the spot!"
 destId: 139
@@ -1534,9 +1534,9 @@ destId: 47
 nodeId: 68
 text: You get up after a good sit.
 numEvents: 2
-event: SAVE
 event: HPCHANGE
 effect: 5
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 47
@@ -1544,12 +1544,12 @@ destId: 47
 nodeId: 69
 text: (Lost 1 Provision) You finish your meal and get up.
 numEvents: 3
-event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 event: HPCHANGE
 effect: 10
+event: SAVE
 options: 1
 text: "That hit the spot!"
 destId: 47
@@ -1741,9 +1741,9 @@ destId: 70
 nodeId: 72
 text: You get up after a good sit.
 numEvents: 2
-event: SAVE
 event: HPCHANGE
 effect: 5
+event: SAVE
 options: 1
 text: "Ah, sitting. The standing of laying."
 destId: 70
@@ -1751,12 +1751,12 @@ destId: 70
 nodeId: 73
 text: (Lost 1 Provision) You finish your meal and get up.
 numEvents: 3
-event: SAVE
 event: ITEMLOST
 itemLost: Provisions
 itemLostAmount: 1
 event: HPCHANGE
 effect: 10
+event: SAVE
 options: 1
 text: "That hit the spot!"
 destId: 70

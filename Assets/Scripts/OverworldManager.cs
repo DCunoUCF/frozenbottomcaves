@@ -379,12 +379,6 @@ public class OverworldManager : MonoBehaviour
                 {
                     nodeSavedAt.Add(n.curNode.NodeIDs[n.count]);
 
-                    // If this save event has the provisions checked, eat one 
-                    if (this.curDialogueNode.itemLost[i].CompareTo("Provisions") == 0)
-                        this.gm.pm.pc.inventory.removeProvision();
-                    // Either way heal 5
-                    this.HPEvent(5);
-
                     // Tell the pm to create a deep copy of the current player and inventory
                     this.gm.pm.createSave();
 
