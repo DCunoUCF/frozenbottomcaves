@@ -363,7 +363,17 @@ MonoBehaviour:
   om: {fileID: 0}
   sm: {fileID: 0}
   pm: {fileID: 0}
+  vsyncEnabled: 0
+  framerateCap: 0
+  refreshRate: 0
+  resolutionWidth: 0
+  resolutionHeight: 0
+  fullscreen: 0
   splashUp: 0
+  quitUp: 0
+  jingle: 0
+  showHPbars: 0
+  showDMGnums: 0
 --- !u!4 &1170054359
 Transform:
   m_ObjectHideFlags: 0
@@ -378,12 +388,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1455205186 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7330855795999900229, guid: 694abc8db1ffdec46b06b09b8893708e,
-    type: 3}
-  m_PrefabInstance: {fileID: 7330855796876538883}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1945926372
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,7 +541,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985683115}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
@@ -561,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 1455205186}
+  m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1985683118
@@ -585,7 +589,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985683115}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f79ecd7ac3f66242a033b68584a287c, type: 3}
   m_Name: 
