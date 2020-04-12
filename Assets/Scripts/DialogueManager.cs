@@ -83,6 +83,8 @@ public class DialogueManager : MonoBehaviour
         TextBox.SetActive(true);
         TextBox.GetComponent<TextMeshPro>().text = dialogue.nodes[currentNode].text;
 
+        curNode = dialogue.nodes[0];
+
         for (int i = 0; i < 3; i++)
         {
             Choices[i].gameObject.SetActive(false);
@@ -195,6 +197,7 @@ public class DialogueManager : MonoBehaviour
 
     public void updateOptions()
     {
+        print("update options");
         for (int i = 0; i < curNode.options.Count; i++)
         {
             if (curNode.options[i].itemReq != "")
