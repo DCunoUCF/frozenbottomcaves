@@ -580,6 +580,7 @@ public class BattleManager : MonoBehaviour
     {
         Vector3 s = c.entity.transform.position; // start pos
         List<Vector3> attacks = new List<Vector3>(); // list of attack spots
+        GameObject atkTarEntity = new GameObject();
 
         GameObject tile, tileFill;
         List<GameObject> atkTars = new List<GameObject>();
@@ -607,6 +608,8 @@ public class BattleManager : MonoBehaviour
         foreach(Vector3 v in attacks)
         {
             turnEntity(c.entity, c.atkTar[i]);
+            atkTarEntity = GetCombatant(c.atkTar[i]);
+
             GameObject tileTemp = Instantiate(tileFill, c.atkTar[i], Quaternion.identity);
             while (c.entity.transform.position != v)
             {
@@ -614,8 +617,8 @@ public class BattleManager : MonoBehaviour
                 yield return null;
             }
 
-            if (GetCombatant(c.atkTar[i++]) != null) // i increments here now, Pegi
-                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
+            if (atkTarEntity != null && (c.entity == player || (c.entity != player && atkTarEntity == player)))
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
             else
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
 
@@ -625,7 +628,7 @@ public class BattleManager : MonoBehaviour
                 yield return null;
             }
 
-
+            i++; // i increments here now, Pegi
             Destroy(tileTemp);
         }
 
