@@ -18,7 +18,8 @@ public enum UIType
     MusicMute, EffectMute,
     BattleButton, OptionsOnTop, OptionBack,
     LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame,
-    HideHPBars
+    HideHPBars, HideDMGNum, VsyncEnable, FullscreenToggle,
+    RefreshRate, FramerateCap, Resolution
 }
 
 public enum SliderType
@@ -43,6 +44,71 @@ public class MenuManager : MonoBehaviour
             GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
             GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
             GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
+
+            GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn = this.gm.showHPbars;
+            GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = this.gm.vsyncEnabled;
+            GameObject.Find("FullscreenToggle").GetComponent<Toggle>().isOn = this.gm.fullscreen;
+
+            switch (this.gm.refreshRate)
+            {
+                default:
+                case 30:
+                    GameObject.Find("RefreshRate").GetComponent<Dropdown>().value = 0;
+                    break;
+                case 48:
+                    GameObject.Find("RefreshRate").GetComponent<Dropdown>().value = 1;
+                    break;
+                case 60:
+                    GameObject.Find("RefreshRate").GetComponent<Dropdown>().value = 2;
+                    break;
+                case 90:
+                    GameObject.Find("RefreshRate").GetComponent<Dropdown>().value = 3;
+                    break;
+                case 120:
+                    GameObject.Find("RefreshRate").GetComponent<Dropdown>().value = 4;
+                    break;
+                case 144:
+                    GameObject.Find("RefreshRate").GetComponent<Dropdown>().value = 5;
+                    break;
+            }
+
+            switch (this.gm.framerateCap)
+            {
+                default:
+                case 30:
+                    GameObject.Find("FramerateCap").GetComponent<Dropdown>().value = 0;
+                    break;
+                case 60:
+                    GameObject.Find("FramerateCap").GetComponent<Dropdown>().value = 1;
+                    break;
+                case 120:
+                    GameObject.Find("FramerateCap").GetComponent<Dropdown>().value = 2;
+                    break;
+                case 999:
+                    GameObject.Find("FramerateCap").GetComponent<Dropdown>().value = 3;
+                    break;
+            }
+
+            if (this.gm.resolutionWidth == 640 && this.gm.resolutionHeight == 360)
+            {
+                GameObject.Find("ResolutionSize").GetComponent<Dropdown>().value = 0;
+            }
+            else if (this.gm.resolutionWidth == 1024 && this.gm.resolutionHeight == 576)
+            {
+                GameObject.Find("ResolutionSize").GetComponent<Dropdown>().value = 1;
+            }
+            else if (this.gm.resolutionWidth == 1280 && this.gm.resolutionHeight == 720)
+            {
+                GameObject.Find("ResolutionSize").GetComponent<Dropdown>().value = 2;
+            }
+            else if (this.gm.resolutionWidth == 1600 && this.gm.resolutionHeight == 900)
+            {
+                GameObject.Find("ResolutionSize").GetComponent<Dropdown>().value = 3;
+            }
+            else if (this.gm.resolutionWidth == 1920 && this.gm.resolutionHeight == 1080)
+            {
+                GameObject.Find("ResolutionSize").GetComponent<Dropdown>().value = 4;
+            }
         }
     }
 
@@ -174,9 +240,103 @@ public class MenuManager : MonoBehaviour
                 this.gm.showHPbars = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
                 SaveData.hpBar = GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn;
                 break;
-            default:
-    			Debug.Log("Clicked a button!"); 
+
+            case UIType.HideDMGNum:
+                this.gm.showDMGnums = GameObject.Find("DMGNumToggle").GetComponent<Toggle>().isOn;
+                SaveData.dmgNum = GameObject.Find("DMGNumToggle").GetComponent<Toggle>().isOn;
+				break;
+            case UIType.VsyncEnable:
+                this.gm.vsyncEnabled = GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn;
+                SaveData.vSync = GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn;
                 break;
+            case UIType.FullscreenToggle:
+                this.gm.fullscreen = GameObject.Find("FullscreenToggle").GetComponent<Toggle>().isOn;
+
+                // Screen.SetResolution(this.gm.resolutionWidth, this.gm.resolutionHeight, this.gm.fullscreen, this.gm.refreshRate);
+                // Screen.fullScreen = this.gm.fullscreen;
+
+                this.gm.updateMyScreen();
+                break;
+            case UIType.RefreshRate:
+                switch (GameObject.Find("RefreshRate").GetComponent<TMPro.TMP_Dropdown>().value)
+                {
+                    default:
+                    case 0:
+                        this.gm.refreshRate = 30;
+                        break;
+                    case 1:
+                        this.gm.refreshRate = 48;
+                        break;
+                    case 2:
+                        this.gm.refreshRate = 60;
+                        break;
+                    case 3:
+                        this.gm.refreshRate = 90;
+                        break;
+                    case 4:
+                        this.gm.refreshRate = 120;
+                        break;
+                    case 5:
+                        this.gm.refreshRate = 144;
+                        break;
+                }
+
+                this.gm.updateMyScreen();
+                break;
+            case UIType.FramerateCap:
+                switch (GameObject.Find("FramerateCap").GetComponent<TMPro.TMP_Dropdown>().value)
+                {
+                    default:
+                    case 0:
+                        this.gm.framerateCap = 30;
+                        break;
+                    case 1:
+                        this.gm.framerateCap = 60;
+                        break;
+                    case 2:
+                        this.gm.framerateCap = 120;
+                        break;
+                    case 3:
+                        this.gm.framerateCap = 999;
+                        break;
+                }
+
+                Application.targetFrameRate = this.gm.framerateCap;
+
+                break;
+            case UIType.Resolution:
+                // Debug.Log(GameObject.Find("16_9_Dropdown").GetComponent<TMPro.TMP_Dropdown>().value);
+                // int val = -1;
+                // Debug.Log("88888888888888888888888888888888 "+val+" 888888888888888888888888888888888");
+                switch (GameObject.Find("16_9_Dropdown").GetComponent<TMPro.TMP_Dropdown>().value)
+                {
+                    default:
+                    case 0:
+                        this.gm.resolutionWidth = 640;
+                        this.gm.resolutionHeight = 360;
+                        break;
+                    case 1:
+                        this.gm.resolutionWidth = 1024;
+                        this.gm.resolutionHeight = 576;
+                        break;
+                    case 2:
+                        this.gm.resolutionWidth = 1280;
+                        this.gm.resolutionHeight = 720;
+                        break;
+                    case 3:
+                        this.gm.resolutionWidth = 1600;
+                        this.gm.resolutionHeight = 900;
+                        break;
+                    case 4:
+                        this.gm.resolutionWidth = 1920;
+                        this.gm.resolutionHeight = 1080;
+                        break;
+                }
+
+                this.gm.updateMyScreen();
+                break;
+            default:
+    			Debug.Log("Clicked a button!"); break;
     	}
     }
 
@@ -263,6 +423,9 @@ public class MenuManager : MonoBehaviour
         GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
         GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
         GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn = SaveData.hpBar;
+
+        GameObject.Find("DMGNumToggle").GetComponent<Toggle>().isOn = SaveData.dmgNum;
+        GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = SaveData.vSync;
         yield break;
     }
 
@@ -330,6 +493,10 @@ public class MenuManager : MonoBehaviour
             {
                 enableCombatButtons();
             }
+            else
+            {
+                this.gm.om.dm.updateOptions();
+            }
         }
         else
         {
@@ -351,7 +518,7 @@ public class MenuManager : MonoBehaviour
 
         if (SceneManager.GetSceneByName("Battleworld").IsValid())
             SceneManager.UnloadSceneAsync("BattleWorld");
-        
+
         if (SceneManager.GetSceneByName("LoseSplash").IsValid())
             SceneManager.UnloadSceneAsync("LoseSplash");
 
