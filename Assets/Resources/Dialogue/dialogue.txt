@@ -1636,7 +1636,7 @@ nodeId: 62
 text: BATTLE EVENT
 event: BATTLE
 grid: Forest
-arena: halfdirt_arena
+arena: circulardirt_arena
 numEnemies: 1
 enemyType: bandit_leader
 options: 2
