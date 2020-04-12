@@ -342,6 +342,10 @@ public class MenuManager : MonoBehaviour
             {
                 enableCombatButtons();
             }
+            else
+            {
+                this.gm.om.dm.updateOptions();
+            }
         }
         else
         {

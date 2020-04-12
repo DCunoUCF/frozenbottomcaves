@@ -193,6 +193,45 @@ public class DialogueManager : MonoBehaviour
         setInitialSelection();
     }
 
+    public void updateOptions()
+    {
+        for (int i = 0; i < curNode.options.Count; i++)
+        {
+            if (curNode.options[i].itemReq != "")
+                curItem = (Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), curNode.options[i].itemReq, true);
+
+            print("Trying to update the dialogue text for item: " + curItem);
+
+            if (curNode.options[i].itemReq != "")
+            {
+                if (this.om.gm.pm.pc.inventory.CheckItem(curItem) == null)
+                {
+                    print("item not found");
+                    Choices[i].gameObject.SetActive(true);
+                    //Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    Choices[i].interactable = false;
+                }
+                else if (this.om.gm.pm.pc.inventory.CheckItem(curItem).count < curNode.options[i].itemReqAmount)
+                {
+                    print("insufficient item count" + curNode.options[i].itemReqAmount);
+                    Choices[i].gameObject.SetActive(true);
+                    //Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                    Choices[i].interactable = false;
+                }
+                else
+                {
+                    Choices[i].gameObject.SetActive(true);
+                    //Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+                }
+            }
+            else
+            {
+                Choices[i].gameObject.SetActive(true);
+                //Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
+            }
+        }
+    }
+
     // Run if user clicks second choice
     public void choiceOption02()
     {

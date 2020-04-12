@@ -205,6 +205,7 @@ public class PlayerManager : MonoBehaviour
         {
             invImg.color = UnityEngine.Color.white;
             inventoryUI.gameObject.SetActive(false);
+            gm.om.dm.updateOptions();
             gm.om.dm.setInteractable();
         }
         else
