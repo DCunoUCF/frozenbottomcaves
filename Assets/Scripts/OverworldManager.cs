@@ -475,6 +475,13 @@ public class OverworldManager : MonoBehaviour
 
     public void loadSave()
     {
+        this.overworldEvent.Clear();
+        this.overworldEventEffect.Clear();
+        this.overworldEventItemGained.Clear();
+        this.overworldEventItemGainedAmount.Clear();
+        this.overworldEventItemLost.Clear();
+        this.overworldEventItemLostAmount.Clear();
+
         this.gm.pm.loadSave();
         this.dm.currentNode = this.saveCurrentNode;
         this.startingNode = saveNode;
