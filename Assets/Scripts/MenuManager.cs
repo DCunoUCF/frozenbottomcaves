@@ -267,7 +267,7 @@ public class MenuManager : MonoBehaviour
         GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
         GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn = this.gm.sm.getEffectMute();
         GameObject.Find("HPBarToggle").GetComponent<Toggle>().isOn = SaveData.hpBar;
-        GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = this.gm.vsyncEnabled;
+        //GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = this.gm.vsyncEnabled;
         GameObject.Find("EnemyDMGNumbers").GetComponent<Toggle>().isOn = SaveData.dmgNum;
         yield break;
     }
