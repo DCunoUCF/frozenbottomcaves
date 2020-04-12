@@ -18,11 +18,6 @@ public class UIInventory : MonoBehaviour
     public RectTransform content;
     public Scrollbar scrollbar;
 
-    public void Start()
-    {
-        content.sizeDelta = new Vector2(content.sizeDelta.x, content.sizeDelta.y + 30f);
-    }
-
     // Adds an Item into Inventory
     public void addItem(Item item)
     {
