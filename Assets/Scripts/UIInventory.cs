@@ -17,6 +17,19 @@ public class UIInventory : MonoBehaviour
     public GameObject AttackPanel;
     public RectTransform content;
     public Scrollbar scrollbar;
+    private GameManager gm;
+
+    public void Start()
+    {
+        this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        if (this.gm.pm.pc.health >= this.gm.pm.pc.maxHealth)
+            MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = false;
+        else
+            MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = true;
+
+        MainMenu.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = false;
+    }
 
     // Adds an Item into Inventory
     public void addItem(Item item)
@@ -169,6 +182,11 @@ public class UIInventory : MonoBehaviour
         string[] a3 = PlayerManager.Instance.getSkillInfo(4);
         specialAttack2.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = a3[0];
         specialAttack2.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = a3[1] + "\nCooldown: " + (PlayerManager.Instance.pc.cd4-1) + " turns";
+
+        if (this.gm.pm.pc.health >= this.gm.pm.pc.maxHealth)
+            MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = false;
+        else
+            MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = true;
     }
 
 
@@ -196,11 +214,13 @@ public class UIInventory : MonoBehaviour
             if (item.count == 0) // Want to keep provisions up even if at 0
             {
                 MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = false;
-                //MainMenu.transform.GetChild(3).gameObject.SetActive(false);
             }
             else
             {
-                MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = true;
+                if (this.gm.pm.pc.health >= this.gm.pm.pc.maxHealth)
+                    MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = false;
+                else
+                    MainMenu.transform.GetChild(3).GetChild(1).GetComponent<Button>().interactable = true;
             }
         }
 
@@ -210,11 +230,16 @@ public class UIInventory : MonoBehaviour
             temp = MainMenu.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
             temp.GetComponent<TextMeshProUGUI>().text = item.displayName + " x" + item.count;
 
-            if(item.count == 0)
+
+            MainMenu.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = false;
+            /*if (item.count == 0) // Want to keep resurrection up even if at 0
             {
-                temp.GetComponent<TextMeshProUGUI>().color = color;
-                MainMenu.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.SetActive(false);
+                MainMenu.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = false;
             }
+            else
+            {
+                MainMenu.transform.GetChild(0).GetChild(1).GetComponent<Button>().interactable = true;
+            }*/
         }
 
         // Miscellaneous Items
