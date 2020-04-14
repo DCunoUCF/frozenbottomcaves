@@ -165,13 +165,13 @@ public class DialogueManager : MonoBehaviour
 
     public void updateOptions()
     {
-        print("update options");
+        //print("update options");
         for (int i = 0; i < curNode.options.Count; i++)
         {
             if (curNode.options[i].itemReq != "")
                 curItem = (Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), curNode.options[i].itemReq, true);
 
-            print("Trying to update the dialogue text for item: " + curItem);
+            //print("Trying to update the dialogue text for item: " + curItem);
 
             if (curNode.options[i].itemReq != "")
             {
