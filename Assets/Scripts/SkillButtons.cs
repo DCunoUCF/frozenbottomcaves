@@ -80,6 +80,21 @@ public class SkillButtons : MonoBehaviour
         }
     }
 
+    public void disableAll()
+    {
+        foreach (Button b in b)
+        {
+            b.interactable = false;
+        }
+    }
+    public void enableAll()
+    {
+        foreach (Button b in b)
+        {
+            b.interactable = true;
+        }
+    }
+
     public void writeToolTip1()
     {
         tooltip.text = PlayerManager.Instance.pc.skill1desc;
