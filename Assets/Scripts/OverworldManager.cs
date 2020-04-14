@@ -305,7 +305,6 @@ public class OverworldManager : MonoBehaviour
             {
                 print("entered combat");
                 yield return StartCoroutine(BattleEvent());
-                break;
             }
 
             if (this.overworldEvent[i] == FlagType.STRSKILL)
