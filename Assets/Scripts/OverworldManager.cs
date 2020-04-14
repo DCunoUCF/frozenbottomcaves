@@ -131,7 +131,8 @@ public class OverworldManager : MonoBehaviour
                 this.saveNode = 0;
                 this.saveNodeTypeCount = 0;
                 this.saveCurrentNode = 0;
-
+                this.saveX = playerX;
+                this.saveY = playerY;
 
                 // Save direction they're facing
                 if (player.transform.GetChild(0).gameObject.activeSelf)
@@ -199,12 +200,12 @@ public class OverworldManager : MonoBehaviour
         // If the node position is not where the player is, move to it
         if (player.transform.position != n.physNode.transform.position)
         {
-            print(playerX + " " + playerY);
+            //print(playerX + " " + playerY);
             List<Point> movementPoints = BFS.bfsPath(this.pathingGrid, new Point(playerX, playerY), pathMap[this.dm.currentNode]);
-            foreach (Point p in movementPoints)
-            {
-                print(p);
-            }
+            //foreach (Point p in movementPoints)
+            //{
+            //    print(p);
+            //}
 
             for (int i = movementPoints.Count - 1; i >= 0; i--)
             {
@@ -215,28 +216,6 @@ public class OverworldManager : MonoBehaviour
             }
             yield return new WaitForSeconds(.7f);
         }
-
-        //if (player.transform.position != n.physNode.transform.position)
-        //{
-
-        //    List<Point> movementPoints = BFS.bfsPath(this.pathingGrid, new Point(playerX, playerY), pathMap[this.dm.currentNode]);
-        //    foreach (Point p in movementPoints)
-        //    {
-        //        print(p);
-        //    }
-
-        //    for (int i = movementPoints.Count - 1; i >= 0; i--)
-        //    {
-        //        yield return StartCoroutine(moveToDest(pointToVector[movementPoints[i]]));
-        //        playerX = movementPoints[i].X;
-        //        playerY = movementPoints[i].Y;
-        //    }
-        //}
-
-        //while (cam.transform.position.x != player.transform.position.x && cam.transform.position.y != player.transform.position.y)
-        //{
-        //    yield return null;
-        //}
 
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
@@ -300,6 +279,7 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.setInitialSelection();
 
+        print("There are " + this.overworldEvent.Count + " event(s)");
         // If no events
         if (this.overworldEvent.Count == 0)
         {
@@ -313,6 +293,7 @@ public class OverworldManager : MonoBehaviour
             yield break;
         }
 
+
         for (int i = 0; i < this.overworldEvent.Count; i++)
         {
             print("Current event: " + this.overworldEvent[i]);
@@ -324,6 +305,7 @@ public class OverworldManager : MonoBehaviour
             {
                 print("entered combat");
                 yield return StartCoroutine(BattleEvent());
+                break;
             }
 
             if (this.overworldEvent[i] == FlagType.STRSKILL)
@@ -435,7 +417,7 @@ public class OverworldManager : MonoBehaviour
         float startTime = Time.time;
         float journeyTime = .275f;
 
-        print(start + " end " + dest);
+        //print(start + " end " + dest);
 
         while (player.transform.position != dest)
         {
@@ -485,6 +467,10 @@ public class OverworldManager : MonoBehaviour
         this.playerNodeId = saveCurrentNode;
         this.dm.Panel.SetActive(true);
         this.dm.init();
+
+        print("Loaded player at DM node: " + this.dm.currentNode);
+        print("PlayerNodeID is now: " + this.playerNodeId);
+        print("Player (x,y): " + "(" + playerX + "," + playerY + ")");
 
         destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);
         this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
@@ -549,8 +535,15 @@ public class OverworldManager : MonoBehaviour
         this.gm.pm.inCombat = true;
         this.gm.jingle = false;
 
-        yield return new WaitUntil(() => this.gm.bm != null);
-        yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true);
+        yield return new WaitForSeconds(.5f);
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Battleworld"));
+
+
+        //yield return new WaitUntil(() => SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Battleworld"));
+        yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true || this.gm.pm.PLAYERDEAD);
+
+        print("WE WON? " + this.gm.bm.didWeWinTheBattle());
 
         if (this.gm.bm.didWeWinTheBattle())
             this.dm.currentNode += 1;
@@ -720,7 +713,7 @@ public class OverworldManager : MonoBehaviour
             {
                 Vector3 cv = ConvertVector(position.x, position.y);
                 pathingGrid[xDif, yDif] = true;
-                print(pathGrid.CellToWorld(position));
+                //print(pathGrid.CellToWorld(position));
 
                 if (cv == player.transform.position)
                 {

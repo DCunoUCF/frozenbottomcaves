@@ -164,7 +164,7 @@ public static class BFS
 
         visited[start.X, start.Y] = true;
 
-        Debug.Log("starting at (x,y): " + start.X + ", " + start.Y);
+        //Debug.Log("starting at (x,y): " + start.X + ", " + start.Y);
 
         Queue<qNode> q = new Queue<qNode>();
         qNode s = new qNode(start, 0, null);

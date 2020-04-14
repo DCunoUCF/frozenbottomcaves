@@ -580,7 +580,7 @@ public class BattleManager : MonoBehaviour
     {
         Vector3 s = c.entity.transform.position; // start pos
         List<Vector3> attacks = new List<Vector3>(); // list of attack spots
-        GameObject atkTarEntity = new GameObject();
+        GameObject atkTarEntity;
 
         GameObject tile, tileFill;
         List<GameObject> atkTars = new List<GameObject>();
@@ -600,12 +600,12 @@ public class BattleManager : MonoBehaviour
         foreach (Vector3 v in c.atkTar)
         {
             atkTars.Add(Instantiate(tile, v, Quaternion.identity));
-            attacks.Add((((v+s)/2) + s)/2);
+            attacks.Add((((v + s) / 2) + s) / 2);
         }
 
 
         int i = 0;
-        foreach(Vector3 v in attacks)
+        foreach (Vector3 v in attacks)
         {
             turnEntity(c.entity, c.atkTar[i]);
             atkTarEntity = GetCombatant(c.atkTar[i]);
@@ -632,8 +632,11 @@ public class BattleManager : MonoBehaviour
             Destroy(tileTemp);
         }
 
-        foreach (GameObject g in atkTars)
-            Destroy(g);
+        for (int j = atkTars.Count - 1; j >= 0; j--)
+        {
+            print("Destroying: " + atkTars[j]);
+            Destroy(atkTars[j]);
+        }
 
         atkTars.Clear();
         attacks.Clear();
