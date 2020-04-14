@@ -122,6 +122,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator combatUpdate()
     {
+        this.gm.pm.sb.disableAll();
         // Get NPC decisions
         npcm.makeDecisions();
         yield return StartCoroutine(ResolveMoves()); // Allow this coroutine time to finishing sliding ppl around that are moving

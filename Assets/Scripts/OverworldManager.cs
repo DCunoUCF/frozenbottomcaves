@@ -471,10 +471,11 @@ public class OverworldManager : MonoBehaviour
         print("PlayerNodeID is now: " + this.playerNodeId);
         print("Player (x,y): " + "(" + playerX + "," + playerY + ")");
 
-        destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);
-        this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
-                                                     nodes[startingNode].transform.position.y,
-                                                     nodes[startingNode].transform.position.z);
+        //destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);
+        //this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
+        //                                             nodes[startingNode].transform.position.y,
+        //                                             nodes[startingNode].transform.position.z);
+        this.player.transform.position = this.pointToVector[this.pathMap[this.dm.currentNode]];
         //movePlayer();
         cam.transform.position = this.player.transform.position + new Vector3(0,0,-10);
         
