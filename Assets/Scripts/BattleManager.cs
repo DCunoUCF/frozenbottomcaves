@@ -854,11 +854,11 @@ public class BattleManager : MonoBehaviour
 
     private void InstantiateEntities()
     {
-        // Have to grab spawners after other arenas with spawners in them are deactivated
         Vector3 playerSpawnerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
 
         // Instantiate Player
-        this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), playerSpawnerLoc, Quaternion.identity);
+        this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), 
+                                             playerSpawnerLoc, Quaternion.identity);
         this.player.transform.SetParent(Entities.transform);
 
         // Choose spawners in order of enemy list
@@ -870,7 +870,8 @@ public class BattleManager : MonoBehaviour
         // Instantiate Enemies
         for (int i = 0; i < this.numEnemies; i++)
         {
-            this.enemies.Add(GameObject.Instantiate(GameObject.Find(this.battleClass.nodeEnemies[i].ToString()), chosenEnemyLocList[i], Quaternion.identity)); // Overworld will set the enemy types
+            this.enemies.Add(GameObject.Instantiate(GameObject.Find(this.battleClass.nodeEnemies[i].ToString()), 
+                                                    chosenEnemyLocList[i], Quaternion.identity));
             this.enemies[i].transform.SetParent(Entities.transform);
         }
     }
