@@ -31,7 +31,7 @@ public class DiceRoller : MonoBehaviour
 
     }
 
-    private void click()
+    public void click()
     {
         this.clicked = true;
     }

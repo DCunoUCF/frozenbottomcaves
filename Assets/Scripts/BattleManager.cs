@@ -441,47 +441,47 @@ public class BattleManager : MonoBehaviour
             if (clash && i == tempIndex)
                 continue;
 
-            yield return StartCoroutine(attackAnim(combatantList[i]));
-            for (int j = 0; j < combatantList[i].atkTar.Count; j++)
-            {
+            yield return StartCoroutine(attackAnim(combatantList[i], Vector3.zero));
+            //for (int j = 0; j < combatantList[i].atkTar.Count; j++)
+            //{
 
-                atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar[j]));
+            //    atkTarIndex = GetIndexOfCombatant(GetCombatant(combatantList[i].atkTar[j]));
 
-                if (atkTarIndex < 0)
-                {
-                    continue;
-                }
+            //    if (atkTarIndex < 0)
+            //    {
+            //        continue;
+            //    }
 
-                curAtkTar = combatantList[atkTarIndex];
-                atkX = curAtkTar.gridX;
-                atkY = curAtkTar.gridY;
+            //    curAtkTar = combatantList[atkTarIndex];
+            //    atkX = curAtkTar.gridX;
+            //    atkY = curAtkTar.gridY;
 
-                if (gridCell[atkX, atkY].entity == null)
-                {
-                    continue;
-                }
+            //    if (gridCell[atkX, atkY].entity == null)
+            //    {
+            //        continue;
+            //    }
 
-                print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
+            //    print("combatant: " + combatantList[atkTarIndex].entity + "combatant hp before attack:" + combatantList[atkTarIndex].hp);
 
-                // If the attacker is the player or if the attacker is the enemy and the target is the player
-                if (i == 0)
-                {
-                    combatantList[atkTarIndex].entity.GetComponent<Enemy>().dealDamage(combatantList[i].attackDmg);
-                }
+            //    // If the attacker is the player or if the attacker is the enemy and the target is the player
+            //    if (i == 0)
+            //    {
+            //        combatantList[atkTarIndex].entity.GetComponent<Enemy>().dealDamage(combatantList[i].attackDmg);
+            //    }
                 
-                if (i != 0 && atkTarIndex == 0)
-                {
-                    this.gm.pm.takeDmg(combatantList[i].attackDmg);
-                }
+            //    if (i != 0 && atkTarIndex == 0)
+            //    {
+            //        this.gm.pm.takeDmg(combatantList[i].attackDmg);
+            //    }
 
 
-                print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
+            //    print("enemy: " + combatantList[i].entity + " enemy damage: " + combatantList[i].attackDmg + " combatant hp after attack: " + combatantList[atkTarIndex].hp);
 
-                if (combatantList[atkTarIndex].hp <= 0)
-                {
-                    combatantList[atkTarIndex].entity.SetActive(false);
-                }
-            }
+            //    if (combatantList[atkTarIndex].hp <= 0)
+            //    {
+            //        combatantList[atkTarIndex].entity.SetActive(false);
+            //    }
+            //}
         }
         yield break;
     }
@@ -491,13 +491,14 @@ public class BattleManager : MonoBehaviour
     {
         this.rollParchment.SetActive(true);
         this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.clash, this.gm.sm.effectsVolume);
+        Vector3 saveDir;
         Vector3 start = entity.entity.transform.position;
         Vector3 end = entity2.entity.transform.position;
         Vector3 start2 = entity2.entity.transform.position;
         Vector3 end2 = entity.entity.transform.position;
         Vector3 halfway = (((start + end) / 2) + start) / 2;
         Vector3 halfway2 = (((start2 + end2) / 2) + start2) / 2;
-
+        bool playerWon = false;
         GameObject pTile = pAtk, pTileFill = pAtkFill, eTile = eAtk, eTileFill = eAtkFill, pWon = null, eWon = null;
 
 
@@ -534,6 +535,9 @@ public class BattleManager : MonoBehaviour
                 entity2.entity.SetActive(false);
             }
             pWon = Instantiate(pTileFill, start2, Quaternion.identity);
+            playerWon = true;
+            saveDir = start2;
+            entity.atkTar.Remove(start2);
         }
         else
         {
@@ -546,7 +550,9 @@ public class BattleManager : MonoBehaviour
             }
             this.gm.pm.takeDmg(entity2.attackDmg);
             eWon = Instantiate(eTileFill, start, Quaternion.identity);
-
+            playerWon = false;
+            saveDir = start;
+            entity2.atkTar.Remove(start);
         }
 
         this.rollParchment.SetActive(false);
@@ -574,15 +580,28 @@ public class BattleManager : MonoBehaviour
         // In case something happens, framerate dip or something that leads to them being off, force them to be in their appropriate spots
         entity.entity.transform.position = start;
         entity2.entity.transform.position = start2;
+
+        if (playerWon)
+        {
+            if (entity.atkTar.Count > 0)
+                StartCoroutine(attackAnim(entity, saveDir));
+        }
+        else
+        {
+            if (entity2.atkTar.Count > 0)
+                StartCoroutine(attackAnim(entity2, saveDir));
+        }
+
         yield break;
     }
 
-    IEnumerator attackAnim(CList c)
+    // dirFacing is to override the final facing direction
+    IEnumerator attackAnim(CList c, Vector3 dirFacing)
     {
-        Vector3 s = c.entity.transform.position; // start pos
+        Vector3 s = c.entity.transform.position, facing = dirFacing; // start pos and direction to face
         List<Vector3> attacks = new List<Vector3>(); // list of attack spots
         GameObject atkTarEntity;
-
+        int atkTarIndex;
         GameObject tile, tileFill;
         List<GameObject> atkTars = new List<GameObject>();
 
@@ -610,6 +629,7 @@ public class BattleManager : MonoBehaviour
         {
             turnEntity(c.entity, c.atkTar[i]);
             atkTarEntity = GetCombatant(c.atkTar[i]);
+            atkTarIndex = GetIndexOfCombatant(atkTarEntity);
 
             GameObject tileTemp = Instantiate(tileFill, c.atkTar[i], Quaternion.identity);
             while (c.entity.transform.position != v)
@@ -619,9 +639,24 @@ public class BattleManager : MonoBehaviour
             }
 
             if (atkTarEntity != null && (c.entity == this.player || (c.entity != this.player && atkTarEntity == this.player)))
+            {
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
+                if (c.entity == this.player && atkTarIndex > 0)
+                    combatantList[GetIndexOfCombatant(atkTarEntity)].entity.GetComponent<Enemy>().dealDamage(c.attackDmg);
+                else if (atkTarIndex == 0)
+                    this.gm.pm.takeDmg(c.attackDmg);
+            }
             else
+            {
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
+            }
+            if (atkTarIndex >= 0)
+            {
+                if (combatantList[GetIndexOfCombatant(atkTarEntity)].hp <= 0)
+                {
+                    combatantList[GetIndexOfCombatant(atkTarEntity)].entity.SetActive(false);
+                }
+            }
 
             while (c.entity.transform.position != s)
             {
@@ -632,6 +667,9 @@ public class BattleManager : MonoBehaviour
             i++; // i increments here now, Pegi
             Destroy(tileTemp);
         }
+
+        if (facing != Vector3.zero)
+            turnEntity(c.entity, facing);
 
         for (int j = atkTars.Count - 1; j >= 0; j--)
         {
