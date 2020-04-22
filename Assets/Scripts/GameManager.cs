@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     private bool init = false;
 
+    public int startingNode = 29;
+
     public bool vsyncEnabled;
     public int framerateCap;
     public int refreshRate;
@@ -155,7 +157,6 @@ public class GameManager : MonoBehaviour
         else
         {
             QualitySettings.vSyncCount = 0;
-
         }
 
         // Framerate Cap

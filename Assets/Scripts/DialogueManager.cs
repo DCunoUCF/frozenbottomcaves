@@ -27,8 +27,7 @@ public class DialogueManager : MonoBehaviour
     public List<Button> bTemp;
 
     // Keeps track of position in dialogue
-    // public static int currentNode = 0;
-    public int currentNode = 0;
+    public int currentNode;
 
     // David's Trash for Multiple Options Testing
     //public List<Button> Choices;
@@ -38,6 +37,9 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        this.om = GameObject.Find("GameManager").GetComponent<GameManager>().GetComponent<OverworldManager>();
+        this.currentNode = this.om.startingNode;
+
         // Hardcoding Sort Order is absolutely necessary
         TextBox.GetComponent<MeshRenderer>().sortingOrder = 4;
         Choices[0].GetComponent<Button>().GetComponentInChildren<MeshRenderer>().sortingOrder = 4;
