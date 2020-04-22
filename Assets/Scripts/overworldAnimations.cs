@@ -56,12 +56,14 @@ public class overworldAnimations : MonoBehaviour
                 }
                 yield return new WaitForSeconds(.75f);
                 break;
-/*            case 246: // Crow flies and misses player
+            case 246: // Crow flies and misses player
                 obj = GameObject.Find("crow");
                 Vector3 origPlayerPos = player.transform.position;
-                while (player.transform.position != player.transform.position + new Vector3(0.5f, -0.25f, 0f))
+                Vector3 crowFleeTar = origPlayerPos + new Vector3(2f, -5f, 0);
+                Vector3 playerMoveTar = player.transform.position + new Vector3(0.5f, -0.25f, 0f);
+                while (player.transform.position != playerMoveTar)
                 {
-                    obj.transform.position = Vector3.MoveTowards(player.transform.position, player.transform.position + new Vector3(0.5f, -0.25f, 0f), 2f * Time.deltaTime);
+                    player.transform.position = Vector3.MoveTowards(player.transform.position, playerMoveTar, 2f * Time.deltaTime);
                     yield return null;
                 }
                 while (obj.transform.position != origPlayerPos)
@@ -69,18 +71,18 @@ public class overworldAnimations : MonoBehaviour
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, origPlayerPos, 2f * Time.deltaTime);
                     yield return null;
                 }
-                while (obj.transform.position != obj.transform.position + new Vector3(5f, 10f, 0))
+                while (obj.transform.position != crowFleeTar)
                 {
-                    obj.transform.position = Vector3.MoveTowards(obj.transform.position, obj.transform.position + new Vector3(5f, 10f, 0), 2f * Time.deltaTime);
+                    obj.transform.position = Vector3.MoveTowards(obj.transform.position, crowFleeTar, 2f * Time.deltaTime);
                     yield return null;
                 }
                 while (player.transform.position != origPlayerPos)
                 {
-                    obj.transform.position = Vector3.MoveTowards(player.transform.position, origPlayerPos, 2f * Time.deltaTime);
+                    player.transform.position = Vector3.MoveTowards(player.transform.position, origPlayerPos, 2f * Time.deltaTime);
                     yield return null;
                 }
                 yield return new WaitForSeconds(.75f);
-                break;*/
+                break;
             default:
                 break;
         }
