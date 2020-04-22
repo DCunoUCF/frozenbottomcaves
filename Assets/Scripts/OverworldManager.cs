@@ -70,7 +70,7 @@ public class OverworldManager : MonoBehaviour
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         //destReached = true;
-        startingNode = 0;
+        startingNode = this.gm.startingNode;
         nodeSavedAt = new List<int>();
         nodeMap = new Dictionary<Vector3, List<int>>();
         pathMap = new Dictionary<int, Point>();
@@ -91,7 +91,7 @@ public class OverworldManager : MonoBehaviour
         {
         	this.dm = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
             this.dm.om = this;
-	        this.playerNodeId = this.dm.currentNode;
+	        this.playerNodeId = this.startingNode;
 	        Debug.Log("OverworldManager sees the player at " + this.playerNodeId);
 
         	nodes = new List<GameObject>();
@@ -112,10 +112,6 @@ public class OverworldManager : MonoBehaviour
             spawnPlayer();
             generatePathingGrid();
         }
-
-        //if (playerSpawned)
-        //    if (this.dm.currentNode == -1)
-        //        this.HPEvent(-(this.gm.pm.pc.health));
 
         // Creates save at node 0
         if (playerSpawned && !initialSave)
@@ -504,14 +500,12 @@ public class OverworldManager : MonoBehaviour
         string path = "Prefabs/PlayerCharacters/";
         path += gm.pm.pc.name;
         print(path + " " + gm.pm.pc.name);
-        player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
-        player.transform.position = GameObject.Find("0").transform.position; // hard coding node 0
-        print("node 0:" + nodes[0].transform.position);
+        this.player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
+        this.player.transform.position = getCurrentNode(this.playerNodeId).physNode.transform.position;
+        print("Spawning Player at Node " + this.playerNodeId + ": " + nodes[this.playerNodeId].transform.position);
         playerSpawned = true;
         cam = GameObject.Find("MainCameraOW");
         cam.GetComponent<OWCamera>().target = player.transform;
-        //cam.transform.SetParent(player.transform);
-        //cam.transform.localPosition = new Vector3(0, 0, -10);
         gm.pm.initPM();
 
 

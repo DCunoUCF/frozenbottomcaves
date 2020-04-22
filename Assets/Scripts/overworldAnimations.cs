@@ -37,27 +37,27 @@ public class overworldAnimations : MonoBehaviour
                 }
                 yield return new WaitForSeconds(.75f);
                 break;
-            case 31: // Crow flies away
-                obj = GameObject.Find("bat1");
+/*            case 31: // Crow flies away
+                obj = GameObject.Find("crow");
                 while (obj.transform.position != om.player.transform.position)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, om.player.transform.position + new Vector3(1.25f, .4f, 0), 2f * Time.deltaTime);
                     yield return null;
                 }
                 yield return new WaitForSeconds(.75f);
-                break;
+                break;*/
             case 244: // Crow flies halfway towards character, AGI roll
-                obj = GameObject.Find("bat1");
-                Vector3 birdChase = obj.transform.position + (om.player.transform.position - obj.transform.position) / 2;
-                while (obj.transform.position != birdChase)
+                obj = GameObject.Find("crow");
+                Vector3 crowMoveTar = obj.transform.position + (om.player.transform.position - obj.transform.position) / 2;
+                while (obj.transform.position != crowMoveTar)
                 {
-                    obj.transform.position = Vector3.MoveTowards(obj.transform.position, birdChase, 2f * Time.deltaTime);
+                    obj.transform.position = Vector3.MoveTowards(obj.transform.position, crowMoveTar, 2f * Time.deltaTime);
                     yield return null;
                 }
                 yield return new WaitForSeconds(.75f);
                 break;
-            case 246: // Crow flies and misses player
-                obj = GameObject.Find("bat1");
+/*            case 246: // Crow flies and misses player
+                obj = GameObject.Find("crow");
                 Vector3 origPlayerPos = player.transform.position;
                 while (player.transform.position != player.transform.position + new Vector3(0.5f, -0.25f, 0f))
                 {
@@ -80,7 +80,7 @@ public class overworldAnimations : MonoBehaviour
                     yield return null;
                 }
                 yield return new WaitForSeconds(.75f);
-                break;
+                break;*/
             default:
                 break;
         }
