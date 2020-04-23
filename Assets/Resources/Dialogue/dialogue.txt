@@ -1671,7 +1671,7 @@ text: DEFEATED
 destId: 64
 
 nodeId: 63
-text: The ground quakes as the goliath crashes to the dirt. You put one foot on his chest in triumph. More bandits gather at the edge of the arena and stare in silence.
+text: The ground quakes as the goliath crashes to the dirt. You put one foot on his chest in triumph. The bandits at the edge of the arena stare in silence.
 options: 1
 text: You look around and examine the congregation.
 destId: 65

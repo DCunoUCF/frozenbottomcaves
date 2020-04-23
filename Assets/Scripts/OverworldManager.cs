@@ -184,8 +184,8 @@ public class OverworldManager : MonoBehaviour
         // dm current node has changed, grab it's information
         nodeInfo n = getCurrentNode(this.dm.currentNode);
 
-        // If there is some sort of animation/sfx to play do it here
-        yield return StartCoroutine(this.oa.events(this.dm.currentNode));
+        // If there is some sort of animation/sfx to play BEFORE pathfinding, do it here
+        yield return StartCoroutine(this.oa.EarlyEvents(this.dm.currentNode));
 
         if (this.dm.currentNode == -1)
         { 
@@ -216,6 +216,9 @@ public class OverworldManager : MonoBehaviour
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
         this.curDialogueNode = this.dm.dialogue.nodes[this.playerNodeId];
+        
+        // If there is some sort of animation/sfx to play AFTER pathfinding, do it here
+        yield return StartCoroutine(this.oa.LateEvents(this.dm.currentNode));
 
         // Event conversion from string to FlagType
         print("This event list: " + this.curDialogueNode.overworldEvent);
@@ -300,29 +303,39 @@ public class OverworldManager : MonoBehaviour
             if (this.overworldEvent[i] == FlagType.BATTLE)
             {
                 print("entered combat");
-                yield return StartCoroutine(BattleEvent());
+                if(!this.gm.debug)
+                    yield return StartCoroutine(BattleEvent());
             }
 
             if (this.overworldEvent[i] == FlagType.STRSKILL)
             {
                 print("entered str event");
-                this.dm.putCanvasBehind();
-                yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, this.overworldEventSkillCheckDifficulty));
-                this.dm.putCanvasInFront();
+                if (!this.gm.debug)
+                {
+                    this.dm.putCanvasBehind();
+                    yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, this.overworldEventSkillCheckDifficulty));
+                    this.dm.putCanvasInFront();
+                }
             }
             if (this.overworldEvent[i] == FlagType.INTSKILL)
             {
                 print("entered int event");
-                this.dm.putCanvasBehind();
-                yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, this.overworldEventSkillCheckDifficulty));
-                this.dm.putCanvasInFront();
+                if (!this.gm.debug)
+                {
+                    this.dm.putCanvasBehind();
+                    yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, this.overworldEventSkillCheckDifficulty));
+                    this.dm.putCanvasInFront();
+                }
             }
             if (this.overworldEvent[i] == FlagType.AGISKILL)
             {
                 print("entered agi event");
-                this.dm.putCanvasBehind();
-                yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, this.overworldEventSkillCheckDifficulty));
-                this.dm.putCanvasInFront();
+                if (!this.gm.debug)
+                {
+                    this.dm.putCanvasBehind();
+                    yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, this.overworldEventSkillCheckDifficulty));
+                    this.dm.putCanvasInFront();
+                }
             }
 
             if (this.overworldEvent[i] == FlagType.HPCHANGE)
@@ -637,7 +650,7 @@ public class OverworldManager : MonoBehaviour
         return curBattleClass;
     }
 
-    void TurnPlayer(GameObject entity, Vector3 movTar)
+    public void TurnPlayer(GameObject entity, Vector3 movTar)
     {
         // How I WILL do it later entity.dir... maybe?
         float dirX, dirY;
@@ -682,6 +695,42 @@ public class OverworldManager : MonoBehaviour
                 NE.gameObject.SetActive(false);
             }
         }
+    }
+
+    public void TurnPlayer(GameObject entity, int dir)
+    {
+        GameObject SE = entity.transform.GetChild(0).gameObject, SW = entity.transform.GetChild(1).gameObject,
+                   NW = entity.transform.GetChild(2).gameObject, NE = entity.transform.GetChild(3).gameObject;
+
+        switch(dir)
+        {
+            case 0:
+                SE.gameObject.SetActive(true);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+                break;
+            case 1:
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(true);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+                break;
+            case 2:
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(true);
+                NE.gameObject.SetActive(false);
+                break;
+            case 3:
+            default:
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(true);
+                break;
+        }
+
     }
 
     private void generatePathingGrid()

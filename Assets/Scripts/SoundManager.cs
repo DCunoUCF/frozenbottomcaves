@@ -38,6 +38,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip pieceLanding3;
     public AudioClip pieceLanding4;
     public AudioClip collide;
+    public AudioClip fall;
 
     //============   Constructors   ============//
 
@@ -117,6 +118,7 @@ public class SoundManager : MonoBehaviour
         this.pieceLanding3 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing3");
         this.pieceLanding4 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing4");
         this.collide = Resources.Load<AudioClip>("Sound/Effects/Collide");
+        this.fall = Resources.Load<AudioClip>("Sound/Effects/Fall");
 
         // Start playing music
         this.musicChannel.loop = true; // Default -> yes
