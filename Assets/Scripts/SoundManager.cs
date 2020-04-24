@@ -45,6 +45,14 @@ public class SoundManager : MonoBehaviour
     public AudioClip rumble;
     public AudioClip cackle;
     public AudioClip loudCackle;
+    public AudioClip wolfHowl;
+    public AudioClip wolfSnarl;
+    public AudioClip wolfBite;
+    public AudioClip wolfWhine;
+    public AudioClip personHowl;
+    public AudioClip gnomeOof;
+    public AudioClip tidalWave;
+    public AudioClip metalThud;
 
     //============   Constructors   ============//
 
@@ -131,6 +139,14 @@ public class SoundManager : MonoBehaviour
         this.rumble = Resources.Load<AudioClip>("Sound/Effects/Rumble");
         this.cackle = Resources.Load<AudioClip>("Sound/Effects/Cackle");
         this.loudCackle = Resources.Load<AudioClip>("Sound/Effects/LoudCackle");
+        this.wolfHowl = Resources.Load<AudioClip>("Sound/Effects/WolfHowl");
+        this.wolfSnarl = Resources.Load<AudioClip>("Sound/Effects/WolfSnarl");
+        this.wolfBite = Resources.Load<AudioClip>("Sound/Effects/WolfBite");
+        this.wolfWhine = Resources.Load<AudioClip>("Sound/Effects/WolfWhine");
+        this.personHowl = Resources.Load<AudioClip>("Sound/Effects/PersonHowl");
+        this.gnomeOof = Resources.Load<AudioClip>("Sound/Effects/GnomeOof");
+        this.tidalWave = Resources.Load<AudioClip>("Sound/Effects/TidalWave");
+        this.metalThud = Resources.Load<AudioClip>("Sound/Effects/MetalThud");
 
         // Start playing music
         this.musicChannel.loop = true; // Default -> yes

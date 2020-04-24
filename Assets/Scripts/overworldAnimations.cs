@@ -44,6 +44,26 @@ public class overworldAnimations : MonoBehaviour
                 this.om.TurnPlayer(player, 2);
                 yield return null;
                 break;
+            case 37: // Knight on driftwood
+                GameObject temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight_Driftwood") as GameObject, player.transform.position, Quaternion.identity);
+                temp.name = "TheWhiteKnight1(Clone)";
+                this.gm.pm.player = temp;
+                this.gm.om.player = temp;
+                GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
+                Destroy(player);
+                player = temp;
+                yield return null;
+                break;
+            case 38: // Knight on Raft
+                temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight_Raft") as GameObject, player.transform.position, Quaternion.identity);
+                temp.name = "TheWhiteKnight1(Clone)";
+                this.gm.pm.player = temp;
+                this.gm.om.player = temp;
+                GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
+                Destroy(player);
+                player = temp;
+                yield return null;
+                break;
             case 39: // Slide across raft river
             case 40:
                 playerMoveTar = this.gm.om.GetCurrentNode().GetComponent<WorldNode>().transform.position;
@@ -174,6 +194,20 @@ public class overworldAnimations : MonoBehaviour
                 Destroy(obj);
                 yield return null;
                 break;
+            case 41:
+            case 42: // Knight gets off raft/driftwood
+                yield return new WaitForSeconds(1f);
+                temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight1") as GameObject, player.transform.position, Quaternion.identity);
+                temp.name = "TheWhiteKnight1(Clone)";
+                this.gm.pm.player = temp;
+                this.gm.om.player = temp;
+                this.om.playerX = this.om.pathMap[41].X;
+                this.om.playerY = this.om.pathMap[41].Y;
+                GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
+                Destroy(player);
+                player = temp;
+                yield return null;
+                break;
             case 114: // Nixies approach player
                 GameObject n1 = GameObject.Find("nixie");
                 GameObject n2 = GameObject.Find("nixie (1)");
@@ -218,10 +252,41 @@ public class overworldAnimations : MonoBehaviour
                 this.om.TurnPlayer(player, 0);
                 yield return null;
                 break;
-            case 133: // Ducking underneath the wave and surviving
+            case 125: // Player sees wave coming up
+                obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/tidal_wave") as GameObject, new Vector3(12, 13.5f, 0), Quaternion.identity);
+                objMoveTar = new Vector3(10.75f, 14.25f, 0);
+                while (obj.transform.position != objMoveTar)
+                {
+                    obj.transform.position = Vector3.MoveTowards(obj.transform.position, objMoveTar, 1f * Time.deltaTime);
+                    yield return null;
+                }
+                break;
+            case 127:
+            case 128: // Tidal wave washes past player.
+            case 130: // STR and AGI
+            case 131:
+                obj = GameObject.Find("tidal_wave(Clone)");
+                objMoveTar = new Vector3(3f, 19.75f, 0);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.tidalWave, this.gm.sm.effectsVolume);
+                while (obj.transform.position != objMoveTar)
+                {
+                    obj.transform.position = Vector3.MoveTowards(obj.transform.position, objMoveTar, 1f * Time.deltaTime);
+                    yield return null;
+                }
+                Destroy(obj);
+                break;
+            case 133: // INT Ducking underneath the wave and surviving. Tidal wave passes by
                 playerRotate = player.transform.rotation;
                 player.transform.Rotate(0, 0, -90);
-                yield return new WaitForSeconds(2f);
+                obj = GameObject.Find("tidal_wave(Clone)");
+                objMoveTar = new Vector3(3f, 19.75f, 0);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.tidalWave, this.gm.sm.effectsVolume);
+                while (obj.transform.position != objMoveTar)
+                {
+                    obj.transform.position = Vector3.MoveTowards(obj.transform.position, objMoveTar, 1f * Time.deltaTime);
+                    yield return null;
+                }
+                Destroy(obj);
                 while (player.transform.rotation.z < playerRotate.z)
                 {
                     player.transform.Rotate(new Vector3(0, 0, 90) * (2f * Time.deltaTime));
@@ -230,10 +295,18 @@ public class overworldAnimations : MonoBehaviour
                 player.transform.Rotate(Vector3.zero);  // Making sure the player is perfectly upright
                 yield return null;
                 break;
-            case 134: // Ducking underneath the wave and failing
+            case 134: // INT Ducking underneath the wave and failing. Tidal wave passes by
                 alreadyProne = true;
-                playerRotate = player.transform.rotation;
                 player.transform.Rotate(0, 0, -90);
+                obj = GameObject.Find("tidal_wave(Clone)");
+                objMoveTar = new Vector3(3f, 19.75f, 0);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.tidalWave, this.gm.sm.effectsVolume);
+                while (obj.transform.position != objMoveTar)
+                {
+                    obj.transform.position = Vector3.MoveTowards(obj.transform.position, objMoveTar, 1f * Time.deltaTime);
+                    yield return null;
+                }
+                Destroy(obj);
                 yield return null;
                 break;
             case 135: // Coughing up water and standing up
@@ -293,8 +366,8 @@ public class overworldAnimations : MonoBehaviour
                 this.om.TurnPlayer(w2, 3);
                 this.om.TurnPlayer(w3, 3);
                 this.om.TurnPlayer(w4, 3);
-                // wolf howl sound here
-                yield return new WaitForSeconds(3f);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.wolfHowl, this.gm.sm.effectsVolume);
+                yield return new WaitForSeconds(5f);
                 while (w2.transform.position != w2MoveTar || w3.transform.position != w3MoveTar || w4.transform.position != w4MoveTar)
                 {
                     w2.transform.position = Vector3.MoveTowards(w2.transform.position, w2MoveTar, 4f * Time.deltaTime);
@@ -330,8 +403,8 @@ public class overworldAnimations : MonoBehaviour
                 yield return null;
                 break;
             case 165: // Player howls, Grey wolf comes in and scares the black wolves
-                // person howl sound here
-                //yield return new WaitForSeconds(3f);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.personHowl, this.gm.sm.effectsVolume);
+                yield return new WaitForSeconds(3f);
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/wolf") as GameObject, new Vector3(-4f, 13.5f, 0), Quaternion.identity);
                 objMoveTar = new Vector3(-6f, 13.75f, 0);
                 this.om.TurnPlayer(obj, 1);
@@ -340,6 +413,8 @@ public class overworldAnimations : MonoBehaviour
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, objMoveTar, 4f * Time.deltaTime);
                     yield return null;
                 }
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.wolfSnarl, this.gm.sm.effectsVolume);
+                yield return new WaitForSeconds(2.5f);
                 w1 = GameObject.Find("wolf_black");
                 w2 = GameObject.Find("w2");
                 w3 = GameObject.Find("w3");
@@ -373,6 +448,7 @@ public class overworldAnimations : MonoBehaviour
                 break;
             case 167: // Grey wolf nudges player's arm and whines
                 // dog whine sound
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.wolfWhine, this.gm.sm.effectsVolume);
                 yield return null;
                 break;
             case 169:// Player kicks grey wolf and wolf runs away
@@ -388,6 +464,7 @@ public class overworldAnimations : MonoBehaviour
                     yield return null;
                 }
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.dogYelp, this.gm.sm.effectsVolume);
                 while (player.transform.position != origPlayerPos)
                 {
                     player.transform.position = Vector3.MoveTowards(player.transform.position, origPlayerPos, 2f * Time.deltaTime);
@@ -427,6 +504,7 @@ public class overworldAnimations : MonoBehaviour
                     yield return null;
                 }
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.dogYelp, this.gm.sm.effectsVolume);
                 while (player.transform.position != origPlayerPos)
                 {
                     player.transform.position = Vector3.MoveTowards(player.transform.position, origPlayerPos, 2f * Time.deltaTime);
@@ -442,13 +520,12 @@ public class overworldAnimations : MonoBehaviour
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, origObjPos, 2f * Time.deltaTime);
                     yield return null;
                 }
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.wolfBite, this.gm.sm.effectsVolume);
                 while (obj.transform.position != greyWolfBite)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, greyWolfBite, 2f * Time.deltaTime);
                     yield return null;
                 }
-                // wolf bite sound instead of hit sound should be here
-                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                 while (obj.transform.position != origObjPos)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, origObjPos, 2f * Time.deltaTime);
@@ -473,7 +550,7 @@ public class overworldAnimations : MonoBehaviour
                 Destroy(obj);
                 yield return null;
                 break;
-            case 171:
+            case 171: // Player attempts to pet the wolf
                 obj = GameObject.Find("wolf(Clone)");
                 origPlayerPos = player.transform.position;
                 origObjPos = obj.transform.position;
@@ -493,6 +570,7 @@ public class overworldAnimations : MonoBehaviour
                     player.transform.position = Vector3.MoveTowards(player.transform.position, origPlayerPos, 2f * Time.deltaTime);
                     yield return null;
                 }
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.wolfBite, this.gm.sm.effectsVolume);
                 while (obj.transform.position != origObjPos)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, origObjPos, 2f * Time.deltaTime);
@@ -503,8 +581,6 @@ public class overworldAnimations : MonoBehaviour
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, greyWolfBite, 2f * Time.deltaTime);
                     yield return null;
                 }
-                // wolf bite sound instead of hit sound should be here
-                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                 while (obj.transform.position != origObjPos)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, origObjPos, 2f * Time.deltaTime);
@@ -793,6 +869,31 @@ public class overworldAnimations : MonoBehaviour
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.fall, this.gm.sm.effectsVolume);
                 yield return new WaitForSeconds(.75f);
                 break;
+            case 81:
+                obj = GameObject.Find("gnome_log");
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.thud, this.gm.sm.effectsVolume);
+                this.om.TurnPlayer(obj, 1);
+                obj.transform.position = obj.transform.position + new Vector3(0,0.5f,0);
+                GameObject gnome = Instantiate(Resources.Load("Prefabs/OverworldCharacters/gnome") as GameObject, new Vector3(27, 24.25f,0), Quaternion.identity);
+                this.om.TurnPlayer(gnome, 0);
+                yield return null;
+                break;
+            case 82:
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.thud, this.gm.sm.effectsVolume);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.gnomeOof, this.gm.sm.effectsVolume);
+                yield return null;
+                break;
+            case 88: // Player obtains and wears rusty helmet
+            case 248:
+                temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight_Rusty") as GameObject, player.transform.position, Quaternion.identity);
+                temp.name = "TheWhiteKnight1(Clone)";
+                this.gm.pm.player = temp;
+                this.gm.om.player = temp;
+                GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
+                Destroy(player);
+                player = temp;
+                yield return null;
+                break;
             case 93: // Gnoll logger gets crushed
                 obj = GameObject.Find("gnoll_logger");
                 temp = Instantiate(Resources.Load("Prefabs/OverworldCharacters/gnoll_logger_logged") as GameObject, obj.transform.position, Quaternion.identity);
@@ -826,16 +927,87 @@ public class overworldAnimations : MonoBehaviour
                 Destroy(obj);
                 yield return new WaitForSeconds(.75f);
                 break;
+            case 217: // Player uses tower shield on boulders
+                Vector3 b1MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
+                Vector3 b1MoveTar2 = new Vector3(26.75f, 33.75f, 0);
+                Vector3 b2MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
+                Vector3 b2MoveTar2 = b2MoveTar1 + new Vector3(-1.5f, 5f, 0);
+                Vector3 b3MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
+                Vector3 b3MoveTar2 = new Vector3(26.75f, 33.75f, 0);
+                temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight_Shield") as GameObject, player.transform.position, Quaternion.identity);
+                temp.name = "TheWhiteKnight1(Clone)";
+                this.gm.pm.player = temp;
+                this.gm.om.player = temp;
+                GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
+                Destroy(player);
+                player = temp;
+                GameObject b1 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(34.25f, 37.5f, 0), Quaternion.identity);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.rumble, this.gm.sm.effectsVolume);
+                while (b1.transform.position != b1MoveTar2)
+                {
+                    b1.transform.position = Vector3.MoveTowards(b1.transform.position, b1MoveTar2, 6f * Time.deltaTime);
+                    b1.transform.Rotate(0, 0, 5f);
+
+                    yield return null;
+                }
+                Destroy(b1);
+                GameObject b2 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder1") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
+                while (b2.transform.position != b2MoveTar1)
+                {
+                    b2.transform.position = Vector3.MoveTowards(b2.transform.position, b2MoveTar1, 6f * Time.deltaTime);
+                    b2.transform.Rotate(0, 0, 5f);
+
+                    yield return null;
+                }
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.metalThud, this.gm.sm.effectsVolume);
+                player.transform.Rotate(0, 0, 110f);
+                while (b2.transform.position != b2MoveTar2)
+                {
+                    b2.transform.position = Vector3.MoveTowards(b2.transform.position, b2MoveTar2, 6f * Time.deltaTime);
+                    b2.transform.Rotate(0, 0, 5f);
+
+                    yield return null;
+                }
+                Destroy(b2);
+                GameObject b3 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(34.25f, 37.5f, 0), Quaternion.identity);
+                while (b3.transform.position != b3MoveTar2)
+                {
+                    b3.transform.position = Vector3.MoveTowards(b3.transform.position, b3MoveTar2, 6f * Time.deltaTime);
+                    b3.transform.Rotate(0, 0, 5f);
+
+                    yield return null;
+                }
+                Destroy(b3);
+                yield return null;
+                break;
+            case 218:
+                playerRotate = Quaternion.identity;
+                yield return new WaitForSeconds(1f);
+                while (player.transform.rotation.z > playerRotate.z)
+                {
+                    player.transform.Rotate(new Vector3(0, 0, -110) * (2f * Time.deltaTime));
+                    yield return null;
+                }
+                player.transform.Rotate(Vector3.zero); // Making sure the player is perfectly upright
+                temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight1") as GameObject, player.transform.position, Quaternion.identity);
+                temp.name = "TheWhiteKnight1(Clone)";
+                this.gm.pm.player = temp;
+                this.gm.om.player = temp;
+                GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
+                Destroy(player);
+                player = temp;
+                yield return null;
+                break;
             case 220: // Player succeeds boulder dodge
                 origPlayerPos = player.transform.position;
                 Vector3 playerHop = player.transform.position + new Vector3(0.5f,-0.25f,0);
-                Vector3 b1MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f,0);
-                Vector3 b1MoveTar2 = new Vector3(26.25f,34f,0);
-                Vector3 b2MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
-                Vector3 b2MoveTar2 = new Vector3(26.75f,33.75f,0);
-                Vector3 b3MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
-                Vector3 b3MoveTar2 = new Vector3(26.25f, 34f, 0);
-                GameObject b1 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
+                b1MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f,0);
+                b1MoveTar2 = new Vector3(26.25f,34f,0);
+                b2MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
+                b2MoveTar2 = new Vector3(26.75f,33.75f,0);
+                b3MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
+                b3MoveTar2 = new Vector3(26.25f, 34f, 0);
+                b1 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
                 float startTime = Time.time;
                 float journeyTime = .275f;
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.rumble, this.gm.sm.effectsVolume);
@@ -855,7 +1027,7 @@ public class overworldAnimations : MonoBehaviour
                     yield return null;
                 }
                 Destroy(b1);
-                GameObject b2 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder1") as GameObject, new Vector3(34.25f, 37.5f, 0), Quaternion.identity);
+                b2 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder1") as GameObject, new Vector3(34.25f, 37.5f, 0), Quaternion.identity);
                 startTime = Time.time;
                 journeyTime = .275f;
                 while (b2.transform.position != b2MoveTar2 || player.transform.position != origPlayerPos)
@@ -874,7 +1046,7 @@ public class overworldAnimations : MonoBehaviour
                     yield return null;
                 }
                 Destroy(b2);
-                GameObject b3 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
+                b3 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
                 startTime = Time.time;
                 journeyTime = .275f;
                 while (b3.transform.position != b3MoveTar2 || player.transform.position != playerHop)
