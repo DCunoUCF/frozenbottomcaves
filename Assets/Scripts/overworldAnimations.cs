@@ -20,7 +20,6 @@ public class overworldAnimations : MonoBehaviour
         switch (id)
         {
             case 6: // Spin jump puddle
-                int i = 2;
                 float startTime = Time.time;
                 float journeyTime = .275f;
                 origPlayerPos = player.transform.position;
@@ -86,7 +85,7 @@ public class overworldAnimations : MonoBehaviour
                 break;
             case 151: // Slide and spin down tidal wave river
                 playerMoveTar = this.gm.om.GetCurrentNode().GetComponent<WorldNode>().transform.position;
-                i = 0;
+                int i = 0;
                 while (player.transform.position != playerMoveTar)
                 {
                     player.transform.position = Vector3.MoveTowards(player.transform.position, playerMoveTar, 2f * Time.deltaTime);
@@ -307,6 +306,116 @@ public class overworldAnimations : MonoBehaviour
                     yield return null;
                 }
                 Destroy(obj);
+                yield return null;
+                break;
+            case 141:
+                bool gobOrig = true;
+                GameObject sp = GameObject.Find("spider_small");
+                GameObject gob = GameObject.Find("goblin");
+                Vector3 origGobPos = gob.transform.position;
+                Vector3 origSpPos = sp.transform.position;
+                Vector3 gobMoveTar = origGobPos + new Vector3(-0.125f, 0.06f, 0);
+                Vector3 spMoveTar = origSpPos + new Vector3(0.2f, 0, 0);
+                for (int j = 0; j < 3; j++)
+                {
+                    while (gob.transform.position != gobMoveTar || sp.transform.position != spMoveTar)
+                    {
+                        if(gobOrig)
+                        {
+                            gob.transform.position = Vector3.MoveTowards(gob.transform.position, gobMoveTar, 4f * Time.deltaTime);
+
+                            if (gob.transform.position == gobMoveTar)
+                                gobOrig = false;
+                        }
+                        else
+                        {
+                            gob.transform.position = Vector3.MoveTowards(gob.transform.position, origGobPos, 1f * Time.deltaTime);
+
+                            if (gob.transform.position == origGobPos)
+                                gobOrig = true;
+                        }
+
+                        sp.transform.position = Vector3.MoveTowards(sp.transform.position, spMoveTar, 4f * Time.deltaTime);
+                        yield return null;
+                    }
+                    while (gob.transform.position != origGobPos || sp.transform.position != origSpPos)
+                    {
+                        if (gobOrig)
+                        {
+                            gob.transform.position = Vector3.MoveTowards(gob.transform.position, gobMoveTar, 4f * Time.deltaTime);
+
+                            if (gob.transform.position == gobMoveTar)
+                                gobOrig = false;
+                        }
+                        else
+                        {
+                            gob.transform.position = Vector3.MoveTowards(gob.transform.position, origGobPos, 4f * Time.deltaTime);
+
+                            if (gob.transform.position == origGobPos)
+                                gobOrig = true;
+                        }
+
+                        sp.transform.position = Vector3.MoveTowards(sp.transform.position, origSpPos, 1f * Time.deltaTime);
+                        yield return null;
+                    }
+                }
+                yield return null;
+                break;
+            case 143:
+                sp = GameObject.Find("spider_small");
+                gob = GameObject.Find("goblin");
+                GameObject gob2 = GameObject.Find("goblin (1)");
+                sp.transform.Rotate(0, 0, -90);
+                gob.transform.Rotate(0, 0, 110);
+                gob2.transform.Rotate(0, 0, -90);
+                yield return null;
+                break;
+            case 145:
+                sp = GameObject.Find("spider_small");
+                gob = GameObject.Find("goblin");
+                gob2 = GameObject.Find("goblin (1)");
+                spMoveTar = new Vector3(15f, 24.25f, 0);
+                origPlayerPos = player.transform.position;
+                playerMoveTar = origPlayerPos + new Vector3(0.125f,0.06f,0);
+                gobMoveTar = gob.transform.position + new Vector3(-3f,3f,0);
+                Vector3 gob2MoveTar = gob.transform.position + new Vector3(-3f,3f,0);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.miss, this.gm.sm.effectsVolume);
+                while (player.transform.position != playerMoveTar)
+                {
+                    player.transform.position = Vector3.MoveTowards(player.transform.position, playerMoveTar, 4f * Time.deltaTime);
+                    yield return null;
+                }
+                while (player.transform.position != origPlayerPos)
+                {
+                    player.transform.position = Vector3.MoveTowards(player.transform.position, origPlayerPos, 4f * Time.deltaTime);
+                    yield return null;
+                }
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.collide, this.gm.sm.effectsVolume);
+                this.om.TurnPlayer(sp, 1);
+                while (sp.transform.position != spMoveTar)
+                {
+                    sp.transform.position = Vector3.MoveTowards(sp.transform.position, spMoveTar, 1f * Time.deltaTime);
+                    yield return null;
+                }
+                yield return new WaitForSeconds(1f);
+                this.om.TurnPlayer(gob, 1);
+                this.om.TurnPlayer(gob2, 1);
+                yield return new WaitForSeconds(1f);
+                this.om.TurnPlayer(gob, 2);
+                this.om.TurnPlayer(gob2, 2);
+                while (gob.transform.position != gobMoveTar || gob2.transform.position != gob2MoveTar)
+                {
+                    gob.transform.position = Vector3.MoveTowards(gob.transform.position, gobMoveTar, 2f * Time.deltaTime);
+                    gob2.transform.position = Vector3.MoveTowards(gob2.transform.position, gob2MoveTar, 2f * Time.deltaTime);
+                    yield return null;
+                }
+                Destroy(gob);
+                Destroy(gob2);
+                yield return null;
+                break;
+            case 147:
+                sp = GameObject.Find("spider_small");
+                sp.transform.Rotate(0, 0, -90);
                 yield return null;
                 break;
             case 135: // Coughing up water and standing up
