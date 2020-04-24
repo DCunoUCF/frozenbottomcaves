@@ -39,6 +39,12 @@ public class SoundManager : MonoBehaviour
     public AudioClip pieceLanding4;
     public AudioClip collide;
     public AudioClip fall;
+    public AudioClip thud;
+    public AudioClip dogYelp;
+    public AudioClip hiss;
+    public AudioClip rumble;
+    public AudioClip cackle;
+    public AudioClip loudCackle;
 
     //============   Constructors   ============//
 
@@ -119,6 +125,12 @@ public class SoundManager : MonoBehaviour
         this.pieceLanding4 = Resources.Load<AudioClip>("Sound/Effects/Piece_Landing4");
         this.collide = Resources.Load<AudioClip>("Sound/Effects/Collide");
         this.fall = Resources.Load<AudioClip>("Sound/Effects/Fall");
+        this.thud = Resources.Load<AudioClip>("Sound/Effects/Thud");
+        this.dogYelp = Resources.Load<AudioClip>("Sound/Effects/DogYelp");
+        this.hiss = Resources.Load<AudioClip>("Sound/Effects/Hiss");
+        this.rumble = Resources.Load<AudioClip>("Sound/Effects/Rumble");
+        this.cackle = Resources.Load<AudioClip>("Sound/Effects/Cackle");
+        this.loudCackle = Resources.Load<AudioClip>("Sound/Effects/LoudCackle");
 
         // Start playing music
         this.musicChannel.loop = true; // Default -> yes

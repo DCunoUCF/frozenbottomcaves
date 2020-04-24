@@ -515,7 +515,7 @@ public class OverworldManager : MonoBehaviour
         print(path + " " + gm.pm.pc.name);
         this.player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
         this.player.transform.position = getCurrentNode(this.playerNodeId).physNode.transform.position;
-        print("Spawning Player at Node " + this.playerNodeId + ": " + nodes[this.playerNodeId].transform.position);
+        //print("Spawning Player at Node " + this.playerNodeId + ": " + nodes[this.playerNodeId].transform.position);
         playerSpawned = true;
         cam = GameObject.Find("MainCameraOW");
         cam.GetComponent<OWCamera>().target = player.transform;

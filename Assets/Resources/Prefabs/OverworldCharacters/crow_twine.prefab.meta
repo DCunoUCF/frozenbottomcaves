@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Resources/Prefabs/QuitCanvas.prefab.meta
-guid: c4e1dc1a96954fa4cbf5e840ce85bde0
-=======
 guid: 2fdce15d2ab97234692dfe40e6a0260b
->>>>>>> master:Assets/Resources/Prefabs/OverworldCharacters/crow_twine.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
