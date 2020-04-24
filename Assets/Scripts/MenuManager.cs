@@ -350,18 +350,25 @@ public class MenuManager : MonoBehaviour
         {
             this.gm.pm.inventoryOpen();
         }
+        Time.timeScale = 0;
         this.gm.quitUp = true;
         this.gm.om.dm.setUninteractable();
-        this.gm.pm.uiParent.SetActive(false);
-        SceneManager.LoadScene("QuitPopup", LoadSceneMode.Additive);
+        //this.gm.pm.uiParent.SetActive(false);
+
+        GameObject.Find("QuitCanvas").transform.GetChild(0).gameObject.SetActive(true);
+
+        //SceneManager.LoadScene("QuitPopup", LoadSceneMode.Additive);
+        //SceneManager.LoadSceneAsync("QuitPopup", LoadSceneMode.Additive);
     }
 
     void closeQuitPrompt()
     {
+        Time.timeScale = 1f;
         this.gm.quitUp = false;
         this.gm.om.dm.setInteractable();
-        this.gm.pm.uiParent.SetActive(true);
-        SceneManager.UnloadSceneAsync("QuitPopup");
+        //this.gm.pm.uiParent.SetActive(true);
+        //SceneManager.UnloadSceneAsync("QuitPopup");
+        GameObject.Find("QuitCanvas").transform.GetChild(0).gameObject.SetActive(false);
     }
 
 

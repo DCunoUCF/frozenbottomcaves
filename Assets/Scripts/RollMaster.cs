@@ -10,7 +10,7 @@ public class RollMaster : MonoBehaviour
     public GameObject d1, d2;
     public DiceRoller d1r, d2r;
     public Button d1b, d2b, endCheck, startRoll;
-    public TextMeshProUGUI modText, resText, limText;
+    public TextMeshProUGUI modText, resText, limText, timerText;
     private bool waiting, clickd1, clickd2;
 
 
@@ -72,6 +72,7 @@ public class RollMaster : MonoBehaviour
         modText.text = "+ " + atribute + "(" + modifier + ")";
         StartCoroutine(d1r.RollTheDice());
         StartCoroutine(d2r.RollTheDice());
+        StartCoroutine(timer());
         d1r.final = 0;
         d2r.final = 0;
         while (d1r.final == 0 || d2r.final == 0)
@@ -83,6 +84,28 @@ public class RollMaster : MonoBehaviour
         resText.text = "Rolled: " + (d1r.final + d2r.final + modifier);
 
         yield return StartCoroutine(waitForEnd());
+    }
+
+    private IEnumerator timer()
+    {
+        int time = 8;
+        timerText.text = "Time: " + time;
+        while (time > 0)
+        {
+            time -= 1;
+
+            yield return new WaitForSeconds(1f);
+
+            if (d1r.final > 0 && d2r.final > 0)
+                yield break;
+
+            timerText.text = "Time: " + time;
+        }
+
+        d1r.click();
+        d2r.click();
+
+        yield break;
     }
 
     public IEnumerator waitForEnd()

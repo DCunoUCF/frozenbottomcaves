@@ -27,10 +27,10 @@ public class OverworldManager : MonoBehaviour
     public bool updating;
     private overworldAnimations oa;
     public bool[,] pathingGrid;
-    private Dictionary<Vector3, List<int>> nodeMap; // V3 associated with list of nodes there
-    private Dictionary<int, Point> pathMap;  // NodeID associated with x,y coord in pathfinding array
-    private Dictionary<Point, Vector3> pointToVector; // Each point gets a Vector3
-    private int playerX, playerY;
+    public Dictionary<Vector3, List<int>> nodeMap; // V3 associated with list of nodes there
+    public Dictionary<int, Point> pathMap;  // NodeID associated with x,y coord in pathfinding array
+    public Dictionary<Point, Vector3> pointToVector; // Each point gets a Vector3
+    public int playerX, playerY;
     GameObject cam;
 
     public int startingNode;
@@ -70,7 +70,7 @@ public class OverworldManager : MonoBehaviour
         playerSpawned = false;
         this.gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         //destReached = true;
-        startingNode = 0;
+        startingNode = this.gm.startingNode;
         nodeSavedAt = new List<int>();
         nodeMap = new Dictionary<Vector3, List<int>>();
         pathMap = new Dictionary<int, Point>();
@@ -91,7 +91,7 @@ public class OverworldManager : MonoBehaviour
         {
         	this.dm = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
             this.dm.om = this;
-	        this.playerNodeId = this.dm.currentNode;
+	        this.playerNodeId = this.startingNode;
 	        Debug.Log("OverworldManager sees the player at " + this.playerNodeId);
 
         	nodes = new List<GameObject>();
@@ -112,10 +112,6 @@ public class OverworldManager : MonoBehaviour
             spawnPlayer();
             generatePathingGrid();
         }
-
-        //if (playerSpawned)
-        //    if (this.dm.currentNode == -1)
-        //        this.HPEvent(-(this.gm.pm.pc.health));
 
         // Creates save at node 0
         if (playerSpawned && !initialSave)
@@ -188,8 +184,8 @@ public class OverworldManager : MonoBehaviour
         // dm current node has changed, grab it's information
         nodeInfo n = getCurrentNode(this.dm.currentNode);
 
-        // If there is some sort of animation/sfx to play do it here
-        yield return StartCoroutine(this.oa.events(this.dm.currentNode));
+        // If there is some sort of animation/sfx to play BEFORE pathfinding, do it here
+        yield return StartCoroutine(this.oa.EarlyEvents(this.dm.currentNode));
 
         if (this.dm.currentNode == -1)
         { 
@@ -220,6 +216,9 @@ public class OverworldManager : MonoBehaviour
         // Update player's node id after moving there
         this.playerNodeId = this.dm.currentNode;
         this.curDialogueNode = this.dm.dialogue.nodes[this.playerNodeId];
+        
+        // If there is some sort of animation/sfx to play AFTER pathfinding, do it here
+        yield return StartCoroutine(this.oa.LateEvents(this.dm.currentNode));
 
         // Event conversion from string to FlagType
         print("This event list: " + this.curDialogueNode.overworldEvent);
@@ -304,29 +303,39 @@ public class OverworldManager : MonoBehaviour
             if (this.overworldEvent[i] == FlagType.BATTLE)
             {
                 print("entered combat");
-                yield return StartCoroutine(BattleEvent());
+                if(!this.gm.debug)
+                    yield return StartCoroutine(BattleEvent());
             }
 
             if (this.overworldEvent[i] == FlagType.STRSKILL)
             {
                 print("entered str event");
-                this.dm.putCanvasBehind();
-                yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, this.overworldEventSkillCheckDifficulty));
-                this.dm.putCanvasInFront();
+                if (!this.gm.debug)
+                {
+                    this.dm.putCanvasBehind();
+                    yield return StartCoroutine(SkillSaveEventCR("STR", n.physNode, this.overworldEventSkillCheckDifficulty));
+                    this.dm.putCanvasInFront();
+                }
             }
             if (this.overworldEvent[i] == FlagType.INTSKILL)
             {
                 print("entered int event");
-                this.dm.putCanvasBehind();
-                yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, this.overworldEventSkillCheckDifficulty));
-                this.dm.putCanvasInFront();
+                if (!this.gm.debug)
+                {
+                    this.dm.putCanvasBehind();
+                    yield return StartCoroutine(SkillSaveEventCR("INT", n.physNode, this.overworldEventSkillCheckDifficulty));
+                    this.dm.putCanvasInFront();
+                }
             }
             if (this.overworldEvent[i] == FlagType.AGISKILL)
             {
                 print("entered agi event");
-                this.dm.putCanvasBehind();
-                yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, this.overworldEventSkillCheckDifficulty));
-                this.dm.putCanvasInFront();
+                if (!this.gm.debug)
+                {
+                    this.dm.putCanvasBehind();
+                    yield return StartCoroutine(SkillSaveEventCR("AGI", n.physNode, this.overworldEventSkillCheckDifficulty));
+                    this.dm.putCanvasInFront();
+                }
             }
 
             if (this.overworldEvent[i] == FlagType.HPCHANGE)
@@ -504,14 +513,12 @@ public class OverworldManager : MonoBehaviour
         string path = "Prefabs/PlayerCharacters/";
         path += gm.pm.pc.name;
         print(path + " " + gm.pm.pc.name);
-        player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
-        player.transform.position = GameObject.Find("0").transform.position; // hard coding node 0
-        print("node 0:" + nodes[0].transform.position);
+        this.player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
+        this.player.transform.position = getCurrentNode(this.playerNodeId).physNode.transform.position;
+        //print("Spawning Player at Node " + this.playerNodeId + ": " + nodes[this.playerNodeId].transform.position);
         playerSpawned = true;
         cam = GameObject.Find("MainCameraOW");
         cam.GetComponent<OWCamera>().target = player.transform;
-        //cam.transform.SetParent(player.transform);
-        //cam.transform.localPosition = new Vector3(0, 0, -10);
         gm.pm.initPM();
 
 
@@ -643,7 +650,7 @@ public class OverworldManager : MonoBehaviour
         return curBattleClass;
     }
 
-    void TurnPlayer(GameObject entity, Vector3 movTar)
+    public void TurnPlayer(GameObject entity, Vector3 movTar)
     {
         // How I WILL do it later entity.dir... maybe?
         float dirX, dirY;
@@ -690,6 +697,42 @@ public class OverworldManager : MonoBehaviour
         }
     }
 
+    public void TurnPlayer(GameObject entity, int dir)
+    {
+        GameObject SE = entity.transform.GetChild(0).gameObject, SW = entity.transform.GetChild(1).gameObject,
+                   NW = entity.transform.GetChild(2).gameObject, NE = entity.transform.GetChild(3).gameObject;
+
+        switch(dir)
+        {
+            case 0:
+                SE.gameObject.SetActive(true);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+                break;
+            case 1:
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(true);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(false);
+                break;
+            case 2:
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(true);
+                NE.gameObject.SetActive(false);
+                break;
+            case 3:
+            default:
+                SE.gameObject.SetActive(false);
+                SW.gameObject.SetActive(false);
+                NW.gameObject.SetActive(false);
+                NE.gameObject.SetActive(true);
+                break;
+        }
+
+    }
+
     private void generatePathingGrid()
     {
         Tilemap pathTileMap = GameObject.Find("PlayerPathing").GetComponent<Tilemap>();
@@ -698,8 +741,8 @@ public class OverworldManager : MonoBehaviour
 
         GameObject temp = Resources.Load("Prefabs/AttackAnimHighlight") as GameObject;
 
-        print("x: " + bounds.x + " y: " + bounds.y);
-        print("xM: " + bounds.xMax + " yM: " + bounds.yMax);
+        //print("x: " + bounds.x + " y: " + bounds.y);
+        //print("xM: " + bounds.xMax + " yM: " + bounds.yMax);
 
         pathingGrid = new bool[Mathf.Abs(bounds.x) + bounds.xMax + 1, Mathf.Abs(bounds.y) + bounds.yMax + 1];
 
@@ -711,7 +754,8 @@ public class OverworldManager : MonoBehaviour
 
             if (pathTileMap.HasTile(position))
             {
-                Vector3 cv = ConvertVector(position.x, position.y);
+                Vector3 cv = new Vector3((position.x * 0.5f) - (position.y * 0.5f), ((position.x + 1) * 0.25f) + (position.y * 0.25f), 0);
+                //Vector3 cv = ConvertVector(position.x, position.y);
                 pathingGrid[xDif, yDif] = true;
                 //print(pathGrid.CellToWorld(position));
 

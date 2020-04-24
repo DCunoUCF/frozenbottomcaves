@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
 
     private bool init = false;
 
+    public int startingNode;
+    public bool debug = false;
+
     public bool vsyncEnabled;
     public int framerateCap;
     public int refreshRate;
@@ -30,7 +33,7 @@ public class GameManager : MonoBehaviour
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
     public bool splashUp, quitUp, jingle;
-    public bool showHPbars, showDMGnums;
+    public bool showHPbars, showDMGnums, hideTutorial;
     public HashSet<GameObject> inactiveObjects, inactiveObjects2; // One for hp bars, one for dmg numbers
 
     public int whatsMyId()
@@ -155,7 +158,6 @@ public class GameManager : MonoBehaviour
         else
         {
             QualitySettings.vSyncCount = 0;
-
         }
 
         // Framerate Cap
