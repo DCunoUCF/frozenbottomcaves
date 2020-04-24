@@ -52,6 +52,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip personHowl;
     public AudioClip gnomeOof;
     public AudioClip tidalWave;
+    public AudioClip metalThud;
 
     //============   Constructors   ============//
 
@@ -145,6 +146,7 @@ public class SoundManager : MonoBehaviour
         this.personHowl = Resources.Load<AudioClip>("Sound/Effects/PersonHowl");
         this.gnomeOof = Resources.Load<AudioClip>("Sound/Effects/GnomeOof");
         this.tidalWave = Resources.Load<AudioClip>("Sound/Effects/TidalWave");
+        this.metalThud = Resources.Load<AudioClip>("Sound/Effects/MetalThud");
 
         // Start playing music
         this.musicChannel.loop = true; // Default -> yes

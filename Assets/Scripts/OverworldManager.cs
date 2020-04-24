@@ -27,10 +27,10 @@ public class OverworldManager : MonoBehaviour
     public bool updating;
     private overworldAnimations oa;
     public bool[,] pathingGrid;
-    private Dictionary<Vector3, List<int>> nodeMap; // V3 associated with list of nodes there
-    private Dictionary<int, Point> pathMap;  // NodeID associated with x,y coord in pathfinding array
-    private Dictionary<Point, Vector3> pointToVector; // Each point gets a Vector3
-    private int playerX, playerY;
+    public Dictionary<Vector3, List<int>> nodeMap; // V3 associated with list of nodes there
+    public Dictionary<int, Point> pathMap;  // NodeID associated with x,y coord in pathfinding array
+    public Dictionary<Point, Vector3> pointToVector; // Each point gets a Vector3
+    public int playerX, playerY;
     GameObject cam;
 
     public int startingNode;
