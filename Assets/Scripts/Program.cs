@@ -67,7 +67,7 @@ public class Program
             {
                 node.nodeId = parseId(data, ':');
 
-                Debug.Log("Node: " + node.nodeId);
+                //Debug.Log("Node: " + node.nodeId);
             }
             // Dialogue Text
             else if (prefix.ToLower() == "text")
@@ -90,7 +90,7 @@ public class Program
 
                 prefix = parseText(data, ':');
 
-                Debug.Log("Event prefix: " + prefix.ToLower());
+                //Debug.Log("Event prefix: " + prefix.ToLower());
 
                 // Effect Events
                 if (prefix.ToLower() == "hpchange" || prefix.ToLower() == "hpmaxchange" || prefix.ToLower() == "strchange" || prefix.ToLower() == "intchange" || prefix.ToLower() == "agichange")
@@ -156,18 +156,18 @@ public class Program
                 }
                 else if (prefix.ToLower() == "strskill" || prefix.ToLower() == "intskill" || prefix.ToLower() == "agiskill")
                 {
-                    Debug.Log("Skill Event");
+                    //Debug.Log("Skill Event");
                     // Event
                     tempEvent = parseText(data, ':');
                     node.overworldEvent.Add(tempEvent);
 
-                    Debug.Log("Type of Skill Event: " + tempEvent);
+                    //Debug.Log("Type of Skill Event: " + tempEvent);
 
                     // Skill Check Difficulty
                     data = lines[lineNumber++];
                     node.skillCheckDifficulty = parseId(data, ':');
 
-                    Debug.Log("Skill Check Difficulty: " + node.skillCheckDifficulty);
+                    //Debug.Log("Skill Check Difficulty: " + node.skillCheckDifficulty);
 
                     // Buffering the List to the correct indices
                     node.itemGained.Add("");
@@ -179,21 +179,21 @@ public class Program
                 // BATTLE
                 else if (prefix.ToLower() == "battle")
                 {
-                    Debug.Log("Battle Event at node: " + node.nodeId);
+                    //Debug.Log("Battle Event at node: " + node.nodeId);
                     // Event
                     tempEvent = parseText(data, ':');
                     node.overworldEvent.Add(tempEvent);
 
-                    Debug.Log("Event: " + tempEvent);
+                    //Debug.Log("Event: " + tempEvent);
                     // Grid
                     data = lines[lineNumber++];
                     node.grid = parseText(data, ':');
                     
-                    Debug.Log("Grid: " + node.grid);
+                    //Debug.Log("Grid: " + node.grid);
                     // Arena
                     data = lines[lineNumber++];
                     node.arena = parseText(data, ':');
-                    Debug.Log("Arena: " + node.arena);
+                    //Debug.Log("Arena: " + node.arena);
 
                     // Enemy
                     data = lines[lineNumber++];
@@ -205,7 +205,7 @@ public class Program
                         data = lines[lineNumber++];
                         enemy = parseText(data, ':');
                         node.enemyType.Add(enemy);
-                        Debug.Log("Enemy: " + node.enemyType[i]);
+                        //Debug.Log("Enemy: " + node.enemyType[i]);
                     }
 
                     // Buffering the List to the correct indices
@@ -315,18 +315,18 @@ public class Program
                     }
                     else if (prefix.ToLower() == "strskill" || prefix.ToLower() == "intskill" || prefix.ToLower() == "agiskill")
                     {
-                        Debug.Log("Skill Event");
+                        //Debug.Log("Skill Event");
                         // Event
                         tempEvent = parseText(data, ':');
                         node.overworldEvent.Add(tempEvent);
 
-                        Debug.Log("Type of Skill Event: " + tempEvent);
+                        //Debug.Log("Type of Skill Event: " + tempEvent);
 
                         // Skill Check Difficulty
                         data = lines[lineNumber++];
                         node.skillCheckDifficulty = parseId(data, ':');
 
-                        Debug.Log("Skill Check Difficulty: " + node.skillCheckDifficulty);
+                        //Debug.Log("Skill Check Difficulty: " + node.skillCheckDifficulty);
 
                         // Buffering the List to the correct indices
                         node.itemGained.Add("");
@@ -338,21 +338,21 @@ public class Program
                     // BATTLE
                     else if (prefix.ToLower() == "battle")
                     {
-                        Debug.Log("Battle Event at node: " + node.nodeId);
+                        //Debug.Log("Battle Event at node: " + node.nodeId);
                         // Event
                         tempEvent = parseText(data, ':');
                         node.overworldEvent.Add(tempEvent);
 
-                        Debug.Log("Event: " + tempEvent);
+                        //Debug.Log("Event: " + tempEvent);
                         // Grid
                         data = lines[lineNumber++];
                         node.grid = parseText(data, ':');
 
-                        Debug.Log("Grid: " + node.grid);
+                        //Debug.Log("Grid: " + node.grid);
                         // Arena
                         data = lines[lineNumber++];
                         node.arena = parseText(data, ':');
-                        Debug.Log("Arena: " + node.arena);
+                        //Debug.Log("Arena: " + node.arena);
 
                         // Enemy
                         data = lines[lineNumber++];
@@ -364,7 +364,7 @@ public class Program
                             data = lines[lineNumber++];
                             enemy = parseText(data, ':');
                             node.enemyType.Add(enemy);
-                            Debug.Log("Enemy: " + node.enemyType[i]);
+                            //Debug.Log("Enemy: " + node.enemyType[i]);
                         }
 
                         // Buffering the List to the correct indices
@@ -397,7 +397,7 @@ public class Program
                 // Number of options
                 int optionCount = parseId(data, ':');
 
-                Debug.Log("Number of Options: " + optionCount);
+                //Debug.Log("Number of Options: " + optionCount);
 
                 for (int i = 0; i < optionCount; i++)
                 {
@@ -406,8 +406,8 @@ public class Program
                     data = lines[lineNumber++];
                     prefix = ExtractUpToDelimeter(data, ':');
 
-                    Debug.Log("Parsing option: " + i);
-                    Debug.Log("Next prefix: " + prefix);
+                    //Debug.Log("Parsing option: " + i);
+                    //Debug.Log("Next prefix: " + prefix);
 
                     // Richard's Code
                     /*// Keep looping until you come across destId field
@@ -445,13 +445,13 @@ public class Program
                         data = lines[lineNumber++];
                         prefix = ExtractUpToDelimeter(data, ':');
 
-                        Debug.Log("Parsed text: " + op.text);
-                        Debug.Log("Item Required or not?: " + prefix.ToLower());
+                        //Debug.Log("Parsed text: " + op.text);
+                        //Debug.Log("Item Required or not?: " + prefix.ToLower());
                         
                         // Item Required
                         if (prefix.ToLower() == "itemreq")
                         {
-                            Debug.Log("Item Required.");
+                            //Debug.Log("Item Required.");
 
                             op.itemReq = parseText(data, ':');
                             data = lines[lineNumber++];
@@ -461,31 +461,31 @@ public class Program
 
                             op.destId = parseId(data, ':');
 
-                            Debug.Log("Item Required: " + op.itemReq + " Item Required Amount: " + op.itemReqAmount);
-                            Debug.Log("DestID: " + op.destId);
+                            //Debug.Log("Item Required: " + op.itemReq + " Item Required Amount: " + op.itemReqAmount);
+                            //Debug.Log("DestID: " + op.destId);
                         }
                         // Dest ID
                         else
                         {
-                            Debug.Log("Item Not Required.");
+                            //Debug.Log("Item Not Required.");
 
                             op.destId = parseId(data, ':');
 
                             op.itemReq = "";
                             op.itemReqAmount = 0;
 
-                            Debug.Log("Item Required: " + op.itemReq + " Item Required Amount: " + op.itemReqAmount);
-                            Debug.Log("DestID: " + op.destId);
+                            //Debug.Log("Item Required: " + op.itemReq + " Item Required Amount: " + op.itemReqAmount);
+                            //Debug.Log("DestID: " + op.destId);
                         }
 
                     }
                     else
                     {
-                        Debug.Log("Error in option node: " + i);
+                        //Debug.Log("Error in option node: " + i);
                         Console.WriteLine("Error in options");
                     }
 
-                    Debug.Log("Adding option: " + i);
+                    //Debug.Log("Adding option: " + i);
                     // Add Option Node into our Dialogue Node
                     node.addOption(op);
 
@@ -570,7 +570,7 @@ public class Program
         // Append it to string builder so that we can manipulate it
         temp.Append(data);
 
-        Debug.Log("Parsing ID, line: " + temp.ToString());
+        //Debug.Log("Parsing ID, line: " + temp.ToString());
 
         // Only append to our buffer if it is a number
         for (int i = 0; i < temp.Length; i++)

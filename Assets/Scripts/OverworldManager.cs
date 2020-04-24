@@ -692,8 +692,8 @@ public class OverworldManager : MonoBehaviour
 
         GameObject temp = Resources.Load("Prefabs/AttackAnimHighlight") as GameObject;
 
-        print("x: " + bounds.x + " y: " + bounds.y);
-        print("xM: " + bounds.xMax + " yM: " + bounds.yMax);
+        //print("x: " + bounds.x + " y: " + bounds.y);
+        //print("xM: " + bounds.xMax + " yM: " + bounds.yMax);
 
         pathingGrid = new bool[Mathf.Abs(bounds.x) + bounds.xMax + 1, Mathf.Abs(bounds.y) + bounds.yMax + 1];
 
@@ -705,7 +705,8 @@ public class OverworldManager : MonoBehaviour
 
             if (pathTileMap.HasTile(position))
             {
-                Vector3 cv = ConvertVector(position.x, position.y);
+                Vector3 cv = new Vector3((position.x * 0.5f) - (position.y * 0.5f), ((position.x + 1) * 0.25f) + (position.y * 0.25f), 0);
+                //Vector3 cv = ConvertVector(position.x, position.y);
                 pathingGrid[xDif, yDif] = true;
                 //print(pathGrid.CellToWorld(position));
 

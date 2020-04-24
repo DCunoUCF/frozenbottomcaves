@@ -1,12 +1,6 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Resources/TutorialImages.meta
-guid: 0bbb0d17e65fdfc4abe78f8b803b8d0d
-folderAsset: yes
-DefaultImporter:
-=======
-guid: 7369c7929884a544b8d14f17c442f42d
+guid: e1ef28dff3fbad84f91a2df478b3664e
 PrefabImporter:
->>>>>>> master:Assets/Resources/Prefabs/OverworldCharacters/crow.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
