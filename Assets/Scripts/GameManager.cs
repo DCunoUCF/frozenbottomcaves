@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour
 
     private bool init = false;
 
-    public int startingNode = 29;
+    public int startingNode;
+    public bool debug = false;
 
     public bool vsyncEnabled;
     public int framerateCap;
