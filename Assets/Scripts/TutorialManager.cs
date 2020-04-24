@@ -11,6 +11,7 @@ public class TutorialManager : MonoBehaviour
     private GameObject activeTutorial;
     public GameObject OverworldTutorial, CombatTutorial;
     public Button next, prev;
+    public Toggle toggle;
     public Image owBasics, skBasics, comBasics, background;
     private bool owRead, diceRead, combatRead, waiting, allDone;
 
@@ -25,7 +26,7 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!allDone)
+        if (!allDone && !this.gm.hideTutorial)
         {
             if (this.om.curDialogueNode != null)
             {
@@ -110,5 +111,16 @@ public class TutorialManager : MonoBehaviour
         this.tutorialPictureIndex = 0;
 
         Time.timeScale = 1f;
+    }
+
+    public void tutorialToggle()
+    {
+        if (this.gm != null)
+        {
+            if (toggle.isOn)
+                this.gm.hideTutorial = true;
+            else
+                this.gm.hideTutorial = false;
+        }
     }
 }

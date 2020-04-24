@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
     public bool splashUp, quitUp, jingle;
-    public bool showHPbars, showDMGnums;
+    public bool showHPbars, showDMGnums, hideTutorial;
     public HashSet<GameObject> inactiveObjects, inactiveObjects2; // One for hp bars, one for dmg numbers
 
     public int whatsMyId()
