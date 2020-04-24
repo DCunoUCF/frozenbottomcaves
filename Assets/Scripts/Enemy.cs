@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
 	protected int decision; // 0 - no decision, 1 - move, 2 - attack
 	protected CList combatantEntry;
 	protected bool initFlag = false;
+    protected Vector3Int lastMove;
 
 	// General Stats
 	public EnemyClass enemyClass = EnemyClass.Dunce;
@@ -136,6 +137,7 @@ public class Enemy : MonoBehaviour
     protected void initialize()
     {
     	this.initFlag = true;
+        this.lastMove = new Vector3Int(-999, -999, -999);
 
     	// Set default stats
     	this.health = this.maxHp;
@@ -328,8 +330,23 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        List<Point> offlimits = new List<Point>();
+
+        // Check if we got where we were going last time
+        if (me.X != lastMove.x || me.Y != lastMove.y)
+        {
+            offlimits.Add(new Point(lastMove.x, lastMove.y));
+        }
+
+        // Add in the positions of all current enemies
+        foreach (CList c in BattleManager.Instance.combatantList)
+        {
+            if (c.gridX != target.X && c.gridY != target.Y)
+                offlimits.Add(new Point(c.gridX, c.gridY));
+        }
+
         // Pathfind!
-        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, new List<Point>());
+        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, offlimits);
 
         Debug.Log("GridCell X-Length: " + BattleManager.Instance.gridCell.GetLength(0));
         Debug.Log("GridCell Y-Length: " + BattleManager.Instance.gridCell.GetLength(1));
@@ -339,11 +356,13 @@ public class Enemy : MonoBehaviour
         if (nextSpot.X < 0 || nextSpot.X >= BattleManager.Instance.gridCell.GetLength(0) || nextSpot.Y < 0 || nextSpot.Y >= BattleManager.Instance.gridCell.GetLength(1))
         { 
             print("entered failsafe");
+            this.lastMove = new Vector3Int(me.X, me.Y, 0);
             this.setMove(BattleManager.Instance.gridCell[me.X, me.Y].center);
         }
         else
         {
             print("NOT FAILSAFE");
+            this.lastMove = new Vector3Int(nextSpot.X, nextSpot.Y, 0);
 	        this.setMove(BattleManager.Instance.gridCell[nextSpot.X, nextSpot.Y].center);
         }
     }
