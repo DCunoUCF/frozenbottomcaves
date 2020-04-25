@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private bool battleResolvedCheck;
     private bool battleLogicComplete;
     public bool splashUp, quitUp, jingle;
-    public bool showHPbars, showDMGnums, hideTutorial;
+    public bool showHPbars, showDMGnums, tutorial;
     public HashSet<GameObject> inactiveObjects, inactiveObjects2; // One for hp bars, one for dmg numbers
 
     public int whatsMyId()
@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
 
         this.sm.setAudioChannels(this.gameMusicChannel, this.gameEffectChannel);
 
+        tutorial = SaveData.tutorials;
         this.sm.updateFromSaveData();
 
         Debug.Log("This is my GameManager id!\n" + this.myId);
@@ -171,6 +172,11 @@ public class GameManager : MonoBehaviour
         // {
         //     Screen.SetResolution(this.resolutionWidth, this.resolutionHeight, this.fullscreen, this.refreshRate);
         // }
+
+        if (SceneManager.GetActiveScene().name == "CharacterSelect")
+        {
+            GameObject.Find("TutToggle").GetComponent<Toggle>().isOn = tutorial;
+        }
 
         if (this.om.playerSpawned)
         {

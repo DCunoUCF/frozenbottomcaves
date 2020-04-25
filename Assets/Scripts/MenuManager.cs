@@ -19,7 +19,8 @@ public enum UIType
     BattleButton, OptionsOnTop, OptionBack,
     LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame,
     HideHPBars, HideDMGNum, VsyncEnable, FullscreenToggle,
-    RefreshRate, FramerateCap, Resolution
+    RefreshRate, FramerateCap, Resolution,
+    TutorialToggle
 }
 
 public enum SliderType
@@ -335,6 +336,10 @@ public class MenuManager : MonoBehaviour
 
                 this.gm.updateMyScreen();
                 break;
+            case UIType.TutorialToggle:
+                this.gm.tutorial = GameObject.Find("TutToggle").GetComponent<Toggle>().isOn;
+                SaveData.tutorials = GameObject.Find("TutToggle").GetComponent<Toggle>().isOn;
+                break;
             default:
     			Debug.Log("Clicked a button!"); break;
     	}
@@ -433,6 +438,8 @@ public class MenuManager : MonoBehaviour
 
         GameObject.Find("DMGNumToggle").GetComponent<Toggle>().isOn = SaveData.dmgNum;
         GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = SaveData.vSync;
+        GameObject.Find("TutToggle").GetComponent<Toggle>().isOn = SaveData.tutorials;
+
         yield break;
     }
 
@@ -473,7 +480,7 @@ public class MenuManager : MonoBehaviour
 
     void OpenCharacterSelect()
     {
-    	SceneManager.LoadScene("CharacterSelect", LoadSceneMode.Single);
+        SceneManager.LoadScene("CharacterSelect", LoadSceneMode.Single);
     }
 
     void OpenOptionsOnTop()

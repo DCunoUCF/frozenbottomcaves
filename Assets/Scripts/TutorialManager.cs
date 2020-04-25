@@ -26,7 +26,7 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!allDone && !this.gm.hideTutorial)
+        if (!allDone && this.gm.tutorial)
         {
             if (this.om.curDialogueNode != null)
             {
@@ -118,9 +118,15 @@ public class TutorialManager : MonoBehaviour
         if (this.gm != null)
         {
             if (toggle.isOn)
-                this.gm.hideTutorial = true;
+            {
+                this.gm.tutorial = false;
+                SaveData.tutorials = false;
+            }
             else
-                this.gm.hideTutorial = false;
+            {
+                this.gm.tutorial = true;
+                SaveData.tutorials = true;
+            }
         }
     }
 }
