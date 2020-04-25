@@ -532,6 +532,7 @@ public class Enemy : MonoBehaviour
         // Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, getRestrictions(me, target));
 
         // First, go through every available attack, and if we have one that would hit the player we will select that one right away
+        // Coinflip each special so that we can try and get to later ones as well
         if (specialAttack)
         {
             //==========   Melee Attacks   ===========//
@@ -817,6 +818,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            // Our default attack since we chose not to do a special attack
             attackTiles = this.getStrikeList(me);
 
             foreach (List<Point> l in attackTiles)
