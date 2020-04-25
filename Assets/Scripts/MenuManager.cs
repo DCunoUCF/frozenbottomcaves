@@ -122,15 +122,15 @@ public class MenuManager : MonoBehaviour
     	switch (type)
     	{
     		case UIType.NewGame:
-    			Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
+    			//Debug.Log("Clicked new game! REMEMBER TO CHANGE BACK TO MOVING TO CHARACTERSELECT");
     		    OpenCharacterSelect();
     			break;
     		case UIType.Continue:
-    			Debug.Log("Clicked continue!");
+    			//Debug.Log("Clicked continue!");
     			break;
             // Used on MainMenu
     		case UIType.Options:
-    			Debug.Log("Clicked options!");
+    			//Debug.Log("Clicked options!");
     			OpenOptionsOnTop();
                 //StartCoroutine(OptionActive());
     			break;
@@ -155,11 +155,11 @@ public class MenuManager : MonoBehaviour
                 }
                 break;
     		case UIType.Exit:
-    			Debug.Log("Clicked exit!");
+    			//Debug.Log("Clicked exit!");
     			QuitGame();
     			break;
     		case UIType.Back:
-    			Debug.Log("Clicked back!");
+    			//Debug.Log("Clicked back!");
     			// ExitOptions();
     			ReturnToMainMenu();
     			break;
@@ -172,7 +172,7 @@ public class MenuManager : MonoBehaviour
                 }
                 break;
             case UIType.Return:
-                Debug.Log("Clicked return!");
+                //Debug.Log("Clicked return!");
                 // TODO: change to Go back to Overworld
                 // this.gm.sm.setMusicFromDirectory("ForestOverworldMusic");
                 this.gm.sm.setForestMusic();
@@ -193,21 +193,21 @@ public class MenuManager : MonoBehaviour
                 gm.pm.inCombat = true;
                 break;
             case UIType.MusicMute:
-                Debug.Log("Muting music!");
+                //Debug.Log("Muting music!");
                 if (this.gm != null)
                 {
                     this.gm.sm.setMusicMute(GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn);
                 }
                 break;
             case UIType.EffectMute:
-                Debug.Log("Muting effects!");
+                //Debug.Log("Muting effects!");
                 if (this.gm != null)
                 {
                     this.gm.sm.setEffectMute(GameObject.Find("EffectMuter").GetComponent<Toggle>().isOn);
                 }
                 break;
             case UIType.KnightClass:
-                Debug.Log("Selected Knight!");
+                //Debug.Log("Selected Knight!");
                 gm.pm.pc = CharacterSelection.writeStats("Knight");
                 OpenOverworld();
                 break;
@@ -336,7 +336,8 @@ public class MenuManager : MonoBehaviour
                 this.gm.updateMyScreen();
                 break;
             default:
-    			Debug.Log("Clicked a button!"); break;
+    			//Debug.Log("Clicked a button!"); 
+                break;
     	}
     }
 
@@ -382,7 +383,7 @@ public class MenuManager : MonoBehaviour
                 if (ms != null && this.gm != null)
                 {
                     this.gm.sm.setMusicVolume(ms.value);
-                    Debug.Log("Set value of Music Channel!");
+                    //Debug.Log("Set value of Music Channel!");
                 }
                 break;
             case SliderType.EffectLevel:
@@ -391,7 +392,7 @@ public class MenuManager : MonoBehaviour
                 if (es != null && this.gm != null)
                 {
                     this.gm.sm.setEffectVolume(es.value);
-                    Debug.Log("Set value of Effect Channel!");
+                    //Debug.Log("Set value of Effect Channel!");
                 }
                 break;
             default:
@@ -535,7 +536,7 @@ public class MenuManager : MonoBehaviour
 
         if (this.gm.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null)
         {
-            print("NO RES LEFT");
+            //print("NO RES LEFT");
             GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
         }
 
@@ -559,8 +560,6 @@ public class MenuManager : MonoBehaviour
         overworldTilemap.SetActive(true);
         this.gm.om.dm.setInteractable();
         this.gm.om.dm.setInitialSelection();
-        //this.gm.om.rollParchment.SetActive(true);
-
     }
 
     void ReturnToMainMenu()

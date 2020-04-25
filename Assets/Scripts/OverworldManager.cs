@@ -92,7 +92,7 @@ public class OverworldManager : MonoBehaviour
         	this.dm = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
             this.dm.om = this;
 	        this.playerNodeId = this.startingNode;
-	        Debug.Log("OverworldManager sees the player at " + this.playerNodeId);
+	        //Debug.Log("OverworldManager sees the player at " + this.playerNodeId);
 
         	nodes = new List<GameObject>();
 
@@ -106,8 +106,8 @@ public class OverworldManager : MonoBehaviour
             Tilemap tilemap = tile.GetComponent<Tilemap>();
             //Tilemap obstaclesMap = tilemap.transform.GetChild(0).GetComponent<Tilemap>();
             BoundsInt bounds = tilemap.cellBounds;
-            print("SIZE: " + tilemap.size);
-            print("x: " + (Mathf.Abs(bounds.x) + bounds.xMax) + " y: " + (Mathf.Abs(bounds.y) + bounds.yMax));
+            //print("SIZE: " + tilemap.size);
+            //print("x: " + (Mathf.Abs(bounds.x) + bounds.xMax) + " y: " + (Mathf.Abs(bounds.y) + bounds.yMax));
 
             spawnPlayer();
             generatePathingGrid();
@@ -221,13 +221,13 @@ public class OverworldManager : MonoBehaviour
         yield return StartCoroutine(this.oa.LateEvents(this.dm.currentNode));
 
         // Event conversion from string to FlagType
-        print("This event list: " + this.curDialogueNode.overworldEvent);
+        //print("This event list: " + this.curDialogueNode.overworldEvent);
 
         if (this.curDialogueNode.overworldEvent.Count > 0)
             for (int i = 0; i < this.curDialogueNode.overworldEvent.Count; i++)
                 if (this.curDialogueNode.overworldEvent[i] != "")
                 {
-                    print("This event: " + this.curDialogueNode.overworldEvent[i]);
+                    //print("This event: " + this.curDialogueNode.overworldEvent[i]);
                     this.overworldEvent.Add((FlagType)FlagType.Parse(typeof(FlagType), this.curDialogueNode.overworldEvent[i], true));
                 }
                 else
@@ -238,7 +238,7 @@ public class OverworldManager : MonoBehaviour
             for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
                 if (this.curDialogueNode.itemGained[i] != "")
                 {
-                    print("This Item Gained: " + this.curDialogueNode.itemGained[i]);
+                    //print("This Item Gained: " + this.curDialogueNode.itemGained[i]);
                     this.overworldEventItemGained.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemGained[i], true));
                 }
                 else
@@ -248,7 +248,7 @@ public class OverworldManager : MonoBehaviour
         if (this.curDialogueNode.itemGained.Count > 0)
             for (int i = 0; i < this.curDialogueNode.itemGained.Count; i++)
             {
-                    print("This Item Gained Amount: " + this.curDialogueNode.itemGainedAmount[i]);
+                    //print("This Item Gained Amount: " + this.curDialogueNode.itemGainedAmount[i]);
                     this.overworldEventItemGainedAmount.Add(this.curDialogueNode.itemGainedAmount[i]);
             }
 
@@ -257,7 +257,7 @@ public class OverworldManager : MonoBehaviour
             for (int i = 0; i < this.curDialogueNode.itemLost.Count; i++)
                 if (this.curDialogueNode.itemLost[i] != "")
                 {
-                    print("This Item Lost: " + this.curDialogueNode.itemLost[i]);
+                    //print("This Item Lost: " + this.curDialogueNode.itemLost[i]);
                     this.overworldEventItemLost.Add((Item.ItemType)Item.ItemType.Parse(typeof(Item.ItemType), this.curDialogueNode.itemLost[i], true));
                 }
                 else
@@ -267,7 +267,7 @@ public class OverworldManager : MonoBehaviour
         if (this.curDialogueNode.itemLostAmount.Count > 0)
             for (int i = 0; i < this.curDialogueNode.itemLostAmount.Count; i++)
             {
-                print("This Item Gained Amount: " + this.curDialogueNode.itemLostAmount[i]);
+                //print("This Item Gained Amount: " + this.curDialogueNode.itemLostAmount[i]);
                 this.overworldEventItemLostAmount.Add(this.curDialogueNode.itemLostAmount[i]);
             }
 
@@ -278,7 +278,7 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.setInitialSelection();
 
-        print("There are " + this.overworldEvent.Count + " event(s)");
+        //print("There are " + this.overworldEvent.Count + " event(s)");
         // If no events
         if (this.overworldEvent.Count == 0)
         {
@@ -295,21 +295,23 @@ public class OverworldManager : MonoBehaviour
 
         for (int i = 0; i < this.overworldEvent.Count; i++)
         {
-            print("Current event: " + this.overworldEvent[i]);
+            //print("Current event: " + this.overworldEvent[i]);
 
             if (this.overworldEvent[i] == FlagType.NONE)
                 continue;
 
             if (this.overworldEvent[i] == FlagType.BATTLE)
             {
-                print("entered combat");
-                if(!this.gm.debug)
+                //print("entered combat");
+                if (!this.gm.debug)
+                {
                     yield return StartCoroutine(BattleEvent());
+                }
             }
 
             if (this.overworldEvent[i] == FlagType.STRSKILL)
             {
-                print("entered str event");
+                //print("entered str event");
                 if (!this.gm.debug)
                 {
                     this.dm.putCanvasBehind();
@@ -319,7 +321,7 @@ public class OverworldManager : MonoBehaviour
             }
             if (this.overworldEvent[i] == FlagType.INTSKILL)
             {
-                print("entered int event");
+                //print("entered int event");
                 if (!this.gm.debug)
                 {
                     this.dm.putCanvasBehind();
@@ -329,7 +331,7 @@ public class OverworldManager : MonoBehaviour
             }
             if (this.overworldEvent[i] == FlagType.AGISKILL)
             {
-                print("entered agi event");
+                //print("entered agi event");
                 if (!this.gm.debug)
                 {
                     this.dm.putCanvasBehind();
@@ -340,26 +342,26 @@ public class OverworldManager : MonoBehaviour
 
             if (this.overworldEvent[i] == FlagType.HPCHANGE)
             {
-                print("Hp event");
+                //print("Hp event");
                 this.HPEvent(this.overworldEventEffect[i]);
             }
 
             if (this.overworldEvent[i] == FlagType.ITEMGAINED)
             {
-                print("Getting item(s)");
+                //print("Getting item(s)");
                 this.ItemGet(this.overworldEventItemGained[i], this.overworldEventItemGainedAmount[i]);
             }
 
             if (this.overworldEvent[i] == FlagType.ITEMLOST)
             {
-                print("Losing item(s)");
+                //print("Losing item(s)");
                 this.ItemRemove(this.overworldEventItemLost[i], this.overworldEventItemLostAmount[i]);
                 //this.ItemRemove(n.curNode.NodeItemsLose[n.count].item, n.curNode.NodeItemsLose[n.count].count);
             }
 
             if (this.overworldEvent[i] == FlagType.HPMAXCHANGE)
             {
-                print("HP MAX event");
+                //print("HP MAX event");
                 this.HPMaxEvent(this.overworldEventEffect[i]);
             }
 
@@ -476,15 +478,16 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.init();
 
-        print("Loaded player at DM node: " + this.dm.currentNode);
-        print("PlayerNodeID is now: " + this.playerNodeId);
-        print("Player (x,y): " + "(" + playerX + "," + playerY + ")");
+        //print("Loaded player at DM node: " + this.dm.currentNode);
+        //print("PlayerNodeID is now: " + this.playerNodeId);
+        //print("Player (x,y): " + "(" + playerX + "," + playerY + ")");
 
         //destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);
         //this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
         //                                             nodes[startingNode].transform.position.y,
         //                                             nodes[startingNode].transform.position.z);
         this.player.transform.position = this.pointToVector[this.pathMap[this.dm.currentNode]];
+        this.player.transform.rotation = Quaternion.identity;
         //movePlayer();
         cam.transform.position = this.player.transform.position + new Vector3(0,0,-10);
         
@@ -512,7 +515,7 @@ public class OverworldManager : MonoBehaviour
     {
         string path = "Prefabs/PlayerCharacters/";
         path += gm.pm.pc.name;
-        print(path + " " + gm.pm.pc.name);
+        //print(path + " " + gm.pm.pc.name);
         this.player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
         this.player.transform.position = getCurrentNode(this.playerNodeId).physNode.transform.position;
         //print("Spawning Player at Node " + this.playerNodeId + ": " + nodes[this.playerNodeId].transform.position);
@@ -546,11 +549,9 @@ public class OverworldManager : MonoBehaviour
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Battleworld"));
 
-
-        //yield return new WaitUntil(() => SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Battleworld"));
         yield return new WaitUntil(() => this.gm.bm.isBattleResolved() == true || this.gm.pm.PLAYERDEAD);
 
-        print("WE WON? " + this.gm.bm.didWeWinTheBattle());
+        // print("WE WON? " + this.gm.bm.didWeWinTheBattle());
 
         if (this.gm.bm.didWeWinTheBattle())
             this.dm.currentNode += 1;
@@ -560,17 +561,17 @@ public class OverworldManager : MonoBehaviour
         this.gm.pm.combatInitialized = false;
         this.gm.pm.inCombat = false;
 
-        //SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
         
         this.dm.Panel.SetActive(true);
         this.dm.EventComplete();
-        //dm.setInitialSelection();
-        //this.dontKillBMYet = true; // GM checks for this before killing BM. We need more coroutines
+
+        while (SceneManager.GetSceneByName("Battleworld").IsValid())
+            yield return null;
     }
 
     public IEnumerator SkillSaveEventCR(string stat, GameObject n, int difficulty)
     {
-        print("IN SKILL SAVE");
+        //print("IN SKILL SAVE");
         this.dm.Panel.SetActive(false);
         this.rollParchment.SetActive(true);
         yield return StartCoroutine(rollScript.waitForStart(stat, this.gm.pm.getStatModifier(stat), difficulty));
@@ -579,12 +580,12 @@ public class OverworldManager : MonoBehaviour
         int modifier = this.gm.pm.getStatModifier(stat);
         if (dr1.final + dr2.final + modifier < difficulty)
         {
-            print("FAIL");
+            //print("FAIL");
             this.dm.currentNode += 2;
         }
         else
         {
-            print("SAVE");
+            //print("SAVE");
             this.dm.currentNode += 1;
         }
 

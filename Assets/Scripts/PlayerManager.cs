@@ -464,8 +464,6 @@ public class PlayerManager : MonoBehaviour
             invImg.color = UnityEngine.Color.gray;
             ButtonOverlay.Instance.inventory.interactable = false;
             PLAYERDEAD = true;
-            //this.gm.sm.playLoseJingle();
-
         }
     }
 
@@ -482,7 +480,6 @@ public class PlayerManager : MonoBehaviour
             invImg.color = UnityEngine.Color.gray;
             ButtonOverlay.Instance.inventory.interactable = false;
             PLAYERDEAD = true;
-            //this.gm.sm.playLoseJingle();
         }
     }
     public void maxHealthEvent(int i)

@@ -204,7 +204,7 @@ public class SoundManager : MonoBehaviour
 
         AddTrackToQueue("ForestBattleMusic/The_Great_Battle");
 
-        Debug.Log(this.musicQueue.ToString());
+        //Debug.Log(this.musicQueue.ToString());
     }
 
     public void setForestMusic()
@@ -229,7 +229,7 @@ public class SoundManager : MonoBehaviour
             AddTrackToQueue(folder+"/"+fName);
         }
 
-        Debug.Log(this.musicQueue.ToString());
+        //Debug.Log(this.musicQueue.ToString());
     }
 
     public void updateMusicList()
@@ -242,7 +242,7 @@ public class SoundManager : MonoBehaviour
 
                 AddTrackToQueue("The_Great_Battle");
 
-                Debug.Log(this.musicQueue.ToString());
+                //Debug.Log(this.musicQueue.ToString());
                 break;
             default:
                 FreeAllMusicTracks();
@@ -258,7 +258,7 @@ public class SoundManager : MonoBehaviour
     {
         this.musicVolume = vol;
         this.musicChannel.volume = vol;
-        Debug.Log("The music channel is now playing at "+this.musicChannel.volume);
+        //Debug.Log("The music channel is now playing at "+this.musicChannel.volume);
     }
 
     public float getMusicVolume()
@@ -359,7 +359,7 @@ public class SoundManager : MonoBehaviour
 				this.musicQueue.Enqueue(this.musicQueue.Dequeue());
 			else
 			{
-				Debug.Log(this.musicQueue.Peek().ToString());
+				//Debug.Log(this.musicQueue.Peek().ToString());
 				this.loadedMusicQueue.Enqueue(this.musicQueue.Dequeue());
 			}
 		}
