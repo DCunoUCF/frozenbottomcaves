@@ -117,6 +117,7 @@ public class BattleManager : MonoBehaviour
             resolvingTurn = true;
             StartCoroutine(combatUpdate());  // Added this to have the ability to resolve each step with animations if wanted
 
+            Debug.Log("====================   BEGINNING NEW COMBAT   ======================");
         }
     }
 
