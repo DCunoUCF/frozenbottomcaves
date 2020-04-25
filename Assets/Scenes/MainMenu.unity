@@ -376,6 +376,7 @@ MonoBehaviour:
   jingle: 0
   showHPbars: 0
   showDMGnums: 0
+  hideTutorial: 0
 --- !u!4 &1170054359
 Transform:
   m_ObjectHideFlags: 0

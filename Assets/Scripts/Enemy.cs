@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Drawing;
 
+using TMPro;
+
 public enum EnemyClass
 {
 	Dunce, Brawler, Flanker, Auxillary, Assassin, Archer
@@ -13,7 +15,8 @@ public class Enemy : MonoBehaviour
     public EnemyHealthBar ehb;
     public EnemyDMGNumbers edn;
 
-    private bool debug_messages = true;
+    private bool debug_messages = false;
+    public TextMeshPro id_label;
 
 	protected BattleManager bm;
 	protected int enemyId;
@@ -162,6 +165,11 @@ public class Enemy : MonoBehaviour
     	else
     	{
     		this.gridPosition = new Vector3Int(this.combatantEntry.gridX, this.combatantEntry.gridY, 0);
+            
+            if (this.id_label != null)
+            {
+                this.id_label.SetText("E#"+this.enemyId);
+            }
     	}
 
         if (debug_messages)
@@ -425,7 +433,7 @@ public class Enemy : MonoBehaviour
         // If that STILL doesn't work, give up
         if (nextSpot.X < 0 || nextSpot.Y < 0)
         {
-            if (debug_messages)
+            if (true)
             {
                 Debug.Log("E#"+this.enemyId+" has tried everything and cannot move at all!");
             }

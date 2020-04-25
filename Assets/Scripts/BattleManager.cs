@@ -149,22 +149,22 @@ public class BattleManager : MonoBehaviour
             xDif = position.x - bounds.position.x;
             yDif = position.y - bounds.position.y;
 
-            if (xDif == 0 && yDif == 0)
-            {
-                Debug.Log("&&&& -> gridCell[0, 0] = ("+position.x+", "+position.y+", "+position.z+")");
-            }
-            if (xDif == 0 && yDif == 1)
-            {
-                Debug.Log("&&&& -> gridCell[0, 1] = ("+position.x+", "+position.y+", "+position.z+")");
-            }
-            if (xDif == 1 && yDif == 0)
-            {
-                Debug.Log("&&&& -> gridCell[1, 0] = ("+position.x+", "+position.y+", "+position.z+")");
-            }
-            if (xDif == 1 && yDif == 1)
-            {
-                Debug.Log("&&&& -> gridCell[0, 0] = ("+position.x+", "+position.y+", "+position.z+")");
-            }
+            // if (xDif == 0 && yDif == 0)
+            // {
+            //     Debug.Log("&&&& -> gridCell[0, 0] = ("+position.x+", "+position.y+", "+position.z+")");
+            // }
+            // if (xDif == 0 && yDif == 1)
+            // {
+            //     Debug.Log("&&&& -> gridCell[0, 1] = ("+position.x+", "+position.y+", "+position.z+")");
+            // }
+            // if (xDif == 1 && yDif == 0)
+            // {
+            //     Debug.Log("&&&& -> gridCell[1, 0] = ("+position.x+", "+position.y+", "+position.z+")");
+            // }
+            // if (xDif == 1 && yDif == 1)
+            // {
+            //     Debug.Log("&&&& -> gridCell[0, 0] = ("+position.x+", "+position.y+", "+position.z+")");
+            // }
 
             // If we have made a Cell at this grid position already, skip this iteration
             if (this.gridCell[xDif, yDif] != null)
@@ -225,6 +225,9 @@ public class BattleManager : MonoBehaviour
 
         for (int i = 0; i < combatantList.Count; i++)
         {
+            // This fixes the dropping enemies on clashes
+            popped = false;
+
             for (int j = 0; j < combatantList.Count; j++)
             {
                 if (combatantList[i].entity == combatantList[j].entity || !combatantList[i].move)
@@ -237,6 +240,21 @@ public class BattleManager : MonoBehaviour
                     {
                         collidedAlready.Add(combatantList[i]);
                         collidedAlready.Add(combatantList[j]);
+
+                        // Debug Stuff
+                        // var temper1 = combatantList[i].entity.GetComponent<Enemy>();
+                        // var temper2 = combatantList[j].entity.GetComponent<Enemy>();
+
+                        // if (temper1 != null)
+                        // {
+                        //     Debug.Log("Working on E#"+temper1.getID()+" in clash!");
+                        // }
+
+                        // if (temper2 != null)
+                        // {
+                        //     Debug.Log("Working on E#"+temper2.getID()+" in clash!");
+                        // }
+
                         yield return StartCoroutine(slideBothCollide(combatantList[i], combatantList[j]));
                     }
                     popped = true;
@@ -255,6 +273,14 @@ public class BattleManager : MonoBehaviour
             // If the mover won't collide with anyone else on the board, they can legally move to their target move location
             if (!popped && combatantList[i].move)
             {
+                // Debug Stuff
+                // var temper = combatantList[i].entity.GetComponent<Enemy>();
+
+                // if (temper != null)
+                // {
+                //     Debug.Log("Working on E#"+temper.getID()+" in !popped && combatantList[i].move");
+                // }
+
                 if (GetCombatant(combatantList[i].movTar) == null && checkFreeSpots(freedSpots, combatantList[i].movTar))
                 {
                     if (isPassable(combatantList[i].movTar))
@@ -274,9 +300,20 @@ public class BattleManager : MonoBehaviour
                 }
                 popped = false;
             }
+
+            // Debug Stuff
+            // var temper3 = combatantList[i].entity.GetComponent<Enemy>();
+
+            // if (temper3 != null)
+            // {
+            //     Debug.Log("Done working on E#"+temper3.getID()+" in ResolveMoves");
+            // }
         }
         foreach (CList c in leftoverMovers)
         {
+            // Debug Stuff
+            // Debug.Log("Working on E#"+c.entity.GetComponent<Enemy>().getID()+" in leftoverMovers");
+
             if (isPassable(c.movTar) && GetCombatant(c.movTar) == null)
             {
                 MoveOnGrid(c);
