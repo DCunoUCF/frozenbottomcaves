@@ -535,7 +535,7 @@ public class Enemy : MonoBehaviour
         if (specialAttack)
         {
             //==========   Melee Attacks   ===========//
-            if (this.Cleave && this.cleaveCooldown <= 0 && !attackSelected)
+            if (this.Cleave && this.cleaveCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getCleaveList(me);
 
@@ -551,7 +551,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (this.Whammy && this.whammyCooldown <= 0 && !attackSelected)
+            if (this.Whammy && this.whammyCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getWhammyList(me);
 
@@ -567,7 +567,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (this.Thrust && this.thrustCooldown <= 0 && !attackSelected)
+            if (this.Thrust && this.thrustCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getThrustList(me);
 
@@ -583,7 +583,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.Slice && this.sliceCooldown <= 0 && !attackSelected)
+            if (this.Slice && this.sliceCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getSliceList(me);
 
@@ -599,7 +599,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.Cyclone && this.cycloneCooldown <= 0 && !attackSelected)
+            if (this.Cyclone && this.cycloneCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getCycloneList(me);
 
@@ -615,7 +615,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.CycleKick && this.cycleKickCooldown <= 0 && !attackSelected)
+            if (this.CycleKick && this.cycleKickCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getCycleKickList(me);
 
@@ -631,7 +631,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.CyclePunch && this.cyclePunchCooldown <= 0 && !attackSelected)
+            if (this.CyclePunch && this.cyclePunchCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getCyclePunchList(me);
 
@@ -648,7 +648,7 @@ public class Enemy : MonoBehaviour
             }
 
             //===========   Ranged Attacks   ============//
-            if (this.Shortshot && this.shortshotCooldown <= 0 && !attackSelected)
+            if (this.Shortshot && this.shortshotCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getShortshotList(me);
 
@@ -664,7 +664,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.Mediumshot && this.mediumshotCooldown <= 0 && !attackSelected)
+            if (this.Mediumshot && this.mediumshotCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getMediumshotList(me);
 
@@ -680,7 +680,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.Longshot && this.longshotCooldown <= 0 && !attackSelected)
+            if (this.Longshot && this.longshotCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getLongshotList(me);
 
@@ -696,7 +696,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.ShortRain && this.shortRainCooldown <= 0 && !attackSelected)
+            if (this.ShortRain && this.shortRainCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getShortRainList(me);
 
@@ -712,7 +712,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.MediumRain && this.mediumRainCooldown <= 0 && !attackSelected)
+            if (this.MediumRain && this.mediumRainCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getMediumRainList(me);
 
@@ -728,7 +728,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            if (this.LongRain && this.longRainCooldown <= 0 && !attackSelected)
+            if (this.LongRain && this.longRainCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getLongRainList(me);
 
@@ -744,7 +744,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (this.ShortDiagonalShot && this.shortDiagonalShotCooldown <= 0 && !attackSelected)
+            if (this.ShortDiagonalShot && this.shortDiagonalShotCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getShortDiagonalShotList(me);
 
@@ -760,7 +760,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (this.MediumDiagonalShot && this.mediumDiagonalShotCooldown <= 0 && !attackSelected)
+            if (this.MediumDiagonalShot && this.mediumDiagonalShotCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getMediumDiagonalShotList(me);
 
@@ -776,7 +776,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (this.LongDiagonalShot && this.longDiagonalShotCooldown <= 0 && !attackSelected)
+            if (this.LongDiagonalShot && this.longDiagonalShotCooldown <= 0 && !attackSelected && Random.value < .5f)
             {
                 attackTiles = this.getLongDiagonalShotList(me);
 
