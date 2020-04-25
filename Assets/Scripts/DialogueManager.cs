@@ -179,14 +179,14 @@ public class DialogueManager : MonoBehaviour
             {
                 if (this.om.gm.pm.pc.inventory.CheckItem(curItem) == null)
                 {
-                    print("item not found");
+                    //print("item not found");
                     Choices[i].gameObject.SetActive(true);
                     Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                     Choices[i].interactable = false;
                 }
                 else if (this.om.gm.pm.pc.inventory.CheckItem(curItem).count < curNode.options[i].itemReqAmount)
                 {
-                    print("insufficient item count" + curNode.options[i].itemReqAmount);
+                    //print("insufficient item count" + curNode.options[i].itemReqAmount);
                     Choices[i].gameObject.SetActive(true);
                     Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                     Choices[i].interactable = false;
@@ -293,7 +293,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EventComplete()
     {
-        print("curNode in DiaMan:" + this.currentNode);
+        //print("curNode in DiaMan:" + this.currentNode);
         if (this.currentNode == -1)
         {
             this.SetPanelAndChildrenFalse();
@@ -305,7 +305,7 @@ public class DialogueManager : MonoBehaviour
         this.SetChildrenTrue();
 
         this.DialogueSizer();
-        print("curNode in DiaMan:" + this.currentNode);
+        //print("curNode in DiaMan:" + this.currentNode);
     }
 
     public void SetChildrenTrue()
@@ -324,14 +324,14 @@ public class DialogueManager : MonoBehaviour
             {
                 if (this.om.gm.pm.pc.inventory.CheckItem(curItem) == null)
                 {
-                    print("item not found");
+                    //print("item not found");
                     Choices[i].gameObject.SetActive(true);
                     Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                     Choices[i].interactable = false;
                 }
                 else if (this.om.gm.pm.pc.inventory.CheckItem(curItem).count < curNode.options[i].itemReqAmount)
                 {
-                    print("insufficient item count" + curNode.options[i].itemReqAmount);
+                    //print("insufficient item count" + curNode.options[i].itemReqAmount);
                     Choices[i].gameObject.SetActive(true);
                     Choices[i].GetComponent<Button>().GetComponentInChildren<TextMeshPro>().text = dialogue.nodes[currentNode].options[i].text;
                     Choices[i].interactable = false;
@@ -494,7 +494,7 @@ public class DialogueManager : MonoBehaviour
 
     public void putCanvasBehind()
     {
-        print("CANVAS GOING BEHIND");
+        //print("CANVAS GOING BEHIND");
         dialogueCanvas.GetComponent<Canvas>().sortingOrder = -2;
     }
 

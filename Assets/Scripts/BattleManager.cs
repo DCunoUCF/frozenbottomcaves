@@ -117,7 +117,7 @@ public class BattleManager : MonoBehaviour
             resolvingTurn = true;
             StartCoroutine(combatUpdate());  // Added this to have the ability to resolve each step with animations if wanted
 
-            Debug.Log("====================   BEGINNING NEW COMBAT   ======================");
+            //Debug.Log("====================   BEGINNING NEW COMBAT   ======================");
         }
     }
 
@@ -752,14 +752,14 @@ public class BattleManager : MonoBehaviour
         {
             this.didWeWin = false;
             this.isResolved = true;
-            Debug.Log("Lose");
+            //Debug.Log("Lose");
         }
 
         if (combatantList.Count == 1 && combatantList[0].entity == player)
         {
             this.didWeWin = true;
             this.isResolved = true;
-            Debug.Log("Win");
+            //Debug.Log("Win");
         }
 
         // Tell PlayerManager it's now the player's turn... do it differently sometime maybe?

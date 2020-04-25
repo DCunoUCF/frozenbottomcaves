@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void updateMyScreen()
     {
-        Debug.Log("Changing my screen resolution");
+        //Debug.Log("Changing my screen resolution");
         if (Screen.width != this.resolutionWidth || Screen.height != this.resolutionHeight || Screen.fullScreen != this.fullscreen)
         {
             Screen.SetResolution(this.resolutionWidth, this.resolutionHeight, this.fullscreen, this.refreshRate);
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
         this.sm.updateFromSaveData();
 
-        Debug.Log("This is my GameManager id!\n" + this.myId);
+        //Debug.Log("This is my GameManager id!\n" + this.myId);
     }
 
     // Update is called once per frame
@@ -209,7 +209,7 @@ public class GameManager : MonoBehaviour
 
             if (this.bm == null && !this.battleLogicComplete && GameObject.Find("BattleManager") != null)
             {
-                print(GameObject.Find("BattleManager"));
+                //print(GameObject.Find("BattleManager"));
                 this.jingle = false;
                 this.bm = GameObject.Find("BattleManager").GetComponent<BattleManager>();
             }
@@ -299,7 +299,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         if (this.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null || !this.pm.SAVED)
         {
-            print("NO RES LEFT");
+            //print("NO RES LEFT");
             GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
         }
         yield break;
