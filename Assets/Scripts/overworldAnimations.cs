@@ -139,7 +139,6 @@ public class overworldAnimations : MonoBehaviour
                 Vector3 sl2MoveTar = new Vector3(1f, 7.75f, 0);
                 this.om.TurnPlayer(sl1, 0);
                 this.om.TurnPlayer(sl2, 2);
-                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.cackle, this.gm.sm.effectsVolume);
                 while (sl1.transform.position != sl1MoveTar || sl2.transform.position != sl2MoveTar)
                 {
                     sl1.transform.position = Vector3.MoveTowards(sl1.transform.position, sl1MoveTar, 4f * Time.deltaTime);

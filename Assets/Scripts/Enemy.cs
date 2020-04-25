@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Drawing;
 
+using TMPro;
+
 public enum EnemyClass
 {
 	Dunce, Brawler, Flanker, Auxillary, Assassin, Archer
@@ -12,6 +14,9 @@ public class Enemy : MonoBehaviour
 {
     public EnemyHealthBar ehb;
     public EnemyDMGNumbers edn;
+
+    private bool debug_messages = false;
+    public TextMeshPro id_label;
 
 	protected BattleManager bm;
 	protected int enemyId;
@@ -24,6 +29,7 @@ public class Enemy : MonoBehaviour
 	protected int decision; // 0 - no decision, 1 - move, 2 - attack
 	protected CList combatantEntry;
 	protected bool initFlag = false;
+    protected Vector3Int lastMove;
 
 	// General Stats
 	public EnemyClass enemyClass = EnemyClass.Dunce;
@@ -136,6 +142,7 @@ public class Enemy : MonoBehaviour
     protected void initialize()
     {
     	this.initFlag = true;
+        this.lastMove = new Vector3Int(-999, -999, -999);
 
     	// Set default stats
     	this.health = this.maxHp;
@@ -151,15 +158,22 @@ public class Enemy : MonoBehaviour
 
     	if (this.combatantEntry == null)
     	{
-    		Debug.Log("E#"+this.enemyId+" says AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+            if (debug_messages)
+        		Debug.Log("E#"+this.enemyId+" says AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHH");
     		// this.kill();
     	}
     	else
     	{
     		this.gridPosition = new Vector3Int(this.combatantEntry.gridX, this.combatantEntry.gridY, 0);
+            
+            if (this.id_label != null)
+            {
+                this.id_label.SetText("E#"+this.enemyId);
+            }
     	}
 
-    	Debug.Log("E#"+this.enemyId+" has initialized successfully!");
+        if (debug_messages)
+        	Debug.Log("E#"+this.enemyId+" has initialized successfully!");
     }
 
     protected void generateID()
@@ -204,7 +218,9 @@ public class Enemy : MonoBehaviour
     {
         // Set our decision right away
         this.decision = 1;
-        Debug.Log("E#" + this.enemyId + " is moving!");
+
+        if (debug_messages)
+            Debug.Log("E#" + this.enemyId + " is moving!");
 
         // Grab the target and the enemy's location from the BattleManager
         Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
@@ -217,8 +233,11 @@ public class Enemy : MonoBehaviour
         {
             if (Random.value < this.evadePercentage)
             {
-                Debug.Log("Attempting to move away");
-                Debug.Log("Original Target: ("+target.X+", "+target.Y+")");
+                if (debug_messages)
+                {
+                    Debug.Log("Attempting to move away");
+                    Debug.Log("Original Target: ("+target.X+", "+target.Y+")");
+                }
 
                 // Try all sides around
                 int northDist, southDist, eastDist, westDist;
@@ -265,10 +284,13 @@ public class Enemy : MonoBehaviour
                         eastDist = -999;
                 }
 
-                Debug.Log("NDist: "+northDist);
-                Debug.Log("SDist: "+southDist);
-                Debug.Log("EDist: "+eastDist);
-                Debug.Log("WDist: "+westDist);
+                if (debug_messages)
+                {
+                    Debug.Log("NDist: "+northDist);
+                    Debug.Log("SDist: "+southDist);
+                    Debug.Log("EDist: "+eastDist);
+                    Debug.Log("WDist: "+westDist);
+                }
 
                 char dir = 'n';
                 int longDist = northDist;
@@ -318,7 +340,8 @@ public class Enemy : MonoBehaviour
                         break;
                 }
 
-                Debug.Log("New Target: ("+target.X+", "+target.Y+")");
+                if (debug_messages)
+                    Debug.Log("New Target: ("+target.X+", "+target.Y+")");
             }
             else
             {
@@ -328,22 +351,116 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        // Pathfind!
-        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, new List<Point>());
+        List<Point> offlimits = new List<Point>();
 
-        Debug.Log("GridCell X-Length: " + BattleManager.Instance.gridCell.GetLength(0));
-        Debug.Log("GridCell Y-Length: " + BattleManager.Instance.gridCell.GetLength(1));
-        Debug.Log("Chosen Next Point: (" + nextSpot.X + ", " + nextSpot.Y + ")");
+        // Check if we got where we were going last time
+        if (me.X != lastMove.x || me.Y != lastMove.y)
+        {
+            offlimits.Add(new Point(lastMove.x, lastMove.y));
+        }
+
+        // Add in the positions of all current enemies
+        foreach (CList c in BattleManager.Instance.combatantList)
+        {
+            if (c.gridX != target.X && c.gridY != target.Y)
+                offlimits.Add(new Point(c.gridX, c.gridY));
+        }
+
+        // Pathfind!
+        Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, offlimits);
+
+        // If our initial pathfind didn't find anything...
+        if (nextSpot.X < 0 || nextSpot.Y < 0)
+        {
+            if (debug_messages)
+                Debug.Log("E#"+this.enemyId+" failed to find a path!");
+
+            // Try every position around the target
+            for (int xx = -1; xx < 2; xx++)
+            {
+                for (int yy = -1; yy < 2; yy++)
+                {
+                    Point tempTarget = new Point(target.X + xx, target.Y + yy);
+
+                    nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, tempTarget, offlimits);
+
+                    if (debug_messages)
+                    {
+                        Debug.Log("At tempTarget ("+tempTarget.X+", "+tempTarget.Y+") we found: ("+nextSpot.X+", "+nextSpot.Y+")");
+                    }
+
+                    if (nextSpot.X >= 0 && nextSpot.Y >= 0 && nextSpot.X < BattleManager.Instance.gridCell.GetLength(0) && nextSpot.Y < BattleManager.Instance.gridCell.GetLength(1))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (debug_messages)
+                Debug.Log("E#"+this.enemyId+" has tried every position and found P("+nextSpot.X+", "+nextSpot.Y+")");
+        }
+
+        // If we still haven't found something, we need to try every position around us so that we move somewhere
+        if (nextSpot.X < 0 || nextSpot.Y < 0)
+        {
+            if (debug_messages)
+                Debug.Log("E#"+this.enemyId+" failed to find a path again!");
+
+            for (int xx = -1; xx < 2; xx++)
+            {
+                for (int yy = -1; yy < 2; yy++)
+                {
+                    Point tempTarget = new Point(me.X + xx, me.Y + yy);
+
+                    nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, tempTarget, offlimits);
+
+                    if (debug_messages)
+                    {
+                        Debug.Log("At tempTarget ("+tempTarget.X+", "+tempTarget.Y+") we found: ("+nextSpot.X+", "+nextSpot.Y+")");
+                    }
+
+                    if (nextSpot.X >= 0 && nextSpot.Y >= 0 && nextSpot.X < BattleManager.Instance.gridCell.GetLength(0) && nextSpot.Y < BattleManager.Instance.gridCell.GetLength(1))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (debug_messages)
+                Debug.Log("E#"+this.enemyId+" has tried every position AGAIN and found P("+nextSpot.X+", "+nextSpot.Y+")");
+        }
+
+        // If that STILL doesn't work, give up
+        if (nextSpot.X < 0 || nextSpot.Y < 0)
+        {
+            if (true)
+            {
+                Debug.Log("E#"+this.enemyId+" has tried everything and cannot move at all!");
+            }
+        }
+
+        if (debug_messages)
+        {
+            Debug.Log("GridCell X-Length: " + BattleManager.Instance.gridCell.GetLength(0));
+            Debug.Log("GridCell Y-Length: " + BattleManager.Instance.gridCell.GetLength(1));
+            Debug.Log("Chosen Next Point: (" + nextSpot.X + ", " + nextSpot.Y + ")");
+        }
 
         // Don't move if we accidentally chose a spot out of bounds, otherwise move to our next spot
         if (nextSpot.X < 0 || nextSpot.X >= BattleManager.Instance.gridCell.GetLength(0) || nextSpot.Y < 0 || nextSpot.Y >= BattleManager.Instance.gridCell.GetLength(1))
         { 
-            print("entered failsafe");
+            if (debug_messages)
+                Debug.Log("entered failsafe");
+
+            this.lastMove = new Vector3Int(me.X, me.Y, 0);
             this.setMove(BattleManager.Instance.gridCell[me.X, me.Y].center);
         }
         else
         {
-            print("NOT FAILSAFE");
+            if (debug_messages)
+                Debug.Log("NOT FAILSAFE");
+
+            this.lastMove = new Vector3Int(nextSpot.X, nextSpot.Y, 0);
 	        this.setMove(BattleManager.Instance.gridCell[nextSpot.X, nextSpot.Y].center);
         }
     }
@@ -352,7 +469,9 @@ public class Enemy : MonoBehaviour
     {
         // Set our decision right away
         this.decision = 2;
-        Debug.Log("E#" + this.enemyId + " is attacking!");
+
+        if (debug_messages)
+            Debug.Log("E#" + this.enemyId + " is attacking!");
 
     	// Initialize our list of potential attacks, and our final decision
     	List<List<Point>> attackTiles = new List<List<Point>>();
@@ -365,7 +484,10 @@ public class Enemy : MonoBehaviour
         if (Random.value < this.predictPercentage)
         {
             int count = 5;
-            Debug.Log("Predicting...");
+
+            if (debug_messages)
+                Debug.Log("Predicting...");
+
             do {
                 target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
 
@@ -390,7 +512,9 @@ public class Enemy : MonoBehaviour
             // If for some reason we keep picking a bush, pick the player instead you asshole
             if (!BattleManager.Instance.gridCell[target.X, target.Y].pass)
             {
-                Debug.Log("Prediction failed; picking target position instead");
+                if (debug_messages)
+                    Debug.Log("Prediction failed; picking target position instead");
+
                 target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
             }
         }
@@ -708,138 +832,23 @@ public class Enemy : MonoBehaviour
             // If we couldn't pick an attack, move instead
             if (!attackSelected)
             {
-                Debug.Log("======================== Hello there");
+                if (debug_messages)
+                    Debug.Log("Failed to pick an attack...moving instead");
+
                 this.move();
                 return;
             }
         }
 
-        // Now, we can convert the list into vectors
-
-
-        // Then, if we 
-        /*
-    	if (this.Cleave && this.cleaveCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getCleaveList(me);
-    		this.damage = this.cleaveDamage;
-    		this.cleaveCooldown = this.cleaveHeatup + 1;
-    	}
-    	else if (this.Whammy && this.whammyCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getWhammyList(me);
-    		this.damage = this.whammyDamage;
-    		this.whammyCooldown = this.whammyHeatup + 1;
-    	}
-    	else if (this.Thrust && this.thrustCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getThrustList(me);
-    		this.damage = this.thrustDamage;
-    		this.thrustCooldown = this.thrustHeatup + 1;
-    	}
-    	else if (this.Slice && this.sliceCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getSliceList(me);
-    		this.damage = this.sliceDamage;
-    		this.sliceCooldown = this.sliceHeatup + 1;
-    	}
-    	else if (this.Cyclone && this.cycloneCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getCycloneList(me);
-    		this.damage = this.cycloneDamage;
-    		this.cycloneCooldown = this.cycloneHeatup + 1;
-    	}
-    	else if (this.CycleKick && this.cycleKickCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getCycleKickList(me);
-    		this.damage = this.cycleKickDamage;
-    		this.cycleKickCooldown = this.cycleKickHeatup + 1;
-    	}
-    	else if (this.CyclePunch && this.cyclePunchCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getCyclePunchList(me);
-    		this.damage = this.cyclePunchDamage;
-    		this.cyclePunchCooldown = this.cyclePunchHeatup + 1;
-    	}
-
-    	// Ranged Attacks
-    	else if (this.Shortshot && this.shortshotCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getShortshotList(me);
-    		this.damage = this.shortshotDamage;
-    		this.shortshotCooldown = this.shortshotHeatup + 1;
-    	}
-    	else if (this.Mediumshot && this.mediumshotCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getMediumshotList(me);
-    		this.damage = this.mediumshotDamage;
-    		this.mediumshotCooldown = this.mediumshotHeatup + 1;
-    	}
-    	else if (this.Longshot && this.longshotCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getLongshotList(me);
-    		this.damage = this.longshotDamage;
-    		this.longshotCooldown = this.longshotHeatup + 1;
-    	}
-    	else if (this.ShortRain && this.shortRainCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getShortRainList(me);
-    		this.damage = this.shortRainDamage;
-    		this.shortRainCooldown = this.shortRainHeatup + 1;
-    	}
-    	else if (this.MediumRain && this.mediumRainCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getMediumRainList(me);
-    		this.damage = this.mediumRainDamage;
-    		this.mediumRainCooldown = this.mediumRainHeatup + 1;
-    	}
-    	else if (this.LongRain && this.longRainCooldown <= 0 && Random.value < this.specialAttackPercentage)
-    	{
-    		attackTiles = this.getLongRainList(me);
-    		this.damage = this.longRainDamage;
-    		this.longRainCooldown = this.longRainHeatup + 1;
-    	}
-
-    	// Default Attack
-    	else
-    	{
-    		attackTiles = this.getStrikeList(me);
-    		this.damage = this.strikeDamage;
-    	}
-        */
-
-        // Set our default choice to be closest to the target
-        // Point nextSpot = BFS.bfs(BattleManager.Instance.gridCell, me, target, getRestrictions(me, target));
-        // Debug.Log("Our next spot is ("+nextSpot.X+", "+nextSpot.Y+")");
-        // foreach (List<Point> l in attackTiles)
-        // {
-        //     if (l.Contains(nextSpot))
-        //     {
-        //         decidedTile = l;
-        //         Debug.Log("E#"+this.enemyId+" is defaulting to the tile closest to the target!");
-        //     }
-        // }
-
         // If for some reason we couldn't choose a default tile, pick one at random
         if (decidedTile.Count < 1)
         {
-            // Legacy Random choice
-            // int choice = (int)(Random.value * attackTiles.Count);
-            // decidedTile = attackTiles[choice];
-            // Debug.Log("E#"+this.enemyId+" picked a random tile to attack!");
+            if (debug_messages)
+                Debug.Log("Failed to have any tiles to attack...moving instead");
+
             this.move();
             return;
         }
-
-    	// Try to pick the attack that will hit the player in their current position
-    	// foreach (List<Point> l in attackTiles)
-    	// {
-    	// 	if (l.Contains(target))
-    	// 	{
-    	// 		decidedTile = l;
-    	// 		Debug.Log("E#"+this.enemyId+" is cleaving the target's position!");
-    	// 	}
-    	// }
 
     	// Convert to vector positons
     	List<Vector3> temp = new List<Vector3>();
@@ -861,7 +870,8 @@ public class Enemy : MonoBehaviour
 
     public void decide()
     {
-    	Debug.Log("E#"+this.enemyId+" has been called upon to think!");
+        if (debug_messages)
+        	Debug.Log("E#"+this.enemyId+" has been called upon to think!");
 
         Point target = new Point(BattleManager.Instance.combatantList[0].gridX, BattleManager.Instance.combatantList[0].gridY);
         Point me = new Point(this.combatantEntry.gridX, this.combatantEntry.gridY);
@@ -871,17 +881,6 @@ public class Enemy : MonoBehaviour
         {
             this.move();
         }
-        // else if (Mathf.Abs(me.X - target.X) <= 1 && Mathf.Abs(me.Y - target.Y) <= 1)
-        // {
-        //     if (Random.value < 0.75f)
-        //     {
-        //         this.attack();
-        //     }
-        //     else
-        //     {
-        //         this.move();
-        //     }
-        // }
         else
         {
             if (Random.value < this.movePercentage)
@@ -908,7 +907,9 @@ public class Enemy : MonoBehaviour
     public void kill()
     {
     	// Fucking die you piece of shit enemy
-    	Debug.Log("Oy blyat! E#"+this.enemyId+" am dead");
+        if (debug_messages)
+        	Debug.Log("Oy blyat! E#"+this.enemyId+" am dead");
+
     	Destroy(this);
     }
 
@@ -920,8 +921,10 @@ public class Enemy : MonoBehaviour
         if (this.health > 0)
             this.edn.gimmeDemNumbers(dam);
         if (this.health <= 0)
-            print("I ded @" + this.combatantEntry.entity.transform.position);
-    		//kill();
+        {
+            if (debug_messages)
+                Debug.Log("I ded @" + this.combatantEntry.entity.transform.position);
+        }
     }
 
     //===========   Exporting Functions   ===========//
