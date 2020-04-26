@@ -430,7 +430,8 @@ public class MenuManager : MonoBehaviour
 
         //yield return new WaitForSeconds(.001f);
         yield return null; // Wait 1 frame
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("OptionsMenu"));
+
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByName("Overworld"));  // Need to keep the previous scene as active so anything instantiated goes there
         GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
         GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
         GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
@@ -578,6 +579,7 @@ public class MenuManager : MonoBehaviour
 
     void ReturnToMainMenuFromGame()
     {
+        Time.timeScale = 1f;
         SaveData.updateSettings(this.gm.sm.musicVolume, this.gm.sm.effectsVolume, this.gm.sm.musicMute, this.gm.sm.effectsMute);
         DestroyImmediate(this.gm.gameObject);
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
