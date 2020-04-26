@@ -505,6 +505,8 @@ public class OverworldManager : MonoBehaviour
         //this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
         //                                             nodes[startingNode].transform.position.y,
         //                                             nodes[startingNode].transform.position.z);
+        this.player = GameObject.Find("TheWhiteKnight1(Clone)");
+
         this.player.transform.position = this.pointToVector[this.pathMap[this.dm.currentNode]];
         this.player.transform.rotation = Quaternion.identity;
         //movePlayer();

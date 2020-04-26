@@ -46,6 +46,7 @@ public class overworldAnimations : MonoBehaviour
             case 37: // Knight on driftwood
                 GameObject temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight_Driftwood") as GameObject, player.transform.position, Quaternion.identity);
                 temp.name = "TheWhiteKnight1(Clone)";
+                temp.transform.SetParent(om.EntitiesParent);
                 this.gm.pm.player = temp;
                 this.gm.om.player = temp;
                 GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
@@ -56,6 +57,7 @@ public class overworldAnimations : MonoBehaviour
             case 38: // Knight on Raft
                 temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight_Raft") as GameObject, player.transform.position, Quaternion.identity);
                 temp.name = "TheWhiteKnight1(Clone)";
+                temp.transform.SetParent(om.EntitiesParent);
                 this.gm.pm.player = temp;
                 this.gm.om.player = temp;
                 GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
@@ -201,6 +203,7 @@ public class overworldAnimations : MonoBehaviour
                 yield return new WaitForSeconds(1f);
                 temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight1") as GameObject, player.transform.position, Quaternion.identity);
                 temp.name = "TheWhiteKnight1(Clone)";
+                temp.transform.SetParent(om.EntitiesParent);
                 this.gm.pm.player = temp;
                 this.gm.om.player = temp;
                 this.om.playerX = this.om.pathMap[41].X;
@@ -257,6 +260,7 @@ public class overworldAnimations : MonoBehaviour
             case 125: // Player sees wave coming up
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/tidal_wave") as GameObject, new Vector3(12, 13.5f, 0), Quaternion.identity);
                 objMoveTar = new Vector3(10.75f, 14.25f, 0);
+                obj.transform.SetParent(om.EntitiesParent);
                 while (obj.transform.position != objMoveTar)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, objMoveTar, 1f * Time.deltaTime);
@@ -474,6 +478,7 @@ public class overworldAnimations : MonoBehaviour
                 w2.name = "w2";
                 w3.name = "w3";
                 w4.name = "w4";
+                w1.transform.SetParent(om.EntitiesParent);
                 w2.transform.SetParent(om.EntitiesParent);
                 w3.transform.SetParent(om.EntitiesParent);
                 w4.transform.SetParent(om.EntitiesParent);
@@ -947,6 +952,7 @@ public class overworldAnimations : MonoBehaviour
             case 36: // Player uses Acorn, takes twine from crow
                 obj = GameObject.Find("crow_twine(Clone)");
                 temp = Instantiate(Resources.Load("Prefabs/OverworldCharacters/crow") as GameObject, obj.transform.position, Quaternion.identity);
+                temp.transform.SetParent(om.EntitiesParent);
                 Destroy(obj);
                 obj = temp;
                 obj.transform.SetParent(om.EntitiesParent);
@@ -1016,6 +1022,7 @@ public class overworldAnimations : MonoBehaviour
             case 248:
                 temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight_Rusty") as GameObject, player.transform.position, Quaternion.identity);
                 temp.name = "TheWhiteKnight1(Clone)";
+                temp.transform.SetParent(om.EntitiesParent);
                 this.gm.pm.player = temp;
                 this.gm.om.player = temp;
                 GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
@@ -1026,6 +1033,7 @@ public class overworldAnimations : MonoBehaviour
             case 93: // Gnoll logger gets crushed
                 obj = GameObject.Find("gnoll_logger");
                 temp = Instantiate(Resources.Load("Prefabs/OverworldCharacters/gnoll_logger_logged") as GameObject, obj.transform.position, Quaternion.identity);
+                temp.transform.SetParent(om.EntitiesParent);
                 Destroy(obj);
                 obj = temp;
                 obj.transform.SetParent(om.EntitiesParent);
@@ -1069,12 +1077,14 @@ public class overworldAnimations : MonoBehaviour
                 Vector3 b3MoveTar2 = new Vector3(26.75f, 33.75f, 0);
                 temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight_Shield") as GameObject, player.transform.position, Quaternion.identity);
                 temp.name = "TheWhiteKnight1(Clone)";
+                temp.transform.SetParent(om.EntitiesParent);
                 this.gm.pm.player = temp;
                 this.gm.om.player = temp;
                 GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
                 Destroy(player);
                 player = temp;
                 GameObject b1 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(34.25f, 37.5f, 0), Quaternion.identity);
+                b1.transform.SetParent(om.EntitiesParent);
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.rumble, this.gm.sm.effectsVolume);
                 while (b1.transform.position != b1MoveTar2)
                 {
@@ -1085,6 +1095,7 @@ public class overworldAnimations : MonoBehaviour
                 }
                 Destroy(b1);
                 GameObject b2 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder1") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
+                b2.transform.SetParent(om.EntitiesParent);
                 while (b2.transform.position != b2MoveTar1)
                 {
                     b2.transform.position = Vector3.MoveTowards(b2.transform.position, b2MoveTar1, 6f * Time.deltaTime);
@@ -1103,6 +1114,7 @@ public class overworldAnimations : MonoBehaviour
                 }
                 Destroy(b2);
                 GameObject b3 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(34.25f, 37.5f, 0), Quaternion.identity);
+                b3.transform.SetParent(om.EntitiesParent);
                 while (b3.transform.position != b3MoveTar2)
                 {
                     b3.transform.position = Vector3.MoveTowards(b3.transform.position, b3MoveTar2, 6f * Time.deltaTime);
@@ -1124,6 +1136,7 @@ public class overworldAnimations : MonoBehaviour
                 player.transform.Rotate(Vector3.zero); // Making sure the player is perfectly upright
                 temp = Instantiate(Resources.Load("Prefabs/PlayerCharacters/TheWhiteKnight1") as GameObject, player.transform.position, Quaternion.identity);
                 temp.name = "TheWhiteKnight1(Clone)";
+                temp.transform.SetParent(om.EntitiesParent);
                 this.gm.pm.player = temp;
                 this.gm.om.player = temp;
                 GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
@@ -1141,6 +1154,7 @@ public class overworldAnimations : MonoBehaviour
                 b3MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
                 b3MoveTar2 = new Vector3(26.25f, 34f, 0);
                 b1 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
+                b1.transform.SetParent(om.EntitiesParent);
                 float startTime = Time.time;
                 float journeyTime = .275f;
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.rumble, this.gm.sm.effectsVolume);
@@ -1161,6 +1175,7 @@ public class overworldAnimations : MonoBehaviour
                 }
                 Destroy(b1);
                 b2 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder1") as GameObject, new Vector3(34.25f, 37.5f, 0), Quaternion.identity);
+                b2.transform.SetParent(om.EntitiesParent);
                 startTime = Time.time;
                 journeyTime = .275f;
                 while (b2.transform.position != b2MoveTar2 || player.transform.position != origPlayerPos)
@@ -1180,6 +1195,7 @@ public class overworldAnimations : MonoBehaviour
                 }
                 Destroy(b2);
                 b3 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
+                b3.transform.SetParent(om.EntitiesParent);
                 startTime = Time.time;
                 journeyTime = .275f;
                 while (b3.transform.position != b3MoveTar2 || player.transform.position != playerHop)
@@ -1225,6 +1241,7 @@ public class overworldAnimations : MonoBehaviour
                 b3MoveTar1 = player.transform.position + new Vector3(0.5f, 0.25f, 0);
                 b3MoveTar2 = new Vector3(26.25f, 34f, 0);
                 b1 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
+                b1.transform.SetParent(om.EntitiesParent);
                 startTime = Time.time;
                 journeyTime = .275f;
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.rumble, this.gm.sm.effectsVolume);
@@ -1245,6 +1262,7 @@ public class overworldAnimations : MonoBehaviour
                 }
                 Destroy(b1);
                 b2 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder1") as GameObject, new Vector3(34.25f, 37.5f, 0), Quaternion.identity);
+                b2.transform.SetParent(om.EntitiesParent);
                 startTime = Time.time;
                 journeyTime = .275f;
                 while (b2.transform.position != b2MoveTar2 || player.transform.position != origPlayerPos)
@@ -1264,6 +1282,7 @@ public class overworldAnimations : MonoBehaviour
                 }
                 Destroy(b2);
                 b3 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/boulder2") as GameObject, new Vector3(33.75f, 37.75f, 0), Quaternion.identity);
+                b3.transform.SetParent(om.EntitiesParent);
                 startTime = Time.time;
                 journeyTime = .275f;
                 Vector3 b3Halfway = origPlayerPos + new Vector3(-0.25f,0.25f,0);
