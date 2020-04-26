@@ -135,6 +135,8 @@ public class overworldAnimations : MonoBehaviour
                 GameObject sl2 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/slime_g") as GameObject, new Vector3(1f, 7.5f, 0), Quaternion.identity);
                 sl1.name = "sl1";
                 sl2.name = "sl2";
+                sl1.transform.SetParent(om.EntitiesParent);
+                sl2.transform.SetParent(om.EntitiesParent);
                 Vector3 sl1MoveTar = new Vector3(0f, 8.25f, 0);
                 Vector3 sl2MoveTar = new Vector3(1f, 7.75f, 0);
                 this.om.TurnPlayer(sl1, 0);
@@ -157,6 +159,7 @@ public class overworldAnimations : MonoBehaviour
             case 13: // 1st Goblin Bush kicked
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/goblin") as GameObject, om.player.transform.position, Quaternion.identity);
                 obj.transform.Rotate(0, 0, -90);
+                obj.transform.SetParent(om.EntitiesParent);
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                 while (obj.transform.position != om.player.transform.position + new Vector3(1.25f, .4f, 0))
                 {
@@ -168,6 +171,7 @@ public class overworldAnimations : MonoBehaviour
             case 15: // 2nd Goblin Bush kicked
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/goblin") as GameObject, om.player.transform.position, Quaternion.identity);
                 obj.transform.Rotate(0, 0, -90);
+                obj.transform.SetParent(om.EntitiesParent);
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                 while (obj.transform.position != om.player.transform.position + new Vector3(3.25f, 5f, 0))
                 {
@@ -435,6 +439,7 @@ public class overworldAnimations : MonoBehaviour
             case 187: // Pretend to not see troll
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/troll") as GameObject, new Vector3(1.5f,21.75f,0), Quaternion.identity);
                 objMoveTar = new Vector3(1,22.25f,0);
+                obj.transform.SetParent(om.EntitiesParent);
                 this.om.TurnPlayer(obj, 1);
                 while (obj.transform.position != objMoveTar)
                 {
@@ -447,6 +452,7 @@ public class overworldAnimations : MonoBehaviour
             case 180: // Succeed AGI across troll bridge
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/troll") as GameObject, new Vector3(0.5f, 22.5f, 0), Quaternion.identity);
                 objMoveTar = new Vector3(4.5f, 24.5f, 0);
+                obj.transform.SetParent(om.EntitiesParent);
                 this.om.TurnPlayer(obj, 3);
                 this.om.TurnPlayer(player, 1);
                 while (obj.transform.position != objMoveTar)
@@ -468,6 +474,9 @@ public class overworldAnimations : MonoBehaviour
                 w2.name = "w2";
                 w3.name = "w3";
                 w4.name = "w4";
+                w2.transform.SetParent(om.EntitiesParent);
+                w3.transform.SetParent(om.EntitiesParent);
+                w4.transform.SetParent(om.EntitiesParent);
                 Vector3 w2MoveTar = new Vector3(-9f, 12.75f, 0);
                 Vector3 w3MoveTar = new Vector3(-8.5f, 12.5f, 0);
                 Vector3 w4MoveTar = new Vector3(-7.5f, 12.5f, 0);
@@ -514,6 +523,7 @@ public class overworldAnimations : MonoBehaviour
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.personHowl, this.gm.sm.effectsVolume);
                 yield return new WaitForSeconds(3f);
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/wolf") as GameObject, new Vector3(-4f, 13.5f, 0), Quaternion.identity);
+                obj.transform.SetParent(om.EntitiesParent);
                 objMoveTar = new Vector3(-6f, 13.75f, 0);
                 this.om.TurnPlayer(obj, 1);
                 while (obj.transform.position != objMoveTar)
@@ -766,6 +776,11 @@ public class overworldAnimations : MonoBehaviour
                 gnoll3.name = "gnoll3";
                 gnoll4.name = "gnoll4";
                 gnoll5.name = "gnoll5";
+                gnoll1.transform.SetParent(om.EntitiesParent);
+                gnoll2.transform.SetParent(om.EntitiesParent);
+                gnoll3.transform.SetParent(om.EntitiesParent);
+                gnoll4.transform.SetParent(om.EntitiesParent);
+                gnoll5.transform.SetParent(om.EntitiesParent);
                 Vector3 gnoll1MoveTar = new Vector3(14.5f,30.5f,0);
                 Vector3 gnoll2MoveTar = new Vector3(16f,31.25f,0);
                 Vector3 gnoll3MoveTar = new Vector3(17f,29.75f,0);
@@ -906,6 +921,8 @@ public class overworldAnimations : MonoBehaviour
             case 34: // Crow flies in with twine
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/crow_twine") as GameObject, new Vector3(20.5f,4.75f,0), Quaternion.identity);
                 this.om.TurnPlayer(obj, 0);
+                obj.transform.SetParent(om.EntitiesParent);
+
                 crowMoveTar = new Vector3(23.5f, 4.25f, 0);
                 while (obj.transform.position != crowMoveTar)
                 {
@@ -932,6 +949,8 @@ public class overworldAnimations : MonoBehaviour
                 temp = Instantiate(Resources.Load("Prefabs/OverworldCharacters/crow") as GameObject, obj.transform.position, Quaternion.identity);
                 Destroy(obj);
                 obj = temp;
+                obj.transform.SetParent(om.EntitiesParent);
+
                 this.om.TurnPlayer(obj, 0);
                 yield return new WaitForSeconds(.75f);
                 break;
@@ -983,6 +1002,8 @@ public class overworldAnimations : MonoBehaviour
                 this.om.TurnPlayer(obj, 1);
                 obj.transform.position = obj.transform.position + new Vector3(0,0.5f,0);
                 GameObject gnome = Instantiate(Resources.Load("Prefabs/OverworldCharacters/gnome") as GameObject, new Vector3(27, 24.25f,0), Quaternion.identity);
+                gnome.transform.SetParent(om.EntitiesParent);
+
                 this.om.TurnPlayer(gnome, 0);
                 yield return null;
                 break;
@@ -1007,6 +1028,8 @@ public class overworldAnimations : MonoBehaviour
                 temp = Instantiate(Resources.Load("Prefabs/OverworldCharacters/gnoll_logger_logged") as GameObject, obj.transform.position, Quaternion.identity);
                 Destroy(obj);
                 obj = temp;
+                obj.transform.SetParent(om.EntitiesParent);
+
                 this.om.TurnPlayer(obj, 0);
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.thud, this.gm.sm.effectsVolume);
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.dogYelp, this.gm.sm.effectsVolume);
@@ -1014,6 +1037,8 @@ public class overworldAnimations : MonoBehaviour
                 break;
             case 99: // Spider under goblin log bites player
                 obj = Instantiate(Resources.Load("Prefabs/OverworldCharacters/spider_small") as GameObject, new Vector3(29.5f,30.5f,0), Quaternion.identity);
+                obj.transform.SetParent(om.EntitiesParent);
+
                 this.om.TurnPlayer(obj, 0);
                 this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hiss, this.gm.sm.effectsVolume);
                 objMoveTar = player.transform.position + new Vector3(-0.5f, 0.25f,0);
@@ -1285,6 +1310,13 @@ public class overworldAnimations : MonoBehaviour
                 GameObject s5 = Instantiate(Resources.Load("Prefabs/OverworldCharacters/spider_small") as GameObject, new Vector3(41.5f, 42.5f, 0), Quaternion.identity);
                 s5.name = "s5";
                 GameObject queen = Instantiate(Resources.Load("Prefabs/OverworldCharacters/spider_queen") as GameObject, new Vector3(38.5f, 42.25f, 0), Quaternion.identity);
+                s1.transform.SetParent(om.EntitiesParent);
+                s2.transform.SetParent(om.EntitiesParent);
+                s3.transform.SetParent(om.EntitiesParent);
+                s4.transform.SetParent(om.EntitiesParent);
+                s5.transform.SetParent(om.EntitiesParent);
+                queen.transform.SetParent(om.EntitiesParent);
+
                 this.om.TurnPlayer(s1, 0);
                 this.om.TurnPlayer(s2, 0);
                 this.om.TurnPlayer(s3, 0);

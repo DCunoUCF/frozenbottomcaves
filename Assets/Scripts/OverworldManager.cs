@@ -31,7 +31,8 @@ public class OverworldManager : MonoBehaviour
     public Dictionary<int, Point> pathMap;  // NodeID associated with x,y coord in pathfinding array
     public Dictionary<Point, Vector3> pointToVector; // Each point gets a Vector3
     public int playerX, playerY;
-    GameObject cam;
+    public GameObject cam, OWEntities, OWEntitiesSave;
+    public Transform EntitiesParent;
 
     public int startingNode;
     public List<GameObject> nodes;
@@ -111,6 +112,12 @@ public class OverworldManager : MonoBehaviour
 
             spawnPlayer();
             generatePathingGrid();
+            OWEntities = GameObject.Find("OWEntities");
+            EntitiesParent = OWEntities.transform;
+            OWEntitiesSave = Instantiate(OWEntities);
+            OWEntitiesSave.transform.SetParent(OWEntities.transform.parent);
+            OWEntitiesSave.SetActive(false);
+
         }
 
         // Creates save at node 0
@@ -390,6 +397,11 @@ public class OverworldManager : MonoBehaviour
                         facing = 2;
                     else if (player.transform.GetChild(3).gameObject.activeSelf)
                         facing = 3;
+
+                    DestroyImmediate(OWEntitiesSave);
+                    OWEntitiesSave = Instantiate(OWEntities);
+                    OWEntitiesSave.transform.SetParent(OWEntities.transform.parent);
+                    OWEntitiesSave.SetActive(false);
                 }
             }
         }
@@ -478,6 +490,13 @@ public class OverworldManager : MonoBehaviour
         this.dm.Panel.SetActive(true);
         this.dm.init();
 
+        DestroyImmediate(OWEntities);
+        OWEntitiesSave.SetActive(true);
+        OWEntities = Instantiate(OWEntitiesSave);
+        OWEntitiesSave.SetActive(false);
+        OWEntities.name = "OWEntities";
+        OWEntities.transform.SetParent(OWEntitiesSave.transform.parent);
+
         //print("Loaded player at DM node: " + this.dm.currentNode);
         //print("PlayerNodeID is now: " + this.playerNodeId);
         //print("Player (x,y): " + "(" + playerX + "," + playerY + ")");
@@ -501,6 +520,7 @@ public class OverworldManager : MonoBehaviour
         this.gm.om.dm.setInterableAll();
         this.gm.om.dm.setInitialSelection();
         ButtonOverlay.Instance.inventory.interactable = true;
+
         updating = false;
     }
 
