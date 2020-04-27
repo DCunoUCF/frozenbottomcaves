@@ -313,6 +313,7 @@ public class OverworldManager : MonoBehaviour
                 if (!this.gm.debug)
                 {
                     yield return StartCoroutine(BattleEvent());
+                    break;
                 }
             }
 
