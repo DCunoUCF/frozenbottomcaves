@@ -19,7 +19,8 @@ public enum UIType
     BattleButton, OptionsOnTop, OptionBack,
     LoadGame, MainMenuButton, OpenQuitPrompt, ResumeGame,
     HideHPBars, HideDMGNum, VsyncEnable, FullscreenToggle,
-    RefreshRate, FramerateCap, Resolution
+    RefreshRate, FramerateCap, Resolution,
+    TutorialToggle
 }
 
 public enum SliderType
@@ -335,6 +336,10 @@ public class MenuManager : MonoBehaviour
 
                 this.gm.updateMyScreen();
                 break;
+            case UIType.TutorialToggle:
+                this.gm.tutorial = GameObject.Find("TutToggle").GetComponent<Toggle>().isOn;
+                SaveData.tutorials = GameObject.Find("TutToggle").GetComponent<Toggle>().isOn;
+                break;
             default:
     			//Debug.Log("Clicked a button!"); 
                 break;
@@ -425,7 +430,8 @@ public class MenuManager : MonoBehaviour
 
         //yield return new WaitForSeconds(.001f);
         yield return null; // Wait 1 frame
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("OptionsMenu"));
+
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByName("Overworld"));  // Need to keep the previous scene as active so anything instantiated goes there
         GameObject.Find("MusicSlider").GetComponent<Slider>().value = this.gm.sm.getMusicVolume();
         GameObject.Find("EffectSlider").GetComponent<Slider>().value = this.gm.sm.getEffectVolume();
         GameObject.Find("MusicMuter").GetComponent<Toggle>().isOn = this.gm.sm.getMusicMute();
@@ -434,6 +440,8 @@ public class MenuManager : MonoBehaviour
 
         GameObject.Find("DMGNumToggle").GetComponent<Toggle>().isOn = SaveData.dmgNum;
         GameObject.Find("VSyncToggle").GetComponent<Toggle>().isOn = SaveData.vSync;
+        GameObject.Find("TutToggle").GetComponent<Toggle>().isOn = SaveData.tutorials;
+
         yield break;
     }
 
@@ -474,7 +482,7 @@ public class MenuManager : MonoBehaviour
 
     void OpenCharacterSelect()
     {
-    	SceneManager.LoadScene("CharacterSelect", LoadSceneMode.Single);
+        SceneManager.LoadScene("CharacterSelect", LoadSceneMode.Single);
     }
 
     void OpenOptionsOnTop()
@@ -571,6 +579,7 @@ public class MenuManager : MonoBehaviour
 
     void ReturnToMainMenuFromGame()
     {
+        Time.timeScale = 1f;
         SaveData.updateSettings(this.gm.sm.musicVolume, this.gm.sm.effectsVolume, this.gm.sm.musicMute, this.gm.sm.effectsMute);
         DestroyImmediate(this.gm.gameObject);
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
