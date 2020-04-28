@@ -437,6 +437,8 @@ public class overworldAnimations : MonoBehaviour
                     yield return null;
                 }
                 player.transform.Rotate(Vector3.zero); // Making sure the player is perfectly upright
+                this.om.playerX = this.om.pathMap[151].X;
+                this.om.playerY = this.om.pathMap[151].Y;
                 yield return null;
                 break;
             case 181: // Fail AGI across troll bridge
