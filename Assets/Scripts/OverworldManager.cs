@@ -205,6 +205,9 @@ public class OverworldManager : MonoBehaviour
             yield break;
         }
 
+        //if (player == null)
+        //    this.player = GameObject.FindGameObjectWithTag("Player");
+
         // If the node position is not where the player is, move to it
         if (player.transform.position != n.physNode.transform.position)
         {
@@ -477,7 +480,7 @@ public class OverworldManager : MonoBehaviour
         yield break;
     }
 
-    public void loadSave()
+    public IEnumerator loadSave()
     {
         this.overworldEvent.Clear();
         this.overworldEventEffect.Clear();
@@ -486,6 +489,7 @@ public class OverworldManager : MonoBehaviour
         this.overworldEventItemLost.Clear();
         this.overworldEventItemLostAmount.Clear();
 
+        this.player = null;
         this.gm.pm.loadSave();
         this.dm.currentNode = this.saveCurrentNode;
         this.startingNode = saveNode;
@@ -503,15 +507,10 @@ public class OverworldManager : MonoBehaviour
         OWEntities.name = "OWEntities";
         OWEntities.transform.SetParent(OWEntitiesSave.transform.parent);
 
-        //print("Loaded player at DM node: " + this.dm.currentNode);
-        //print("PlayerNodeID is now: " + this.playerNodeId);
-        //print("Player (x,y): " + "(" + playerX + "," + playerY + ")");
+        yield return null;
+        yield return null;
 
-        //destPos = new Vector3(nodes[startingNode].transform.position.x, nodes[startingNode].transform.position.y, nodes[startingNode].transform.position.z);
-        //this.player.transform.position = new Vector3(nodes[startingNode].transform.position.x,
-        //                                             nodes[startingNode].transform.position.y,
-        //                                             nodes[startingNode].transform.position.z);
-        this.player = GameObject.Find("TheWhiteKnight1(Clone)");
+        this.player = GameObject.FindGameObjectWithTag("Player");
         GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = this.player.GetComponent<Transform>();
 
         this.player.transform.position = this.pointToVector[this.pathMap[this.dm.currentNode]];
@@ -531,6 +530,7 @@ public class OverworldManager : MonoBehaviour
         ButtonOverlay.Instance.inventory.interactable = true;
 
         updating = false;
+        yield break;
     }
 
     //private void movePlayer()

@@ -191,6 +191,12 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (this.om.playerSpawned && debug)
+        {
+            if (Input.GetKeyDown(KeyCode.F10))
+                this.pm.takeDmg(200);
+        }
+
         if (this.gameMusicChannel == null)
         {
             this.gameMusicChannel = this.gameObject.AddComponent<AudioSource>();
@@ -325,5 +331,32 @@ public class GameManager : MonoBehaviour
             GameObject.Find("RestartButton").GetComponent<Button>().Select();
 
         yield break;
+    }
+
+    public void LoadGame()
+    {
+        GameObject overworldTilemap = GameObject.Find("OverworldGrid").transform.GetChild(0).gameObject;
+
+        if (SceneManager.GetSceneByName("Battleworld").IsValid())
+            SceneManager.UnloadSceneAsync("BattleWorld");
+
+        if (SceneManager.GetSceneByName("LoseSplash").IsValid())
+            SceneManager.UnloadSceneAsync("LoseSplash");
+
+        overworldTilemap.SetActive(true);
+
+        //this.gm.pm.pc.inventory.printList();
+
+        if (this.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null)
+        {
+            //print("NO RES LEFT");
+            GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
+        }
+
+        this.splashUp = false;
+        StartCoroutine(this.om.loadSave());
+        //this.gm.om.loadSave();
+        this.om.dm.setInteractable();
+        this.om.dm.setInitialSelection();
     }
 }
