@@ -131,7 +131,7 @@ public class DialogueManager : MonoBehaviour
         setInteractableAll();
         currentNode = dialogue.nodes[currentNode].options[0].destId;
 
-        if (currentNode == -1)
+        if (currentNode == -1 || currentNode == 300)
         {
             TextBox.SetActive(false);
 

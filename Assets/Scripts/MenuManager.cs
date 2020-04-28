@@ -577,7 +577,7 @@ public class MenuManager : MonoBehaviour
     }
 
 
-    void ReturnToMainMenuFromGame()
+    public void ReturnToMainMenuFromGame()
     {
         Time.timeScale = 1f;
         SaveData.updateSettings(this.gm.sm.musicVolume, this.gm.sm.effectsVolume, this.gm.sm.musicMute, this.gm.sm.effectsMute);

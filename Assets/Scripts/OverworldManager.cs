@@ -199,6 +199,11 @@ public class OverworldManager : MonoBehaviour
             this.HPEvent(-(this.gm.pm.pc.health));
             yield break;
         }
+        else if (this.dm.currentNode == 300)
+        {
+            GameObject.Find("OptionsButtonOW").GetComponent<MenuManager>().ReturnToMainMenuFromGame();
+            yield break;
+        }
 
         // If the node position is not where the player is, move to it
         if (player.transform.position != n.physNode.transform.position)

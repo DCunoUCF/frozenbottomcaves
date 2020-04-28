@@ -800,7 +800,7 @@ nodeId: 243
 text: CONGRATULATIONS! Thank you for playing The Warrior of Frozenbottom Caves, Act 1: Spirit Woods!
 options: 1
 text: "Huzzah!"
-destId: -1
+destId: 300
 
 nodeId: 107
 text: You decide to take the unbeaten path. Weaving between bushes and stepping over branches as you make your way.
