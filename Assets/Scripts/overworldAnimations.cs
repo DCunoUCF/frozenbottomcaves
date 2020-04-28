@@ -123,6 +123,7 @@ public class overworldAnimations : MonoBehaviour
             case 7: // Player falls into the puddle
                 Quaternion playerRotate = player.transform.rotation;
                 player.transform.Rotate(0, 0, 90);
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.thud, this.gm.sm.effectsVolume);
                 yield return new WaitForSeconds(2f);
                 while (player.transform.rotation.z > playerRotate.z)
                 {
@@ -425,8 +426,22 @@ public class overworldAnimations : MonoBehaviour
                 sp.transform.Rotate(0, 0, -90);
                 yield return null;
                 break;
-            case 135: // Coughing up water and standing up
-            case 151:
+            case 135: // Coughing up water and standing up. Farm side of river
+                playerRotate = Quaternion.identity;
+                if (!alreadyProne)
+                    player.transform.Rotate(0, 0, -90);
+                yield return new WaitForSeconds(2f);
+                while (player.transform.rotation.z < playerRotate.z)
+                {
+                    player.transform.Rotate(new Vector3(0, 0, 90) * (2f * Time.deltaTime));
+                    yield return null;
+                }
+                player.transform.Rotate(Vector3.zero); // Making sure the player is perfectly upright
+                this.om.playerX = this.om.pathMap[135].X;
+                this.om.playerY = this.om.pathMap[135].Y;
+                yield return null;
+                break;
+            case 151: // Coughing up water and standing up. Bridge side of river
                 playerRotate = Quaternion.identity;
                 if(!alreadyProne)
                     player.transform.Rotate(0, 0, -90);
@@ -886,6 +901,7 @@ public class overworldAnimations : MonoBehaviour
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, crowAttack1, 2f * Time.deltaTime);
                     yield return null;
                 }
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                 while (obj.transform.position != crowAttack2 || player.transform.position != playerMoveTar)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, crowAttack2, 2f * Time.deltaTime);
@@ -898,6 +914,7 @@ public class overworldAnimations : MonoBehaviour
                     player.transform.position = Vector3.MoveTowards(player.transform.position, origPlayerPos, 2f * Time.deltaTime);
                     yield return null;
                 }
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                 while (obj.transform.position != crowAttack2 || player.transform.position != playerMoveTar)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, crowAttack2, 2f * Time.deltaTime);
@@ -910,6 +927,7 @@ public class overworldAnimations : MonoBehaviour
                     player.transform.position = Vector3.MoveTowards(player.transform.position, origPlayerPos, 2f * Time.deltaTime);
                     yield return null;
                 }
+                this.gm.sm.effectChannel.PlayOneShot(this.gm.sm.hit, this.gm.sm.effectsVolume);
                 while (obj.transform.position != crowAttack2 || player.transform.position != playerMoveTar)
                 {
                     obj.transform.position = Vector3.MoveTowards(obj.transform.position, crowAttack2, 2f * Time.deltaTime);
@@ -1026,6 +1044,7 @@ public class overworldAnimations : MonoBehaviour
                 temp.name = "TheWhiteKnight1(Clone)";
                 temp.transform.SetParent(om.EntitiesParent);
                 this.gm.pm.player = temp;
+                this.gm.pm.rusty = true;
                 this.gm.om.player = temp;
                 GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = temp.GetComponent<Transform>();
                 Destroy(player);
