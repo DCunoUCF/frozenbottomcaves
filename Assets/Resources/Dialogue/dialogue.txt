@@ -450,7 +450,7 @@ destId: 199
 nodeId: 199
 text: Beady yellow eyes appear from the bushes. The cackling surrounds you as the hyena faced creatures approach.
 options: 2
-text: "Damn gnolls! I'll put an end to your laughter!"
+text: "Gnolls! I'll put an end to your laughter!"
 destId: 200
 text: "I have a tasty treat here!" (Lose Half Chewed Chocolate)
 itemReq: HalfChewedChocolate
@@ -1808,7 +1808,7 @@ text: "Out of its misery then! My back though..."
 destId: 84
 
 nodeId: 83
-text: (+5 HP) The gnome pipes up in a tiny voice. "Thank you thank you, human! If you hadn't have come along, who knows how long I would be stuck under that log. Thanks to that damn gnoll! Take this magic mushroom as my thanks!"
+text: (+5 HP) The gnome pipes up in a tiny voice. "Thank you thank you, human! If you hadn't have come along, who knows how long I would be stuck under that log. Thanks to that darn gnoll! Take this magic mushroom as my thanks!"
 options: 1
 text: "Of course, I am a hero after all! Me, Sir Rancelot of Rockside Castle!" You eat the mushroom. 
 destId: 84
