@@ -3024,8 +3024,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'If you choose an option that has a stat Strenth (STR), Agility (AGI), or
-    Intelligence (INT) next to it
+  m_text: 'If you choose an option that has a stat Strength (STR), Agility (AGI),
+    or Intelligence (INT) next to it
 
     It will lead to a Skill Event in which you must roll the dice'
   m_isRightToLeft: 0
@@ -5338,8 +5338,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CD (cooldown) column displays the number of turns before you the ability
-    is available again
+  m_text: CD (Cooldown) column displays the number of turns before the ability is
+    available again
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
