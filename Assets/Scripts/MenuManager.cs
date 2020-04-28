@@ -530,28 +530,30 @@ public class MenuManager : MonoBehaviour
 
     private void loadGame()
     {
-        GameObject overworldTilemap = GameObject.Find("OverworldGrid").transform.GetChild(0).gameObject;
+        this.gm.LoadGame();
+        //GameObject overworldTilemap = GameObject.Find("OverworldGrid").transform.GetChild(0).gameObject;
 
-        if (SceneManager.GetSceneByName("Battleworld").IsValid())
-            SceneManager.UnloadSceneAsync("BattleWorld");
+        //if (SceneManager.GetSceneByName("Battleworld").IsValid())
+        //    SceneManager.UnloadSceneAsync("BattleWorld");
 
-        if (SceneManager.GetSceneByName("LoseSplash").IsValid())
-            SceneManager.UnloadSceneAsync("LoseSplash");
+        //if (SceneManager.GetSceneByName("LoseSplash").IsValid())
+        //    SceneManager.UnloadSceneAsync("LoseSplash");
 
-        overworldTilemap.SetActive(true);
+        //overworldTilemap.SetActive(true);
 
-        //this.gm.pm.pc.inventory.printList();
+        ////this.gm.pm.pc.inventory.printList();
 
-        if (this.gm.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null)
-        {
-            //print("NO RES LEFT");
-            GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
-        }
+        //if (this.gm.pm.pc.inventory.CheckItem(Item.ItemType.Resurrection) == null)
+        //{
+        //    //print("NO RES LEFT");
+        //    GameObject.Find("LoadSaveButton").GetComponent<Button>().interactable = false;
+        //}
 
-        this.gm.splashUp = false;
-        this.gm.om.loadSave();
-        this.gm.om.dm.setInteractable();
-        this.gm.om.dm.setInitialSelection();
+        //this.gm.splashUp = false;
+        //StartCoroutine(this.gm.om.loadSave());
+        ////this.gm.om.loadSave();
+        //this.gm.om.dm.setInteractable();
+        //this.gm.om.dm.setInitialSelection();
     }
 
     void ExitBattle()
