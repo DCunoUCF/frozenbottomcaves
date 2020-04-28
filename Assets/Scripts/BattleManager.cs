@@ -933,8 +933,11 @@ public class BattleManager : MonoBehaviour
         Vector3 playerSpawnerLoc = GameObject.FindGameObjectWithTag("pSpawn").transform.position;
 
         // Instantiate Player
-        this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), 
-                                             playerSpawnerLoc, Quaternion.identity);
+        if(!this.gm.pm.rusty)
+            this.player = GameObject.Instantiate(GameObject.Find(this.gm.pm.characterName), playerSpawnerLoc, Quaternion.identity);
+        else
+            this.player = GameObject.Instantiate(GameObject.Find("TheWhiteKnight_Rusty"), playerSpawnerLoc, Quaternion.identity);
+
         this.player.transform.SetParent(Entities.transform);
 
         // Choose spawners in order of enemy list

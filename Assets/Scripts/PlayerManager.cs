@@ -53,6 +53,10 @@ public class PlayerManager : MonoBehaviour
     GameObject HM;
     HighlightManager HMScript;
 
+    // DAVID RUSTY HACKY FIX
+    public bool rusty;
+    public bool rustySave;
+
     // Keep only one instance alive
     private void Awake()
     {
@@ -494,6 +498,7 @@ public class PlayerManager : MonoBehaviour
     {
         PlayerClass clone = CharacterSelection.writeStats(this.pc.txtName);
         saveItems = new List<Item>();
+        this.rustySave = this.rusty;
         //clone.inventory = new Inventory(this);
         foreach(Item i in this.pc.inventory.items)
         {
@@ -527,7 +532,7 @@ public class PlayerManager : MonoBehaviour
             pc.inventory.addItem(i.item, i.count);
         }
 
-
+        this.rusty = this.rustySave;
         this.save.inventory = pc.inventory;
         this.save.inventory.removeResurrection();
         this.pc = this.save;

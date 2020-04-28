@@ -110,13 +110,13 @@ public class OverworldManager : MonoBehaviour
             //print("SIZE: " + tilemap.size);
             //print("x: " + (Mathf.Abs(bounds.x) + bounds.xMax) + " y: " + (Mathf.Abs(bounds.y) + bounds.yMax));
 
-            spawnPlayer();
-            generatePathingGrid();
             OWEntities = GameObject.Find("OWEntities");
             EntitiesParent = OWEntities.transform;
             OWEntitiesSave = Instantiate(OWEntities);
             OWEntitiesSave.transform.SetParent(OWEntities.transform.parent);
             OWEntitiesSave.SetActive(false);
+            spawnPlayer();
+            generatePathingGrid();
 
         }
 
@@ -512,6 +512,7 @@ public class OverworldManager : MonoBehaviour
         //                                             nodes[startingNode].transform.position.y,
         //                                             nodes[startingNode].transform.position.z);
         this.player = GameObject.Find("TheWhiteKnight1(Clone)");
+        GameObject.Find("MainCameraOW").GetComponent<OWCamera>().target = this.player.GetComponent<Transform>();
 
         this.player.transform.position = this.pointToVector[this.pathMap[this.dm.currentNode]];
         this.player.transform.rotation = Quaternion.identity;
@@ -546,6 +547,7 @@ public class OverworldManager : MonoBehaviour
         //print(path + " " + gm.pm.pc.name);
         this.player = Instantiate(Resources.Load(path, typeof(GameObject))) as GameObject;
         this.player.transform.position = getCurrentNode(this.playerNodeId).physNode.transform.position;
+        this.player.transform.SetParent(this.gm.om.EntitiesParent);
         //print("Spawning Player at Node " + this.playerNodeId + ": " + nodes[this.playerNodeId].transform.position);
         playerSpawned = true;
         cam = GameObject.Find("MainCameraOW");
