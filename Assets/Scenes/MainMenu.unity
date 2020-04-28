@@ -363,8 +363,8 @@ MonoBehaviour:
   om: {fileID: 0}
   sm: {fileID: 0}
   pm: {fileID: 0}
-  startingNode: 123
-  debug: 1
+  startingNode: 0
+  debug: 0
   vsyncEnabled: 0
   framerateCap: 0
   refreshRate: 0
