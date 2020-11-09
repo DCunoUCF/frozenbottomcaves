@@ -1,11 +1,6 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Resources/Tiles/ForestObj/BanditPike2.asset.meta
 guid: 6c9e53d5afededc47a93623afec7bfca
 NativeFormatImporter:
-=======
-guid: 4fbbaa07d438a2e42a4aab40c983805a
-TextScriptImporter:
->>>>>>> chris-naas:Assets/Resources/Dialogue/sample.txt.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 
